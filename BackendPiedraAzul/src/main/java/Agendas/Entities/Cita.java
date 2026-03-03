@@ -37,7 +37,6 @@ public class Cita {
     * */
     Cita agendarCita(Medico medicoEncargado, Date fechaCita, Paciente paciente) throws Exception {
 
-
         Cita cita = new Cita(medicoEncargado, fechaCita, paciente);
 
         medicoEncargado.addCitaPorAtender(cita);
@@ -45,7 +44,6 @@ public class Cita {
         paciente.addCitasPendientes(cita);
 
         return cita;
-
     }
     private Cita(Medico medicoEncargado, Date fechaCita, Paciente paciente)
     {

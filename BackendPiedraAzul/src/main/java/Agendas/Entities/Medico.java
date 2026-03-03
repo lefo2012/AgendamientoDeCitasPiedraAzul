@@ -22,7 +22,6 @@ public class Medico {
 
     private List<Cita> citasAtendidas;
 
-
     //Pensar si va a ser util realmente
     private List<Paciente> pacientesAtendidos;
     //pensar en objeto de valor para que sea mas sencilla la distribucion de las fechas
@@ -36,6 +35,17 @@ public class Medico {
         }
         citasPorAtender.add(cita);
         return true;
+
+    }
+    public Medico(String nombre, String apellido, int CC,List<String> Especialidad)
+    {
+
+        citasPorAtender = new ArrayList<>();
+        citasAtendidas = new ArrayList<>();
+        Agenda agenda = new Agenda();
+        pacientesAtendidos = new ArrayList<>();
+
+
 
     }
 }
