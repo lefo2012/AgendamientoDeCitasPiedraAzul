@@ -1,40 +1,32 @@
 package Agendas.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
 @Getter
 @Setter
-
-
 @Entity
+@NoArgsConstructor
 public class Cita {
 
-
-    private float id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
 
     @ManyToOne
     private Medico medicoEncargado;
-
-    //Lo considero a futuro puede que no se use ni siquiera
-    @Transient
-    private Medico medicoAuxiliar;
-
     @ManyToOne
     private Paciente paciente;
-
     private Date fechaCita;
-
     private EstadoCita estadoCita;
 
     /*
-    * Funcion que crea una cita dentro del ambito de las entidades
-    * */
+     * Funcion que crea una cita dentro del ambito de las entidades
+     * */
     Cita agendarCita(Medico medicoEncargado, Date fechaCita, Paciente paciente) throws Exception {
 
         Cita cita = new Cita(medicoEncargado, fechaCita, paciente);
@@ -45,8 +37,8 @@ public class Cita {
 
         return cita;
     }
-    private Cita(Medico medicoEncargado, Date fechaCita, Paciente paciente)
-    {
+
+    private Cita(Medico medicoEncargado, Date fechaCita, Paciente paciente) {
         this.medicoEncargado = medicoEncargado;
         this.fechaCita = fechaCita;
         this.paciente = paciente;

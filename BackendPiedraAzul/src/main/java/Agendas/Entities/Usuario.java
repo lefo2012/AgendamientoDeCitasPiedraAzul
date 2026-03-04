@@ -1,24 +1,27 @@
 package Agendas.Entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.List;
+
+@Entity
+@NoArgsConstructor
+@Getter
+@Setter
 
 public class Usuario {
 
-    @Getter @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
     private String correo;
-    @Getter @Setter
     private String contrasenia;
-
     private List<String> roles;
-
-    // de momento no es una entidad de DDD tiene que haber un uso en getter
-    // y setter entidad anemica
-
-
-    public Usuario(String correo, String contrasenia) {
-
-    }
 
 }

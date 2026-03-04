@@ -1,9 +1,18 @@
 package Agendas.Entities;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalTime;
 import java.util.Objects;
 
-
+@Embeddable
+@NoArgsConstructor
+@Getter
+@Setter
 public class Intervalo {
 
     private LocalTime inicio;
@@ -26,17 +35,18 @@ public class Intervalo {
 
     //Hay que sobreescribir para que no compare referencias en memoria si no que compare el contenido lo mismo con los Date
     @Override
-    public boolean equals(Object o){
-        if(o instanceof Intervalo){
+    public boolean equals(Object o) {
+        if (o instanceof Intervalo) {
             Intervalo intervalo = (Intervalo) o;
 
-            if(this.inicio.equals(intervalo.inicio) && this.fin.equals(intervalo.fin)){
+            if (this.inicio.equals(intervalo.inicio) && this.fin.equals(intervalo.fin)) {
                 return true;
             }
-            return  false;
+            return false;
         }
         return false;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(inicio, fin);

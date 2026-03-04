@@ -1,44 +1,47 @@
 package Agendas.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 public class Paciente {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
 
     private int CC;
     private String nombre;
     private String apellido;
-
     //Objeto de valor para los medicos
     @OneToOne
     private HistorialMedico historialMedico;
-
     //Parametro intocable ....... mentira hay que ver en don va esto
     private int MAXIMODECITAS = 3;
-
     private int cantidadDeCitas;
 
     @OneToMany
     private List<Cita> citasPendientes;
-
     @OneToMany
     private List<Cita> citasPasadas;
 
-
     public boolean addCitasPendientes(Cita cita) throws Exception {
 
-        if(cantidadDeCitas>=MAXIMODECITAS)
-        {
+        if (cantidadDeCitas >= MAXIMODECITAS) {
             throw new Exception("El paciente supero la maxima cantidad de citas agendadas " + MAXIMODECITAS);
         }
-        if(citasPendientes==null)
-        {
+        if (citasPendientes == null) {
             citasPendientes = new ArrayList<>();
         }
 
@@ -46,7 +49,5 @@ public class Paciente {
         cantidadDeCitas++;
         return true;
     }
-
-
 
 }
