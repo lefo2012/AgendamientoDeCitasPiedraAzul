@@ -12,32 +12,23 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Medico {
+public class Medico extends Persona{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Usuario usuario;
-    private int CC;
-    private String nombre;
-    private String apellido;
-    private List<String> Especialidad;
-    private List<Cita> citasPorAtender;
+    @ElementCollection
+    private List<EnumEspecialidad> especialidades;
+    @OneToMany
+    private List<Cita> citasProgramadas;
+    @OneToMany
     private List<Cita> citasAtendidas;
-
-    //Pensar si va a ser util realmente
-    private List<Paciente> pacientesAtendidos;
     //pensar en objeto de valor para que sea mas sencilla la distribucion de las fechas
     @OneToOne(cascade = CascadeType.ALL)
     private Agenda agenda;
 
     public boolean addCitaPorAtender(Cita cita) {
-        if (citasPorAtender == null) {
-            citasPorAtender = new ArrayList<>();
+        if (citasProgramadas == null) {
+            citasProgramadas = new ArrayList<>();
         }
-        citasPorAtender.add(cita);
+        citasProgramadas.add(cita);
         return true;
 
     }

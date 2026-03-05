@@ -1,6 +1,6 @@
 package Agendas.Entities;
 
-public enum EstadoCita {
+public enum EnumEstadoCita {
 
     ATENDIDA,
     EN_PROCESO,

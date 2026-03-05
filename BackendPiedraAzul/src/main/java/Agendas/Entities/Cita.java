@@ -18,31 +18,32 @@ public class Cita {
     private Long id;
 
     @ManyToOne
-    private Medico medicoEncargado;
+    private Medico medico;
     @ManyToOne
     private Paciente paciente;
     private Date fechaCita;
-    private EstadoCita estadoCita;
+    @Enumerated(EnumType.STRING)
+    private EnumEstadoCita estadoCita;
 
     /*
      * Funcion que crea una cita dentro del ambito de las entidades
      * */
-    Cita agendarCita(Medico medicoEncargado, Date fechaCita, Paciente paciente) throws Exception {
+    Cita agendarCita(Medico medico, Date fechaCita, Paciente paciente) {
 
-        Cita cita = new Cita(medicoEncargado, fechaCita, paciente);
+        Cita cita = new Cita(medico, fechaCita, paciente);
 
-        medicoEncargado.addCitaPorAtender(cita);
+        medico.addCitaPorAtender(cita);
 
         paciente.addCitasPendientes(cita);
 
         return cita;
     }
 
-    private Cita(Medico medicoEncargado, Date fechaCita, Paciente paciente) {
-        this.medicoEncargado = medicoEncargado;
+    private Cita(Medico medico, Date fechaCita, Paciente paciente) {
+        this.medico = medico;
         this.fechaCita = fechaCita;
         this.paciente = paciente;
-        this.estadoCita = EstadoCita.EN_PROCESO;
+        this.estadoCita = EnumEstadoCita.EN_PROCESO;
     }
 
 }

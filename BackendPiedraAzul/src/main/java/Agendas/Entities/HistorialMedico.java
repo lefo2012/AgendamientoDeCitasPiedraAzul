@@ -24,10 +24,6 @@ public class HistorialMedico {
     //No se como guardar en JPA los maps
     @ElementCollection
     private Map<Date, String> historialMedico;
-
-    @OneToOne
-    private Paciente paciente;
-
     //Hay que mirar bien esto si es interesante o si lo podemos dejar solo en el historial como tal
     @OneToMany
     private List<Medico> medico;

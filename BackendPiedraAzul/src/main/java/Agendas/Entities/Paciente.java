@@ -12,41 +12,24 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Paciente {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Usuario usuario;
-
-    private int CC;
-    private String nombre;
-    private String apellido;
-    //Objeto de valor para los medicos
-    @OneToOne
-    private HistorialMedico historialMedico;
-    //Parametro intocable ....... mentira hay que ver en don va esto
-    private int MAXIMODECITAS = 3;
-    private int cantidadDeCitas;
+public class Paciente extends Persona {
 
     @OneToMany
     private List<Cita> citasPendientes;
     @OneToMany
     private List<Cita> citasPasadas;
+    @OneToOne
+    private HistorialMedico historialMedico;
+    private int cantidadDeCitas;
 
-    public boolean addCitasPendientes(Cita cita) throws Exception {
+    public boolean addCitasPendientes(Cita cita) {
 
-        if (cantidadDeCitas >= MAXIMODECITAS) {
-            throw new Exception("El paciente supero la maxima cantidad de citas agendadas " + MAXIMODECITAS);
-        }
         if (citasPendientes == null) {
             citasPendientes = new ArrayList<>();
         }
-
         citasPendientes.add(cita);
         cantidadDeCitas++;
+
         return true;
     }
 

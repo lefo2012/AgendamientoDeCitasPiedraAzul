@@ -20,9 +20,9 @@ public class Agenda {
     private Long Id;
 
     @ElementCollection
-    private Map<DayOfWeek, IntervaloList> disponibles;
+    private Map<DayOfWeek, IntervaloList> horariosDisponibles;
     @ElementCollection
-    private Map<LocalDate, IntervaloList> intervalosOcupados;
+    private Map<LocalDate, IntervaloList> horariosOcupados;
 
     public boolean agendar(LocalDate dia, Intervalo intervalo) {
 
@@ -30,15 +30,15 @@ public class Agenda {
             throw new IllegalArgumentException("INTERVALO NO DISPONIBLE");
         }
 
-        intervalosOcupados.putIfAbsent(dia, new IntervaloList());
+        horariosOcupados.putIfAbsent(dia, new IntervaloList());
 
-        for (Intervalo ocupado : intervalosOcupados.get(dia).getIntervalos()) {
+        for (Intervalo ocupado : horariosOcupados.get(dia).getIntervalos()) {
             if (ocupado.seSolapa(intervalo)) {
                 throw new IllegalArgumentException("INTERVALO OCUPADO");
             }
         }
 
-        intervalosOcupados.get(dia).getIntervalos().add(intervalo);
+        horariosOcupados.get(dia).getIntervalos().add(intervalo);
 
         return true;
     }
@@ -49,17 +49,17 @@ public class Agenda {
             System.err.println("ERROR EL INTERVALO NO ESTA DISPONIBLE");
             throw new Exception("ERROR EL INTERVALO NO ESTA DISPONIBLE");
         }
-        intervalosOcupados.get(dia).getIntervalos().add(intervalo);
+        horariosOcupados.get(dia).getIntervalos().add(intervalo);
     }
 
     private boolean configurarAgenda(LocalDate dia, IntervaloList horario) {
 
-        if (disponibles == null) {
+        if (horariosDisponibles == null) {
             System.err.println("ERROR MAPA SIN INICIALIZAR REVISAR A MEDICO....  Iniciando mapa en configurar agenda ");
-            disponibles = new HashMap<>();
+            horariosDisponibles = new HashMap<>();
         }
 
-        disponibles.put(dia.getDayOfWeek(), horario);
+        horariosDisponibles.put(dia.getDayOfWeek(), horario);
 
         return true;
     }
@@ -80,7 +80,7 @@ public class Agenda {
 
     private boolean estaDisponible(DayOfWeek dia, Intervalo intervalo) {
 
-        IntervaloList horarios = disponibles.get(dia);
+        IntervaloList horarios = horariosDisponibles.get(dia);
 
         if (horarios == null) return false;
 
