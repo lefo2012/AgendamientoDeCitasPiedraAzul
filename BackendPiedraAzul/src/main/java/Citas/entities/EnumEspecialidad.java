@@ -1,4 +1,4 @@
-package Agendas.Entities;
+package Citas.entities;
 
 public enum EnumEspecialidad {
     TERAPIA_NEURAL,

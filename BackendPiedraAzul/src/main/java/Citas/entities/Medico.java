@@ -1,4 +1,4 @@
-package Agendas.Entities;
+package Citas.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

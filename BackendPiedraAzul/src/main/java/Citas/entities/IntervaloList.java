@@ -1,4 +1,4 @@
-package Agendas.Entities;
+package Citas.entities;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
