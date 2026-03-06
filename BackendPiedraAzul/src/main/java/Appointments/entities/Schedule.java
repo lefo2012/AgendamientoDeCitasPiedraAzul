@@ -1,5 +1,6 @@
 package Appointments.entities;
 
+import Appointments.utilities.HolidayUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

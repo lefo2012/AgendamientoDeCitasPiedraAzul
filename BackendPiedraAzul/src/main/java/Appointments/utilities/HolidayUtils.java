@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.utilities;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
