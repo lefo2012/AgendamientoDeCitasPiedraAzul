@@ -12,6 +12,9 @@ public class IntervalTest {
 
     Interval interval;
 
+    /**
+     * Tests that isWithin returns true when the interval is completely within another interval.
+     */
     @Test
     void isWithinTrueTest()
     {
@@ -22,6 +25,9 @@ public class IntervalTest {
         Assertions.assertTrue(interval.isWithin(interval1));
     }
 
+    /**
+     * Tests that isWithin returns false when the interval is not completely within another interval.
+     */
     @Test
     void isWithinFalseTest()
     {
@@ -31,8 +37,12 @@ public class IntervalTest {
 
         Assertions.assertFalse(interval.isWithin(interval1));
     }
+
+    /**
+     * Tests that overlaps returns true when two intervals overlap.
+     */
     @Test
-    void overloadsTrueTest()
+    void overlapsTrueTest()
     {
         interval = new Interval(LocalTime.of(20,59),LocalTime.of(22,00));
 
@@ -40,8 +50,12 @@ public class IntervalTest {
 
         Assertions.assertTrue(interval.overlaps(interval1));
     }
+
+    /**
+     * Tests that overlaps returns false when two intervals do not overlap.
+     */
     @Test
-    void overloadsFalseTest()
+    void overlapsFalseTest()
     {
         interval = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
 
@@ -49,6 +63,10 @@ public class IntervalTest {
 
         Assertions.assertFalse(interval.overlaps(interval1));
     }
+
+    /**
+     * Tests that equals returns true for two identical intervals.
+     */
     @Test
     void equalsTrueTest()
     {
@@ -56,6 +74,10 @@ public class IntervalTest {
         Interval interval1 = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
         assertEquals(interval, interval1);
     }
+
+    /**
+     * Tests that equals returns false for two different intervals.
+     */
     @Test
     void equalsFalseTest()
     {
