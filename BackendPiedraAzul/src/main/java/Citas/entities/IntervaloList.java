@@ -6,13 +6,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Embeddable
-@NoArgsConstructor
 @Getter
 @Setter
 public class IntervaloList {
     @ElementCollection
     private List<Intervalo> intervalos;
+
+    public IntervaloList()
+    {
+        intervalos=new ArrayList<>();
+    }
+
 }

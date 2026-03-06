@@ -12,23 +12,23 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Medico extends Persona{
+public class Doctor extends Persona{
 
     @ElementCollection
     private List<EnumEspecialidad> especialidades;
     @OneToMany
-    private List<Cita> citasProgramadas;
+    private List<Appointment> citasProgramadas;
     @OneToMany
-    private List<Cita> citasAtendidas;
+    private List<Appointment> citasAtendidas;
     //pensar en objeto de valor para que sea mas sencilla la distribucion de las fechas
     @OneToOne(cascade = CascadeType.ALL)
     private Agenda agenda;
 
-    public boolean addCitaPorAtender(Cita cita) {
+    public boolean addCitaPorAtender(Appointment appointment) {
         if (citasProgramadas == null) {
             citasProgramadas = new ArrayList<>();
         }
-        citasProgramadas.add(cita);
+        citasProgramadas.add(appointment);
         return true;
 
     }

@@ -11,14 +11,14 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Cita {
+public class Appointment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
-    private Medico medico;
+    private Doctor doctor;
     @ManyToOne
     private Paciente paciente;
     private Date fechaCita;
@@ -28,19 +28,19 @@ public class Cita {
     /*
      * Funcion que crea una cita dentro del ambito de las entidades
      * */
-    Cita agendarCita(Medico medico, Date fechaCita, Paciente paciente) {
+    Appointment agendarCita(Doctor doctor, Date fechaCita, Paciente paciente) {
 
-        Cita cita = new Cita(medico, fechaCita, paciente);
+        Appointment appointment = new Appointment(doctor, fechaCita, paciente);
 
-        medico.addCitaPorAtender(cita);
+        doctor.addCitaPorAtender(appointment);
 
-        paciente.addCitasPendientes(cita);
+        paciente.addCitasPendientes(appointment);
 
-        return cita;
+        return appointment;
     }
 
-    private Cita(Medico medico, Date fechaCita, Paciente paciente) {
-        this.medico = medico;
+    private Appointment(Doctor doctor, Date fechaCita, Paciente paciente) {
+        this.doctor = doctor;
         this.fechaCita = fechaCita;
         this.paciente = paciente;
         this.estadoCita = EnumEstadoCita.EN_PROCESO;

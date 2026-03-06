@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
+import java.time.temporal.TemporalAdjusters;
 
 @Entity
 @Getter
@@ -19,73 +20,96 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
-    @ElementCollection
-    private Map<DayOfWeek, IntervaloList> horariosDisponibles;
-    @ElementCollection
-    private Map<LocalDate, IntervaloList> horariosOcupados;
+    List<LocalDate> holidays;
 
-    public boolean agendar(LocalDate dia, Intervalo intervalo) {
+    @ElementCollection
+    private Map<LocalDate, IntervaloList> availableTimes;
 
-        if (!estaDisponible(dia.getDayOfWeek(), intervalo)) {
+    @ElementCollection
+    private Map<LocalDate, IntervaloList> busyTimes;
+
+    public boolean schedule(LocalDate day, Intervalo intervalo) {
+
+        if (!isAvailable(day, intervalo)) {
             throw new IllegalArgumentException("INTERVALO NO DISPONIBLE");
         }
 
-        horariosOcupados.putIfAbsent(dia, new IntervaloList());
+        busyTimes.putIfAbsent(day, new IntervaloList());
 
-        for (Intervalo ocupado : horariosOcupados.get(dia).getIntervalos()) {
-            if (ocupado.seSolapa(intervalo)) {
+        for (Intervalo busy : busyTimes.get(day).getIntervalos()) {
+            if (busy.overlaps(intervalo)) {
                 throw new IllegalArgumentException("INTERVALO OCUPADO");
             }
         }
 
-        horariosOcupados.get(dia).getIntervalos().add(intervalo);
+        busyTimes.get(day).getIntervalos().add(intervalo);
 
         return true;
     }
 
-    private void reservar(LocalDate dia, Intervalo intervalo) throws Exception {
+    private void reserve(LocalDate day, Intervalo intervalo) throws Exception {
 
-        if (!estaDisponible(dia.getDayOfWeek(), intervalo)) {
-            System.err.println("ERROR EL INTERVALO NO ESTA DISPONIBLE");
+        if (!isAvailable(day, intervalo)) {
             throw new Exception("ERROR EL INTERVALO NO ESTA DISPONIBLE");
         }
-        horariosOcupados.get(dia).getIntervalos().add(intervalo);
+        busyTimes.get(day).getIntervalos().add(intervalo);
     }
 
-    private boolean configurarAgenda(LocalDate dia, IntervaloList horario) {
+    //Repeat the calendar configuration for as many weeks as the user desires.
+    /*
+    * This funtion needs 3 parametres for work
+    * This function configures the schedule by adding days to the available times
+    * throughout the desired weeks, specifying which day the configuration will be repeated.
+    * */
+    private boolean configureSchedule(DayOfWeek day, IntervaloList schedule, int weeksRepeat) {
 
-        if (horariosDisponibles == null) {
+        if (availableTimes == null) {
             System.err.println("ERROR MAPA SIN INICIALIZAR REVISAR A MEDICO....  Iniciando mapa en configurar agenda ");
-            horariosDisponibles = new HashMap<>();
+            availableTimes = new HashMap<>();
+        }
+        LocalDate today = LocalDate.now();
+        LocalDate dayOfTheWeek = today.with(TemporalAdjusters.next(day));
+        for(int i = 0; i < weeksRepeat; i++)
+        {
+
+            if(!holidays.contains(dayOfTheWeek)){
+                availableTimes.put(dayOfTheWeek, schedule);
+            }
+
+            dayOfTheWeek = dayOfTheWeek.plusWeeks(1);
+        }
+        return true;
+    }
+
+    //For this function to work correctly, the list of days and intervals must arrive in the same position.
+    //Example of use: {MONDAY,TUESDAY} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
+    public boolean configureSchedule(List<DayOfWeek> days, List<IntervaloList> schedules, int weeksRepeat) {
+
+        if(weeksRepeat <= 0)
+        {
+            throw new IllegalArgumentException("La cantidad de semanas tiene que ser superior o igual a 1");
         }
 
-        horariosDisponibles.put(dia.getDayOfWeek(), horario);
+        if (days.size() != schedules.size()) {
+            throw new IllegalArgumentException("Cantidad de Dias y horarios no coinciden");
+        }
+
+        for (int i = 0; i < days.size(); i++) {
+            configureSchedule(days.get(i), schedules.get(i), weeksRepeat);
+        }
 
         return true;
     }
 
-    //Para que esta funcion funcione correctamente debe llegar en la misma posicion la lista de dias y intervalos
-    //Ejemplo de uso {LUNES,MARTES} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
-    public boolean configurarAgenda(List<LocalDate> dias, List<IntervaloList> horarios) {
-        if (dias.size() != horarios.size()) {
-            throw new IllegalArgumentException("Dias y horarios no coinciden");
-        }
+    private boolean isAvailable(LocalDate day, Intervalo interval) {
 
-        for (int i = 0; i < dias.size(); i++) {
-            configurarAgenda(dias.get(i), horarios.get(i));
-        }
+        IntervaloList schedules = availableTimes.get(day);
 
-        return true;
-    }
+        if (schedules == null)
+            return false;
 
-    private boolean estaDisponible(DayOfWeek dia, Intervalo intervalo) {
-
-        IntervaloList horarios = horariosDisponibles.get(dia);
-
-        if (horarios == null) return false;
-
-        for (Intervalo disponible : horarios.getIntervalos()) {
-            if (intervalo.estaDentroDe(disponible)) {
+        for (Intervalo available : schedules.getIntervalos()) {
+            if (interval.isInOf(available)) {
                 return true;
             }
         }

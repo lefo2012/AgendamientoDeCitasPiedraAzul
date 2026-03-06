@@ -26,7 +26,7 @@ public class HistorialMedico {
     private Map<Date, String> historialMedico;
     //Hay que mirar bien esto si es interesante o si lo podemos dejar solo en el historial como tal
     @OneToMany
-    private List<Medico> medico;
+    private List<Doctor> doctor;
 
 
 }

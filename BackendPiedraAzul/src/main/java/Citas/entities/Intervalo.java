@@ -51,11 +51,11 @@ public class Intervalo {
         return Objects.hash(inicio, fin);
     }
 
-    public boolean estaDentroDe(Intervalo intervaloARevisar) {
+    public boolean isInOf(Intervalo intervaloARevisar) {
         return !this.inicio.isBefore(intervaloARevisar.inicio) && !this.fin.isAfter(intervaloARevisar.fin);
     }
 
-    public boolean seSolapa(Intervalo intervaloARevisar) {
+    public boolean overlaps(Intervalo intervaloARevisar) {
         return this.inicio.isBefore(intervaloARevisar.fin) && intervaloARevisar.inicio.isBefore(this.fin);
     }
 }

@@ -15,19 +15,19 @@ import java.util.List;
 public class Paciente extends Persona {
 
     @OneToMany
-    private List<Cita> citasPendientes;
+    private List<Appointment> citasPendientes;
     @OneToMany
-    private List<Cita> citasPasadas;
+    private List<Appointment> citasPasadas;
     @OneToOne
     private HistorialMedico historialMedico;
     private int cantidadDeCitas;
 
-    public boolean addCitasPendientes(Cita cita) {
+    public boolean addCitasPendientes(Appointment appointment) {
 
         if (citasPendientes == null) {
             citasPendientes = new ArrayList<>();
         }
-        citasPendientes.add(cita);
+        citasPendientes.add(appointment);
         cantidadDeCitas++;
 
         return true;
