@@ -20,7 +20,7 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
-    List<LocalDate> holidays;
+    private List<LocalDate> holidays = new ArrayList<>();
 
     @ElementCollection
     private Map<LocalDate, IntervaloList> availableTimes;
@@ -117,5 +117,13 @@ public class Agenda {
         return false;
     }
 
+    /**
+     * Sets the list of holidays for a specific year using the automatic generator.
+     *
+     * @param year The year for which to generate the holidays.
+     */
+    public void setHolidaysForYear(int year) {
+        this.holidays = HolidayUtils.generateColombianHolidays(year);
+    }
 
 }
