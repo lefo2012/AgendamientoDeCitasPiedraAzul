@@ -1,4 +1,4 @@
-package Citas.entities;
+package Appointments.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,13 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Usuario {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String correo;
-    private String contrasenia;
+    private String email;
+    private String password;
     @ElementCollection
-    private List<Rol> roles;
+    private List<Role> roles;
 }

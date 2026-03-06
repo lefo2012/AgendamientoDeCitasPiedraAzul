@@ -1,4 +1,4 @@
-package Citas.entities;
+package Appointments.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -12,18 +12,18 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public abstract class Persona {
+public abstract class Person {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
     @Enumerated(EnumType.STRING)
-    protected EnumTipoDoc tipoDeDocumento;
-    protected String numeroIdentificacion;
-    protected String nombre;
-    protected String apellido;
-    protected Date fechaNacimiento;
-    protected String telefono;
-    protected boolean activo;
+    protected DoctorTypeEnum documentType;
+    protected String identificationNumber;
+    protected String firstName;
+    protected String lastName;
+    protected Date birthDate;
+    protected String phone;
+    protected boolean active;
     @OneToOne
-    protected Usuario usuario;
+    protected User user;
 }

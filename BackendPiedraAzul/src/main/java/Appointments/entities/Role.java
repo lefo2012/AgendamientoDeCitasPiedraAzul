@@ -1,4 +1,4 @@
-package Citas.entities;
+package Appointments.entities;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Rol {
+public class Role {
     @Enumerated(EnumType.STRING)
-    private EnumRol rol;
+    private RoleEnum role;
 }
