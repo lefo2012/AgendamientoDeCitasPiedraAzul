@@ -12,17 +12,17 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Patient extends Person {
+public class PatientEntity extends PersonEntity {
 
     @OneToMany
-    private List<Appointment> pendingAppointments;
+    private List<AppointmentEntity> pendingAppointments;
     @OneToMany
-    private List<Appointment> pastAppointments;
+    private List<AppointmentEntity> pastAppointments;
     @OneToOne
-    private MedicalHistory medicalHistory;
+    private MedicalHistoryEntity medicalHistory;
     private int appointmentCount;
 
-    public boolean addPendingAppointment(Appointment appointment) {
+    public boolean addPendingAppointment(AppointmentEntity appointment) {
 
         if (pendingAppointments == null) {
             pendingAppointments = new ArrayList<>();

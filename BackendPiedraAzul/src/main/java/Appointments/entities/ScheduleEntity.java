@@ -15,7 +15,7 @@ import java.time.temporal.TemporalAdjusters;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Schedule {
+public class ScheduleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,20 +24,20 @@ public class Schedule {
     private Set<LocalDate> holidays = new HashSet<>();
 
     @ElementCollection
-    private Map<LocalDate, IntervalList> availableTimes;
+    private Map<LocalDate, IntervalListEntity> availableTimes;
 
     @ElementCollection
-    private Map<LocalDate, IntervalList> busyTimes;
+    private Map<LocalDate, IntervalListEntity> busyTimes;
 
-    public boolean schedule(LocalDate day, Interval intervalo) {
+    public boolean schedule(LocalDate day, IntervalEntity intervalo) {
 
         if (!isAvailable(day, intervalo)) {
             throw new IllegalArgumentException("INTERVAL NOT AVAILABLE");
         }
 
-        busyTimes.putIfAbsent(day, new IntervalList());
+        busyTimes.putIfAbsent(day, new IntervalListEntity());
 
-        for (Interval busy : busyTimes.get(day).getIntervals()) {
+        for (IntervalEntity busy : busyTimes.get(day).getIntervals()) {
             if (busy.overlaps(intervalo)) {
                 throw new IllegalArgumentException("INTERVAL OCCUPIED");
             }
@@ -48,7 +48,7 @@ public class Schedule {
         return true;
     }
 
-    private void reserve(LocalDate day, Interval intervalo) throws Exception {
+    private void reserve(LocalDate day, IntervalEntity intervalo) throws Exception {
 
         if (!isAvailable(day, intervalo)) {
             throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
@@ -62,7 +62,7 @@ public class Schedule {
     * This function configures the schedule by adding days to the available times
     * throughout the desired weeks, specifying which day the configuration will be repeated.
     * */
-    private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
+    private boolean configureSchedule(DayOfWeek day, IntervalListEntity schedule, int weeksRepeat) {
 
         if (availableTimes == null) {
             System.err.println("ERROR MAP NOT INITIALIZED CHECK DOCTOR.... Initializing map in configure schedule ");
@@ -84,7 +84,7 @@ public class Schedule {
 
     //For this function to work correctly, the list of days and intervals must arrive in the same position.
     //Example of use: {MONDAY,TUESDAY} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
-    public boolean configureSchedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat) {
+    public boolean configureSchedule(List<DayOfWeek> days, List<IntervalListEntity> schedules, int weeksRepeat) {
 
         if(weeksRepeat <= 0)
         {
@@ -102,14 +102,14 @@ public class Schedule {
         return true;
     }
 
-    private boolean isAvailable(LocalDate day, Interval interval) {
+    private boolean isAvailable(LocalDate day, IntervalEntity interval) {
 
-        IntervalList schedules = availableTimes.get(day);
+        IntervalListEntity schedules = availableTimes.get(day);
 
         if (schedules == null)
             return false;
 
-        for (Interval available : schedules.getIntervals()) {
+        for (IntervalEntity available : schedules.getIntervals()) {
             if (interval.isWithin(available)) {
                 return true;
             }

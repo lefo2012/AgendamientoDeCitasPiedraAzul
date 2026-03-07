@@ -12,12 +12,12 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Interval {
+public class IntervalEntity {
 
     private LocalTime start;
     private LocalTime end;
 
-    public Interval(LocalTime start, LocalTime end) {
+    public IntervalEntity(LocalTime start, LocalTime end) {
 
         if (start == null || end == null) {
             throw new IllegalArgumentException("Start or end null");
@@ -35,8 +35,8 @@ public class Interval {
     //We need to override to compare content instead of memory references, same with Date
     @Override
     public boolean equals(Object o) {
-        if (o instanceof Interval) {
-            Interval interval = (Interval) o;
+        if (o instanceof IntervalEntity) {
+            IntervalEntity interval = (IntervalEntity) o;
 
             if (this.start.equals(interval.start) && this.end.equals(interval.end)) {
                 return true;
@@ -51,11 +51,11 @@ public class Interval {
         return Objects.hash(start, end);
     }
 
-    public boolean isWithin(Interval intervalToCheck) {
+    public boolean isWithin(IntervalEntity intervalToCheck) {
         return !this.start.isBefore(intervalToCheck.start) && !this.end.isAfter(intervalToCheck.end);
     }
 
-    public boolean overlaps(Interval intervalToCheck) {
+    public boolean overlaps(IntervalEntity intervalToCheck) {
         return this.start.isBefore(intervalToCheck.end) && intervalToCheck.start.isBefore(this.end);
     }
 }

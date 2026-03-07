@@ -12,20 +12,20 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Doctor extends Person {
+public class DoctorEntity extends PersonEntity {
 
     @ElementCollection
     private List<SpecialtyEnum> specialties;
     @OneToMany
-    private List<Appointment> scheduledAppointments;
+    private List<AppointmentEntity> scheduledAppointments;
     @OneToMany
-    private List<Appointment> attendedAppointments;
+    private List<AppointmentEntity> attendedAppointments;
 
     //Think about a value object to make date distribution easier
     @OneToOne(cascade = CascadeType.ALL)
-    private Schedule schedule;
+    private ScheduleEntity schedule;
 
-    public boolean addAppointmentToAttend(Appointment appointment) {
+    public boolean addAppointmentToAttend(AppointmentEntity appointment) {
         if (scheduledAppointments == null) {
             scheduledAppointments = new ArrayList<>();
         }

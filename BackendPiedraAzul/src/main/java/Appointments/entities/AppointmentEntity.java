@@ -11,16 +11,16 @@ import java.util.Date;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Appointment {
+public class AppointmentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
-    private Doctor doctor;
+    private DoctorEntity doctor;
     @ManyToOne
-    private Patient patient;
+    private PatientEntity patient;
     private Date appointmentDate;
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
@@ -28,9 +28,9 @@ public class Appointment {
     /*
      * Function that creates an appointment within the scope of the entities
      * */
-    Appointment scheduleAppointment(Doctor doctor, Date appointmentDate, Patient patient) {
+    AppointmentEntity scheduleAppointment(DoctorEntity doctor, Date appointmentDate, PatientEntity patient) {
 
-        Appointment appointment = new Appointment(doctor, appointmentDate, patient);
+        AppointmentEntity appointment = new AppointmentEntity(doctor, appointmentDate, patient);
 
         doctor.addAppointmentToAttend(appointment);
 
@@ -39,7 +39,7 @@ public class Appointment {
         return appointment;
     }
 
-    private Appointment(Doctor doctor, Date appointmentDate, Patient patient) {
+    private AppointmentEntity(DoctorEntity doctor, Date appointmentDate, PatientEntity patient) {
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
         this.patient = patient;

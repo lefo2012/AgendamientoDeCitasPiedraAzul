@@ -12,7 +12,7 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public abstract class Person {
+public abstract class PersonEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
@@ -25,5 +25,5 @@ public abstract class Person {
     protected String phone;
     protected boolean active;
     @OneToOne
-    protected User user;
+    protected UserEntity user;
 }

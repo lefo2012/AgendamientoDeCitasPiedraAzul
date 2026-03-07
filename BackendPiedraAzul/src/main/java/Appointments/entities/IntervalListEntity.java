@@ -11,11 +11,11 @@ import java.util.List;
 @Embeddable
 @Getter
 @Setter
-public class IntervalList {
+public class IntervalListEntity {
     @ElementCollection
-    private List<Interval> intervals;
+    private List<IntervalEntity> intervals;
 
-    public IntervalList()
+    public IntervalListEntity()
     {
         intervals=new ArrayList<>();
     }
