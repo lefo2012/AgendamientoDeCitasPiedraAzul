@@ -21,7 +21,7 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
-    private List<LocalDate> holidays = new ArrayList<>();
+    private Set<LocalDate> holidays = new HashSet<>();
 
     @ElementCollection
     private Map<LocalDate, IntervalList> availableTimes;
@@ -124,7 +124,7 @@ public class Schedule {
      * @param year The year for which to generate the holidays.
      */
     public void setHolidaysForYear(int year) {
-        this.holidays = HolidayUtils.generateColombianHolidays(year);
+        this.holidays = HolidayUtils.getHolidays(year);
     }
 
 }
