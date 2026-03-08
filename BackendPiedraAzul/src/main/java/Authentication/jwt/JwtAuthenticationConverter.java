@@ -79,3 +79,4 @@ public class JwtAuthenticationConverter implements Converter<Jwt, AbstractAuthen
         return jwt.getClaim(claimName);
     }
 }
+
