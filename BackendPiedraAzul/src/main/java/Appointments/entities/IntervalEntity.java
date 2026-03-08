@@ -17,45 +17,4 @@ public class IntervalEntity {
     private LocalTime start;
     private LocalTime end;
 
-    public IntervalEntity(LocalTime start, LocalTime end) {
-
-        if (start == null || end == null) {
-            throw new IllegalArgumentException("Start or end null");
-        }
-
-        if (!end.isAfter(start)) {
-            throw new IllegalArgumentException("End must be after start");
-        }
-
-        this.start = start;
-        this.end = end;
-    }
-
-
-    //We need to override to compare content instead of memory references, same with Date
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof IntervalEntity) {
-            IntervalEntity interval = (IntervalEntity) o;
-
-            if (this.start.equals(interval.start) && this.end.equals(interval.end)) {
-                return true;
-            }
-            return false;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(start, end);
-    }
-
-    public boolean isWithin(IntervalEntity intervalToCheck) {
-        return !this.start.isBefore(intervalToCheck.start) && !this.end.isAfter(intervalToCheck.end);
-    }
-
-    public boolean overlaps(IntervalEntity intervalToCheck) {
-        return this.start.isBefore(intervalToCheck.end) && intervalToCheck.start.isBefore(this.end);
-    }
 }

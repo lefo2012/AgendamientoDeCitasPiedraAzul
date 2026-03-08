@@ -26,13 +26,4 @@ public class DoctorEntity extends PersonEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private ScheduleEntity schedule;
 
-    public boolean addAppointmentToAttend(AppointmentEntity appointment) {
-        if (scheduledAppointments == null) {
-            scheduledAppointments = new ArrayList<>();
-        }
-        scheduledAppointments.add(appointment);
-        return true;
-
-    }
-
 }

@@ -15,9 +15,4 @@ public class IntervalListEntity {
     @ElementCollection
     private List<IntervalEntity> intervals;
 
-    public IntervalListEntity()
-    {
-        intervals=new ArrayList<>();
-    }
-
 }

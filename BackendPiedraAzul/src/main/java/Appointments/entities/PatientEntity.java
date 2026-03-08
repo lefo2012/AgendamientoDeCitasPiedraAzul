@@ -22,15 +22,4 @@ public class PatientEntity extends PersonEntity {
     private MedicalHistoryEntity medicalHistory;
     private int appointmentCount;
 
-    public boolean addPendingAppointment(AppointmentEntity appointment) {
-
-        if (pendingAppointments == null) {
-            pendingAppointments = new ArrayList<>();
-        }
-        pendingAppointments.add(appointment);
-        appointmentCount++;
-
-        return true;
-    }
-
 }

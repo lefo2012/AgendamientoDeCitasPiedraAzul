@@ -1,7 +1,7 @@
 package domainTest;
 
 
-import Appointments.entities.IntervalEntity;
+import Appointments.domain.Interval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 public class IntervalTest {
 
-    IntervalEntity interval;
+    Interval interval;
 
     /**
      * Tests that isWithin returns true when the interval is completely within another interval.
@@ -18,9 +18,9 @@ public class IntervalTest {
     @Test
     void isWithinTrueTest()
     {
-        interval = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(21,00));
+        interval = new Interval(LocalTime.of(11,00),LocalTime.of(21,00));
 
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(21,00));
+        Interval interval1 = new Interval(LocalTime.of(11,00),LocalTime.of(21,00));
 
         Assertions.assertTrue(interval.isWithin(interval1));
     }
@@ -31,9 +31,9 @@ public class IntervalTest {
     @Test
     void isWithinFalseTest()
     {
-        interval = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(22,00));
+        interval = new Interval(LocalTime.of(11,00),LocalTime.of(22,00));
 
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(21,00));
+        Interval interval1 = new Interval(LocalTime.of(11,00),LocalTime.of(21,00));
 
         Assertions.assertFalse(interval.isWithin(interval1));
     }
@@ -44,9 +44,9 @@ public class IntervalTest {
     @Test
     void overlapsTrueTest()
     {
-        interval = new IntervalEntity(LocalTime.of(20,59),LocalTime.of(22,00));
+        interval = new Interval(LocalTime.of(20,59),LocalTime.of(22,00));
 
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(21,00));
+        Interval interval1 = new Interval(LocalTime.of(11,00),LocalTime.of(21,00));
 
         Assertions.assertTrue(interval.overlaps(interval1));
     }
@@ -57,9 +57,9 @@ public class IntervalTest {
     @Test
     void overlapsFalseTest()
     {
-        interval = new IntervalEntity(LocalTime.of(21,59),LocalTime.of(22,00));
+        interval = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
 
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(11,00),LocalTime.of(21,00));
+        Interval interval1 = new Interval(LocalTime.of(11,00),LocalTime.of(21,00));
 
         Assertions.assertFalse(interval.overlaps(interval1));
     }
@@ -70,8 +70,8 @@ public class IntervalTest {
     @Test
     void equalsTrueTest()
     {
-        interval = new IntervalEntity(LocalTime.of(21,59),LocalTime.of(22,00));
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(21,59),LocalTime.of(22,00));
+        interval = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
+        Interval interval1 = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
         assertEquals(interval, interval1);
     }
 
@@ -82,8 +82,8 @@ public class IntervalTest {
     void equalsFalseTest()
     {
 
-        interval = new IntervalEntity(LocalTime.of(21,58),LocalTime.of(22,00));
-        IntervalEntity interval1 = new IntervalEntity(LocalTime.of(21,59),LocalTime.of(22,00));
+        interval = new Interval(LocalTime.of(21,58),LocalTime.of(22,00));
+        Interval interval1 = new Interval(LocalTime.of(21,59),LocalTime.of(22,00));
         assertNotEquals(interval, interval1);
     }
 

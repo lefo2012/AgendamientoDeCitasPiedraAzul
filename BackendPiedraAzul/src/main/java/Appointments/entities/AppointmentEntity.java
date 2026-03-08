@@ -26,25 +26,5 @@ public class AppointmentEntity {
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
 
-    /*
-     * Function that creates an appointment within the scope of the entities
-     * */
-    AppointmentEntity scheduleAppointment(DoctorEntity doctor, Date appointmentDate, PatientEntity patient) {
-
-        AppointmentEntity appointment = new AppointmentEntity(doctor, appointmentDate, patient);
-
-        doctor.addAppointmentToAttend(appointment);
-
-        patient.addPendingAppointment(appointment);
-
-        return appointment;
-    }
-
-    private AppointmentEntity(DoctorEntity doctor, Date appointmentDate, PatientEntity patient) {
-        this.doctor = doctor;
-        this.appointmentDate = appointmentDate;
-        this.patient = patient;
-        this.appointmentStatus = AppointmentStatusEnum.EN_PROCESO;
-    }
 
 }
