@@ -1,6 +1,6 @@
 package Appointments.domain;
 
-public enum DoctorTypeEnum {
+public enum DocumentTypeEnum {
     CC,
     CE,
     TI,

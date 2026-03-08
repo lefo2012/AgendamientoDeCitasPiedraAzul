@@ -1,6 +1,6 @@
 package Appointments.persistence.entities;
 
-import Appointments.domain.DoctorTypeEnum;
+import Appointments.domain.DocumentTypeEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public abstract class PersonEntity {
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
     @Enumerated(EnumType.STRING)
-    protected DoctorTypeEnum documentType;
+    protected DocumentTypeEnum documentType;
     protected String identificationNumber;
     protected String firstName;
     protected String lastName;

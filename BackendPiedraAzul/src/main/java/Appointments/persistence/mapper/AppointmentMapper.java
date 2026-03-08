@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {DoctorMapper.class, PatientMapper.class})
 public interface AppointmentMapper {
-        Appointment toAppointment(AppointmentEntity appointmentEntity);
-        AppointmentEntity toAppointmentEntity(Appointment appointment);
+        Appointment toDomain(AppointmentEntity appointmentEntity);
+        AppointmentEntity toEntity(Appointment appointment);
 }

@@ -15,7 +15,7 @@ public class Patient extends Person{
         super();
     }
 
-    public Patient(Long id, DoctorTypeEnum documentType, String identificationNumber, String firstName, String lastName,
+    public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName,
                    Date birthDate, String phone, boolean active, User user, List<Appointment> pendingAppointments,
                    int appointmentCount, MedicalHistory medicalHistory, List<Appointment> pastAppointments) {
         super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user);

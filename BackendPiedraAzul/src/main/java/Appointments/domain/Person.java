@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Person {
     protected Long id;
-    protected DoctorTypeEnum documentType;
+    protected DocumentTypeEnum documentType;
     protected String identificationNumber;
     protected String firstName;
     protected String lastName;
@@ -16,7 +16,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(Long id, DoctorTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user) {
+    public Person(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user) {
         this.id = id;
         this.documentType = documentType;
         this.identificationNumber = identificationNumber;
@@ -36,11 +36,11 @@ public class Person {
         this.id = id;
     }
 
-    public DoctorTypeEnum getDocumentType() {
+    public DocumentTypeEnum getDocumentType() {
         return documentType;
     }
 
-    public void setDocumentType(DoctorTypeEnum documentType) {
+    public void setDocumentType(DocumentTypeEnum documentType) {
         this.documentType = documentType;
     }
 

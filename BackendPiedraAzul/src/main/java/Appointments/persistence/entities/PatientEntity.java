@@ -19,6 +19,7 @@ public class PatientEntity extends PersonEntity {
     private List<AppointmentEntity> pastAppointments;
     @OneToOne
     private MedicalHistoryEntity medicalHistory;
+
     private int appointmentCount;
 
 }
