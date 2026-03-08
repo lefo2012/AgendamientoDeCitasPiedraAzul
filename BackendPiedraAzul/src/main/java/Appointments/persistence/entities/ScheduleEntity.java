@@ -1,15 +1,12 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
-import Appointments.utilities.HolidayUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
-import java.time.temporal.TemporalAdjusters;
 
 @Entity
 @Getter

@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
 import Appointments.domain.DoctorTypeEnum;
 import jakarta.persistence.*;

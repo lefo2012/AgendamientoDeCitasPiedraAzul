@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
