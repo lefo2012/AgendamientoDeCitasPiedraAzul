@@ -1,5 +1,6 @@
 package Appointments.entities;
 
+import Appointments.domain.RoleEnum;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

@@ -29,31 +29,31 @@ public class ScheduleEntity {
     @ElementCollection
     private Map<LocalDate, IntervalListEntity> busyTimes;
 
-    public boolean schedule(LocalDate day, IntervalEntity intervalo) {
+    public boolean schedule(LocalDate day, IntervalEntity interval) {
 
-        if (!isAvailable(day, intervalo)) {
+        if (!isAvailable(day, interval)) {
             throw new IllegalArgumentException("INTERVAL NOT AVAILABLE");
         }
 
         busyTimes.putIfAbsent(day, new IntervalListEntity());
 
         for (IntervalEntity busy : busyTimes.get(day).getIntervals()) {
-            if (busy.overlaps(intervalo)) {
+            if (busy.overlaps(interval)) {
                 throw new IllegalArgumentException("INTERVAL OCCUPIED");
             }
         }
 
-        busyTimes.get(day).getIntervals().add(intervalo);
+        busyTimes.get(day).getIntervals().add(interval);
 
         return true;
     }
 
-    private void reserve(LocalDate day, IntervalEntity intervalo) throws Exception {
+    private void reserve(LocalDate day, IntervalEntity interval) throws Exception {
 
-        if (!isAvailable(day, intervalo)) {
+        if (!isAvailable(day, interval)) {
             throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
         }
-        busyTimes.get(day).getIntervals().add(intervalo);
+        busyTimes.get(day).getIntervals().add(interval);
     }
 
     //Repeat the calendar configuration for as many weeks as the user desires.

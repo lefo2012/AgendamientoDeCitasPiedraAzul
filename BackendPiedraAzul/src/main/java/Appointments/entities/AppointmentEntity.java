@@ -1,5 +1,6 @@
 package Appointments.entities;
 
+import Appointments.domain.AppointmentStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
