@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -22,7 +23,7 @@ public class AppointmentEntity {
     private DoctorEntity doctor;
     @ManyToOne
     private PatientEntity patient;
-    private Date appointmentDate;
+    private LocalDate appointmentDate;
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
 

@@ -1,7 +1,9 @@
 package Appointments.domain;
 
-import Appointments.domain.*;
 
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Appointment {
@@ -9,8 +11,9 @@ public class Appointment {
     private Long id;
     private Doctor doctor;
     private Patient patient;
-    private Date appointmentDate;
+    private LocalDate appointmentDate;
     private AppointmentStatusEnum appointmentStatus;
+    private Interval interval;
 
     /*
      * Function that creates an appointment within the scope of the entities
@@ -19,9 +22,9 @@ public class Appointment {
 
     }
 
-    Appointment scheduleAppointment(Doctor doctor, Date appointmentDate, Patient patient) {
+    Appointment scheduleAppointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception {
 
-        Appointment appointment = new Appointment(doctor, appointmentDate, patient);
+        Appointment appointment = new Appointment(doctor, appointmentDate,interval, patient);
 
         doctor.addAppointmentToAttend(appointment);
 
@@ -30,11 +33,12 @@ public class Appointment {
         return appointment;
     }
 
-    private Appointment(Doctor doctor, Date appointmentDate, Patient patient) {
+    private Appointment(Doctor doctor, LocalDate appointmentDate,Interval interval, Patient patient) {
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
         this.patient = patient;
         this.appointmentStatus = AppointmentStatusEnum.EN_PROCESO;
+        this.interval = interval;
     }
 
     public Long getId() {
@@ -61,11 +65,11 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Date getAppointmentDate() {
+    public LocalDate getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
+    public void setAppointmentDate(LocalDate appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
@@ -75,5 +79,12 @@ public class Appointment {
 
     public void setAppointmentStatus(AppointmentStatusEnum appointmentStatus) {
         this.appointmentStatus = appointmentStatus;
+    }
+
+    public Interval getAppointmentInterval() {
+        return interval;
+    }
+    public void setAppointmentInterval(Interval interval) {
+        this.interval = interval;
     }
 }

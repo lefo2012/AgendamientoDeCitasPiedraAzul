@@ -20,7 +20,7 @@ public class Interval {
             throw new IllegalArgumentException("Start or end null");
         }
 
-        if (!end.isAfter(start)) {
+        if (!end.equals(start) && end.isBefore(start)) {
             throw new IllegalArgumentException("End must be after start");
         }
 
@@ -71,4 +71,5 @@ public class Interval {
     public void setEnd(LocalTime end) {
         this.end = end;
     }
+
 }

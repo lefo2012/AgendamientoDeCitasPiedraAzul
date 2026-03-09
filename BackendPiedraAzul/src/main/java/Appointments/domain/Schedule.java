@@ -41,9 +41,9 @@ public class Schedule {
         this.busyTimes = busyTimes;
     }
 
-    public boolean schedule(LocalDate day, Interval interval) {
+    public boolean schedule(LocalDate day, Interval interval) throws Exception {
 
-        if (!isAvailable(day, interval)) {
+        if (isAvailable(day, interval) == null) {
             throw new IllegalArgumentException("INTERVAL NOT AVAILABLE");
         }
 
@@ -55,6 +55,9 @@ public class Schedule {
             }
         }
 
+        modifyAvailable(day,interval);
+
+
         busyTimes.get(day).getIntervals().add(interval);
 
         return true;
@@ -62,36 +65,72 @@ public class Schedule {
 
     private void reserve(LocalDate day, Interval interval) throws Exception {
 
-        if (!isAvailable(day, interval)) {
+        if (isAvailable(day, interval) == null) {
             throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
         }
         busyTimes.get(day).getIntervals().add(interval);
     }
 
+    private boolean modifyAvailable(LocalDate day, Interval interval) throws Exception {
 
+        Interval container = isAvailable(day, interval);
+
+            if (container != null) {
+
+
+                if(container.equals(interval)) {
+                    availableTimes.get(day).getIntervals().remove(container);
+                    return true;
+                }
+                availableTimes.get(day).getIntervals().add(new Interval(container.getStart(), interval.getStart()));
+                availableTimes.get(day).getIntervals().add(new Interval(interval.getEnd(), container.getEnd()));
+
+                availableTimes.get(day).getIntervals().remove(container);
+                return true;
+
+            }else  {
+                throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
+            }
+    }
+
+    private void cancel(LocalDate day, Interval interval) {
+        if (isAvailable(day, interval) == null) {
+            throw new IllegalArgumentException("INTERVAL IS NOT AVAILABLE");
+        }
+        busyTimes.get(day).getIntervals().remove(interval);
+    }
     /**
     * This function needs 3 parameters to work
     * This function configures the schedule by adding days to the available times
     * throughout the desired weeks, specifying which day the configuration will be repeated.
     * */
 
-   private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
+    private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
 
         if (availableTimes == null) {
             System.err.println("ERROR MAP OF AVAILABLE TIMES NOT INITIALIZED... CHECKING.... Initializing map in configure schedule ");
             availableTimes = new HashMap<>();
         }
+
         LocalDate today = LocalDate.now();
         LocalDate dayOfTheWeek = today.with(TemporalAdjusters.next(day));
-        for(int i = 0; i < weeksRepeat; i++)
-        {
+
+        for(int i = 0; i < weeksRepeat; i++) {
 
             if(!holidays.contains(dayOfTheWeek)){
-                availableTimes.put(dayOfTheWeek, schedule);
+
+                IntervalList copy = new IntervalList();
+
+                for(Interval interval : schedule.getIntervals()){
+                    copy.addInterval(new Interval(interval.getStart(), interval.getEnd()));
+                }
+
+                availableTimes.put(dayOfTheWeek, copy);
             }
 
             dayOfTheWeek = dayOfTheWeek.plusWeeks(1);
         }
+
         return true;
     }
 
@@ -117,20 +156,20 @@ public class Schedule {
         return true;
     }
 
-    private boolean isAvailable(LocalDate day, Interval interval) {
+    private Interval isAvailable(LocalDate day, Interval interval) {
 
         IntervalList schedules = availableTimes.get(day);
 
         if (schedules == null)
-            return false;
+            return null;
 
         for (Interval available : schedules.getIntervals()) {
             if (interval.isWithin(available)) {
-                return true;
+                return available;
             }
         }
 
-        return false;
+        return null;
     }
 
     /**
@@ -156,11 +195,6 @@ public class Schedule {
 
         }
 
-        System.out.println("Holidays: ");
-        for (LocalDate day : holidays)
-        {
-            System.out.println(day);
-        }
         System.out.println("AvailableTimes: ");
         for(LocalDate dia : availableTimes.keySet())
         {

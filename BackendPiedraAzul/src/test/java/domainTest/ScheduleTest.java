@@ -12,6 +12,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
@@ -21,69 +22,64 @@ public class ScheduleTest {
      */
     @Test
     void scheduleGetInstanceTest(){
-
         Schedule schedule;
 
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
-        IntervalList interval = new IntervalList();
-
         int year = 2026;
 
         int weeksRepeat = 5;
 
-
-        Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-        Interval interval2 = new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0));
-
-        interval.addInterval(interval1);
-        interval.addInterval(interval2);
-
-
         days.add(DayOfWeek.MONDAY);
 
+        for(int i = 0; i < days.size(); i++){
 
-        for(int i = 0; i<days.size();i++){
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
 
             intervals.add(interval);
 
         }
+
+
+
+
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
         schedule.print();
     }
     @Test
-    void scheduleTrueTest(){
+    void scheduleTrueTest() throws Exception {
         Schedule schedule;
 
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
-        IntervalList interval = new IntervalList();
-
         int year = 2026;
 
         int weeksRepeat = 5;
 
-
-        Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-        Interval interval2 = new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0));
-
-        interval.addInterval(interval1);
-        interval.addInterval(interval2);
-
-
         days.add(DayOfWeek.MONDAY);
 
+        for(int i = 0; i < days.size(); i++){
 
-        for(int i = 0; i<days.size();i++){
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
 
             intervals.add(interval);
 
         }
+
+
+
+
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
 
@@ -104,35 +100,32 @@ public class ScheduleTest {
     }
 
     @Test
-    void scheduleFalseTest(){
+    void scheduleFalseTest() throws Exception {
         Schedule schedule;
 
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
-        IntervalList interval = new IntervalList();
-
         int year = 2026;
 
         int weeksRepeat = 5;
 
-
-        Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-        Interval interval2 = new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0));
-
-        interval.addInterval(interval1);
-        interval.addInterval(interval2);
-
-
         days.add(DayOfWeek.MONDAY);
 
+        for(int i = 0; i < days.size(); i++){
 
-        for(int i = 0; i<days.size();i++){
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
 
             intervals.add(interval);
 
         }
+
+
+
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
 
@@ -159,40 +152,37 @@ public class ScheduleTest {
             schedule.schedule(reserveDay,reserveInterval);
         }catch(IllegalArgumentException e){
 
-            assertTrue(e.getMessage().contains("INTERVAL OCCUPIED"));
+            assertTrue(e.getMessage().contains("INTERVAL NOT AVAILABLE"));
         }
 
     }
     @Test
-    void scheduleTrueTwoReserveTest(){
+    void scheduleTrueTwoReserveTest() throws Exception {
         Schedule schedule;
 
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
-        IntervalList interval = new IntervalList();
-
         int year = 2026;
 
         int weeksRepeat = 5;
 
-
-        Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-        Interval interval2 = new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0));
-
-        interval.addInterval(interval1);
-        interval.addInterval(interval2);
-
-
         days.add(DayOfWeek.MONDAY);
 
+        for(int i = 0; i < days.size(); i++){
 
-        for(int i = 0; i<days.size();i++){
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
 
             intervals.add(interval);
 
         }
+
+
+
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
 
@@ -217,35 +207,30 @@ public class ScheduleTest {
     }
 
     @Test
-    void scheduleTrueNextDayReserveTest(){
+    void scheduleTrueNextDayReserveTest() throws Exception {
         Schedule schedule;
 
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
-        IntervalList interval = new IntervalList();
-
         int year = 2026;
 
         int weeksRepeat = 5;
 
-
-        Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-        Interval interval2 = new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0));
-
-        interval.addInterval(interval1);
-        interval.addInterval(interval2);
-
-
         days.add(DayOfWeek.MONDAY);
 
+        for(int i = 0; i < days.size(); i++){
 
-        for(int i = 0; i<days.size();i++){
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
 
             intervals.add(interval);
 
         }
+
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
 
@@ -263,6 +248,7 @@ public class ScheduleTest {
         /**
          * Reserve the next monday it is available
          * */
+
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
 
         /**
@@ -275,9 +261,103 @@ public class ScheduleTest {
             reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
         }
 
+        System.out.println(reserveDay);
+        assertTrue(schedule.schedule(reserveDay,reserveInterval));
+
+
+    }
+
+
+    @Test
+    void scheduleTrueReserveInMiddleOfAContainerIntervalTest() throws Exception {
+        Schedule schedule;
+
+        List<DayOfWeek> days = new ArrayList<DayOfWeek>();
+
+        List<IntervalList> intervals = new ArrayList<IntervalList>();
+
+        int year = 2026;
+
+        int weeksRepeat = 5;
+
+        days.add(DayOfWeek.MONDAY);
+
+        for (int i = 0; i < days.size(); i++) {
+
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+
+            intervals.add(interval);
+
+        }
+
+
+        schedule = new Schedule(days, intervals, weeksRepeat, year);
+
+        Interval reserveInterval = new Interval(LocalTime.of(8, 0), LocalTime.of(9, 0));
+
+        Interval reserveInterval2 = new Interval(LocalTime.of(10, 0), LocalTime.of(11, 0));
+        LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+
+        while (schedule.getHolidays().contains(reserveDay)) {
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
+
+        assertTrue(schedule.schedule(reserveDay, reserveInterval));
+
+        try {
+            schedule.schedule(reserveDay, reserveInterval2);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("INTERVAL NOT AVAILABLE"));
+        }
+    }
+    @Test
+    void scheduleTrueReserveInMiddleOfAReserveTest() throws Exception {
+        Schedule schedule;
+
+        List<DayOfWeek> days = new ArrayList<DayOfWeek>();
+
+        List<IntervalList> intervals = new ArrayList<IntervalList>();
+
+        int year = 2026;
+
+        int weeksRepeat = 5;
+
+        days.add(DayOfWeek.MONDAY);
+
+        for(int i = 0; i < days.size(); i++){
+
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+
+            intervals.add(interval);
+
+        }
+
+
+        schedule = new Schedule(days,intervals,weeksRepeat,year);
+
+        Interval reserveInterval = new Interval(LocalTime.of(8, 0), LocalTime.of(9, 0));
+
+        Interval reserveInterval2 = new Interval(LocalTime.of(8, 0), LocalTime.of(10, 0));
+        LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
 
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
 
+        schedule.print();
+        try {
+            schedule.schedule(reserveDay,reserveInterval2);
+        }catch(IllegalArgumentException e){
+            assertTrue(e.getMessage().contains("INTERVAL NOT AVAILABLE"));
+        }
 
     }
 

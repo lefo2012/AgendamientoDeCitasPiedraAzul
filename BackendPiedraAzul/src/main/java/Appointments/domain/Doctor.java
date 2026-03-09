@@ -14,7 +14,10 @@ public class Doctor extends Person{
     //Think about a value object to make date distribution easier
     private Schedule schedule;
 
-    public boolean addAppointmentToAttend(Appointment appointment) {
+    public boolean addAppointmentToAttend(Appointment appointment) throws Exception {
+
+        schedule.schedule(appointment.getAppointmentDate(),appointment.getAppointmentInterval());
+
         if (scheduledAppointments == null) {
             scheduledAppointments = new ArrayList<>();
         }
@@ -23,6 +26,12 @@ public class Doctor extends Person{
 
     }
 
+    public boolean cancelAppointment(Appointment appointment) {
+
+
+        return scheduledAppointments.remove(appointment);
+
+    }
     public List<SpecialtyEnum> getSpecialties() {
         return specialties;
     }
