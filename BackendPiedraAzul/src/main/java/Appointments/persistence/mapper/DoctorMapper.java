@@ -5,7 +5,7 @@ import Appointments.persistence.entities.DoctorEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {AppointmentMapper.class, ScheduleMapper.class})
-public interface DoctorMapper extends PersonMapper{
+public interface DoctorMapper {
     Doctor toDomain(DoctorEntity doctorEntity);
     DoctorEntity toEntity(Doctor doctor);
 }

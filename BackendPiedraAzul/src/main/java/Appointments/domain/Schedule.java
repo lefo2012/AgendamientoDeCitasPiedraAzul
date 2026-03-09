@@ -10,11 +10,14 @@ import java.util.*;
 public class Schedule {
 
     private Long Id;
-    private Set<LocalDate> holidays = new HashSet<>();
+    private Set<LocalDate> holidays;
     private Map<LocalDate, IntervalList> availableTimes;
     private Map<LocalDate, IntervalList> busyTimes;
 
     public Schedule() {
+        this.holidays = new HashSet<>();
+        this.availableTimes = new HashMap<>();
+        this.busyTimes = new HashMap<>();
     }
 
     public Schedule(Long id, Set<LocalDate> holidays, Map<LocalDate, IntervalList> availableTimes, Map<LocalDate, IntervalList> busyTimes) {
@@ -118,7 +121,7 @@ public class Schedule {
      *
      * @param year The year for which to generate the holidays.
      */
-    public void setHolidaysForYear(int year) {
+    public void calculateHolidaysForYear(int year) {
         this.holidays = HolidayUtils.getHolidays(year);
     }
 

@@ -18,7 +18,8 @@ public class ScheduleEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
-    private Set<LocalDate> holidays = new HashSet<>();
+    @ElementCollection
+    private Set<LocalDate> holidays;
 
     @ElementCollection
     private Map<LocalDate, IntervalListEntity> availableTimes;

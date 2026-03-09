@@ -15,6 +15,10 @@ public class Appointment {
     /*
      * Function that creates an appointment within the scope of the entities
      * */
+    public Appointment (){
+
+    }
+
     Appointment scheduleAppointment(Doctor doctor, Date appointmentDate, Patient patient) {
 
         Appointment appointment = new Appointment(doctor, appointmentDate, patient);
