@@ -1,73 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Doctor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/DocumentTypeEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/IntervalList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/MedicalHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Patient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/AppointmentEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/DoctorEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PatientEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/AppointmentMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/DoctorMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalListMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/MedicalHistoryMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/PatientMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/RoleMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/ScheduleMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Interval.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Interval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Appointment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/AppointmentStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/AppointmentStatusEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Doctor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/DoctorTypeEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Interval.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/IntervalList.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalListEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/MedicalHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/MedicalHistoryEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Patient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PersonEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/RoleEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/RoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/RoleEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Schedule.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/SpecialtyEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/SpecialtyEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/utilities/HolidayUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/utilities/HolidayUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul" value="3AibWgXxXFw1Sv9QqbE30yZXB1X" />
+    </persistenceIdMap>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Nelson-LV"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git",
+    "accountId": "1629eca7-2c74-4502-9de4-dd2c255b2962"
+  }
+}]]></component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3AibWgXxXFw1Sv9QqbE30yZXB1X" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -78,14 +59,49 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Merging Agendamiento",
-    "kotlin-language-version-configured": "true"
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Agendamiento",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="AgendamientoDeCitasPiedraAzul" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="AgendamientoDeCitasPiedraAzul" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration name="BackendPiedraAzulApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="BackendPiedraAzul" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="co.edu.unicauca.BackendPiedraAzul.BackendPiedraAzulApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
       </set>
     </attachedChunks>
   </component>
@@ -96,7 +112,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1773078371340</updated>
+      <workItem from="1773080418557" duration="383000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>
