@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
@@ -11,17 +11,12 @@ import java.util.List;
 @Embeddable
 @Getter
 @Setter
-public class IntervalList {
+public class IntervalListEntity {
     @ElementCollection
-    private List<Interval> intervals;
-
-    public IntervalList()
-    {
-        intervals=new ArrayList<>();
-    }
+    private List<IntervalEntity> intervals;
 
 
-    public void addInterval(Interval interval)
+    public void addInterval(IntervalEntity interval)
     {
         if(intervals.contains(interval))
         {
@@ -37,7 +32,7 @@ public class IntervalList {
 
     public void print()
     {
-        for(Interval interval:intervals)
+        for(IntervalEntity interval:intervals)
         {
             System.out.println("Begin: " + interval.getStart() + " - End: " + interval.getEnd());
         }

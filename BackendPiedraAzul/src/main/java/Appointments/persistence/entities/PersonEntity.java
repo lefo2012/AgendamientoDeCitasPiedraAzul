@@ -1,5 +1,6 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
+import Appointments.domain.DocumentTypeEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,12 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
-public abstract class Person {
+public abstract class PersonEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
     @Enumerated(EnumType.STRING)
-    protected DoctorTypeEnum documentType;
+    protected DocumentTypeEnum documentType;
     protected String identificationNumber;
     protected String firstName;
     protected String lastName;
@@ -25,5 +26,5 @@ public abstract class Person {
     protected String phone;
     protected boolean active;
     @OneToOne
-    protected User user;
+    protected UserEntity user;
 }

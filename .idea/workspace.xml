@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Doctor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/DocumentTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/IntervalList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/MedicalHistory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Patient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Person.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/AppointmentEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/DoctorEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PatientEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/AppointmentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/DoctorMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalListMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/MedicalHistoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/PatientMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/RoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/ScheduleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot.data.migration.ask2agent.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Interval.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Interval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Appointment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/AppointmentStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/AppointmentStatusEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Doctor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/DoctorTypeEnum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Interval.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/IntervalList.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalListEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/MedicalHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/MedicalHistoryEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Patient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PersonEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/RoleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/RoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/RoleEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/Schedule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/SpecialtyEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/SpecialtyEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/utilities/HolidayUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/utilities/HolidayUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 0
+}]]></component>
+  <component name="ProjectId" id="3AibWgXxXFw1Sv9QqbE30yZXB1X" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "Merging Agendamiento",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.26830.84" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="" />
+      <created>1773078371340</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1773078371340</updated>
+    </task>
+    <servers />
+  </component>
+</project>

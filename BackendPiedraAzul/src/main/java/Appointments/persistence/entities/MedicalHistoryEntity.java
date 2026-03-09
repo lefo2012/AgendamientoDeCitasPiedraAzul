@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,18 +14,14 @@ import java.util.Map;
 @NoArgsConstructor
 @Getter
 @Setter
-public class MedicalHistory {
+public class MedicalHistoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    //A map will be used for easier search by date
-    //I don't know how to save maps in JPA
     @ElementCollection
     private Map<Date, String> medicalHistory;
-    //We need to look at this carefully if it's interesting or if we can leave it just in the history as such
     @OneToMany
-    private List<Doctor> doctors;
+    private List<DoctorEntity> doctors;
 
 }

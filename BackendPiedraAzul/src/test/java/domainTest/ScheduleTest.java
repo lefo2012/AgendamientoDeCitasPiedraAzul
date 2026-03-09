@@ -1,8 +1,8 @@
 package domainTest;
 
-import Appointments.entities.Interval;
-import Appointments.entities.IntervalList;
-import Appointments.entities.Schedule;
+import Appointments.domain.Interval;
+import Appointments.domain.IntervalList;
+import Appointments.domain.Schedule;
 import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ScheduleTest {
     /**
-     * Placeholder test for Schedule functionality. To be implemented.
+     * Placeholder test for schedule domain functionality. To be implemented.
      */
     @Test
     void scheduleGetInstanceTest(){
@@ -93,6 +93,9 @@ public class ScheduleTest {
 
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
 
         /**
          * Reserve the next monday it is available
@@ -139,6 +142,9 @@ public class ScheduleTest {
 
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
 
         /**
          * Reserve the next monday it is available
@@ -196,6 +202,9 @@ public class ScheduleTest {
 
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
 
         /**
          * Reserve the next monday it is available
@@ -245,6 +254,11 @@ public class ScheduleTest {
 
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
+
+
 
         /**
          * Reserve the next monday it is available
@@ -254,7 +268,13 @@ public class ScheduleTest {
         /**
          * Next monday reserve
          * */
+
         reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
+
 
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
 

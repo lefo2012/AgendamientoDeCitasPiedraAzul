@@ -1,18 +1,11 @@
-package Appointments.entities;
+package Appointments.domain;
 
-import jakarta.persistence.Embeddable;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalTime;
 import java.util.Objects;
 
-@Embeddable
-@Getter
-@Setter
-public class Interval {
 
+public class Interval {
     private LocalTime start;
     private LocalTime end;
 
@@ -61,5 +54,21 @@ public class Interval {
 
     public boolean overlaps(Interval intervalToCheck) {
         return this.start.isBefore(intervalToCheck.end) && intervalToCheck.start.isBefore(this.end);
+    }
+
+    public LocalTime getStart() {
+        return start;
+    }
+
+    public void setStart(LocalTime start) {
+        this.start = start;
+    }
+
+    public LocalTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(LocalTime end) {
+        this.end = end;
     }
 }

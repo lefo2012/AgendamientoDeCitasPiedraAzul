@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.persistence.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,5 +19,5 @@ public class User {
     private String email;
     private String password;
     @ElementCollection
-    private List<Role> roles;
+    private List<RoleEntity> roles;
 }

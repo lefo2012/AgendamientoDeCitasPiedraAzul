@@ -1,4 +1,4 @@
-package Appointments.entities;
+package Appointments.domain;
 
 public enum SpecialtyEnum {
     TERAPIA_NEURAL,

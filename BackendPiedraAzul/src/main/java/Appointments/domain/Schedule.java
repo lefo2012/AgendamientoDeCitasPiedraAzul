@@ -1,31 +1,17 @@
-package Appointments.entities;
+package Appointments.domain;
 
 import Appointments.utilities.HolidayUtils;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
-@Entity
-@Getter
-@Setter
 public class Schedule {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
-
-    private List<LocalDate> holidays;
-
-    @ElementCollection
+    private Set<LocalDate> holidays;
     private Map<LocalDate, IntervalList> availableTimes;
-
-    @ElementCollection
     private Map<LocalDate, IntervalList> busyTimes;
 
     public Schedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat,int year) {
@@ -42,6 +28,18 @@ public class Schedule {
      * @Param year for the holidays in the year
     * */
 
+    public Schedule() {
+        this.holidays = new HashSet<>();
+        this.availableTimes = new HashMap<>();
+        this.busyTimes = new HashMap<>();
+    }
+
+    public Schedule(Long id, Set<LocalDate> holidays, Map<LocalDate, IntervalList> availableTimes, Map<LocalDate, IntervalList> busyTimes) {
+        Id = id;
+        this.holidays = holidays;
+        this.availableTimes = availableTimes;
+        this.busyTimes = busyTimes;
+    }
 
     public boolean schedule(LocalDate day, Interval interval) {
 
@@ -70,12 +68,14 @@ public class Schedule {
         busyTimes.get(day).getIntervals().add(interval);
     }
 
+
     /**
     * This function needs 3 parameters to work
     * This function configures the schedule by adding days to the available times
     * throughout the desired weeks, specifying which day the configuration will be repeated.
     * */
-    private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
+
+   private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
 
         if (availableTimes == null) {
             System.err.println("ERROR MAP OF AVAILABLE TIMES NOT INITIALIZED... CHECKING.... Initializing map in configure schedule ");
@@ -139,7 +139,7 @@ public class Schedule {
      * @param year The year for which to generate the holidays.
      */
     private void setHolidaysForYear(int year) {
-        this.holidays = HolidayUtils.generateColombianHolidays(year);
+        this.holidays = HolidayUtils.getHolidays(year);
     }
 
     /**
@@ -169,4 +169,37 @@ public class Schedule {
         }
     }
 
+
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public Set<LocalDate> getHolidays() {
+        return holidays;
+    }
+
+    public void setHolidays(Set<LocalDate> holidays) {
+        this.holidays = holidays;
+    }
+
+    public Map<LocalDate, IntervalList> getAvailableTimes() {
+        return availableTimes;
+    }
+
+    public void setAvailableTimes(Map<LocalDate, IntervalList> availableTimes) {
+        this.availableTimes = availableTimes;
+    }
+
+    public Map<LocalDate, IntervalList> getBusyTimes() {
+        return busyTimes;
+    }
+
+    public void setBusyTimes(Map<LocalDate, IntervalList> busyTimes) {
+        this.busyTimes = busyTimes;
+    }
 }
