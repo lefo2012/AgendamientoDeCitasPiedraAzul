@@ -92,12 +92,49 @@ public class Schedule {
                 throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
             }
     }
+    public boolean cancel(LocalDate day, Interval interval) {
 
-    private void cancel(LocalDate day, Interval interval) {
-        if (isAvailable(day, interval) == null) {
-            throw new IllegalArgumentException("INTERVAL IS NOT AVAILABLE");
+        if (!busyTimes.containsKey(day)) {
+            return false;
         }
-        busyTimes.get(day).getIntervals().remove(interval);
+
+        if (!busyTimes.get(day).getIntervals().remove(interval)) {
+
+
+            return false;
+        }
+        if(busyTimes.get(day).getIntervals().isEmpty()) {
+            busyTimes.remove(day);
+        }
+        Interval left = null;
+        Interval right = null;
+
+        for (Interval i : availableTimes.get(day).getIntervals()) {
+
+            if (i.getEnd().equals(interval.getStart())) {
+                left = i;
+            }
+
+            if (i.getStart().equals(interval.getEnd())) {
+                right = i;
+            }
+        }
+
+        if (left != null && right != null) {
+            left.setEnd(right.getEnd());
+            availableTimes.get(day).getIntervals().remove(right);
+        }
+        else if (left != null) {
+            left.setEnd(interval.getEnd());
+        }
+        else if (right != null) {
+            right.setStart(interval.getStart());
+        }
+        else {
+            availableTimes.get(day).getIntervals().add(interval);
+        }
+
+        return true;
     }
     /**
     * This function needs 3 parameters to work
@@ -200,6 +237,12 @@ public class Schedule {
         {
             System.out.println(dia);
             availableTimes.get(dia).print();
+        }
+        System.out.println("BusyTimes: ");
+        for(LocalDate dia : busyTimes.keySet())
+        {
+            System.out.println(dia);
+            busyTimes.get(dia).print();
         }
     }
 

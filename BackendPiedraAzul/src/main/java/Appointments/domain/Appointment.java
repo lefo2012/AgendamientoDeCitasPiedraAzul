@@ -15,7 +15,7 @@ public class Appointment {
     private AppointmentStatusEnum appointmentStatus;
     private Interval interval;
 
-    /*
+    /**
      * Function that creates an appointment within the scope of the entities
      * */
     public Appointment (){

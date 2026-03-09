@@ -12,8 +12,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class ScheduleTest {
@@ -358,6 +357,51 @@ public class ScheduleTest {
         }catch(IllegalArgumentException e){
             assertTrue(e.getMessage().contains("INTERVAL NOT AVAILABLE"));
         }
+
+    }
+
+    @Test
+    void scheduleCancelTrue() throws Exception {
+        Schedule schedule;
+
+        List<DayOfWeek> days = new ArrayList<DayOfWeek>();
+
+        List<IntervalList> intervals = new ArrayList<IntervalList>();
+
+        int year = 2026;
+
+        int weeksRepeat = 5;
+
+        days.add(DayOfWeek.MONDAY);
+
+        for(int i = 0; i < days.size(); i++){
+
+            IntervalList interval = new IntervalList();
+
+            interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
+
+            intervals.add(interval);
+
+        }
+
+
+        schedule = new Schedule(days,intervals,weeksRepeat,year);
+        Interval reserveInterval = new Interval(LocalTime.of(8, 0), LocalTime.of(9, 0));
+        LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+
+        while(schedule.getHolidays().contains(reserveDay)){
+            reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
+
+
+        System.out.println("agendando");
+        assertTrue(schedule.schedule(reserveDay,reserveInterval));
+
+        schedule.print();
+        System.out.println("Eliminando");
+        assertTrue(schedule.cancel(reserveDay,reserveInterval));
+        schedule.print();
 
     }
 
