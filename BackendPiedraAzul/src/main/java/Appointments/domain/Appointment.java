@@ -21,7 +21,6 @@ public class Appointment {
     public Appointment (){
 
     }
-
     Appointment scheduleAppointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception {
 
         Appointment appointment = new Appointment(doctor, appointmentDate,interval, patient);

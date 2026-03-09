@@ -45,9 +45,6 @@ public class ScheduleTest {
         }
 
 
-
-
-
         schedule = new Schedule(days,intervals,weeksRepeat,year);
         schedule.print();
     }
@@ -260,7 +257,6 @@ public class ScheduleTest {
             reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
         }
 
-        System.out.println(reserveDay);
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
 
 
@@ -351,7 +347,6 @@ public class ScheduleTest {
 
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
 
-        schedule.print();
         try {
             schedule.schedule(reserveDay,reserveInterval2);
         }catch(IllegalArgumentException e){
@@ -388,6 +383,7 @@ public class ScheduleTest {
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
         Interval reserveInterval = new Interval(LocalTime.of(8, 0), LocalTime.of(9, 0));
+        Interval reserveInterval1 = new Interval(LocalTime.of(9, 0), LocalTime.of(10, 0));
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
         while(schedule.getHolidays().contains(reserveDay)){
@@ -395,15 +391,17 @@ public class ScheduleTest {
         }
 
 
-        System.out.println("agendando");
-        assertTrue(schedule.schedule(reserveDay,reserveInterval));
 
-        schedule.print();
-        System.out.println("Eliminando");
+        assertTrue(schedule.schedule(reserveDay,reserveInterval));
+        assertTrue(schedule.schedule(reserveDay,reserveInterval1));
+
+
         assertTrue(schedule.cancel(reserveDay,reserveInterval));
-        schedule.print();
+
+
 
     }
+
 
 
 
