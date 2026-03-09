@@ -9,13 +9,17 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 @Embeddable
-@NoArgsConstructor
 @Getter
 @Setter
 public class Interval {
 
     private LocalTime start;
     private LocalTime end;
+
+    private Interval()
+    {
+
+    }
 
     public Interval(LocalTime start, LocalTime end) {
 

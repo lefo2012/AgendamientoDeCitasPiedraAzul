@@ -20,4 +20,26 @@ public class IntervalList {
         intervals=new ArrayList<>();
     }
 
+
+    public void addInterval(Interval interval)
+    {
+        if(intervals.contains(interval))
+        {
+            throw new IllegalArgumentException("Intervals already exist");
+        }
+        if(intervals == null)
+        {
+           intervals = new ArrayList<>();
+
+        }
+        intervals.add(interval);
+    }
+
+    public void print()
+    {
+        for(Interval interval:intervals)
+        {
+            System.out.println("Begin: " + interval.getStart() + " - End: " + interval.getEnd());
+        }
+    }
 }

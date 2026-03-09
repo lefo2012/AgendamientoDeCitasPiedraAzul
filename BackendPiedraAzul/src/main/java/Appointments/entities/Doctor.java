@@ -31,7 +31,6 @@ public class Doctor extends Person {
         }
         scheduledAppointments.add(appointment);
         return true;
-
     }
 
 }

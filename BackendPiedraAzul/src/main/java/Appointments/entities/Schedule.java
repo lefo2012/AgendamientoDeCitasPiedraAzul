@@ -14,14 +14,13 @@ import java.time.temporal.TemporalAdjusters;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long Id;
 
-    private List<LocalDate> holidays = new ArrayList<>();
+    private List<LocalDate> holidays;
 
     @ElementCollection
     private Map<LocalDate, IntervalList> availableTimes;
@@ -29,35 +28,49 @@ public class Schedule {
     @ElementCollection
     private Map<LocalDate, IntervalList> busyTimes;
 
-    public boolean schedule(LocalDate day, Interval intervalo) {
+    public Schedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat,int year) {
+        setHolidaysForYear(year);
+        configureSchedule(days, schedules, weeksRepeat);
 
-        if (!isAvailable(day, intervalo)) {
+        busyTimes = new HashMap<>();
+    }
+    /**
+     * Generate instance for a Schedule, is obligatory initialize all agenda
+     * @Param days
+     * @Param schedules
+     * @Param weeksRepeat
+     * @Param year for the holidays in the year
+    * */
+
+
+    public boolean schedule(LocalDate day, Interval interval) {
+
+        if (!isAvailable(day, interval)) {
             throw new IllegalArgumentException("INTERVAL NOT AVAILABLE");
         }
 
         busyTimes.putIfAbsent(day, new IntervalList());
 
         for (Interval busy : busyTimes.get(day).getIntervals()) {
-            if (busy.overlaps(intervalo)) {
+            if (busy.overlaps(interval)) {
                 throw new IllegalArgumentException("INTERVAL OCCUPIED");
             }
         }
 
-        busyTimes.get(day).getIntervals().add(intervalo);
+        busyTimes.get(day).getIntervals().add(interval);
 
         return true;
     }
 
-    private void reserve(LocalDate day, Interval intervalo) throws Exception {
+    private void reserve(LocalDate day, Interval interval) throws Exception {
 
-        if (!isAvailable(day, intervalo)) {
+        if (!isAvailable(day, interval)) {
             throw new Exception("ERROR THE INTERVAL IS NOT AVAILABLE");
         }
-        busyTimes.get(day).getIntervals().add(intervalo);
+        busyTimes.get(day).getIntervals().add(interval);
     }
 
-    //Repeat the calendar configuration for as many weeks as the user desires.
-    /*
+    /**
     * This function needs 3 parameters to work
     * This function configures the schedule by adding days to the available times
     * throughout the desired weeks, specifying which day the configuration will be repeated.
@@ -65,7 +78,7 @@ public class Schedule {
     private boolean configureSchedule(DayOfWeek day, IntervalList schedule, int weeksRepeat) {
 
         if (availableTimes == null) {
-            System.err.println("ERROR MAP NOT INITIALIZED CHECK DOCTOR.... Initializing map in configure schedule ");
+            System.err.println("ERROR MAP OF AVAILABLE TIMES NOT INITIALIZED... CHECKING.... Initializing map in configure schedule ");
             availableTimes = new HashMap<>();
         }
         LocalDate today = LocalDate.now();
@@ -82,8 +95,10 @@ public class Schedule {
         return true;
     }
 
-    //For this function to work correctly, the list of days and intervals must arrive in the same position.
-    //Example of use: {MONDAY,TUESDAY} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
+    /**
+    * For this function to work correctly, the list of days and intervals must arrive in the same position.
+    * Example of use: {MONDAY,TUESDAY} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
+    */
     public boolean configureSchedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat) {
 
         if(weeksRepeat <= 0)
@@ -123,8 +138,35 @@ public class Schedule {
      *
      * @param year The year for which to generate the holidays.
      */
-    public void setHolidaysForYear(int year) {
+    private void setHolidaysForYear(int year) {
         this.holidays = HolidayUtils.generateColombianHolidays(year);
+    }
+
+    /**
+     *
+     * This function is for print on console the schedule
+     * */
+
+    public void print()
+    {
+        if(availableTimes == null && busyTimes == null && holidays == null)
+        {
+
+            throw new IllegalArgumentException("ERROR THE INFORMATION IS NOT AVAILABLE");
+
+        }
+
+        System.out.println("Holidays: ");
+        for (LocalDate day : holidays)
+        {
+            System.out.println(day);
+        }
+        System.out.println("AvailableTimes: ");
+        for(LocalDate dia : availableTimes.keySet())
+        {
+            System.out.println(dia);
+            availableTimes.get(dia).print();
+        }
     }
 
 }
