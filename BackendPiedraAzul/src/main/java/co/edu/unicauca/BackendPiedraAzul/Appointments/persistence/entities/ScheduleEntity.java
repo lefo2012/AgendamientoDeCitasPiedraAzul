@@ -21,8 +21,14 @@ public class ScheduleEntity {
     @ElementCollection
     private Set<LocalDate> holidays;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey(name = "date")
+    @JoinColumn(name = "schedule_available_id")
     private Map<LocalDate, IntervalListEntity> availableTimes;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey(name = "date")
+    @JoinColumn(name = "schedule_busy_id")
     private Map<LocalDate, IntervalListEntity> busyTimes;
 
 }

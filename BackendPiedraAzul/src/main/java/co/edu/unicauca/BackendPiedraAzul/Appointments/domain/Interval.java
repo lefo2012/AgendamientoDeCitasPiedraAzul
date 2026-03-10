@@ -14,18 +14,18 @@ public class Interval {
 
     }
 
-    public Interval(LocalTime start, LocalTime end) {
+    public Interval(LocalTime startTime, LocalTime endTime) {
 
-        if (start == null || end == null) {
+        if (startTime == null || endTime == null) {
             throw new IllegalArgumentException("Start or end null");
         }
 
-        if (!end.equals(start) && end.isBefore(start)) {
+        if (!endTime.equals(startTime) && endTime.isBefore(startTime)) {
             throw new IllegalArgumentException("End must be after start");
         }
 
-        this.startTime = start;
-        this.endTime = end;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
 

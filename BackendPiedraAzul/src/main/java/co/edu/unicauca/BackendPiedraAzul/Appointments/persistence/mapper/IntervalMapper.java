@@ -6,8 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface IntervalMapper {
-
-
     Interval toDomain(IntervalEntity intervalEntity);
     IntervalEntity toEntity(Interval interval);
 }

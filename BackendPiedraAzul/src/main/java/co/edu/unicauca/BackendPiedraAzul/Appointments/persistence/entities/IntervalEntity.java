@@ -8,7 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalTime;
 
-@Entity
+@Embeddable
 @NoArgsConstructor
 @Getter
 @Setter
