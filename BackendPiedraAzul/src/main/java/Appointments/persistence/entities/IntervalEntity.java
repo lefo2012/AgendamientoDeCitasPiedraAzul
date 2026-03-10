@@ -14,6 +14,7 @@ import java.util.Objects;
 @Setter
 public class IntervalEntity {
 
+
     private LocalTime start;
     private LocalTime end;
 
