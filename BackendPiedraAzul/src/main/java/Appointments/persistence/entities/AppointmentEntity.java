@@ -1,6 +1,7 @@
 package Appointments.persistence.entities;
 
 import Appointments.domain.AppointmentStatusEnum;
+import Appointments.domain.Interval;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class AppointmentEntity {
     private LocalDate appointmentDate;
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
+    private IntervalEntity interval;
 
 
 }
