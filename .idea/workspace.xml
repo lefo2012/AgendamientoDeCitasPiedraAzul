@@ -4,49 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: created the domain services and services interfaces">
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/AppointmentRepositoryJPA.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IAppointmentPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IDoctorPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IPatientPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IPersonPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/ISchedulePersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IUserPersistenceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/AppointmentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/DoctorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IAppointmentService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IDoctorService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IMedicalHistoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IPatientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IScheduleService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/MedicalHistoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/PatientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/ScheduleService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/UserService.java" afterDir="false" />
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: created the domain services, use cases services and services interfaces">
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/DoctorRepositoryJPA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/MedicalHistoryRepositoryJPA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/PatientRepositoryJPA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/PersonRepositoryJPA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/ScheduleRepositoryJPA.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/UserRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/AppointmentService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/DoctorPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IAppointmentService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IDoctorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IIntervalListService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IIntervalService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IMedicalHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IMedicalHistoryPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IPatientService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IPersonService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IScheduleService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IUserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IntervalListService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IntervalService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/MedicalHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/MedicalHistoryPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PatientPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/PersonService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PersonPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/SchedulePersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/UserPersistenceService.java" afterDir="false" />
     </list>
-    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="" />
+    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="">
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/AppointmentRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/AppointmentRepositoryJPA.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -250,7 +221,7 @@
       <option name="presentableId" value="Default" />
       <updated>1773078371340</updated>
       <workItem from="1773080418557" duration="383000" />
-      <workItem from="1773096571793" duration="18043000" />
+      <workItem from="1773096571793" duration="18968000" />
     </task>
     <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
       <option name="closed" value="true" />
@@ -276,7 +247,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773112769607</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: created the domain services, use cases services and services interfaces">
+      <option name="closed" value="true" />
+      <created>1773115007846</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1773115007846</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -286,7 +265,8 @@
     <MESSAGE value="feat: created the Doctor's test class" />
     <MESSAGE value="feat: created the Appointment's test class" />
     <MESSAGE value="feat: created the domain services and services interfaces" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: created the domain services and services interfaces" />
+    <MESSAGE value="feat: created the domain services, use cases services and services interfaces" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: created the domain services, use cases services and services interfaces" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
