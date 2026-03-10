@@ -4,26 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: created the Doctor's test class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/AppointmentStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/AppointmentStatusEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Doctor.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Doctor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/IntervalList.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/IntervalList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ApointmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ApointmentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/DoctorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/DoctorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" afterDir="false" />
     </list>
-    <list id="268b54f7-e067-484b-8f79-d030f3b65ebd" name="Changes by angelita" comment="">
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" afterDir="false" />
-    </list>
-    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="">
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" afterDir="false" />
-    </list>
+    <list id="268b54f7-e067-484b-8f79-d030f3b65ebd" name="Changes by angelita" comment="" />
+    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,43 +36,6 @@
     "accountId": "99a93001-4182-48a5-982f-f45935aaa6d1"
   }
 }]]></component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java">
-      <ranges>
-        <range start1="23" end1="23" start2="23" end2="24" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="24" end1="25" start2="25" end2="25" changelist="268b54f7-e067-484b-8f79-d030f3b65ebd" />
-        <range start1="30" end1="31" start2="30" end2="30" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="32" end1="33" start2="31" end2="31" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="34" end1="34" start2="32" end2="33" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="46" end1="47" start2="45" end2="45" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="75" end1="79" start2="73" end2="73" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="82" end1="85" start2="76" end2="76" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="241" end1="243" start2="232" end2="232" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java">
-      <ranges>
-        <range start1="16" end1="16" start2="16" end2="24" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="18" end1="18" start2="26" end2="28" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="20" end1="21" start2="30" end2="31" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="22" end1="29" start2="32" end2="32" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="58" end1="60" start2="61" end2="61" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="177" end1="177" start2="178" end2="179" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java">
-      <ranges>
-        <range start1="10" end1="10" start2="10" end2="11" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="23" end1="24" start2="24" end2="26" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="26" end1="27" start2="28" end2="28" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="28" end1="29" start2="29" end2="29" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="30" end1="31" start2="30" end2="30" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="38" end1="39" start2="37" end2="38" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="82" end1="83" start2="81" end2="82" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="85" end1="86" start2="84" end2="86" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-      </ranges>
-    </file>
-  </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -105,6 +54,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "JUnit.ApointmentTest.executor": "Run",
     "JUnit.DoctorTest.addAppointmentToAttendTrueTest.executor": "Run",
     "JUnit.DoctorTest.executor": "Run",
     "JUnit.IntervalTest.isWithinTrueTest.executor": "Run",
@@ -133,7 +83,22 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="JUnit.DoctorTest">
+  <component name="RunManager" selected="JUnit.AppointmentTest">
+    <configuration name="AppointmentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="BackendPiedraAzul" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="domainTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="domainTest" />
+      <option name="MAIN_CLASS_NAME" value="domainTest.AppointmentTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="DoctorTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BackendPiedraAzul" />
       <extension name="coverage">
@@ -160,22 +125,6 @@
       <option name="PACKAGE_NAME" value="domainTest" />
       <option name="MAIN_CLASS_NAME" value="domainTest.DoctorTest" />
       <option name="METHOD_NAME" value="addAppointmentToAttendTrueTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="IntervalTest.isWithinTrueTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="BackendPiedraAzul" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="domainTest.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="domainTest" />
-      <option name="MAIN_CLASS_NAME" value="domainTest.IntervalTest" />
-      <option name="METHOD_NAME" value="isWithinTrueTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -221,11 +170,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AppointmentTest" />
         <item itemvalue="JUnit.DoctorTest" />
         <item itemvalue="JUnit.DoctorTest.addAppointmentToAttendTrueTest" />
         <item itemvalue="JUnit.ScheduleTest.scheduleGetInstanceTest" />
         <item itemvalue="JUnit.ScheduleTest" />
-        <item itemvalue="JUnit.IntervalTest.isWithinTrueTest" />
       </list>
     </recent_temporary>
   </component>
@@ -245,12 +194,25 @@
       <option name="presentableId" value="Default" />
       <updated>1773078371340</updated>
       <workItem from="1773080418557" duration="383000" />
-      <workItem from="1773096571793" duration="12560000" />
+      <workItem from="1773096571793" duration="13478000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
+      <option name="closed" value="true" />
+      <created>1773109416413</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773109416413</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: created the Doctor's test class" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: created the Doctor's test class" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
