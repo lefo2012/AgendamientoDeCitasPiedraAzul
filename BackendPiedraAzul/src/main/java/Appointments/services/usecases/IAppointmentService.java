@@ -1,4 +1,4 @@
-package Appointments.services;
+package Appointments.services.usecases;
 
 public interface IAppointmentService {
 }
