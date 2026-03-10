@@ -4,30 +4,87 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="fix: created the Patient's test class">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/AppointmentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/AppointmentEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/AppointmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/AppointmentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/DoctorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/DoctorMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalListMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalListMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/MedicalHistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/MedicalHistoryMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/PatientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/PatientMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/RoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/ScheduleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IAppointmentPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IAppointmentPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/controller/AppointmentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Appointment.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Appointment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/AppointmentStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/AppointmentStatusEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Doctor.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Doctor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/DocumentTypeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/DocumentTypeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Interval.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Interval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/IntervalList.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/IntervalList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/MedicalHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/MedicalHistory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Patient.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Patient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/RoleEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/RoleEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/Schedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Schedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/SpecialtyEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/SpecialtyEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/AppointmentEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/AppointmentEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/DoctorEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/DoctorEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalListEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalListEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/MedicalHistoryEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/MedicalHistoryEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PatientEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/PatientEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/PersonEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/PersonEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/RoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/RoleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/ScheduleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/AppointmentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/AppointmentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/DoctorMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/DoctorMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalListMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/IntervalListMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/IntervalMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/IntervalMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/MedicalHistoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/MedicalHistoryMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/PatientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/PatientMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/RoleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/ScheduleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/ScheduleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/AppointmentRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/AppointmentRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/DoctorRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/DoctorRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/MedicalHistoryRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/MedicalHistoryRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/PatientRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/PatientRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/PersonRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/PersonRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/ScheduleRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/ScheduleRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/repository/UserRepositoryJPA.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/repository/UserRepositoryJPA.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/AppointmentPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/DoctorPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/DoctorPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IAppointmentPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IAppointmentPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IDoctorPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IDoctorPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IMedicalHistoryPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IMedicalHistoryPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IPatientPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IPatientPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IPersonPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IPersonPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/ISchedulePersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/ISchedulePersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/IUserPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/IUserPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/MedicalHistoryPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/MedicalHistoryPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PatientPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/PatientPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PersonPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/PersonPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/SchedulePersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/SchedulePersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/UserPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/persistence/UserPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/AppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/DoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/DoctorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IAppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IAppointmentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IDoctorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IDoctorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IMedicalHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IMedicalHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IPatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IPatientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/MedicalHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/MedicalHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/PatientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/PatientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/usecases/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/services/usecases/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/utilities/HolidayUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/utilities/HolidayUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/BackendPiedraAzulApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/BackendPiedraAzulApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/Appointments/utilities/HolidayUtilsTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/AppointmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/AppointmentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/DoctorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/DoctorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/IntervalTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/PatientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/PatientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ScheduleTest.java" afterDir="false" />
     </list>
-    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database">
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,20 +113,12 @@
     &quot;assignee&quot;: &quot;Nelson-LV&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git&quot;,
-    &quot;accountId&quot;: &quot;99a93001-4182-48a5-982f-f45935aaa6d1&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git",
+    "accountId": "1629eca7-2c74-4502-9de4-dd2c255b2962"
   }
-}</component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties">
-      <ranges>
-        <range start1="2" end1="4" start2="2" end2="2" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-        <range start1="17" end1="17" start2="15" end2="16" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-      </ranges>
-    </file>
-  </component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -89,45 +138,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.ApointmentTest.executor": "Run",
-    "JUnit.AppointmentTest.executor": "Run",
-    "JUnit.AppointmentTest.saveAppointmentTest.executor": "Run",
-    "JUnit.DoctorTest.addAppointmentToAttendTrueTest.executor": "Run",
-    "JUnit.DoctorTest.executor": "Run",
-    "JUnit.IntervalTest.isWithinTrueTest.executor": "Run",
-    "JUnit.PatientTest.executor": "Run",
-    "JUnit.ScheduleTest.executor": "Run",
-    "JUnit.ScheduleTest.scheduleGetInstanceTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.BackendPiedraAzulApplication.executor": "Run",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Agendamiento",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.ApointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppointmentTest.saveAppointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DoctorTest.addAppointmentToAttendTrueTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DoctorTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.IntervalTest.isWithinTrueTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PatientTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ScheduleTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ScheduleTest.scheduleGetInstanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BackendPiedraAzulApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Agendamiento&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Luisita\Desktop\Proyecto Software Clinica PiedraAzul\AgendamientoDeCitasPiedraAzul\BackendPiedraAzul\src\main\java\Appointments\services\usecases" />
@@ -234,8 +283,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
       </set>
     </attachedChunks>
   </component>
@@ -329,7 +378,8 @@
     <MESSAGE value="feat: configured properties of database" />
     <MESSAGE value="fix: missing service tags" />
     <MESSAGE value="fix: created the Patient's test class" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: created the Patient's test class" />
+    <MESSAGE value="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

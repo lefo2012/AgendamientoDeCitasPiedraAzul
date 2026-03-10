@@ -1,8 +1,8 @@
 package domainTest;
 
-import Appointments.domain.Interval;
-import Appointments.domain.IntervalList;
-import Appointments.domain.Schedule;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Interval;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.IntervalList;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Schedule;
 import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
