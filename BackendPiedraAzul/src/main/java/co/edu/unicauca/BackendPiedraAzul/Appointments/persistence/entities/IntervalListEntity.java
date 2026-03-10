@@ -18,26 +18,4 @@ public class IntervalListEntity {
     private LocalDate date;
     @ElementCollection
     private List<IntervalEntity> intervals;
-
-    public void addInterval(IntervalEntity interval)
-    {
-        if(intervals.contains(interval))
-        {
-            throw new IllegalArgumentException("Intervals already exist");
-        }
-        if(intervals == null)
-        {
-           intervals = new ArrayList<>();
-
-        }
-        intervals.add(interval);
-    }
-
-    public void print()
-    {
-        for(IntervalEntity interval:intervals)
-        {
-            System.out.println("Begin: " + interval.getStartTime() + " - End: " + interval.getEndTime());
-        }
-    }
 }

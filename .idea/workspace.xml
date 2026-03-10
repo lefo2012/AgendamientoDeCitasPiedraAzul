@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/controller/AppointmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/controller/AppointmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Interval.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/Interval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/IntervalList.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/domain/IntervalList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalListEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/IntervalListEntity.java" afterDir="false" />
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed">
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/IntervalMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/mapper/IntervalMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" afterDir="false" />
     </list>
     <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database" />
     <option name="SHOW_DIALOG" value="false" />
@@ -306,11 +297,22 @@
       <option name="project" value="LOCAL" />
       <updated>1773183858186</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed">
+      <option name="closed" value="true" />
+      <created>1773185773592</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1773185773592</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.db" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: created the Doctor's test class" />
@@ -322,7 +324,8 @@
     <MESSAGE value="fix: missing service tags" />
     <MESSAGE value="fix: created the Patient's test class" />
     <MESSAGE value="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: I had to move the Appointments package to the co.unicauca.BackendPiedraAzul for the integrity of the project" />
+    <MESSAGE value="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

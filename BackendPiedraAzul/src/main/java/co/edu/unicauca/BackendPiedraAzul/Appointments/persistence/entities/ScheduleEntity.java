@@ -23,12 +23,12 @@ public class ScheduleEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @MapKey(name = "date")
-    @JoinColumn(name = "schedule_available_id")
+    @JoinColumn(name = "schedule_id")
     private Map<LocalDate, IntervalListEntity> availableTimes;
 
     @OneToMany(cascade = CascadeType.ALL)
     @MapKey(name = "date")
-    @JoinColumn(name = "schedule_busy_id")
+    @JoinColumn(name = "schedule_id")
     private Map<LocalDate, IntervalListEntity> busyTimes;
 
 }
