@@ -21,7 +21,6 @@ public class IntervalList {
 
     public void addInterval(Interval interval)
     {
-
         intervals.add(interval);
     }
 

@@ -18,7 +18,6 @@ class HolidayUtilsTest {
         assertNotNull(holidays);
         assertFalse(holidays.isEmpty());
     }
-
     /**
      * Tests fixed holidays that should always exist.
      */

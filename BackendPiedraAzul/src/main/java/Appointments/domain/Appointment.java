@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class Appointment {
 
+
     private Long id;
     private Doctor doctor;
     private Patient patient;
@@ -21,14 +22,12 @@ public class Appointment {
     public Appointment (){
 
     }
-    Appointment scheduleAppointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception {
+
+     public Appointment scheduleAppointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception {
 
         Appointment appointment = new Appointment(doctor, appointmentDate,interval, patient);
-
         doctor.addAppointmentToAttend(appointment);
-
         patient.addPendingAppointment(appointment);
-
         return appointment;
     }
 
@@ -36,7 +35,7 @@ public class Appointment {
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
         this.patient = patient;
-        this.appointmentStatus = AppointmentStatusEnum.EN_PROCESO;
+        this.appointmentStatus = AppointmentStatusEnum.AGENDADA;
         this.interval = interval;
     }
 
@@ -80,10 +79,11 @@ public class Appointment {
         this.appointmentStatus = appointmentStatus;
     }
 
-    public Interval getAppointmentInterval() {
+    public Interval getInterval() {
         return interval;
     }
-    public void setAppointmentInterval(Interval interval) {
+
+    public void setInterval(Interval interval) {
         this.interval = interval;
     }
 }

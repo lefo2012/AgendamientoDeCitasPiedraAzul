@@ -14,19 +14,22 @@ public class Schedule {
     private Map<LocalDate, IntervalList> availableTimes;
     private Map<LocalDate, IntervalList> busyTimes;
 
-    public Schedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat,int year) {
-        setHolidaysForYear(year);
-        configureSchedule(days, schedules, weeksRepeat);
-
-        busyTimes = new HashMap<>();
-    }
-    /**
-     * Generate instance for a Schedule, is obligatory initialize all agenda
+     /**
+     * Generate instance for a Schedule, is obligatory initialize all schedule
      * @Param days
      * @Param schedules
      * @Param weeksRepeat
      * @Param year for the holidays in the year
-    * */
+     * */
+
+    public Schedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat,int year) {
+        setHolidaysForYear(year);
+        this.availableTimes = new HashMap<>();
+        this.busyTimes = new HashMap<>();
+        configureSchedule(days, schedules, weeksRepeat);
+
+
+    }
 
     public Schedule() {
         this.holidays = new HashSet<>();
@@ -56,8 +59,6 @@ public class Schedule {
         }
 
         modifyAvailable(day,interval);
-
-
         busyTimes.get(day).getIntervals().add(interval);
 
         return true;
@@ -175,6 +176,7 @@ public class Schedule {
     * For this function to work correctly, the list of days and intervals must arrive in the same position.
     * Example of use: {MONDAY,TUESDAY} {{{11:00,11:30}{13:00,15:00}},{{12:00,13:00} {15:00,18:00}}}
     */
+
     public boolean configureSchedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat) {
 
         if(weeksRepeat <= 0)
