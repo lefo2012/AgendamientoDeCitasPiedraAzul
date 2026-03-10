@@ -1,4 +1,4 @@
 package Appointments.services;
 
-public class AppointmentService {
+public class AppointmentService implements IAppointmentService{
 }

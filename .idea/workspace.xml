@@ -4,11 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: created the Doctor's test class">
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: created the Appointment's test class">
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/DoctorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IAppointmentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IDoctorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IIntervalListService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IIntervalService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IMedicalHistoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IPatientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IPersonService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IScheduleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IUserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IntervalListService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/IntervalService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/MedicalHistoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/PatientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/PersonService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/ScheduleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ApointmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/ApointmentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/AppointmentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/AppointmentService.java" afterDir="false" />
     </list>
-    <list id="268b54f7-e067-484b-8f79-d030f3b65ebd" name="Changes by angelita" comment="" />
     <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +36,14 @@
       <entry key="_C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul" value="3AjCQextdQF3eTw6QsDs9IIwqYj" />
       <entry key="_C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul" value="3AibWgXxXFw1Sv9QqbE30yZXB1X" />
     </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -48,6 +72,9 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="3AibWgXxXFw1Sv9QqbE30yZXB1X" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -194,7 +221,7 @@
       <option name="presentableId" value="Default" />
       <updated>1773078371340</updated>
       <workItem from="1773080418557" duration="383000" />
-      <workItem from="1773096571793" duration="13478000" />
+      <workItem from="1773096571793" duration="15879000" />
     </task>
     <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
       <option name="closed" value="true" />
@@ -204,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773109416413</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: created the Appointment's test class">
+      <option name="closed" value="true" />
+      <created>1773110527170</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773110527170</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -212,7 +247,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: created the Doctor's test class" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: created the Doctor's test class" />
+    <MESSAGE value="feat: created the Appointment's test class" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: created the Appointment's test class" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
