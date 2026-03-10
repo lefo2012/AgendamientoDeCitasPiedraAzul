@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackendPiedraAzulApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BackendPiedraAzulApplication.class, args);
-	}
-
+        SpringApplication.run(BackendPiedraAzulApplication.class, args);
+}
 }

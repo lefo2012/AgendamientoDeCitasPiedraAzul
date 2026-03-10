@@ -19,7 +19,6 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
     @ManyToOne
     private DoctorEntity doctor;
     @ManyToOne
