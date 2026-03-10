@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="feat: configurate properties about the data base">
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="fix: missing service tags">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/persistence/entities/IntervalEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/AppointmentPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/DoctorPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/DoctorPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/MedicalHistoryPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/MedicalHistoryPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PatientPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PatientPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PersonPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/PersonPersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/SchedulePersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/SchedulePersistenceService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/UserPersistenceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/Appointments/services/persistence/UserPersistenceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/PatientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/test/java/domainTest/PatientTest.java" afterDir="false" />
     </list>
     <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database">
       <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/pom.xml" afterDir="false" />
@@ -48,20 +40,12 @@
     &quot;assignee&quot;: &quot;Nelson-LV&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git",
-    "accountId": "99a93001-4182-48a5-982f-f45935aaa6d1"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git&quot;,
+    &quot;accountId&quot;: &quot;99a93001-4182-48a5-982f-f45935aaa6d1&quot;
   }
-}]]></component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/BackendPiedraAzul/pom.xml">
-      <ranges>
-        <range start1="45" end1="46" start2="45" end2="46" changelist="55ca0ea6-49f7-4791-b631-058e2f783578" />
-        <range start1="47" end1="47" start2="47" end2="48" changelist="fbd4255b-e82c-425a-9ac7-9156b8a70484" />
-      </ranges>
-    </file>
-  </component>
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -99,7 +83,7 @@
     "git-widget-placeholder": "Agendamiento",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul/BackendPiedraAzul/src/main/java/Appointments/services/usecases",
+    "last_opened_file_path": "C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -120,7 +104,7 @@
       <recent name="Appointments.services.persistence" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.AppointmentTest">
+  <component name="RunManager" selected="JUnit.PatientTest">
     <configuration name="AppointmentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BackendPiedraAzul" />
       <extension name="coverage">
@@ -167,7 +151,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ScheduleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PatientTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="BackendPiedraAzul" />
       <extension name="coverage">
         <pattern>
@@ -176,7 +160,7 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="domainTest" />
-      <option name="MAIN_CLASS_NAME" value="domainTest.ScheduleTest" />
+      <option name="MAIN_CLASS_NAME" value="domainTest.PatientTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -207,11 +191,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PatientTest" />
         <item itemvalue="JUnit.AppointmentTest" />
         <item itemvalue="JUnit.DoctorTest" />
         <item itemvalue="JUnit.DoctorTest.addAppointmentToAttendTrueTest" />
         <item itemvalue="JUnit.ScheduleTest.scheduleGetInstanceTest" />
-        <item itemvalue="JUnit.ScheduleTest" />
       </list>
     </recent_temporary>
   </component>
@@ -231,7 +215,8 @@
       <option name="presentableId" value="Default" />
       <updated>1773078371340</updated>
       <workItem from="1773080418557" duration="383000" />
-      <workItem from="1773096571793" duration="20350000" />
+      <workItem from="1773096571793" duration="20597000" />
+      <workItem from="1773170140618" duration="529000" />
     </task>
     <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
       <option name="closed" value="true" />
@@ -281,7 +266,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773116554095</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fix: missing service tags">
+      <option name="closed" value="true" />
+      <created>1773117343832</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1773117343832</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,7 +287,8 @@
     <MESSAGE value="feat: created the domain services, use cases services and services interfaces" />
     <MESSAGE value="feat: created the JPA repositories" />
     <MESSAGE value="feat: configured properties of database" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: configured properties of database" />
+    <MESSAGE value="fix: missing service tags" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: missing service tags" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
