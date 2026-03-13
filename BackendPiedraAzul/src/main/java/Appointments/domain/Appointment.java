@@ -36,7 +36,7 @@ public class Appointment {
         this.doctor = doctor;
         this.appointmentDate = appointmentDate;
         this.patient = patient;
-        this.appointmentStatus = AppointmentStatusEnum.EN_PROCESO;
+        this.appointmentStatus = AppointmentStatusEnum.AGENDADA;
         this.interval = interval;
     }
 

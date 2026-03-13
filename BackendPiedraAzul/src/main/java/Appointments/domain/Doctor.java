@@ -27,10 +27,7 @@ public class Doctor extends Person{
     }
 
     public boolean cancelAppointment(Appointment appointment) {
-
-
         return scheduledAppointments.remove(appointment);
-
     }
     public List<SpecialtyEnum> getSpecialties() {
         return specialties;
