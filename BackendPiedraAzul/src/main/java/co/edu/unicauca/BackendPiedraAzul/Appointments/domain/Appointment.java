@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 public class Appointment {
 
-
     private Long id;
     private Doctor doctor;
     private Patient patient;
