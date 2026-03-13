@@ -1,5 +1,6 @@
 package Appointments.utilities;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.utilities.HolidayUtils;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -18,7 +19,6 @@ class HolidayUtilsTest {
         assertNotNull(holidays);
         assertFalse(holidays.isEmpty());
     }
-
     /**
      * Tests fixed holidays that should always exist.
      */

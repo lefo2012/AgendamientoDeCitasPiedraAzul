@@ -1,8 +1,8 @@
 package domainTest;
 
-import Appointments.domain.Interval;
-import Appointments.domain.IntervalList;
-import Appointments.domain.Schedule;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Interval;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.IntervalList;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Schedule;
 import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
@@ -21,17 +21,16 @@ public class ScheduleTest {
      */
     @Test
     void scheduleGetInstanceTest(){
-        Schedule schedule;
 
+        Schedule schedule;
         List<DayOfWeek> days = new ArrayList<DayOfWeek>();
 
         List<IntervalList> intervals = new ArrayList<IntervalList>();
 
         int year = 2026;
-
         int weeksRepeat = 5;
-
         days.add(DayOfWeek.MONDAY);
+
 
         for(int i = 0; i < days.size(); i++){
 
@@ -43,7 +42,6 @@ public class ScheduleTest {
             intervals.add(interval);
 
         }
-
 
         schedule = new Schedule(days,intervals,weeksRepeat,year);
         schedule.print();
@@ -73,16 +71,9 @@ public class ScheduleTest {
 
         }
 
-
-
-
-
         schedule = new Schedule(days,intervals,weeksRepeat,year);
 
         Interval reserveInterval = new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0));
-
-
-
         LocalDate reserveDay = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
         while(schedule.getHolidays().contains(reserveDay)){
@@ -238,8 +229,6 @@ public class ScheduleTest {
         while(schedule.getHolidays().contains(reserveDay)){
             reserveDay = reserveDay.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
         }
-
-
 
         /**
          * Reserve the next monday it is available

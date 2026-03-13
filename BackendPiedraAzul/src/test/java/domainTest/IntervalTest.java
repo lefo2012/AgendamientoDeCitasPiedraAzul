@@ -1,7 +1,7 @@
 package domainTest;
 
 
-import Appointments.domain.Interval;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Interval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
