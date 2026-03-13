@@ -16,24 +16,20 @@ public class Appointment {
     /**
      * Function that creates an appointment within the scope of the entities
      * */
-    public Appointment (){
+    private Appointment (){
 
     }
 
-     public Appointment scheduleAppointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception {
+    public Appointment(Doctor doctor, LocalDate appointmentDate,Interval interval, Patient patient) throws Exception {
 
-        Appointment appointment = new Appointment(doctor, appointmentDate,interval, patient);
-        doctor.addAppointmentToAttend(appointment);
-        patient.addPendingAppointment(appointment);
-        return appointment;
-    }
-
-    private Appointment(Doctor doctor, LocalDate appointmentDate,Interval interval, Patient patient) {
         this.doctor = doctor;
-        this.appointmentDate = appointmentDate;
         this.patient = patient;
+        this.appointmentDate = appointmentDate;
         this.appointmentStatus = AppointmentStatusEnum.AGENDADA;
         this.interval = interval;
+
+        doctor.addAppointmentToAttend(this);
+        patient.addPendingAppointment(this);
     }
 
     public Long getId() {

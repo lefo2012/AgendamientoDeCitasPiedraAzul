@@ -13,10 +13,10 @@ import java.util.List;
 @Setter
 public class PatientEntity extends PersonEntity {
 
-//    @OneToMany
-//    private List<AppointmentEntity> pendingAppointments;
-//    @OneToMany
-//    private List<AppointmentEntity> pastAppointments;
+    @OneToMany
+    private List<AppointmentEntity> pendingAppointments;
+    @OneToMany
+    private List<AppointmentEntity> pastAppointments;
     @OneToOne
     private MedicalHistoryEntity medicalHistory;
 

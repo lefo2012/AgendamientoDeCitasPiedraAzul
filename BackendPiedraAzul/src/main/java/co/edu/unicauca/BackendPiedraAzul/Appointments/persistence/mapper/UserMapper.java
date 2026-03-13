@@ -6,8 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", uses = {RoleMapper.class})
 public interface UserMapper {
-
-
     User toDomain(UserEntity userEntity);
     UserEntity toEntity(User user);
 }

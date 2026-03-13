@@ -3,7 +3,7 @@ package co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
 
 public interface IAppointmentPersistenceService {
-    Appointment save(Appointment appointment);
+    Appointment save(Appointment appointment) throws Exception;
 //    void update(Appointment appointment, Long id);
 //    Optional<Appointment> findById(Long id);
 //    List<Appointment> findAll();

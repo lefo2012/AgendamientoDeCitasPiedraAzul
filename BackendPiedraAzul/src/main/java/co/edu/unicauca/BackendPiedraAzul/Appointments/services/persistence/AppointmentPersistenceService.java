@@ -9,18 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AppointmentPersistenceService implements IAppointmentPersistenceService {
-
-    private final AppointmentRepositoryJPA jpaRepository;
-    private final AppointmentMapper appointmentMapper;
-
     @Autowired
-    public AppointmentPersistenceService(AppointmentRepositoryJPA appointmentRepositoryJPA, AppointmentMapper appointmentMapper) {
-        this.jpaRepository = appointmentRepositoryJPA;
-        this.appointmentMapper = appointmentMapper;
-    }
+    private AppointmentRepositoryJPA jpaRepository;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
 
     @Override
-    public Appointment save(Appointment appointment) {
+    public Appointment save(Appointment appointment) throws Exception {
         AppointmentEntity entity = appointmentMapper.toEntity(appointment);
         AppointmentEntity saved = jpaRepository.save(entity);
         return appointmentMapper.toDomain(saved);

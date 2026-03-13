@@ -16,10 +16,10 @@ public class DoctorEntity extends PersonEntity {
 
     @ElementCollection
     private List<SpecialtyEnum> specialties;
-//    @OneToMany
-//    private List<AppointmentEntity> scheduledAppointments;
-//    @OneToMany
-//    private List<AppointmentEntity> attendedAppointments;
+    @OneToMany
+    private List<AppointmentEntity> scheduledAppointments;
+    @OneToMany
+    private List<AppointmentEntity> attendedAppointments;
 
     //Think about a value object to make date distribution easier
     @OneToOne(cascade = CascadeType.ALL)

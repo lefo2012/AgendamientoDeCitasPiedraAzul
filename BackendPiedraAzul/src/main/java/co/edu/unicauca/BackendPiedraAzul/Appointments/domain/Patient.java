@@ -6,51 +6,50 @@ import java.util.List;
 
 public class Patient extends Person{
 
-//    private List<Appointment> pendingAppointments;
-//    private List<Appointment> pastAppointments;
+    private List<Appointment> pendingAppointments;
+    private List<Appointment> pastAppointments;
     private MedicalHistory medicalHistory;
     private int appointmentCount;
 
-    public Patient() {
+    public Patient(){
         super();
     }
-
     public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName,
-                   Date birthDate, String phone, boolean active, User user, List<Appointment> pendingAppointments,
-                   int appointmentCount, MedicalHistory medicalHistory, List<Appointment> pastAppointments) {
+                   Date birthDate, String phone, boolean active, User user,
+                   int appointmentCount, MedicalHistory medicalHistory) {
         super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user);
-//        this.pendingAppointments = pendingAppointments;
+        this.pendingAppointments = new ArrayList<>();
         this.appointmentCount = appointmentCount;
         this.medicalHistory = medicalHistory;
-//        this.pastAppointments = pastAppointments;
+        this.pastAppointments = new ArrayList<>();
     }
 
     public boolean addPendingAppointment(Appointment appointment) {
 
-//        if (pendingAppointments == null) {
-//            pendingAppointments = new ArrayList<>();
-//        }
-//        pendingAppointments.add(appointment);
+        if (pendingAppointments == null) {
+            pendingAppointments = new ArrayList<>();
+        }
+        pendingAppointments.add(appointment);
         appointmentCount++;
 
         return true;
     }
 
-//    public List<Appointment> getPendingAppointments() {
-//        return pendingAppointments;
-//    }
-//
-//    public void setPendingAppointments(List<Appointment> pendingAppointments) {
-//        this.pendingAppointments = pendingAppointments;
-//    }
-//
-//    public List<Appointment> getPastAppointments() {
-//        return pastAppointments;
-//    }
-//
-//    public void setPastAppointments(List<Appointment> pastAppointments) {
-//        this.pastAppointments = pastAppointments;
-//    }
+    public List<Appointment> getPendingAppointments() {
+        return pendingAppointments;
+    }
+
+    public void setPendingAppointments(List<Appointment> pendingAppointments) {
+        this.pendingAppointments = pendingAppointments;
+    }
+
+    public List<Appointment> getPastAppointments() {
+        return pastAppointments;
+    }
+
+    public void setPastAppointments(List<Appointment> pastAppointments) {
+        this.pastAppointments = pastAppointments;
+    }
 
     public MedicalHistory getMedicalHistory() {
         return medicalHistory;
