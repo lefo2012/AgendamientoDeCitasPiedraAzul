@@ -1,6 +1,6 @@
-package Authentication.keycloak;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak;
 
-import Authentication.dto.UserRequest;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.RealmResource;

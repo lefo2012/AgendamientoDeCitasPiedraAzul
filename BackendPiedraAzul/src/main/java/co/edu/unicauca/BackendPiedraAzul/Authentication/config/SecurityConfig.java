@@ -1,4 +1,4 @@
-package Authentication.config;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.config;
 
 
 import org.springframework.context.annotation.Bean;

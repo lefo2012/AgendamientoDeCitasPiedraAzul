@@ -1,4 +1,4 @@
-package Authentication.dto;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.dto;
 
 import lombok.Getter;
 import lombok.Setter;

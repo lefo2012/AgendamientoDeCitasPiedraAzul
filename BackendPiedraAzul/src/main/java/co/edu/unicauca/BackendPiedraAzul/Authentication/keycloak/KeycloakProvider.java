@@ -1,4 +1,4 @@
-package Authentication.keycloak;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak;
 
 
 import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;

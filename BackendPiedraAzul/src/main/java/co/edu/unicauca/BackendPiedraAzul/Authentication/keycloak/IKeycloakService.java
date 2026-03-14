@@ -1,6 +1,6 @@
-package Authentication.keycloak;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak;
 
-import Authentication.dto.UserRequest;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
 import org.keycloak.representations.idm.UserRepresentation;
 
 import java.util.List;

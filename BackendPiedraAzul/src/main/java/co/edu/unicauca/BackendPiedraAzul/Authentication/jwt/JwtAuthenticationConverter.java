@@ -1,4 +1,4 @@
-package Authentication.jwt;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.jwt;
 
 
 import org.springframework.beans.factory.annotation.Value;

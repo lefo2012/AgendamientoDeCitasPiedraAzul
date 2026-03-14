@@ -1,7 +1,7 @@
-package Authentication.controller;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.controller;
 
-import Authentication.dto.UserRequest;
-import Authentication.keycloak.IKeycloakService;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
