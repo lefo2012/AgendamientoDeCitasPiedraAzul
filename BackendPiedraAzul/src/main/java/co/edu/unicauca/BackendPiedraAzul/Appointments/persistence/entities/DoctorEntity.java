@@ -14,7 +14,8 @@ import java.util.List;
 @Setter
 public class DoctorEntity extends PersonEntity {
 
-    @ElementCollection
+    @ElementCollection(targetClass = SpecialtyEnum.class)
+    @Enumerated(EnumType.STRING)
     private List<SpecialtyEnum> specialties;
     @OneToMany(cascade = CascadeType.ALL)
     private List<AppointmentEntity> scheduledAppointments;

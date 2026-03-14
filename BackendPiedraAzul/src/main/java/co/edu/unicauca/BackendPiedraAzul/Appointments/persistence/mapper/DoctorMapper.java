@@ -14,7 +14,9 @@ import org.mapstruct.Named;
         uses = {ScheduleMapper.class,AppointmentMapper.class, UserMapper.class}
 )
 public interface DoctorMapper {
+
     DoctorEntity toEntity(Doctor doctor);
+
     Doctor toDomain(DoctorEntity doctorEntity);
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = "yyyy-MM-dd")
