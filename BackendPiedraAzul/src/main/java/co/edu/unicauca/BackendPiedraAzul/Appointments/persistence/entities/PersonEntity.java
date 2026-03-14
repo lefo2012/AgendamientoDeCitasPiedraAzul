@@ -25,6 +25,6 @@ public abstract class PersonEntity {
     protected Date birthDate;
     protected String phone;
     protected boolean active;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     protected UserEntity user;
 }

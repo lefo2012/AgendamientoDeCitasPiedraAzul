@@ -13,6 +13,10 @@ public class Patient extends Person{
 
     public Patient(){
         super();
+        this.pendingAppointments = new ArrayList<>();
+        this.pastAppointments = new ArrayList<>();
+        this.medicalHistory = new MedicalHistory();
+        this.appointmentCount = 0;
     }
 
     public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName,

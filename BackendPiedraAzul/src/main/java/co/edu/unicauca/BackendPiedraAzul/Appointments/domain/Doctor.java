@@ -16,6 +16,7 @@ public class Doctor extends Person{
     private Schedule schedule;
 
     public Doctor() {
+        super();
         this.specialties = new ArrayList<>();
         this.scheduledAppointments = new ArrayList<>();
         this.attendedAppointments = new ArrayList<>();

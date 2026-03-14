@@ -13,11 +13,11 @@ import java.util.List;
 @Setter
 public class PatientEntity extends PersonEntity {
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AppointmentEntity> pendingAppointments;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AppointmentEntity> pastAppointments;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private MedicalHistoryEntity medicalHistory;
 
     private int appointmentCount;

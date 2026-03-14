@@ -20,4 +20,5 @@ public interface IAppointmentPersistenceService {
 //    List<Appointment> findAppointmentsByDoctorID(Long id);
 //    boolean deleteAppointmentById(Long id);
 //    boolean deleteAll();
+
 }

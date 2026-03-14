@@ -8,14 +8,9 @@ import org.mapstruct.Named;
 
 @Mapper(
         componentModel = "spring",
-        uses = {ScheduleMapper.class,AppointmentMapper.class}
+        uses = {ScheduleMapper.class,AppointmentMapper.class, UserMapper.class}
 )
 public interface DoctorMapper {
-
-
     DoctorEntity toEntity(Doctor doctor);
-
     Doctor toDomain(DoctorEntity doctorEntity);
-
-
 }

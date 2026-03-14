@@ -17,14 +17,12 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private DoctorEntity doctor;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private PatientEntity patient;
     private LocalDate appointmentDate;
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
     private IntervalEntity interval;
-
-
 }
