@@ -39,12 +39,12 @@ public class DoctorTest {
 
 
         assertEquals(user, doctor.getUser());
-//
-//        assertNotNull(doctor.getScheduledAppointments());
-//        assertEquals(0, doctor.getScheduledAppointments().size());
-//
-//        assertNotNull(doctor.getAttendedAppointments());
-//        assertEquals(0, doctor.getAttendedAppointments().size());
+
+        assertNotNull(doctor.getScheduledAppointments());
+        assertEquals(0, doctor.getScheduledAppointments().size());
+
+        assertNotNull(doctor.getAttendedAppointments());
+        assertEquals(0, doctor.getAttendedAppointments().size());
 
         assertEquals(specialties, doctor.getSpecialties());
 
@@ -108,8 +108,8 @@ public class DoctorTest {
         assertEquals("Luisa", doctor.getFirstName());
         assertEquals("Rocha", doctor.getLastName());
         assertEquals(specialties, doctor.getSpecialties());
-//        assertEquals(scheduled, doctor.getScheduledAppointments());
-//        assertEquals(attended, doctor.getAttendedAppointments());
+        assertEquals(scheduled, doctor.getScheduledAppointments());
+        assertEquals(attended, doctor.getAttendedAppointments());
         assertEquals(schedule, doctor.getSchedule());
     }
 
@@ -118,165 +118,145 @@ public class DoctorTest {
          */
         @Test
         void addAppointmentToAttendTrueTest () throws Exception {
-//            User user = new User();
-//            List<SpecialtyEnum> specialties = new ArrayList<>();
-//            Schedule schedule;
-//            List<DayOfWeek> days = new ArrayList<DayOfWeek>();
-//            List<IntervalList> intervals = new ArrayList<IntervalList>();
-//
-//            int year = 2026;
-//            int weeksRepeat = 5;
-//            days.add(DayOfWeek.MONDAY);
-//
-//            for(int i = 0; i < days.size(); i++){
-//
-//                IntervalList interval = new IntervalList();
-//
-//                interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
-//                interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(16, 0)));
-//
-//                intervals.add(interval);
-//
-//            }
-//
-//            schedule = new Schedule(days,intervals,weeksRepeat,year);
-//
-//            Doctor doctor = new Doctor(
-//                    4,
-//                    DocumentTypeEnum.CC,
-//                    "123456789",
-//                    "Angela",
-//                    "Mia",
-//                    new Date(),
-//                    "3001112222",
-//                    user,
-//                    specialties,
-//                    schedule
-//            );
-//
-//            Appointment appointment = new Appointment();
-//            //appointment = appointment.scheduleAppointment(doctor, LocalDate.of(2025, 3, 16), new Interval(LocalTime.of(7, 0),LocalTime.of(13, 0)), null);
-//            appointment.setDoctor(doctor);
-//            appointment.setAppointmentDate( LocalDate.of(2026, 3, 16)); // Monday
-//            appointment.setInterval(new Interval(LocalTime.of(7, 0),LocalTime.of(13, 0)));
-//
-//            assertTrue(doctor.addAppointmentToAttend(appointment));
-//            assertEquals(1, doctor.getScheduledAppointments().size());
-//            assertTrue(doctor.getScheduledAppointments().contains(appointment));
+
+            Patient patient = new Patient();
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
+
+            User user1 = new User();
+            List<SpecialtyEnum> specialties1 = new ArrayList<>();
+            specialties1.add(SpecialtyEnum.FISIOTERAPIA);
+
+            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+
+            List<IntervalList> intervals = new ArrayList<>();
+            IntervalList intervalList = new IntervalList();
+            intervalList.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            intervals.add(intervalList);
+            Schedule schedule1 = new Schedule(days, intervals, 1, LocalDate.now().getYear());
+
+            Doctor doctor = new Doctor(
+                    1,
+                    DocumentTypeEnum.CC,
+                    "123456789",
+                    "Angela",
+                    "Mia",
+                    new java.util.Date(),
+                    "3001112222",
+                    user1,
+                    specialties1,
+                    schedule1
+            );
+
+            System.out.println(patient.getAppointmentCount());
+
+            //here we create the appointment and add it to the patient and the doctor
+            Appointment appointment = new Appointment(doctor,nextMonday1,interval1,patient);
+
+            assertEquals(1, doctor.getScheduledAppointments().size());
+            assertTrue(doctor.getScheduledAppointments().contains(appointment));
         }
 
         /**
          * Tests that cancelAppointment returns true when the appointment exists.
          */
         @Test
-        void cancelAppointmentTrueTest () {
+        void cancelAppointmentTrueTest () throws Exception{
 
-//            User user = new User();
-//            List<SpecialtyEnum> specialties = new ArrayList<>();
-//            Schedule schedule;
-//
-//            List<DayOfWeek> days = new ArrayList<DayOfWeek>();
-//
-//            List<IntervalList> intervals = new ArrayList<IntervalList>();
-//
-//            int year = 2026;
-//            int weeksRepeat = 5;
-//            days.add(DayOfWeek.MONDAY);
-//
-//
-//            for(int i = 0; i < days.size(); i++){
-//
-//                IntervalList interval = new IntervalList();
-//
-//                interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
-//                interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
-//
-//                intervals.add(interval);
-//
-//            }
-//
-//            schedule = new Schedule(days,intervals,weeksRepeat,year);
-//            Doctor doctor = new Doctor(
-//                    6,
-//                    DocumentTypeEnum.CC,
-//                    "123456789",
-//                    "Nelson",
-//                    "sama",
-//                    new Date(),
-//                    "3001112222",
-//                    user,
-//                    specialties,
-//                    schedule
-//            );
-//
-//            Appointment appointment = new Appointment();
-//
-//            List<Appointment> appointments = new ArrayList<>();
-//            appointments.add(appointment);
-//
-//            doctor.setScheduledAppointments(appointments);
-//
-//            assertTrue(doctor.cancelAppointment(appointment));
-//
-//            assertEquals(0, doctor.getScheduledAppointments().size());
+            Patient patient = new Patient();
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
+
+            User user1 = new User();
+            List<SpecialtyEnum> specialties1 = new ArrayList<>();
+            specialties1.add(SpecialtyEnum.FISIOTERAPIA);
+
+            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+
+            List<IntervalList> intervals = new ArrayList<>();
+            IntervalList intervalList = new IntervalList();
+            intervalList.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            intervals.add(intervalList);
+            Schedule schedule1 = new Schedule(days, intervals, 1, LocalDate.now().getYear());
+
+            Doctor doctor = new Doctor(
+                    1,
+                    DocumentTypeEnum.CC,
+                    "123456789",
+                    "Angela",
+                    "Mia",
+                    new java.util.Date(),
+                    "3001112222",
+                    user1,
+                    specialties1,
+                    schedule1
+            );
+
+            //here we create the appointment and add it to the patient and the doctor
+            Appointment appointment = new Appointment(doctor,nextMonday1,interval1,patient);
+
+            assertEquals(1, doctor.getScheduledAppointments().size());
+
+            // Cancel the appointment and verify it returns true
+            assertTrue(doctor.cancelAppointment(appointment));
+
+            assertEquals(0, doctor.getScheduledAppointments().size());
         }
 
         /**
          * Tests that cancelAppointment returns false when the appointment does not exist.
          */
         @Test
-        void cancelAppointmentFalseTest () {
+        void cancelAppointmentFalseTest () throws Exception{
 
-//            User user = new User();
-//            List<SpecialtyEnum> specialties = new ArrayList<>();
-//            Schedule schedule;
-//
-//            List<DayOfWeek> days = new ArrayList<DayOfWeek>();
-//
-//            List<IntervalList> intervals = new ArrayList<IntervalList>();
-//
-//            int year = 2026;
-//            int weeksRepeat = 5;
-//            days.add(DayOfWeek.MONDAY);
-//
-//
-//            for(int i = 0; i < days.size(); i++){
-//
-//                IntervalList interval = new IntervalList();
-//
-//                interval.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
-//                interval.addInterval(new Interval(LocalTime.of(14, 0), LocalTime.of(18, 0)));
-//
-//                intervals.add(interval);
-//
-//            }
-//
-//            schedule = new Schedule(days,intervals,weeksRepeat,year);
-//
-//            Doctor doctor = new Doctor(
-//                    7,
-//                    DocumentTypeEnum.CC,
-//                    "123456789",
-//                    "Libar",
-//                    "god",
-//                    new Date(),
-//                    "3001112222",
-//                    user,
-//                    specialties,
-//                    schedule
-//            );
-//
-//            Appointment appointment1 = new Appointment();
-//            Appointment appointment2 = new Appointment();
-//
-//            List<Appointment> appointments = new ArrayList<>();
-//            appointments.add(appointment1);
+            Patient patient = new Patient();
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
+            Interval interval2 = new Interval(LocalTime.of(9, 0), LocalTime.of(10, 0));
+            User user1 = new User();
+            List<SpecialtyEnum> specialties1 = new ArrayList<>();
+            specialties1.add(SpecialtyEnum.FISIOTERAPIA);
 
-//            doctor.setScheduledAppointments(appointments);
-//
-//            assertFalse(doctor.cancelAppointment(appointment2));
-//
-//            assertEquals(1, doctor.getScheduledAppointments().size());
+            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+
+            List<IntervalList> intervals = new ArrayList<>();
+            IntervalList intervalList = new IntervalList();
+            intervalList.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
+            intervals.add(intervalList);
+            Schedule schedule1 = new Schedule(days, intervals, 1, LocalDate.now().getYear());
+
+            Doctor doctor1 = new Doctor(
+                    1,
+                    DocumentTypeEnum.CC,
+                    "123456789",
+                    "Angela",
+                    "Mia",
+                    new java.util.Date(),
+                    "3001112222",
+                    user1,
+                    specialties1,
+                    schedule1
+            );
+
+            Doctor doctor2 = new Doctor(
+                    1,
+                    DocumentTypeEnum.CC,
+                    "123456789",
+                    "Angela",
+                    "Mia",
+                    new java.util.Date(),
+                    "3001112222",
+                    user1,
+                    specialties1,
+                    schedule1
+            );
+
+            Appointment appointment1 = new Appointment(doctor1,nextMonday1,interval1,patient);
+            Appointment appointment2 = new Appointment(doctor2,nextMonday1,interval2,patient);
+
+            assertEquals(1, doctor1.getScheduledAppointments().size());
+            assertFalse(doctor1.cancelAppointment(appointment2));
+            assertEquals(1, doctor1.getScheduledAppointments().size());
         }
 
     }
