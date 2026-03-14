@@ -4,9 +4,8 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.AppointmentEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring", uses = {IntervalMapper.class})
+@Mapper(componentModel = "spring", uses = {IntervalMapper.class, ScheduleMapper.class})
 public interface AppointmentMapper {
 
     @Mapping(target = "doctor.scheduledAppointments",ignore = true)

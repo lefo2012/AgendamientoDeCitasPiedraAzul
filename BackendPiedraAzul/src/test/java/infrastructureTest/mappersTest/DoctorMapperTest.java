@@ -78,7 +78,14 @@ public class DoctorMapperTest {
         Assertions.assertNotNull(entity.getAttendedAppointments());
         Assertions.assertEquals(0,entity.getAttendedAppointments().size());
 
+        Doctor domain = doctorMapper.toDomain(entity);
 
+        Assertions.assertNotNull(domain);
+        Assertions.assertEquals(doctor.getId(),domain.getId());
+        Assertions.assertNotNull(domain.getScheduledAppointments());
+        Assertions.assertEquals(doctor.getScheduledAppointments().size(),domain.getScheduledAppointments().size());
+        Assertions.assertNotNull(domain.getAttendedAppointments());
+        Assertions.assertEquals(doctor.getAttendedAppointments().size(),domain.getAttendedAppointments().size());
 
     }
 

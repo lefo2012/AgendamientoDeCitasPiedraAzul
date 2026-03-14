@@ -65,10 +65,9 @@ public class AppointmentMapperTest {
         );
 
         LocalDate nextMonday = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
-        Interval interval = new Interval(LocalTime.of(7,0), LocalTime.of(8,0));
+        Interval interval = new Interval(LocalTime.of(7,0), LocalTime.of(13,0));
 
         Appointment appointment = new Appointment(doctor, nextMonday, interval, patient);
-
 
         AppointmentEntity entity = appointmentMapper.toEntity(appointment);
 
@@ -81,6 +80,14 @@ public class AppointmentMapperTest {
         // The doctor appointments is null because for appointment is not necessary
         Assertions.assertNull(entity.getDoctor().getScheduledAppointments());
         Assertions.assertNull(entity.getDoctor().getAttendedAppointments());
+
+        Appointment domain = appointmentMapper.toDomain(entity);
+
+        Assertions.assertNotNull(domain);
+        Assertions.assertEquals(appointment.getId(), domain.getId());
+        Assertions.assertEquals(appointment.getDoctor().getId(), domain.getDoctor().getId());
+        Assertions.assertEquals(appointment.getPatient().getId(), domain.getPatient().getId());
+        Assertions.assertEquals(appointment.getAppointmentDate(), domain.getAppointmentDate());
 
     }
 }

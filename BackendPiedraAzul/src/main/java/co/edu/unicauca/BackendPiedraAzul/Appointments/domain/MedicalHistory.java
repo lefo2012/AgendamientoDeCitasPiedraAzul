@@ -1,14 +1,23 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.domain;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MedicalHistory {
     private Long id;
-
     private Map<Date, String> medicalHistory;
-    //We need to look at this carefully if it's interesting or if we can leave it just in the history as such
+
+    public MedicalHistory(){
+        this.medicalHistory=new HashMap<>();
+    }
+
+    public MedicalHistory(Long id, Map<Date, String> medicalHistory, List<Doctor> doctors) {
+        this.id = id;
+        this.medicalHistory = medicalHistory;
+        this.doctors = doctors;
+    }
 
     private List<Doctor> doctors;
 

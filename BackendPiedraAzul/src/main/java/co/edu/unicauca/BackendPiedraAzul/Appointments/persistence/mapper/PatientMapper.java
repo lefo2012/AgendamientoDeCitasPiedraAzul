@@ -10,11 +10,7 @@ import org.mapstruct.Mapping;
         uses = {MedicalHistoryMapper.class, AppointmentMapper.class}  // Solo MedicalHistoryMapper, NO AppointmentMapper
 )
 public interface PatientMapper {
-
-
     PatientEntity toEntity(Patient patient);
-
-
     Patient toDomain(PatientEntity patientEntity);
 
 }

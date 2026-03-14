@@ -14,6 +14,7 @@ public class Patient extends Person{
     public Patient(){
         super();
     }
+
     public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName,
                    Date birthDate, String phone, boolean active, User user,
                    int appointmentCount, MedicalHistory medicalHistory) {
@@ -22,6 +23,14 @@ public class Patient extends Person{
         this.appointmentCount = appointmentCount;
         this.medicalHistory = medicalHistory;
         this.pastAppointments = new ArrayList<>();
+    }
+
+    public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user, List<Appointment> pendingAppointments, List<Appointment> pastAppointments, MedicalHistory medicalHistory, int appointmentCount) {
+        super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user);
+        this.pendingAppointments = pendingAppointments;
+        this.pastAppointments = pastAppointments;
+        this.medicalHistory = medicalHistory;
+        this.appointmentCount = appointmentCount;
     }
 
     public boolean addPendingAppointment(Appointment appointment) {

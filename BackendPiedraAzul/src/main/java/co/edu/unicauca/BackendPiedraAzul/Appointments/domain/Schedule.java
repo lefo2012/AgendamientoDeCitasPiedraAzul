@@ -14,27 +14,17 @@ public class Schedule {
     private Map<LocalDate, IntervalList> availableTimes;
     private Map<LocalDate, IntervalList> busyTimes;
 
-     /**
-     * Generate instance for a Schedule, is obligatory initialize all schedule
-     * @Param days
-     * @Param schedules
-     * @Param weeksRepeat
-     * @Param year for the holidays in the year
-     * */
+    public Schedule() {
+        this.holidays = new HashSet<>();
+        this.availableTimes = new HashMap<>();
+        this.busyTimes = new HashMap<>();
+    }
 
     public Schedule(List<DayOfWeek> days, List<IntervalList> schedules, int weeksRepeat,int year) {
         setHolidaysForYear(year);
         this.availableTimes = new HashMap<>();
         this.busyTimes = new HashMap<>();
         configureSchedule(days, schedules, weeksRepeat);
-
-
-    }
-
-    public Schedule() {
-        this.holidays = new HashSet<>();
-        this.availableTimes = new HashMap<>();
-        this.busyTimes = new HashMap<>();
     }
 
     public Schedule(Long id, Set<LocalDate> holidays, Map<LocalDate, IntervalList> availableTimes, Map<LocalDate, IntervalList> busyTimes) {

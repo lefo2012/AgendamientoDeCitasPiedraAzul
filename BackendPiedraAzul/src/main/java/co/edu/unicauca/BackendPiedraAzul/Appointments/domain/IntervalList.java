@@ -9,14 +9,18 @@ import java.util.List;
 public class IntervalList {
 
     private Long id;
-
     private LocalDate date;
-
     private List<Interval> intervals;
 
     public IntervalList()
     {
         intervals=new ArrayList<>();
+    }
+
+    public IntervalList(Long id, LocalDate date, List<Interval> intervals) {
+        this.id = id;
+        this.date = date;
+        this.intervals = intervals;
     }
 
     public Long getId() {

@@ -12,14 +12,20 @@ public class Appointment {
     private AppointmentStatusEnum appointmentStatus;
     private Interval interval;
 
-    /**
-     * Function that creates an appointment within the scope of the entities
-     * */
-    private Appointment (){
+    public Appointment(){
 
     }
 
-    public Appointment(Doctor doctor, LocalDate appointmentDate,Interval interval, Patient patient) throws Exception {
+    public Appointment(Long id, Doctor doctor, Patient patient, LocalDate appointmentDate, AppointmentStatusEnum appointmentStatus, Interval interval) {
+        this.id = id;
+        this.doctor = doctor;
+        this.patient = patient;
+        this.appointmentDate = appointmentDate;
+        this.appointmentStatus = appointmentStatus;
+        this.interval = interval;
+    }
+
+    public Appointment(Doctor doctor, LocalDate appointmentDate, Interval interval, Patient patient) throws Exception{
 
         this.doctor = doctor;
         this.patient = patient;

@@ -82,5 +82,17 @@ public class PatientMapperTest {
         Assertions.assertEquals(2L,entity.getPendingAppointments().getFirst().getPatient().getId());
         Assertions.assertEquals(1L,entity.getPendingAppointments().getFirst().getDoctor().getId());
 
+        Patient domain = patientMapper.toDomain(entity);
+
+        Assertions.assertNotNull(domain);
+        Assertions.assertEquals(patient.getId(),domain.getId());
+        Assertions.assertNotNull(domain.getPendingAppointments());
+        Assertions.assertEquals(patient.getPendingAppointments().size(),domain.getPendingAppointments().size());
+        Assertions.assertNotNull(domain.getPastAppointments());
+        Assertions.assertEquals(patient.getPastAppointments().size(),domain.getPastAppointments().size());
+
+        Assertions.assertEquals(patient.getPendingAppointments().getFirst().getPatient().getId(),domain.getPendingAppointments().getFirst().getPatient().getId());
+        Assertions.assertEquals(patient.getPendingAppointments().getFirst().getDoctor().getId(),domain.getPendingAppointments().getFirst().getDoctor().getId());
+
     }
 }
