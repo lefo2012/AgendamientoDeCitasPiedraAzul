@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.DoctorEntity;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.DoctorMapper;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.repository.DoctorRepositoryJPA;
@@ -27,6 +28,15 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
     @Override
     public Doctor save(Doctor doctor) throws Exception{
         DoctorEntity entity = doctorMapper.toEntity(doctor);
+        DoctorEntity saved = jpaRepository.save(entity);
+        return doctorMapper.toDomain(saved);
+    }
+
+    @Transactional
+    @Override
+    public Doctor save(DoctorDTO doctorDTO) throws Exception{
+        Doctor domain = doctorMapper.dtoToDomain(doctorDTO);
+        DoctorEntity entity = doctorMapper.toEntity(domain);
         DoctorEntity saved = jpaRepository.save(entity);
         return doctorMapper.toDomain(saved);
     }
