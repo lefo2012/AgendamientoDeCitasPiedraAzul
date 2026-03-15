@@ -1,4 +1,4 @@
-package Authentication.controller;
+package co.edu.unicauca.BackendPiedraAzul.Authentication.controller;
 
 
 import org.springframework.security.core.Authentication;

@@ -37,6 +37,7 @@ public class PatientPersistenceService implements IPatientPersistenceService {
         Patient domain = patientMapper.dtoToDomain(patient);
         PatientEntity entity = patientMapper.toEntity(domain);
         PatientEntity saved = jpaRepository.save(entity);
+
         return patientMapper.toDomain(saved);
     }
 
