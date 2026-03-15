@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.DoctorMapper;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.MedicalHistory;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.MedicalHistoryEntity;
 import org.mapstruct.Mapper;

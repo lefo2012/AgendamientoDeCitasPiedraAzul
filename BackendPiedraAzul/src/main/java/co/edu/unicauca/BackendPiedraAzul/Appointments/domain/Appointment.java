@@ -1,6 +1,10 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.domain;
 
 
+
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+
 import java.time.LocalDate;
 
 public class Appointment {

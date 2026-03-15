@@ -1,9 +1,12 @@
 package infrastructureTest.mappersTest;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.User;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.*;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.AppointmentEntity;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.DoctorEntity;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.DoctorMapper;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.DoctorMapper;
 import co.edu.unicauca.BackendPiedraAzul.BackendPiedraAzulApplication;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

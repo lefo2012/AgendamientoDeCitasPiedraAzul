@@ -1,5 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.domain;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
