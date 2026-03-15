@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Authentication.controller;
 
 import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserWithRolesDTO;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -75,6 +76,22 @@ public class KeycloakController {
     public ResponseEntity<List<UserRepresentation>> getAllUsers() {
         try {
             List<UserRepresentation> users = keycloakService.findAllUsers();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Endpoint para listar todos los usuarios con sus roles
+     * GET /api/users/all-with-roles
+     * @return List de usuarios con roles
+     */
+    @GetMapping("/all-with-roles")
+    @PreAuthorize("hasRole('admin')")
+    public ResponseEntity<List<UserWithRolesDTO>> getAllUsersWithRoles() {
+        try {
+            List<UserWithRolesDTO> users = keycloakService.findAllUsersWithRoles();
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -161,5 +178,3 @@ public class KeycloakController {
         }
     }
 }
-
-
