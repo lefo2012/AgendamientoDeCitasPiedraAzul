@@ -1,6 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.usecases;
 
-import Authentication.keycloak.IKeycloakService;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
