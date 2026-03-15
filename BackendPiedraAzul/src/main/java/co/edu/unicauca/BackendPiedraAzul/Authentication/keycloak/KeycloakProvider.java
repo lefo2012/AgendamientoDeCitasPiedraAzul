@@ -13,7 +13,7 @@ public class KeycloakProvider {
     private static final String REALM_NAME = "piedraAzul-dev";
     private static final String REALM_MASTER = "master";
     private static final String ADMIN_CLI = "admin-cli";
-    private static final String USER_CONSOLE = "amendeza";
+    private static final String USER_CONSOLE = "maurysolarte";
     private static final String PASSWORD_CONSOLE = "1234";
     private static final String CLIENT_SECRET = "HFn9D3q4cLaZyLfTcs7h4J4cDLLLaRLh";
 
