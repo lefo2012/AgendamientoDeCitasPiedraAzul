@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontendPiedraAzul/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontendPiedraAzul/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontendPiedraAzul/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontendPiedraAzul/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontendPiedraAzul/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/FrontendPiedraAzul/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FrontendPiedraAzul/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/FrontendPiedraAzul/src/app/app.routes.ts" afterDir="false" />
     </list>
     <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database" />
     <option name="SHOW_DIALOG" value="false" />
@@ -89,7 +93,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.BackendPiedraAzulApplication.executor": "Run",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Agendamiento",
+    "git-widget-placeholder": "FrontEnd",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
