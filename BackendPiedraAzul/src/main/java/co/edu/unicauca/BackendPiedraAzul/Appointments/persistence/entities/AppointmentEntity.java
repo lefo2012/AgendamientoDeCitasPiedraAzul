@@ -1,5 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.PatientEntity;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.AppointmentStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,5 +26,6 @@ public class AppointmentEntity {
     private LocalDate appointmentDate;
     @Enumerated(EnumType.STRING)
     private AppointmentStatusEnum appointmentStatus;
+    @Embedded
     private IntervalEntity interval;
 }

@@ -1,5 +1,6 @@
 package Authentication.dto;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +19,8 @@ public class UserRequest {
     private String lastName;
     @Getter @Setter
     private List<String> roles;
+
+    @Getter @Setter
+    private UserDTO userDTO;
 
 }

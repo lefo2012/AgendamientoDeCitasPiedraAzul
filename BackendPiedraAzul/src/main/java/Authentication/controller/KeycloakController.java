@@ -30,7 +30,7 @@ public class KeycloakController {
     public ResponseEntity<Map<String, String>> createUser(@RequestBody UserRequest userRequest) {
         try {
             String result = keycloakService.createUserWithClientRoles(
-                    userRequest,
+                    userRequest.getUserDTO(),
                     userRequest.getFirstName() != null ? userRequest.getFirstName() : "Usuario",
                     userRequest.getLastName() != null ? userRequest.getLastName() : "Nuevo",
                     CLIENT_ID

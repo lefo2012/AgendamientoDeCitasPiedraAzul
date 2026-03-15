@@ -1,5 +1,8 @@
 package infrastructureTest.mappersTest;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.User;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.*;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.MedicalHistoryEntity;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.MedicalHistoryMapper;

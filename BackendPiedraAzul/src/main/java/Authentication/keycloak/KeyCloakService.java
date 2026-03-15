@@ -1,6 +1,7 @@
 package Authentication.keycloak;
 
 import Authentication.dto.UserRequest;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -41,7 +42,7 @@ public class KeyCloakService implements IKeycloakService {
      * Metodo para crear un usuario en keycloak
      * @return String
      */
-    public String createUser(UserRequest userDTO, String firstName, String lastName) {
+    public String createUser(UserDTO userDTO, String firstName, String lastName) {
         int status;
         UsersResource usersResource = KeycloakProvider.getUserResource();
 
@@ -137,7 +138,7 @@ public class KeyCloakService implements IKeycloakService {
      * @param clientId ID del cliente para asignar roles del cliente
      * @return String mensaje de éxito o error
      */
-    public String createUserWithClientRoles(UserRequest userDTO, String firstName, String lastName, String clientId) {
+    public String createUserWithClientRoles(UserDTO userDTO, String firstName, String lastName, String clientId) {
         String result = createUser(userDTO, firstName, lastName);
 
         if (result.equals("User created successfully!!")) {

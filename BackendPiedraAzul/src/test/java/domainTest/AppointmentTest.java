@@ -1,9 +1,10 @@
 package domainTest;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.User;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.*;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.AppointmentEntity;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.AppointmentMapper;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.repository.AppointmentRepositoryJPA;
 import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;

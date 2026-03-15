@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
