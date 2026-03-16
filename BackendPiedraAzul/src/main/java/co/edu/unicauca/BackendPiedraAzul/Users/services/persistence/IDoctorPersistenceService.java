@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+//TOQUETIE ESTO
 public interface IDoctorPersistenceService {
     @Transactional
     Doctor save(Doctor doctor) throws Exception;
@@ -15,4 +16,7 @@ public interface IDoctorPersistenceService {
 
     @Transactional
     List<Doctor> findAll () throws Exception;
+    //TOQUETIE ESTO
+    @Transactional
+    Doctor findById (Long id) throws Exception;
 }

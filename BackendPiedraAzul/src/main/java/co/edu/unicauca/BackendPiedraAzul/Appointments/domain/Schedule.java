@@ -148,6 +148,7 @@ public class Schedule {
             if(!holidays.contains(dayOfTheWeek)){
 
                 IntervalList copy = new IntervalList();
+                copy.setDate(dayOfTheWeek);
 
                 for(Interval interval : schedule.getIntervals()){
                     copy.addInterval(new Interval(interval.getStartTime(), interval.getEndTime()));
