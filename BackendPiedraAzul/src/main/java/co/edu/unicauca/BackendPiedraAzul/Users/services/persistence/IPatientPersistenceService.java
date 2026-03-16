@@ -16,4 +16,7 @@ public interface IPatientPersistenceService {
 
     @Transactional
     List<Patient> findAll() throws Exception;
+
+
+    Patient findById(Long id) throws Exception;
 }

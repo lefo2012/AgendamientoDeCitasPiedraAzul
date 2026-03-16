@@ -49,4 +49,12 @@ public class PatientPersistenceService implements IPatientPersistenceService {
                 .map(patientMapper::toDomain)
                 .toList();
     }
+    @Override
+    public Patient findById(Long id) throws Exception {
+        PatientEntity patient = jpaRepository.findById(id)
+                . orElseThrow(() -> new Exception("Patient not found with id: " + id));
+
+        return patientMapper.toDomain(patient);
+
+    }
 }

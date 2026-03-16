@@ -19,7 +19,9 @@ public class Appointment {
     public Appointment(){
 
     }
-
+    /**
+     * Mappers uses that
+     * */
     public Appointment(Long id, Doctor doctor, Patient patient, LocalDate appointmentDate, AppointmentStatusEnum appointmentStatus, Interval interval) {
         this.id = id;
         this.doctor = doctor;
