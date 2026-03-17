@@ -6,7 +6,6 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.Appointmen
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDto;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.AppointmentMapper;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.IntervalMapper;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.AppointmentPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.IAppointmentPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
@@ -46,7 +45,7 @@ public class AppointmentService implements IAppointmentService {
             patientPersistenceService.save(patient);
 
         }catch (Exception e){
-            throw new Exception("Cant create appointment");
+            throw new Exception("Can't create appointment");
         }
     }
 
