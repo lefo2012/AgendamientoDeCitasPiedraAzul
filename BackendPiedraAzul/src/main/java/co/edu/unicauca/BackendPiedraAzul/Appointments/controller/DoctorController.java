@@ -1,7 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.controller;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ConfigureScheduleDTO;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.AppointmentService;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ public class DoctorController {
     @Autowired
     private IScheduleService scheduleService;
     @Autowired
-    private AppointmentService appointmentService;
+    private IAppointmentService appointmentService;
 
     @PostMapping("/{doctorId}/configureSchedule")
     public ResponseEntity<?> configureSchedule(

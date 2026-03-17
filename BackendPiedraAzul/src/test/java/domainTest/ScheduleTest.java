@@ -84,6 +84,7 @@ public class ScheduleTest {
          * Reserve the next monday it is available
          * */
         assertTrue(schedule.schedule(reserveDay,reserveInterval));
+        schedule.print();
     }
 
     @Test

@@ -1,6 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto;
 
-import co.edu.unicauca.BackendPiedraAzul.Users.validation.LoginValidation;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

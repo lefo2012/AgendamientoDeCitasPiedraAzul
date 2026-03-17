@@ -20,4 +20,6 @@ public interface DoctorMapper {
 
     @Mapping(source = "birthDate", target = "birthDate", dateFormat = "yyyy-MM-dd")
     Doctor dtoToDomain(DoctorDTO doctorDto);
+
+    DoctorDTO toDto(Doctor doctor);
 }

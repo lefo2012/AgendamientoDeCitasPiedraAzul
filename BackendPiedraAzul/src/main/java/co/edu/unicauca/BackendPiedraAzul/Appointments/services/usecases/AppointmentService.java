@@ -7,10 +7,12 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveApp
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.AppointmentMapper;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.IntervalMapper;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.AppointmentPersistenceService;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.IAppointmentPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
-import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.DoctorPersistenceService;
-import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.PatientPersistenceService;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IDoctorPersistenceService;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +22,19 @@ import java.util.List;
 public class AppointmentService implements IAppointmentService {
 
     @Autowired
-    private AppointmentPersistenceService appointmentPersistenceService;
+    private IAppointmentPersistenceService appointmentPersistenceService;
     @Autowired
     private AppointmentMapper appointmentMapper;
     @Autowired
-    private DoctorPersistenceService doctorPersistenceService;
+    private IDoctorPersistenceService doctorPersistenceService;
     @Autowired
-    private PatientPersistenceService patientPersistenceService;
+    private IPatientPersistenceService patientPersistenceService;
     @Autowired
     private IntervalMapper intervalMapper;
 
-
-    public void reserveApointment(ReserveAppointmentDto reserveAppointmentDto) throws Exception {
+    @Override
+    @Transactional
+    public void reserveAppointment(ReserveAppointmentDto reserveAppointmentDto) throws Exception {
         try {
             //To do: verify the time of interval for reserve
             Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
@@ -46,6 +49,8 @@ public class AppointmentService implements IAppointmentService {
             throw new Exception("Cant create appointment");
         }
     }
+
+    @Override
     public List<AppointmentDto> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception {
 
         Doctor doctor = doctorPersistenceService.findById(doctorId);
@@ -54,8 +59,9 @@ public class AppointmentService implements IAppointmentService {
 
     }
 
-    public List<AppointmentDto> getAttendedAppointments(Long patientId) throws Exception {
-        Doctor doctor = doctorPersistenceService.findById(patientId);
+    @Override
+    public List<AppointmentDto> getAttendedAppointments(Long doctorId) throws Exception {
+        Doctor doctor = doctorPersistenceService.findById(doctorId);
         return doctor.getAttendedAppointments().stream().map(appointmentMapper::toDto).toList();
     }
 
