@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.controller;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ConfigureScheduleDTO;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.AppointmentService;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class DoctorController {
     @Autowired
     private IScheduleService scheduleService;
+    @Autowired
+    private AppointmentService appointmentService;
 
     @PostMapping("/{doctorId}/configureSchedule")
     public ResponseEntity<?> configureSchedule(
@@ -27,4 +30,16 @@ public class DoctorController {
                     .body("{\"error\":\"Error configuring the schedule for the doctor with id: "+ doctorId +" " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/{doctorId}/getScheduledAppointments")
+    public ResponseEntity<?> getScheduledAppointments(@RequestParam Long doctorId) throws Exception {
+
+        return ResponseEntity.ok(appointmentService.getScheduledAppointmentsByDoctor(doctorId));
+
+    }
+    @GetMapping("/{doctorId}/getAttendedAppointments")
+    public ResponseEntity<?> getAttendedAppointments(@RequestParam Long doctorId) throws Exception {
+        return ResponseEntity.ok(appointmentService.getAttendedAppointments(doctorId));
+    }
+
 }

@@ -1,14 +1,13 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.PatientDTO;
 
 import java.time.LocalDate;
-@Getter
-public class AppointmentDto {
 
-    private long idPatient;
-    private long idDoctor;
-    private IntervalDTO interval;
-    private LocalDate appointmentDate;
+public class AppointmentDto {
+    PatientDTO patient;
+    DoctorDTO doctor;
+    IntervalDTO interval;
+    LocalDate appointmentDate;
 }
