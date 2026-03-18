@@ -3,8 +3,15 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "5a34d2b1-f120-42f7-b813-d9e700ac17af"
+    "analytics": false
   },
+
+
+
+
+
+
+
   "newProjectRoot": "projects",
   "projects": {
     "FrontendPiedraAzul": {
@@ -31,7 +38,8 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",

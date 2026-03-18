@@ -1,0 +1,101 @@
+<div class="container vh-100 d-flex align-items-center justify-content-center">
+
+  <div class="card shadow-lg p-4 register-card">
+
+    <h2 class="text-center mb-4">Crear Cuenta</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Nombre</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="firstName"
+                 placeholder="Juan">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Apellido</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="lastName"
+                 placeholder="Pérez">
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Tipo de Documento</label>
+          <select class="form-select" formControlName="documentType">
+            <option value="">Seleccione</option>
+            <option value="CC">Cédula</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="CE">Cédula de Extranjería</option>
+          </select>
+        </div>
+
+        <div class="col-md-8 mb-3">
+          <label class="form-label">Número de Documento</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="identificationNumber">
+        </div>
+
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Fecha de Nacimiento</label>
+          <input type="date"
+                 class="form-control"
+                 formControlName="birthDate">
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Teléfono</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="phone"
+                 placeholder="3001234567">
+        </div>
+
+      </div>
+
+      <hr>
+
+      <h5 class="mb-3">Credenciales</h5>
+
+      <div class="mb-3">
+        <label class="form-label">Correo electrónico</label>
+        <input type="email"
+               class="form-control"
+               formControlName="email"
+               placeholder="correo@ejemplo.com">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        <input type="password"
+               class="form-control"
+               formControlName="password"
+               placeholder="********">
+      </div>
+
+      <button class="btn btn-primary w-100 mt-3">
+        Registrarse
+      </button>
+
+      
+
+    </form>
+
+
+
+  </div>
+
+</div>
