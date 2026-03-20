@@ -1,18 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { LoginUser } from './login-user';
+import { Login } from './login-user';
+import { AUTH_CONFIG, defaultAuthConfig } from '../../services/auth.config';
 
-describe('LoginUser', () => {
-  let component: LoginUser;
-  let fixture: ComponentFixture<LoginUser>;
+describe('Login', () => {
+  let component: Login;
+  let fixture: ComponentFixture<Login>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginUser]
+      imports: [Login, HttpClientTestingModule],
+      providers: [{ provide: AUTH_CONFIG, useValue: defaultAuthConfig }]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginUser);
+    fixture = TestBed.createComponent(Login);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
