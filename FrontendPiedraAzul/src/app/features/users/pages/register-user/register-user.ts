@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AbstractControl, ValidatorFn} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.html',
@@ -12,8 +14,9 @@ import { AbstractControl, ValidatorFn} from '@angular/forms';
 export class RegisterUser {
 
   registerForm: FormGroup;
+  formError = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
     
     this.registerForm = this.fb.group({
@@ -92,33 +95,32 @@ export class RegisterUser {
    register() {
 
     if (this.registerForm.invalid) {
-
-    this.registerForm.markAllAsTouched();
-    return;
-
+      this.registerForm.markAllAsTouched();
+      this.formError = 'Corrija los campos del formulario antes de continuar.';
+      return;
     }
 
-    if (this.registerForm.valid) {
+    const formData = this.registerForm.value;
 
-      const formData = this.registerForm.value;
-      
+    const request = {
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      password: formData.password,
+      role: 'user'
+    };
 
-      const request = {
-        documentType: formData.documentType,
-        identificationNumber: formData.identificationNumber,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        birthDate: formData.birthDate,
-        phone: formData.phone,
-        active: true,
-        user: {
-          email: formData.email,
-          password: formData.password
-        }
-      };
+    this.authService.register(request).subscribe({
+      next: () => {
+        this.formError = '';
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Registration error', err);
+        this.formError = 'No se pudo registrar el usuario. Intenta de nuevo más tarde.';
+      }
+    });
+  }
 
-}
-   }
    minimumAgeValidator(minAge: number): ValidatorFn {
 
   return (control: AbstractControl) => {
