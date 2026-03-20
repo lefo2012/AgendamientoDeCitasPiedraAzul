@@ -3,11 +3,21 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { AuthConfig, AUTH_CONFIG } from './auth.config';
 
-export interface RegisterRequest {
-  name: string;
+export interface RegisterUserData {
   email: string;
   password: string;
-  role: string;
+  roles: string[];
+}
+
+export interface RegisterRequest {
+  documentType: string;
+  identificationNumber: string;
+  firstName: string;
+  lastName: string;
+  birthDate: string;
+  phone: string;
+  active: boolean;
+  user: RegisterUserData;
 }
 
 export interface AuthTokenResponse {
@@ -41,11 +51,36 @@ export class AuthService {
   }
 
   register(data: RegisterRequest): Observable<any> {
-    const url = this.resolveAuthUrl(`${this.config.backendApi}/register`);
+    const url = this.resolveAuthUrl(`${this.config.backendApi}/registerPatient`);
+
+    console.groupCollapsed('[AuthService] Register request');
+    console.log('Endpoint:', url);
+    console.log('Payload:', data);
+    console.groupEnd();
+
     return this.http.post(url, data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-      withCredentials: true
-    });
+      withCredentials: false
+    }).pipe(
+      tap((response) => {
+        console.groupCollapsed('[AuthService] Register response');
+        console.log('Response payload:', response);
+        console.groupEnd();
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.groupCollapsed('[AuthService] Register error');
+        console.error('HTTP status:', error.status);
+        console.error('HTTP status text:', error.statusText);
+        console.error('Error payload:', error.error);
+
+        if (error.status === 0) {
+          console.error('Network/CORS/SSL issue detected (status 0).');
+        }
+
+        console.groupEnd();
+        return throwError(() => error);
+      })
+    );
   }
 
   login(username: string, password: string): Observable<AuthTokenResponse> {

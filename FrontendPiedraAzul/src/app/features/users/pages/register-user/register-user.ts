@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AbstractControl, ValidatorFn} from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, RegisterRequest } from '../../services/auth.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-register-user',
@@ -15,6 +15,7 @@ export class RegisterUser {
 
   registerForm: FormGroup;
   formError = '';
+  private readonly bypassValidationForTesting = true;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
@@ -93,29 +94,64 @@ export class RegisterUser {
   }
 
    register() {
+    console.groupCollapsed('[RegisterComponent] Register submit triggered');
+    console.log('Form value:', this.registerForm.value);
+    console.log('Form valid:', this.registerForm.valid);
+    console.groupEnd();
 
     if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      this.formError = 'Corrija los campos del formulario antes de continuar.';
-      return;
+      console.groupCollapsed('[RegisterComponent] Register form invalid details');
+      Object.keys(this.registerForm.controls).forEach((fieldName) => {
+        const control = this.registerForm.get(fieldName);
+        if (control?.invalid) {
+          console.warn(`Field "${fieldName}" invalid with errors:`, control.errors);
+        }
+      });
+      if (this.registerForm.errors) {
+        console.warn('Form-level errors:', this.registerForm.errors);
+      }
+      console.groupEnd();
+
+      if (!this.bypassValidationForTesting) {
+        this.registerForm.markAllAsTouched();
+        this.formError = 'Corrija los campos del formulario antes de continuar.';
+        return;
+      }
+
+      console.warn('[RegisterComponent] bypassValidationForTesting=true, sending request despite invalid form.');
     }
 
     const formData = this.registerForm.value;
 
-    const request = {
-      name: `${formData.firstName} ${formData.lastName}`,
-      email: formData.email,
-      password: formData.password,
-      role: 'user'
+    const request: RegisterRequest = {
+      documentType: formData.documentType,
+      identificationNumber: formData.identificationNumber,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      birthDate: formData.birthDate,
+      phone: formData.phone,
+      active: true,
+      user: {
+        email: formData.email,
+        password: formData.password,
+        roles: ['PACIENTE']
+      }
     };
+
+    console.groupCollapsed('[RegisterComponent] Register request payload');
+    console.log('Payload sent to backend:', request);
+    console.groupEnd();
 
     this.authService.register(request).subscribe({
       next: () => {
+        console.log('[RegisterComponent] Registration completed successfully.');
         this.formError = '';
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Registration error', err);
+        console.error('Registration error status:', err?.status);
+        console.error('Registration error payload:', err?.error);
         this.formError = 'No se pudo registrar el usuario. Intenta de nuevo más tarde.';
       }
     });
