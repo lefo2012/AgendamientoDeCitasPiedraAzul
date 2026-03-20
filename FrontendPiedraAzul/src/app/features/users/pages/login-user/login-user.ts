@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,8 +14,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class Login {
 
   loginForm: FormGroup;
+  errorMessage = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -24,16 +27,25 @@ export class Login {
 
   login() {
 
-    if (this.loginForm.valid) {
-
-      const credentials = this.loginForm.value;
-
-      console.log("Login request:", credentials);
-
-      // aquí luego llamaremos el backend
-
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
     }
 
+    const credentials = this.loginForm.value;
+
+    this.authService.login(credentials.email, credentials.password)
+      .subscribe({
+        next: (token) => {
+          localStorage.setItem('piedraAzul_access_token', token.access_token);
+          this.errorMessage = '';
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Login error', err);
+          this.errorMessage = 'Correo o contraseña inválidos.';
+        }
+      });
   }
 
 }
