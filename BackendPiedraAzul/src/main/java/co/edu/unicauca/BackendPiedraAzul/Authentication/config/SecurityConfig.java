@@ -69,7 +69,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/test/hello-1", "/test/hello-2","/api/users/ping").permitAll()
+                        .requestMatchers("/test/hello-1", "/test/hello-2","/test2/ping", "/test2/test-login-flow", "/api/users/registerPatient", "/api/users/registerDoctor").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth ->

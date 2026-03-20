@@ -22,8 +22,6 @@ public class TestController {
     {
         return "hello";
     }
-
-
     @GetMapping("/roles")
     public List<String> roles(Authentication auth) {
         return auth.getAuthorities().stream()
@@ -33,12 +31,6 @@ public class TestController {
                 })
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
     @GetMapping("/client-roles")
     public List<String> getClientRoles(JwtAuthenticationToken auth) {
 
