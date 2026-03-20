@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /* Tonos de azul / gris */
+  --azul-gris: #96C2DB;
+  --azul-gris-claro: #E5EDF1;
+  --azul-profundo: #2F4858; /* contraste */
+
+  /* Fondo */
+  --fondo-suave: #F4F7F9;
+  --fondo-suave-transparente: rgba(244, 247, 249, 0.6);
+
+  /* Texto */
+  --texto-principal: #1F2D3B;
+  --blanco: #FFFFFF;
+
+  /* Estados */
+  --verde-exito: #49A649;
+  --rojo-error: #C72626;
+
+  /* Colores adicionales que encajan con la paleta */
+  --gris-oscuro: #5A6C7B;  /* para títulos secundarios o bordes */
+  --gris-claro: #BFC9D2;   /* para fondos, separadores */
+  --azul-medio: #5B9FCF;   /* para botones o links */
+}

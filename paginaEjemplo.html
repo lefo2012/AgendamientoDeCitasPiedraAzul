@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Clínica Piedra Azul</title>
+
+  <style>
+    :root {
+      --azul-gris: #96C2DB;
+      --azul-gris-claro: #E5EDF1;
+      --blanco: #FFFFFF;
+      --texto: #2F3E46;
+      --boton: #5A9ECF;
+    }
+
+    /* BASE */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--blanco);
+      color: var(--texto);
+      font-size: 18px;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--azul-gris);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    /* NAV */
+    nav {
+      background: #7FB3D5;
+      padding: 15px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* CONTENEDOR */
+    .container {
+      padding: 20px;
+    }
+
+    /* TARJETA */
+    .card {
+      background: var(--azul-gris-claro);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    /* BOTÓN */
+    .btn {
+      display: inline-block;
+      padding: 15px 25px;
+      background: var(--boton);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    /* MENSAJE */
+    .info {
+      background: var(--azul-gris-claro);
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    Clínica Piedra Azul
+  </header>
+
+  <nav>
+    <a href="#">Inicio</a>
+    <a href="#">Citas</a>
+    <a href="#">Contacto</a>
+  </nav>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Agendar cita</h2>
+      <p>Seleccione el día y la hora de forma sencilla.</p>
+
+      <a href="#" class="btn">Agendar cita</a>
+
+      <div class="info">
+        Atención de lunes a viernes de 8:00 AM a 5:00 PM
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Información</h2>
+      <p>Recuerde traer su documento de identidad.</p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

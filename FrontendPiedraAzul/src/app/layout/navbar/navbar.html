@@ -1,0 +1,34 @@
+
+<mat-toolbar color="primary" class="navbar-toolbar">
+
+  <div class="navbar-content center">
+      <img src="/logoSinTextoSmall.png" alt="logoPiedraAzul" class="logo">
+      <div class="text-content">
+        <h1>Clínica Piedra Azul</h1>
+        <h2>Tu salud, nuestra prioridad</h2>
+      </div>
+
+      
+  </div>
+  <div class = "navbar-content big-screen center">
+      <nav>
+        <a mat-button routerLink="/">Inicio</a>
+        <a mat-button routerLink="/citas">Citas</a>
+        <a mat-button routerLink="/login">Iniciar Sesión</a>
+        <a mat-button routerLink="/register">Registrarse</a>
+      </nav>
+  </div>
+
+  <div class = "small-screen center">
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item routerLink="/">Inicio</a>
+        <a mat-menu-item routerLink="/citas">Citas</a>
+        <a mat-menu-item routerLink="/login">Iniciar Sesión</a>
+        <a mat-menu-item routerLink="/register">Registrarse</a>
+      </mat-menu>
+  </div>
+
+</mat-toolbar>

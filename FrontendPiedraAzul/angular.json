@@ -5,13 +5,6 @@
     "packageManager": "npm",
     "analytics": false
   },
-
-
-
-
-
-
-
   "newProjectRoot": "projects",
   "projects": {
     "FrontendPiedraAzul": {
@@ -37,9 +30,10 @@
                 "input": "public"
               }
             ],
+
             "styles": [
-              "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/material-theme.scss",
+              "src/styles.scss"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
