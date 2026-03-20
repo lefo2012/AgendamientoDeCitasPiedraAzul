@@ -22,6 +22,7 @@ public class TestController {
     {
         return "hello";
     }
+
     @GetMapping("/roles")
     public List<String> roles(Authentication auth) {
         return auth.getAuthorities().stream()
@@ -31,6 +32,7 @@ public class TestController {
                 })
                 .collect(Collectors.toList());
     }
+
     @GetMapping("/client-roles")
     public List<String> getClientRoles(JwtAuthenticationToken auth) {
 
@@ -143,5 +145,15 @@ public class TestController {
     public String authenticated()
     {
         return "Este endpoint es para cualquier usuario autenticado";
+    }
+
+
+
+
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/login-test")
+    public String protectedEndpoint() {
+        return "Acceso permitido";
     }
 }
