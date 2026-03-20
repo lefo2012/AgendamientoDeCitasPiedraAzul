@@ -19,7 +19,6 @@ public class UserRequest {
     private String lastName;
     @Getter @Setter
     private List<String> roles;
-
     @Getter @Setter
     private UserDTO userDTO;
 

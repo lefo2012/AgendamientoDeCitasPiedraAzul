@@ -24,13 +24,10 @@ public class LoginValidation {
     public void testLoginFlow() {
 
         RestTemplate restTemplate = new RestTemplate();
-
         String keycloakUrl =
                 "http://localhost:8080/realms/piedraAzul-dev/protocol/openid-connect/token";
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("client_id", "piedraAzul-app");
         body.add("grant_type", "password");
@@ -40,18 +37,13 @@ public class LoginValidation {
 
         HttpEntity<MultiValueMap<String, String>> request =
                 new HttpEntity<>(body, headers);
-
         ResponseEntity<Map> response;
-
         try {
-
             response = restTemplate.postForEntity(keycloakUrl, request, Map.class);
 
         } catch (HttpClientErrorException.Unauthorized e) {
-
             System.out.println("Credenciales incorrectas. Login rechazado.");
             return;
-
         } catch (Exception e) {
 
             System.out.println("Error al comunicarse con Keycloak.");
