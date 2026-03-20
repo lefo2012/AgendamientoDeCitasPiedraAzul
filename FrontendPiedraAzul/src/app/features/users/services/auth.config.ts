@@ -9,7 +9,7 @@ export interface AuthConfig {
 export const AUTH_CONFIG = new InjectionToken<AuthConfig>('auth.config');
 
 export const defaultAuthConfig: AuthConfig = {
-  backendApi: 'https://localhost:8081/auth',
-  keycloakTokenUrl: 'https://localhost:8080/realms/piedraAzul-dev/protocol/openid-connect/token',
+  backendApi: 'http://localhost:8081/auth',
+  keycloakTokenUrl: 'http://localhost:8080/realms/piedraAzul-dev/protocol/openid-connect/token',
   clientId: 'piedraAzul-app'
 };

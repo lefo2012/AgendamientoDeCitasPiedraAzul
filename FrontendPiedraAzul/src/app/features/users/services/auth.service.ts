@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { AuthConfig, AUTH_CONFIG } from './auth.config';
 
 export interface RegisterRequest {
@@ -29,16 +29,19 @@ export class AuthService {
     @Inject(AUTH_CONFIG) private config: AuthConfig
   ) {}
 
-  private ensureSecureUrl(url: string): string {
-    if (url.startsWith('http://')) {
-      console.warn('Insecure auth URL requested, updating to HTTPS for transport encryption.');
-      return url.replace('http://', 'https://');
+  private resolveAuthUrl(url: string): string {
+    // In local development, Keycloak commonly runs on HTTP (localhost:8080).
+    if (url.startsWith('https://localhost')) {
+      const httpLocalUrl = url.replace('https://', 'http://');
+      console.warn('[AuthService] Local HTTPS URL detected; using HTTP for local Keycloak dev:', httpLocalUrl);
+      return httpLocalUrl;
     }
+
     return url;
   }
 
   register(data: RegisterRequest): Observable<any> {
-    const url = this.ensureSecureUrl(`${this.config.backendApi}/register`);
+    const url = this.resolveAuthUrl(`${this.config.backendApi}/register`);
     return this.http.post(url, data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       withCredentials: true
@@ -46,22 +49,54 @@ export class AuthService {
   }
 
   login(username: string, password: string): Observable<AuthTokenResponse> {
-    const tokenUrl = this.ensureSecureUrl(this.config.keycloakTokenUrl);
+    const tokenUrl = this.resolveAuthUrl(this.config.keycloakTokenUrl);
 
     const body = new HttpParams()
       .set('client_id', this.config.clientId)
       .set('grant_type', 'password')
       .set('username', username)
-      .set('password', password);
+      .set('password', password)
+      .set('client_secret', 'HFn9D3q4cLaZyLfTcs7h4J4cDLLLaRLh');
+
+    console.groupCollapsed('[AuthService] Keycloak login request');
+    console.log('Endpoint:', tokenUrl);
+    console.log('Client ID:', this.config.clientId);
+    console.log('Username sent:', username);
+    console.log('Grant type:', 'password');
+    console.groupEnd();
 
     return this.http.post<AuthTokenResponse>(tokenUrl, body.toString(), {
       headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-      withCredentials: true
-    });
+      withCredentials: false
+    }).pipe(
+      tap((response) => {
+        console.groupCollapsed('[AuthService] Keycloak login response');
+        console.log('Full response object:', response);
+        console.log('access_token:', response?.access_token ?? '(none)');
+        console.log('token_type:', response?.token_type ?? '(none)');
+        console.log('expires_in:', response?.expires_in ?? '(none)');
+        console.groupEnd();
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.groupCollapsed('[AuthService] Keycloak login error');
+        console.error('HTTP status:', error.status);
+        console.error('HTTP status text:', error.statusText);
+        console.error('Error payload:', error.error);
+
+        if (error.status === 400 && error.error?.error === 'invalid_grant') {
+          console.error('Detected invalid credentials (invalid_grant).');
+        } else if (error.status === 0) {
+          console.error('Network/CORS/SSL issue detected (status 0).');
+        }
+
+        console.groupEnd();
+        return throwError(() => error);
+      })
+    );
   }
 
   logout(): Observable<any> {
-    const url = this.ensureSecureUrl(`${this.config.backendApi}/logout`);
+    const url = this.resolveAuthUrl(`${this.config.backendApi}/logout`);
     return this.http.post(url, {}, { withCredentials: true });
   }
 }
