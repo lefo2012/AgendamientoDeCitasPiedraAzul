@@ -12,8 +12,8 @@
   </div>
   <div class = "navbar-content big-screen center">
       <nav>
-        <a mat-button routerLink="/">Inicio</a>
-        <a mat-button routerLink="/citas">Citas</a>
+        <a mat-button (click)="backToHome()">Inicio</a>
+        <a mat-button (click)="scrollToCards()">Citas</a>
         <a mat-button routerLink="/login">Iniciar Sesión</a>
         <a mat-button routerLink="/register">Registrarse</a>
       </nav>

@@ -8,6 +8,7 @@
 
 html {
   height: 100%;
+  scroll-behavior: smooth;
   @include mat.theme((
     color: (
       primary: mat.$rose-palette,
@@ -40,7 +41,8 @@ body {
   /* Tonos de azul / gris */
   --azul-gris: #96C2DB;
   --azul-gris-claro: #E5EDF1;
-  --azul-profundo: #2F4858; /* contraste */
+  --azul-profundo: #2F4858; 
+  --azul-oscuro: #1F2D3B;/* contraste */
 
   /* Fondo */
   --fondo-suave: #F4F7F9;

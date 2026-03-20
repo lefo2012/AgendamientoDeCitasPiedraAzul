@@ -4,6 +4,7 @@ import { RegisterUser } from './features/users/pages/register-user/register-user
 import { Login } from './features/users/pages/login-user/login-user';
 import { Header } from './layout/header/header';
 import { Main } from './features/main/pages/main/main';
+import { About } from './features/main/pages/about/about';
 
 export const routes: Routes = [
 
@@ -14,7 +15,11 @@ export const routes: Routes = [
       {
         path: '',
         component: Main
-      
+
+      },
+      {
+        path: 'about',
+        component: About
       },
       {
         path: 'register',
@@ -30,7 +35,7 @@ export const routes: Routes = [
       },
 
     ]
-  
+
   }
-  
+
 ];

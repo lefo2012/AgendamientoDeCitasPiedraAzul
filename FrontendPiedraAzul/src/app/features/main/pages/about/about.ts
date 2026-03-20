@@ -1,21 +1,18 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-
-
 @Component({
-  selector: 'app-main',
+  selector: 'app-about',
   imports: [],
-  templateUrl: './main.html',
-  styleUrl: './main.scss',
+  templateUrl: './about.html',
+  styleUrl: './about.scss',
 })
-export class Main  {
+export class About {
 
   constructor(private router: Router) {}
 
- 
-  goToAbout() {
-    this.router.navigate(['/about']);
+  goBack() {
+    this.router.navigate(['/']);
   }
 
 }

@@ -11,6 +11,7 @@
     height: 80px;
     border-radius: 100px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    z-index: 1000;
 }
 
 .navbar-content {
@@ -59,13 +60,7 @@
     color: var(--gris-oscuro);
 }
 
-.mat-botonIniciarSesion {
-    background-color: var(--azul-gris);
-    color: var(--blanco);
-    border-radius: 10px;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-}
+
 
 @media (max-width: 768px) {
 
