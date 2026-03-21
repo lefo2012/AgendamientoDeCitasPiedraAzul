@@ -1,58 +1,39 @@
-<div class="login-container">
+<section class="auth-page login-page">
+  <div class="auth-card login-card shadow">
+    <header class="auth-header">
+      <p class="auth-kicker">Bienvenido</p>
+      <h1>Iniciar sesión</h1>
+      <p class="auth-subtitle">Accede para gestionar tus citas de forma rápida y segura.</p>
+    </header>
 
-  <div class="card login-card shadow">
-
-    <h3 class="text-center mb-4">
-      <i class="bi bi-person-circle"></i>
-      Iniciar Sesión
-    </h3>
-
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-
-      <div class="mb-3">
-
-        <label class="form-label">Correo</label>
-
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-envelope"></i>
-          </span>
-
-          <input
-            type="email"
-            class="form-control"
-            formControlName="email"
-            placeholder="correo@ejemplo.com"
-          >
-        </div>
-
+    <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="field-block">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Usuario o correo</mat-label>
+          <input matInput type="text" formControlName="email" placeholder="Nombre de usuario o correo electrónico" autocomplete="username">
+          @if (fieldInvalid('email')) {
+            <mat-error>Ingresa un usuario o correo válido.</mat-error>
+          }
+        </mat-form-field>
       </div>
 
-      <div class="mb-3">
-
-        <label class="form-label">Contraseña</label>
-
-        <div class="input-group">
-          <span class="input-group-text">
-            <i class="bi bi-lock"></i>
-          </span>
-
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            placeholder="********"
-          >
-        </div>
-
+      <div class="field-block">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="********" autocomplete="current-password">
+          @if (fieldInvalid('password')) {
+            <mat-error>La contraseña es obligatoria.</mat-error>
+          }
+        </mat-form-field>
       </div>
 
-      <button class="btn btn-primary w-100 mt-3" type="submit">
+      @if (errorMessage) {
+        <div class="form-alert" role="alert">{{ errorMessage }}</div>
+      }
+
+      <button mat-flat-button class="auth-submit" type="submit">
         Ingresar
       </button>
-
     </form>
-
   </div>
-
-</div>
+</section>

@@ -1,7 +1,7 @@
 .about-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: clamp(1rem, 3.5vw, 2rem);
     background: var(--blanco);
     min-height: 100vh;
 }
@@ -130,10 +130,6 @@
 }
 
 @media (max-width: 768px) {
-    .about-container {
-        padding: 1rem;
-    }
-
     .about-header h1 {
         font-size: 2rem;
     }
@@ -149,5 +145,24 @@
     .contact-item strong {
         width: 100%;
         margin-bottom: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .about-header {
+        margin-bottom: 2rem;
+        padding: 1.4rem 0;
+
+        h1 {
+            font-size: 1.6rem;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+        }
+    }
+
+    .about-content section h2 {
+        font-size: 1.45rem;
     }
 }

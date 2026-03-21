@@ -7,10 +7,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-  selector: 'app-create-appointment',
+  selector: 'app-reschedule-appointment',
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
@@ -19,13 +18,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatInputModule,
     MatNativeDateModule,
-    MatSelectModule,
-    MatIconModule
+    MatSelectModule
   ],
-  templateUrl: './create-appointment.html',
-  styleUrl: './create-appointment.scss',
+  templateUrl: './reschedule-appointment.html',
+  styleUrl: './reschedule-appointment.scss',
 })
-export class CreateAppointment {
+export class RescheduleAppointment {
   readonly doctors = [
     'Dra. Valeria Gomez - Medicina General',
     'Dr. Mateo Rios - Fisioterapia',
@@ -48,20 +46,21 @@ export class CreateAppointment {
 
   wasSubmitted = false;
 
-  readonly appointmentForm;
+  readonly rescheduleForm;
 
   constructor(private fb: FormBuilder) {
-    this.appointmentForm = this.fb.group({
+    this.rescheduleForm = this.fb.group({
+      appointmentCode: ['', [Validators.required, Validators.minLength(4)]],
       doctor: ['', Validators.required],
-      appointmentDate: [null as Date | null, Validators.required],
-      appointmentTime: ['', Validators.required],
-      notes: ['']
+      newDate: [null as Date | null, Validators.required],
+      newTime: ['', Validators.required],
+      reason: ['']
     });
   }
 
-  submitAppointment() {
-    if (this.appointmentForm.invalid) {
-      this.appointmentForm.markAllAsTouched();
+  submitReschedule() {
+    if (this.rescheduleForm.invalid) {
+      this.rescheduleForm.markAllAsTouched();
       return;
     }
 
@@ -71,5 +70,4 @@ export class CreateAppointment {
   goBack() {
     history.back();
   }
-
 }

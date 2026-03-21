@@ -1,0 +1,65 @@
+:host {
+	display: block;
+}
+
+.admin-home-page {
+	min-height: 100%;
+	padding: clamp(1rem, 2vw, 2rem);
+}
+
+.admin-home-wrapper {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.admin-header {
+	margin-bottom: 1rem;
+}
+
+.admin-kicker {
+	margin: 0 0 0.25rem;
+	color: var(--azul-medio);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.admin-header h1 {
+	margin: 0;
+	color: var(--azul-profundo);
+}
+
+.admin-subtitle {
+	margin-top: 0.35rem;
+	color: var(--gris-oscuro);
+}
+
+.admin-action-card {
+	border-radius: 16px;
+}
+
+.card-icon {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(25, 118, 210, 0.12);
+	color: var(--azul-profundo);
+	margin-bottom: 0.75rem;
+}
+
+.admin-action-card h2 {
+	margin: 0 0 0.5rem;
+	color: var(--azul-profundo);
+}
+
+.admin-action-card p {
+	margin: 0;
+	color: var(--gris-oscuro);
+}
+
+mat-card-actions {
+	padding: 0 1rem 1rem;
+}

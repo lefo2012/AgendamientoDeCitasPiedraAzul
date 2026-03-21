@@ -36,6 +36,30 @@ body {
   margin: 0;
   height: 100%;
 }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+main,
+section,
+article,
+header,
+footer,
+nav,
+aside {
+  min-width: 0;
+}
 /* You can add global styles to this file, and also import other style files */
 :root {
   /* Tonos de azul / gris */

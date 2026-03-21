@@ -1,12 +1,12 @@
 <section class="auth-page register-page">
   <div class="auth-card register-card shadow-lg">
     <header class="auth-header">
-      <p class="auth-kicker">Nuevo paciente</p>
-      <h1>Crear cuenta</h1>
-      <p class="auth-subtitle">Completa la informacion para acceder al portal de citas.</p>
+      <p class="auth-kicker">Panel Administrador</p>
+      <h1>Registrar medico</h1>
+      <p class="auth-subtitle">Completa la informacion para crear la cuenta del medico.</p>
     </header>
 
-    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
+    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="registerDoctor()">
       @if (formError) {
         <div class="form-alert" role="alert">{{ formError }}</div>
       }
@@ -19,7 +19,7 @@
               <mat-label>Nombre(s)</mat-label>
               <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)">
               @if (fieldInvalid('firstName')) {
-                <mat-error>Ingresa un nombre válido (mínimo 2 letras).</mat-error>
+                <mat-error>Ingresa un nombre valido (minimo 2 letras).</mat-error>
               }
             </mat-form-field>
           </div>
@@ -29,7 +29,7 @@
               <mat-label>Apellido(s)</mat-label>
               <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)">
               @if (fieldInvalid('lastName')) {
-                <mat-error>Ingresa un apellido válido (mínimo 2 letras).</mat-error>
+                <mat-error>Ingresa un apellido valido (minimo 2 letras).</mat-error>
               }
             </mat-form-field>
           </div>
@@ -41,9 +41,9 @@
               <mat-label>Tipo de documento</mat-label>
               <mat-select formControlName="documentType">
                 <mat-option value="">Seleccione</mat-option>
-                <mat-option value="CC">Cédula</mat-option>
+                <mat-option value="CC">Cedula</mat-option>
                 <mat-option value="TI">Tarjeta de Identidad</mat-option>
-                <mat-option value="CE">Cédula de Extranjería</mat-option>
+                <mat-option value="CE">Cedula de Extranjeria</mat-option>
               </mat-select>
               @if (fieldInvalid('documentType')) {
                 <mat-error>Selecciona un tipo de documento.</mat-error>
@@ -56,7 +56,7 @@
               <mat-label>Numero de documento</mat-label>
               <input matInput type="text" formControlName="identificationNumber" placeholder="123456789">
               @if (fieldInvalid('identificationNumber')) {
-                <mat-error>Debe tener entre 6 y 12 dígitos numéricos.</mat-error>
+                <mat-error>Debe tener entre 6 y 12 digitos numericos.</mat-error>
               }
             </mat-form-field>
           </div>
@@ -80,10 +80,24 @@
               <mat-label>Telefono</mat-label>
               <input matInput type="text" formControlName="phone" placeholder="3001234567">
               @if (fieldInvalid('phone')) {
-                <mat-error>Ingresa un número de 10 dígitos.</mat-error>
+                <mat-error>Ingresa un numero de 10 digitos.</mat-error>
               }
             </mat-form-field>
           </div>
+        </div>
+
+        <div class="field-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Especialidades</mat-label>
+            <mat-select formControlName="specialties" multiple>
+              <mat-option value="Terapia Neural">Terapia Neural</mat-option>
+              <mat-option value="Quiropraxia">Quiropraxia</mat-option>
+              <mat-option value="Fisioterapia">Fisioterapia</mat-option>
+            </mat-select>
+            @if (fieldInvalid('specialties')) {
+              <mat-error>Selecciona al menos una especialidad.</mat-error>
+            }
+          </mat-form-field>
         </div>
       </section>
 
@@ -92,10 +106,10 @@
 
         <div class="field-block">
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Correo electrónico</mat-label>
+            <mat-label>Correo electronico</mat-label>
             <input matInput type="email" formControlName="email" placeholder="ejemplo@gmail.com" autocomplete="email">
             @if (fieldInvalid('email')) {
-              <mat-error>Ingresa un correo electrónico válido.</mat-error>
+              <mat-error>Ingresa un correo electronico valido.</mat-error>
             }
           </mat-form-field>
         </div>
@@ -106,26 +120,31 @@
               <mat-label>Contrasena</mat-label>
               <input matInput type="password" formControlName="password" placeholder="********" autocomplete="new-password">
               @if (fieldInvalid('password')) {
-                <mat-error>Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo.</mat-error>
+                <mat-error>Minimo 8 caracteres, mayuscula, minuscula, numero y simbolo.</mat-error>
               }
             </mat-form-field>
           </div>
 
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Confirmar contraseña</mat-label>
+              <mat-label>Confirmar contrasena</mat-label>
               <input matInput type="password" formControlName="confirmPassword" placeholder="********" autocomplete="new-password">
               @if (fieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']) {
-                <mat-error>Las contraseñas no coinciden.</mat-error>
+                <mat-error>Las contrasenas no coinciden.</mat-error>
               }
             </mat-form-field>
           </div>
         </div>
       </section>
 
-      <button mat-flat-button class="auth-submit" type="submit">
-        Registrarse
-      </button>
+      <div class="actions-row">
+        <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">
+          Volver
+        </button>
+        <button mat-flat-button class="auth-submit" type="submit">
+          Registrar medico
+        </button>
+      </div>
     </form>
   </div>
 </section>

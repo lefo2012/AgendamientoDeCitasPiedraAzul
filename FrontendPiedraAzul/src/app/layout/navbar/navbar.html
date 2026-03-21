@@ -1,34 +1,32 @@
-
 <mat-toolbar color="primary" class="navbar-toolbar">
 
-  <div class="navbar-content center">
-      <img src="/logoSinTextoSmall.png" alt="logoPiedraAzul" class="logo">
-      <div class="text-content">
-        <h1>Clínica Piedra Azul</h1>
-        <h2>Tu salud, nuestra prioridad</h2>
-      </div>
-
-      
-  </div>
-  <div class = "navbar-content big-screen center">
-      <nav>
-        <a mat-button (click)="backToHome()">Inicio</a>
-        <a mat-button (click)="scrollToCards()">Citas</a>
-        <a mat-button routerLink="/login">Iniciar Sesión</a>
-        <a mat-button routerLink="/register">Registrarse</a>
-      </nav>
+  <div class="navbar-brand">
+    <img src="/logoSinTextoSmall.png" alt="logoPiedraAzul" class="logo">
+    <div class="text-content">
+      <h1>Clinica Piedra Azul</h1>
+      <h2>Tu salud, nuestra prioridad</h2>
+    </div>
   </div>
 
-  <div class = "small-screen center">
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <a mat-menu-item routerLink="/">Inicio</a>
-        <a mat-menu-item routerLink="/citas">Citas</a>
-        <a mat-menu-item routerLink="/login">Iniciar Sesión</a>
-        <a mat-menu-item routerLink="/register">Registrarse</a>
-      </mat-menu>
+  <div class="navbar-links big-screen">
+    <nav aria-label="Navegacion principal">
+      <a mat-button (click)="backToHome()">Inicio</a>
+      <a mat-button (click)="scrollToCards()">Citas</a>
+      <a mat-button routerLink="/login">Iniciar Sesion</a>
+      <a mat-button routerLink="/register">Registrarse</a>
+    </nav>
+  </div>
+
+  <div class="small-screen">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Abrir menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item routerLink="/">Inicio</a>
+      <a mat-menu-item (click)="scrollToCards()">Citas</a>
+      <a mat-menu-item routerLink="/login">Iniciar Sesion</a>
+      <a mat-menu-item routerLink="/register">Registrarse</a>
+    </mat-menu>
   </div>
 
 </mat-toolbar>

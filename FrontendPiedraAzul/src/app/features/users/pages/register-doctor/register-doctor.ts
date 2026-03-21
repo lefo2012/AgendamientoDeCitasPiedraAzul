@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { AuthService, RegisterRequest } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,11 +7,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { AuthService, RegisterDoctorRequest } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-register-user',
-  templateUrl: './register-user.html',
-  standalone: true,
+  selector: 'app-register-doctor',
+  templateUrl: './register-doctor.html',
+  styleUrls: ['./register-doctor.scss'],
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
@@ -21,21 +21,18 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatNativeDateModule,
     MatSelectModule
-  ],
-  styleUrls: ['./register-user.scss']
+  ]
 })
-export class RegisterUser {
-
+export class RegisterDoctor {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
+  readonly specialtyOptions = ['Terapia Neural', 'Quiropraxia', 'Fisioterapia'];
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-
     this.maxBirthDate = new Date();
 
-    
     this.registerForm = this.fb.group(
       {
         firstName: [
@@ -77,6 +74,7 @@ export class RegisterUser {
             Validators.pattern('^[0-9]{10}$')
           ]
         ],
+        specialties: [[], [Validators.required]],
         email: [
           '',
           [
@@ -89,7 +87,7 @@ export class RegisterUser {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$')
+
           ]
         ],
         confirmPassword: ['', Validators.required]
@@ -98,42 +96,23 @@ export class RegisterUser {
         validators: this.passwordMatchValidator
       }
     );
-
-
   }
 
-  register() {
+  registerDoctor(): void {
     this.submitted = true;
-    console.groupCollapsed('[RegisterComponent] Register submit triggered');
-    console.log('Form value:', this.registerForm.value);
-    console.log('Form valid:', this.registerForm.valid);
-    console.groupEnd();
 
     if (this.registerForm.invalid) {
-      console.groupCollapsed('[RegisterComponent] Register form invalid details');
-      Object.keys(this.registerForm.controls).forEach((fieldName) => {
-        const control = this.registerForm.get(fieldName);
-        if (control?.invalid) {
-          console.warn(`Field "${fieldName}" invalid with errors:`, control.errors);
-        }
-      });
-      if (this.registerForm.errors) {
-        console.warn('Form-level errors:', this.registerForm.errors);
-      }
-      console.groupEnd();
-
       this.registerForm.markAllAsTouched();
       this.formError = 'Corrige los campos del formulario antes de continuar.';
       return;
     }
 
     const formData = this.registerForm.value;
-
     const birthDateValue = formData.birthDate instanceof Date
       ? formData.birthDate.toISOString().split('T')[0]
       : formData.birthDate;
 
-    const request: RegisterRequest = {
+    const request: RegisterDoctorRequest = {
       documentType: formData.documentType,
       identificationNumber: formData.identificationNumber,
       firstName: formData.firstName,
@@ -141,30 +120,27 @@ export class RegisterUser {
       birthDate: birthDateValue,
       phone: formData.phone,
       active: true,
+      specialties: formData.specialties,
       user: {
         email: formData.email,
         password: formData.password,
-        roles: ['PACIENTE']
+        roles: ['MEDICO']
       }
     };
 
-    console.groupCollapsed('[RegisterComponent] Register request payload');
-    console.log('Payload sent to backend:', request);
-    console.groupEnd();
-
-    this.authService.register(request).subscribe({
+    this.authService.registerDoctor(request).subscribe({
       next: () => {
-        console.log('[RegisterComponent] Registration completed successfully.');
         this.formError = '';
-        this.router.navigate(['/login']);
+        this.router.navigate(['/admin']);
       },
-      error: (err) => {
-        console.error('Registration error', err);
-        console.error('Registration error status:', err?.status);
-        console.error('Registration error payload:', err?.error);
-        this.formError = 'No se pudo registrar el usuario. Intenta de nuevo más tarde.';
+      error: () => {
+        this.formError = 'No se pudo registrar el medico. Intenta de nuevo mas tarde.';
       }
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/admin']);
   }
 
   minimumAgeValidator(minAge: number): ValidatorFn {
