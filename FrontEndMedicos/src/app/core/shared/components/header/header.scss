@@ -1,0 +1,30 @@
+.header-toolbar {
+  background-color: var(--azul-profundo);
+  color: var(--blanco);
+  justify-content: flex-start;
+}
+
+.app-title {
+  font-weight: bold;
+  color: var(--blanco);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-mdc-button{
+    color: var(--blanco);
+}
+
+.user-name {
+  margin-left: 16px;
+  font-weight: 500;
+  color: var(--blanco);
+}
+.mat-mdc-button {
+  color: var(--blanco) !important;
+}
+.mat-mdc-button:hover{
+  font-size: 20px;
+}
