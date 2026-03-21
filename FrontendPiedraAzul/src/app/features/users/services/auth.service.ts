@@ -20,6 +20,10 @@ export interface RegisterRequest {
   user: RegisterUserData;
 }
 
+export interface RegisterDoctorRequest extends RegisterRequest {
+  specialties: string[];
+}
+
 export interface AuthTokenResponse {
   access_token: string;
   refresh_token?: string;
@@ -69,6 +73,39 @@ export class AuthService {
       }),
       catchError((error: HttpErrorResponse) => {
         console.groupCollapsed('[AuthService] Register error');
+        console.error('HTTP status:', error.status);
+        console.error('HTTP status text:', error.statusText);
+        console.error('Error payload:', error.error);
+
+        if (error.status === 0) {
+          console.error('Network/CORS/SSL issue detected (status 0).');
+        }
+
+        console.groupEnd();
+        return throwError(() => error);
+      })
+    );
+  }
+
+  registerDoctor(data: RegisterDoctorRequest): Observable<any> {
+    const url = this.resolveAuthUrl(`${this.config.backendApi}/registerDoctor`);
+
+    console.groupCollapsed('[AuthService] Register doctor request');
+    console.log('Endpoint:', url);
+    console.log('Payload:', data);
+    console.groupEnd();
+
+    return this.http.post(url, data, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: false
+    }).pipe(
+      tap((response) => {
+        console.groupCollapsed('[AuthService] Register doctor response');
+        console.log('Response payload:', response);
+        console.groupEnd();
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.groupCollapsed('[AuthService] Register doctor error');
         console.error('HTTP status:', error.status);
         console.error('HTTP status text:', error.statusText);
         console.error('Error payload:', error.error);

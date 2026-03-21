@@ -9,6 +9,7 @@ import { CreateAppointment } from './features/appointments/pages/create-appointm
 import { RescheduleAppointment } from './features/appointments/pages/reschedule-appointment/reschedule-appointment';
 import { CancelAppointment } from './features/appointments/pages/cancel-appointment/cancel-appointment';
 import { AdminHome } from './features/users/pages/admin-home/admin-home';
+import { RegisterDoctor } from './features/users/pages/register-doctor/register-doctor';
 export const routes: Routes = [
 
   {
@@ -36,6 +37,10 @@ export const routes: Routes = [
       {
         path: 'admin',
         component: AdminHome
+      },
+      {
+        path: 'admin/registrar-medico',
+        component: RegisterDoctor
       },
       
       {
