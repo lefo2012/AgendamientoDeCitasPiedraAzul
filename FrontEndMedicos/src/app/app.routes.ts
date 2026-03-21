@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { Main } from './features/main/pages/main/main';
 import { Login } from './features/users/pages/login-user/login-user';
-import { RegisterUser } from './features/users/pages/register-user/register-user';
+import { RegisterDoctor} from './features/users/pages/register-user/register-user';
 import { AppointmentTable } from './features/appointments/pages/appointment-table/appointment-table';
 
 export const routes: Routes = [
@@ -20,7 +20,7 @@ export const routes: Routes = [
 			},
 			{
 				path: 'register',
-				component: RegisterUser,
+				component: RegisterDoctor,
 			},
 			{
 				path: 'citas',

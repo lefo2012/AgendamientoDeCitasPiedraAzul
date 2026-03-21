@@ -1,12 +1,12 @@
 <section class="auth-page register-page">
   <div class="auth-card register-card shadow-lg">
     <header class="auth-header">
-      <p class="auth-kicker">Nuevo medico</p>
-      <h1>Crear cuenta</h1>
-      <p class="auth-subtitle">Completa la informacion para acceder al portal medico.</p>
+      <p class="auth-kicker">Panel Administrador</p>
+      <h1>Registrar medico</h1>
+      <p class="auth-subtitle">Completa la informacion para crear la cuenta del medico.</p>
     </header>
 
-    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
+    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="registerDoctor()">
       @if (formError) {
         <div class="form-alert" role="alert">{{ formError }}</div>
       }
@@ -17,7 +17,7 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Nombre(s)</mat-label>
-              <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)" />
+              <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)">
               @if (fieldInvalid('firstName')) {
                 <mat-error>Ingresa un nombre valido (minimo 2 letras).</mat-error>
               }
@@ -27,7 +27,7 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Apellido(s)</mat-label>
-              <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)" />
+              <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)">
               @if (fieldInvalid('lastName')) {
                 <mat-error>Ingresa un apellido valido (minimo 2 letras).</mat-error>
               }
@@ -42,6 +42,7 @@
               <mat-select formControlName="documentType">
                 <mat-option value="">Seleccione</mat-option>
                 <mat-option value="CC">Cedula</mat-option>
+                <mat-option value="TI">Tarjeta de Identidad</mat-option>
                 <mat-option value="CE">Cedula de Extranjeria</mat-option>
               </mat-select>
               @if (fieldInvalid('documentType')) {
@@ -53,7 +54,7 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Numero de documento</mat-label>
-              <input matInput type="text" formControlName="identificationNumber" placeholder="123456789" />
+              <input matInput type="text" formControlName="identificationNumber" placeholder="123456789">
               @if (fieldInvalid('identificationNumber')) {
                 <mat-error>Debe tener entre 6 y 12 digitos numericos.</mat-error>
               }
@@ -65,7 +66,7 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Fecha de nacimiento</mat-label>
-              <input matInput [matDatepicker]="birthPicker" [max]="maxBirthDate" formControlName="birthDate" placeholder="Selecciona una fecha" />
+              <input matInput [matDatepicker]="birthPicker" [max]="maxBirthDate" formControlName="birthDate" placeholder="Selecciona una fecha">
               <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
               <mat-datepicker #birthPicker></mat-datepicker>
               @if (fieldInvalid('birthDate')) {
@@ -77,12 +78,26 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Telefono</mat-label>
-              <input matInput type="text" formControlName="phone" placeholder="3001234567" />
+              <input matInput type="text" formControlName="phone" placeholder="3001234567">
               @if (fieldInvalid('phone')) {
                 <mat-error>Ingresa un numero de 10 digitos.</mat-error>
               }
             </mat-form-field>
           </div>
+        </div>
+
+        <div class="field-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Especialidades</mat-label>
+            <mat-select formControlName="specialties" multiple>
+              <mat-option value="TERAPIA_NEURAL">Terapia Neural</mat-option>
+              <mat-option value="QUIROPRAXIA">Quiropraxia</mat-option>
+              <mat-option value="FISIOTERAPIA">Fisioterapia</mat-option>
+            </mat-select>
+            @if (fieldInvalid('specialties')) {
+              <mat-error>Selecciona al menos una especialidad.</mat-error>
+            }
+          </mat-form-field>
         </div>
       </section>
 
@@ -92,7 +107,7 @@
         <div class="field-block">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Correo electronico</mat-label>
-            <input matInput type="email" formControlName="email" placeholder="ejemplo@clinica.com" autocomplete="email" />
+            <input matInput type="email" formControlName="email" placeholder="ejemplo@gmail.com" autocomplete="email">
             @if (fieldInvalid('email')) {
               <mat-error>Ingresa un correo electronico valido.</mat-error>
             }
@@ -103,9 +118,9 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Contrasena</mat-label>
-              <input matInput type="password" formControlName="password" placeholder="********" autocomplete="new-password" />
+              <input matInput type="password" formControlName="password" placeholder="********" autocomplete="new-password">
               @if (fieldInvalid('password')) {
-                <mat-error>Minimo 8 caracteres.</mat-error>
+                <mat-error>Minimo 8 caracteres, mayuscula, minuscula, numero y simbolo.</mat-error>
               }
             </mat-form-field>
           </div>
@@ -113,7 +128,7 @@
           <div class="field-block">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Confirmar contrasena</mat-label>
-              <input matInput type="password" formControlName="confirmPassword" placeholder="********" autocomplete="new-password" />
+              <input matInput type="password" formControlName="confirmPassword" placeholder="********" autocomplete="new-password">
               @if (fieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']) {
                 <mat-error>Las contrasenas no coinciden.</mat-error>
               }
@@ -122,7 +137,14 @@
         </div>
       </section>
 
-      <button mat-flat-button class="auth-submit" type="submit">Registrarse</button>
+      <div class="actions-row">
+        <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">
+          Volver
+        </button>
+        <button mat-flat-button class="auth-submit" type="submit">
+          Registrar medico
+        </button>
+      </div>
     </form>
   </div>
 </section>

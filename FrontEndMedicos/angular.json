@@ -3,11 +3,11 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
-    "analytics": "323b8dca-7067-47d3-9273-fbb48bf3fc17"
+    "analytics": false
   },
   "newProjectRoot": "projects",
   "projects": {
-    "FrontEndMedicos": {
+    "FrontendPiedraAzul": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -30,9 +30,16 @@
                 "input": "public"
               }
             ],
+
             "styles": [
+              "src/material-theme.scss",
               "src/styles.scss"
-            ]
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
@@ -59,13 +66,18 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+          "proxyConfig": "proxy.conf.json"
+          },
+          
           "builder": "@angular/build:dev-server",
           "configurations": {
+
             "production": {
-              "buildTarget": "FrontEndMedicos:build:production"
+              "buildTarget": "FrontendPiedraAzul:build:production"
             },
             "development": {
-              "buildTarget": "FrontEndMedicos:build:development"
+              "buildTarget": "FrontendPiedraAzul:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f380b3d4-01ec-437b-beff-dc9d8f2bcd3f" name="Changes" comment="" />
+    <list default="true" id="f380b3d4-01ec-437b-beff-dc9d8f2bcd3f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/admin-home/admin-home.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/admin-home/admin-home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/register-doctor/register-doctor.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/register-doctor/register-doctor.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -9,52 +15,53 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
+      <entry key="_C:/Users/angma/OneDrive/Desktop/piedrazulv2/BackendPiedraAzul" value="3BHAG42FhS8qAuewyaNklG3H5Pe" />
       <entry key="_C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul/BackendPiedraAzul" value="3BFALPcwBMtMXkzUEBot81GbmYY" />
     </persistenceIdMap>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Nelson-LV"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Nelson-LV&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings"><![CDATA[{
   "selectedUrlAndAccountId": {
     "url": "https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git",
-    "accountId": "1629eca7-2c74-4502-9de4-dd2c255b2962"
+    "accountId": "371c8c6e-d7bc-494c-b42d-7067cef332f4"
   }
 }]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3BFALPcwBMtMXkzUEBot81GbmYY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "FrontEnd",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;FrontEnd&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
-        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.334" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
       </set>
     </attachedChunks>
   </component>
@@ -66,6 +73,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774074390418</updated>
       <workItem from="1774074392659" duration="61000" />
+      <workItem from="1774135515340" duration="50000" />
     </task>
     <servers />
   </component>
