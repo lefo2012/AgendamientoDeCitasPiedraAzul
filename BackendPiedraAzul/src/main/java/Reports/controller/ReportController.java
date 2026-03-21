@@ -19,7 +19,6 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/reports")
-@CrossOrigin(origins = "*", maxAge = 3600)
 public class ReportController {
 
     @Autowired
@@ -36,26 +35,6 @@ public class ReportController {
             @RequestParam(value = "doctorId") Long doctorId,
             @RequestParam(value = "appointmentDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate
     ) {
-        try {
-            // Obtain the appointments of the doctor on the specified date
-            List<AppointmentReportDTO> appointments = appointmentReportService.getAppointmentsByDoctorAndDate(doctorId, appointmentDate);
-            long totalCount = appointmentReportService.countAppointmentsByDoctorAndDate(doctorId, appointmentDate);
-
-             return null;
-             // Build response with the report data,pending implementation of the service methods
-//            Map<String, Object> response = new HashMap<>();
-//            response.put("doctorId", doctorId);
-//            response.put("appointmentDate", appointmentDate);
-//            response.put("totalAppointments", totalCount);
-//            response.put("appointments", appointments);
-//
-//            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            return null;
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(Map.of("error", "Error al obtener el reporte de citas: " + e.getMessage()));
-        }
+        return  ResponseEntity.ok("se listara");
     }
-
 }

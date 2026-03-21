@@ -11,18 +11,6 @@ import java.util.List;
 public class AppointmentReportService {
 
     /**
-     * obtains the appointments of a doctor/therapist on a specific date.
-     *
-     * @param doctorId ID of the doctor/therapist
-     * @param appointmentDate Date of the appointments to search (format: YYYY-MM-DD)
-     * @return list with appointment information for the specified doctor and date
-     */
-    public List<AppointmentReportDTO> getAppointmentsByDoctorAndDate(Long doctorId, LocalDate appointmentDate) {
-        //here we will implement the logic to fetch appointments from the Appointments service based on the doctorId and appointmentDate
-        return List.of();
-    }
-
-    /**
      * Obtain the total count of appointments for a doctor/therapist on a specific date.
      *
      * @param doctorId ID of the doctor/therapist
@@ -30,7 +18,7 @@ public class AppointmentReportService {
      * @return count of appointments
      */
     public long countAppointmentsByDoctorAndDate(Long doctorId, LocalDate appointmentDate) {
-        //this function will implement the logic to count the total number of appointments for the specified doctor and date.
+        //no se si esto va aqui
         return 0;
     }
 

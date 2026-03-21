@@ -16,15 +16,14 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class AppointmentReportDTO {
 
-    //posible atributes of an appointment that we want to include in the report.
     private Long appointmentId;
     private String patientName;
     private String doctorName;
     private LocalDate appointmentDate;
     private LocalTime appointmentTime;
     private String status;
+
 }
 
