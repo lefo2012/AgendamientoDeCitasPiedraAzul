@@ -15,15 +15,12 @@ import java.util.List;
 @Service
 public class AppointmentPersistenceService implements IAppointmentPersistenceService {
 
-    private final AppointmentRepositoryJPA jpaRepository;
-
-    private final AppointmentMapper appointmentMapper;
-
     @Autowired
-    public AppointmentPersistenceService(AppointmentRepositoryJPA jpaRepository, AppointmentMapper appointmentMapper) {
-        this.jpaRepository = jpaRepository;
-        this.appointmentMapper = appointmentMapper;
-    }
+    private AppointmentRepositoryJPA jpaRepository;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
+
+
 
     @Transactional
     @Override
@@ -32,8 +29,7 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
         AppointmentEntity saved = jpaRepository.save(entity);
         return appointmentMapper.toDomain(saved);
     }
-
-    @Transactional
+    //Delete annotation transactional because the method is not a transaction.
     @Override
     public List<Appointment> findAll() throws Exception{
         List<AppointmentEntity> entities = jpaRepository.findAll();

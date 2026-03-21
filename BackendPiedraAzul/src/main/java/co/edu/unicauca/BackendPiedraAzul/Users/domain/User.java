@@ -1,7 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.domain;
 
 import java.util.List;
-import co.edu.unicauca.BackendPiedraAzul.Users.validation.LoginValidation;
+
 
 public class User {
     private Long id;

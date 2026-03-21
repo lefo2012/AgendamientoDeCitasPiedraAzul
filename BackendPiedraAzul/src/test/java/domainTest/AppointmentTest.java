@@ -32,7 +32,7 @@ public class AppointmentTest {
         IntervalList intervalList = new IntervalList();
         intervalList.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(13, 0)));
         intervals.add(intervalList);
-        Schedule schedule = new Schedule(days, intervals, 1, LocalDate.now().getYear());
+        Schedule schedule = new Schedule(days, intervals, 5, LocalDate.now().getYear());
 
         Doctor doctor = new Doctor(
                 1,

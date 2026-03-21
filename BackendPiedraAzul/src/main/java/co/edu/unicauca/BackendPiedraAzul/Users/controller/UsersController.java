@@ -104,12 +104,4 @@ public class UsersController {
                     .body("{\"error\":\"Error retrieving patients: " + e.getMessage() + "\"}");
         }
     }
-
-
-
-
-
-
-
-
 }
