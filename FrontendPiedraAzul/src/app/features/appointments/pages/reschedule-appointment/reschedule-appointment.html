@@ -1,0 +1,66 @@
+<section class="reschedule-appointment-page">
+  <mat-card class="appointment-card">
+    <div class="card-header">
+      <h1>Reagendar Cita</h1>
+      <p>Ingresa tu codigo de cita y selecciona una nueva fecha y hora.</p>
+    </div>
+
+    <form [formGroup]="rescheduleForm" (ngSubmit)="submitReschedule()" class="appointment-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Codigo de cita</mat-label>
+        <input matInput formControlName="appointmentCode" placeholder="Ej: CIT-1024">
+        <mat-error>Ingresa el codigo de cita.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Medico</mat-label>
+        <mat-select formControlName="doctor">
+          @for (doctor of doctors; track doctor) {
+            <mat-option [value]="doctor">{{ doctor }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>Selecciona un medico.</mat-error>
+      </mat-form-field>
+
+      <div class="date-time-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nueva fecha</mat-label>
+          <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="newDate">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>Selecciona una fecha.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Nueva hora</mat-label>
+          <mat-select formControlName="newTime">
+            @for (slot of timeSlots; track slot) {
+              <mat-option [value]="slot">{{ slot }}</mat-option>
+            }
+          </mat-select>
+          <mat-error>Selecciona una hora.</mat-error>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Motivo (opcional)</mat-label>
+        <textarea matInput rows="3" formControlName="reason" placeholder="Ej: cambio de disponibilidad"></textarea>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-stroked-button type="button" class="secondary-btn" (click)="goBack()">
+          Regresar
+        </button>
+        <button mat-flat-button type="submit" class="primary-btn">
+          Reagendar Cita
+        </button>
+      </div>
+    </form>
+
+    @if (wasSubmitted) {
+      <div class="success-box" role="status" aria-live="polite">
+        Tu solicitud de reagendamiento fue registrada correctamente.
+      </div>
+    }
+  </mat-card>
+</section>

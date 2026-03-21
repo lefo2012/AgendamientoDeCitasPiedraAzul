@@ -15,17 +15,19 @@ export class Login {
 
   loginForm: FormGroup;
   errorMessage = '';
+  submitted = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', Validators.required]
     });
 
   }
 
   login() {
+    this.submitted = true;
     console.groupCollapsed('[LoginComponent] Login submit triggered');
     console.log('Form value:', this.loginForm.value);
     console.log('Form valid:', this.loginForm.valid);
@@ -34,6 +36,7 @@ export class Login {
     if (this.loginForm.invalid) {
       console.warn('[LoginComponent] Login form is invalid. Validation prevented request.');
       this.loginForm.markAllAsTouched();
+      this.errorMessage = 'Completa correctamente los campos para continuar.';
       return;
     }
 
@@ -76,6 +79,11 @@ export class Login {
           this.errorMessage = 'Error de autenticación. Revisa la consola para más detalle.';
         }
       });
+  }
+
+  fieldInvalid(fieldName: 'email' | 'password'): boolean {
+    const control = this.loginForm.get(fieldName);
+    return !!control && control.invalid && (control.touched || this.submitted);
   }
 
 }

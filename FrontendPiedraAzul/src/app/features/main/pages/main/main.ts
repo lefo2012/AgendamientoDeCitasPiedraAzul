@@ -18,4 +18,16 @@ export class Main  {
     this.router.navigate(['/about']);
   }
 
+  goToCreateAppointment() {
+    this.router.navigate(['/citas/agendar']);
+  }
+
+  goToRescheduleAppointment() {
+    this.router.navigate(['/citas/reagendar']);
+  }
+
+  goToCancelAppointment() {
+    this.router.navigate(['/citas/cancelar']);
+  }
+
 }

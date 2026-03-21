@@ -1,0 +1,46 @@
+<section class="cancel-appointment-page">
+  <mat-card class="appointment-card">
+    <div class="card-header">
+      <h1>Cancelar Cita</h1>
+      <p>Ingresa el codigo de la cita y confirma la solicitud de cancelacion.</p>
+    </div>
+
+    <form [formGroup]="cancelForm" (ngSubmit)="submitCancellation()" class="appointment-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Codigo de cita</mat-label>
+        <input matInput formControlName="appointmentCode" placeholder="Ej: CIT-1024">
+        <mat-error>Ingresa el codigo de cita.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Motivo de cancelacion</mat-label>
+        <mat-select formControlName="reason">
+          @for (reason of cancellationReasons; track reason) {
+            <mat-option [value]="reason">{{ reason }}</mat-option>
+          }
+        </mat-select>
+        <mat-error>Selecciona un motivo.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Detalles adicionales (opcional)</mat-label>
+        <textarea matInput rows="4" formControlName="details" placeholder="Informacion adicional para la cancelacion"></textarea>
+      </mat-form-field>
+
+      <div class="actions">
+        <button mat-stroked-button type="button" class="secondary-btn" (click)="goBack()">
+          Regresar
+        </button>
+        <button mat-flat-button type="submit" class="danger-btn">
+          Cancelar Cita
+        </button>
+      </div>
+    </form>
+
+    @if (wasSubmitted) {
+      <div class="success-box" role="status" aria-live="polite">
+        Tu solicitud de cancelacion fue registrada correctamente.
+      </div>
+    }
+  </mat-card>
+</section>
