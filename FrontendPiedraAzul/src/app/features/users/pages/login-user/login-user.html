@@ -8,42 +8,30 @@
 
     <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="field-block">
-        <label class="form-label" for="loginEmail">Usuario o correo</label>
-        <input
-          id="loginEmail"
-          type="text"
-          class="form-control"
-          [class.is-invalid]="fieldInvalid('email')"
-          formControlName="email"
-          placeholder="Nombre de usuario o correo electrónico"
-          autocomplete="username"
-        >
-        @if (fieldInvalid('email')) {
-          <small class="field-error">Ingresa un usuario o correo válido.</small>
-        }
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Usuario o correo</mat-label>
+          <input matInput type="text" formControlName="email" placeholder="Nombre de usuario o correo electronico" autocomplete="username">
+          @if (fieldInvalid('email')) {
+            <mat-error>Ingresa un usuario o correo valido.</mat-error>
+          }
+        </mat-form-field>
       </div>
 
       <div class="field-block">
-        <label class="form-label" for="loginPassword">Contraseña</label>
-        <input
-          id="loginPassword"
-          type="password"
-          class="form-control"
-          [class.is-invalid]="fieldInvalid('password')"
-          formControlName="password"
-          placeholder="********"
-          autocomplete="current-password"
-        >
-        @if (fieldInvalid('password')) {
-          <small class="field-error">La contraseña es obligatoria.</small>
-        }
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contrasena</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="********" autocomplete="current-password">
+          @if (fieldInvalid('password')) {
+            <mat-error>La contrasena es obligatoria.</mat-error>
+          }
+        </mat-form-field>
       </div>
 
       @if (errorMessage) {
         <div class="form-alert" role="alert">{{ errorMessage }}</div>
       }
 
-      <button class="btn btn-primary w-100 auth-submit" type="submit">
+      <button mat-flat-button class="auth-submit" type="submit">
         Ingresar
       </button>
     </form>

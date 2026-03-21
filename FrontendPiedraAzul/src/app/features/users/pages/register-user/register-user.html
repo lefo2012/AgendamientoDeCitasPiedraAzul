@@ -15,60 +15,72 @@
         <h2>Informacion personal</h2>
         <div class="form-grid two-columns">
           <div class="field-block">
-            <label class="form-label" for="firstName">Nombre(s)</label>
-            <input id="firstName" type="text" class="form-control" [class.is-invalid]="fieldInvalid('firstName')" formControlName="firstName" placeholder="Nombre(s)">
-            @if (fieldInvalid('firstName')) {
-              <small class="field-error">Ingresa un nombre válido (mínimo 2 letras).</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre(s)</mat-label>
+              <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)">
+              @if (fieldInvalid('firstName')) {
+                <mat-error>Ingresa un nombre valido (minimo 2 letras).</mat-error>
+              }
+            </mat-form-field>
           </div>
 
           <div class="field-block">
-            <label class="form-label" for="lastName">Apellido(s)</label>
-            <input id="lastName" type="text" class="form-control" [class.is-invalid]="fieldInvalid('lastName')" formControlName="lastName" placeholder="Apellido(s)">
-            @if (fieldInvalid('lastName')) {
-              <small class="field-error">Ingresa un apellido válido (mínimo 2 letras).</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellido(s)</mat-label>
+              <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)">
+              @if (fieldInvalid('lastName')) {
+                <mat-error>Ingresa un apellido valido (minimo 2 letras).</mat-error>
+              }
+            </mat-form-field>
           </div>
         </div>
 
         <div class="form-grid document-grid">
           <div class="field-block">
-            <label class="form-label" for="documentType">Tipo de documento</label>
-            <select id="documentType" class="form-select" [class.is-invalid]="fieldInvalid('documentType')" formControlName="documentType">
-              <option value="">Seleccione</option>
-              <option value="CC">Cedula</option>
-              <option value="TI">Tarjeta de Identidad</option>
-              <option value="CE">Cedula de Extranjeria</option>
-            </select>
-            @if (fieldInvalid('documentType')) {
-              <small class="field-error">Selecciona un tipo de documento.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select formControlName="documentType">
+                <mat-option value="">Seleccione</mat-option>
+                <mat-option value="CC">Cedula</mat-option>
+                <mat-option value="TI">Tarjeta de Identidad</mat-option>
+                <mat-option value="CE">Cedula de Extranjeria</mat-option>
+              </mat-select>
+              @if (fieldInvalid('documentType')) {
+                <mat-error>Selecciona un tipo de documento.</mat-error>
+              }
+            </mat-form-field>
           </div>
 
           <div class="field-block">
-            <label class="form-label" for="identificationNumber">Numero de documento</label>
-            <input id="identificationNumber" type="text" class="form-control" [class.is-invalid]="fieldInvalid('identificationNumber')" formControlName="identificationNumber" placeholder="123456789">
-            @if (fieldInvalid('identificationNumber')) {
-              <small class="field-error">Debe tener entre 6 y 12 digitos numericos.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Numero de documento</mat-label>
+              <input matInput type="text" formControlName="identificationNumber" placeholder="123456789">
+              @if (fieldInvalid('identificationNumber')) {
+                <mat-error>Debe tener entre 6 y 12 digitos numericos.</mat-error>
+              }
+            </mat-form-field>
           </div>
         </div>
 
         <div class="form-grid two-columns">
           <div class="field-block">
-            <label class="form-label" for="birthDate">Fecha de nacimiento</label>
-            <input id="birthDate" type="date" class="form-control" [class.is-invalid]="fieldInvalid('birthDate')" [max]="maxBirthDate" formControlName="birthDate">
-            @if (fieldInvalid('birthDate')) {
-              <small class="field-error">No puede ser una fecha futura.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput type="date" [max]="maxBirthDate" formControlName="birthDate">
+              @if (fieldInvalid('birthDate')) {
+                <mat-error>No puede ser una fecha futura y debes ser mayor de edad.</mat-error>
+              }
+            </mat-form-field>
           </div>
 
           <div class="field-block">
-            <label class="form-label" for="phone">Teléfono</label>
-            <input id="phone" type="text" class="form-control" [class.is-invalid]="fieldInvalid('phone')" formControlName="phone" placeholder="3001234567">
-            @if (fieldInvalid('phone')) {
-              <small class="field-error">Ingresa un número de 10 dígitos.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Telefono</mat-label>
+              <input matInput type="text" formControlName="phone" placeholder="3001234567">
+              @if (fieldInvalid('phone')) {
+                <mat-error>Ingresa un numero de 10 digitos.</mat-error>
+              }
+            </mat-form-field>
           </div>
         </div>
       </section>
@@ -77,33 +89,39 @@
         <h2>Credenciales</h2>
 
         <div class="field-block">
-          <label class="form-label" for="registerEmail">Correo electrónico</label>
-          <input id="registerEmail" type="email" class="form-control" [class.is-invalid]="fieldInvalid('email')" formControlName="email" placeholder="ejemplo@gmail.com" autocomplete="email">
-          @if (fieldInvalid('email')) {
-            <small class="field-error">Ingresa un correo electrónico válido.</small>
-          }
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Correo electronico</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="ejemplo@gmail.com" autocomplete="email">
+            @if (fieldInvalid('email')) {
+              <mat-error>Ingresa un correo electronico valido.</mat-error>
+            }
+          </mat-form-field>
         </div>
 
         <div class="form-grid two-columns">
           <div class="field-block">
-            <label class="form-label" for="registerPassword">Contraseña</label>
-            <input id="registerPassword" type="password" class="form-control" [class.is-invalid]="fieldInvalid('password')" formControlName="password" placeholder="********" autocomplete="new-password">
-            @if (fieldInvalid('password')) {
-              <small class="field-error">Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contrasena</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="********" autocomplete="new-password">
+              @if (fieldInvalid('password')) {
+                <mat-error>Minimo 8 caracteres, mayuscula, minuscula, numero y simbolo.</mat-error>
+              }
+            </mat-form-field>
           </div>
 
           <div class="field-block">
-            <label class="form-label" for="confirmPassword">Confirmar contraseña</label>
-            <input id="confirmPassword" type="password" class="form-control" [class.is-invalid]="fieldInvalid('confirmPassword') || !!registerForm.errors?.['passwordMismatch']" formControlName="confirmPassword" placeholder="********" autocomplete="new-password">
-            @if (fieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']) {
-              <small class="field-error">Las contraseñas no coinciden.</small>
-            }
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirmar contrasena</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" placeholder="********" autocomplete="new-password">
+              @if (fieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']) {
+                <mat-error>Las contrasenas no coinciden.</mat-error>
+              }
+            </mat-form-field>
           </div>
         </div>
       </section>
 
-      <button class="btn btn-primary w-100 auth-submit" type="submit">
+      <button mat-flat-button class="auth-submit" type="submit">
         Registrarse
       </button>
     </form>
