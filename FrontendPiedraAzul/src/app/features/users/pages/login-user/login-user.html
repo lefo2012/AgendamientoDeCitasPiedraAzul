@@ -2,27 +2,27 @@
   <div class="auth-card login-card shadow">
     <header class="auth-header">
       <p class="auth-kicker">Bienvenido</p>
-      <h1>Iniciar sesion</h1>
-      <p class="auth-subtitle">Accede para gestionar tus citas de forma rapida y segura.</p>
+      <h1>Iniciar sesión</h1>
+      <p class="auth-subtitle">Accede para gestionar tus citas de forma rápida y segura.</p>
     </header>
 
     <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="field-block">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Usuario o correo</mat-label>
-          <input matInput type="text" formControlName="email" placeholder="Nombre de usuario o correo electronico" autocomplete="username">
+          <input matInput type="text" formControlName="email" placeholder="Nombre de usuario o correo electrónico" autocomplete="username">
           @if (fieldInvalid('email')) {
-            <mat-error>Ingresa un usuario o correo valido.</mat-error>
+            <mat-error>Ingresa un usuario o correo válido.</mat-error>
           }
         </mat-form-field>
       </div>
 
       <div class="field-block">
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Contrasena</mat-label>
+          <mat-label>Contraseña</mat-label>
           <input matInput type="password" formControlName="password" placeholder="********" autocomplete="current-password">
           @if (fieldInvalid('password')) {
-            <mat-error>La contrasena es obligatoria.</mat-error>
+            <mat-error>La contraseña es obligatoria.</mat-error>
           }
         </mat-form-field>
       </div>

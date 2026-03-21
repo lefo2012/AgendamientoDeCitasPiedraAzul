@@ -3,8 +3,10 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validator
 import { AuthService, RegisterRequest } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
@@ -14,8 +16,10 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    MatNativeDateModule,
     MatSelectModule
   ],
   styleUrls: ['./register-user.scss']
@@ -25,11 +29,11 @@ export class RegisterUser {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
-  readonly maxBirthDate: string;
+  readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
 
-    this.maxBirthDate = new Date().toISOString().split('T')[0];
+    this.maxBirthDate = new Date();
 
     
     this.registerForm = this.fb.group(
@@ -63,7 +67,7 @@ export class RegisterUser {
           [
             Validators.required,
             this.noFutureDateValidator(),
-            this.minimumAgeValidator(18)
+            this.minimumAgeValidator(0)
           ]
         ],
         phone: [
@@ -125,12 +129,16 @@ export class RegisterUser {
 
     const formData = this.registerForm.value;
 
+    const birthDateValue = formData.birthDate instanceof Date
+      ? formData.birthDate.toISOString().split('T')[0]
+      : formData.birthDate;
+
     const request: RegisterRequest = {
       documentType: formData.documentType,
       identificationNumber: formData.identificationNumber,
       firstName: formData.firstName,
       lastName: formData.lastName,
-      birthDate: formData.birthDate,
+      birthDate: birthDateValue,
       phone: formData.phone,
       active: true,
       user: {
