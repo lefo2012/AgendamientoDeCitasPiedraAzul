@@ -28,7 +28,7 @@ export class RegisterDoctor {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
-  readonly specialtyOptions = ['Terapia Neural', 'Quiropraxia', 'Fisioterapia'];
+  readonly specialtyOptions = ['TERAPIA_NEURAL', 'QUIROPRAXIA', 'FISIOTERAPIA'];
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
