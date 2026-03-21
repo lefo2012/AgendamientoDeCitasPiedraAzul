@@ -8,7 +8,7 @@ import { About } from './features/main/pages/about/about';
 import { CreateAppointment } from './features/appointments/pages/create-appointment/create-appointment';
 import { RescheduleAppointment } from './features/appointments/pages/reschedule-appointment/reschedule-appointment';
 import { CancelAppointment } from './features/appointments/pages/cancel-appointment/cancel-appointment';
-
+import { AdminHome } from './features/users/pages/admin-home/admin-home';
 export const routes: Routes = [
 
   {
@@ -20,6 +20,7 @@ export const routes: Routes = [
         component: Main
 
       },
+      
       {
         path: 'about',
         component: About
@@ -32,6 +33,11 @@ export const routes: Routes = [
         path: 'login',
         component: Login
       },
+      {
+        path: 'admin',
+        component: AdminHome
+      },
+      
       {
         path: 'citas',
         redirectTo: 'citas/agendar',
@@ -53,6 +59,7 @@ export const routes: Routes = [
         path:'header',
         component: Header
       },
+      
 
     ]
 

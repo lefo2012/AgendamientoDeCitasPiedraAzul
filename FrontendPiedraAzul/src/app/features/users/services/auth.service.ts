@@ -134,4 +134,19 @@ export class AuthService {
     const url = this.resolveAuthUrl(`${this.config.backendApi}/logout`);
     return this.http.post(url, {}, { withCredentials: true });
   }
+
+getRolesFromToken(token: string): string[] {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload?.realm_access?.roles || [];
+  } catch (e) {
+    console.error('Error parsing token', e);
+    return [];
+  }
+}
+
+
+
+
+
 }

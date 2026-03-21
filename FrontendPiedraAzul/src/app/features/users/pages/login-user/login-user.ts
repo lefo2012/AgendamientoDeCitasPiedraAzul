@@ -51,6 +51,7 @@ export class Login {
     const credentials = this.loginForm.value;
     const email = credentials.email?.trim?.() ?? credentials.email;
 
+
     console.log('[LoginComponent] Calling AuthService.login for user:', email);
 
     this.authService.login(email, credentials.password)
@@ -65,7 +66,22 @@ export class Login {
           console.log('[LoginComponent] Token stored in localStorage key: piedraAzul_access_token');
 
           this.errorMessage = '';
-          this.router.navigate(['/']);
+          const roles = this.authService.getRolesFromToken(token.access_token);
+
+          console.log('[LoginComponent] Roles extracted:', roles);
+
+          if (roles.includes('admin')) {
+            console.log('[LoginComponent] Redirecting to /admin');
+            this.router.navigate(['/admin']);
+          } else {
+            console.log('[LoginComponent] Redirecting to /');
+            this.router.navigate(['/']);
+          }
+
+
+
+
+
         },
         error: (err) => {
           console.groupCollapsed('[LoginComponent] Login failed');
