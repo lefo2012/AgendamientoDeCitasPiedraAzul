@@ -15,4 +15,7 @@ public interface IDoctorPersistenceService {
 
     @Transactional
     List<Doctor> findAll () throws Exception;
+
+    @Transactional
+    Doctor findById (Long id) throws Exception;
 }

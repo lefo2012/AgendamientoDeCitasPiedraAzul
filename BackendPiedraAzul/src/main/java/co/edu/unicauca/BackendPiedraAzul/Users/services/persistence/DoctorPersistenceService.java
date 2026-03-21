@@ -50,5 +50,13 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
                 .toList();
     }
 
+    @Transactional
+    @Override
+    public Doctor findById(Long id) throws Exception {
+        DoctorEntity entity = jpaRepository.findById(id)
+                . orElseThrow(() -> new Exception("Doctor not found with id: " + id));
+        return doctorMapper.toDomain(entity);
+    }
+
 
 }
