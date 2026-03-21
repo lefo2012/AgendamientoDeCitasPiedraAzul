@@ -1,4 +1,4 @@
-package Reports.services;
+package co.edu.unicauca.BackendPiedraAzul.Reports.services;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,17 +13,15 @@ import java.time.LocalTime;
  * here we encapsulate the information of an appointment that we want to include in the report.
  * This class is for to show the details of an appointment n the table.
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentReportDTO {
 
-    private Long appointmentId;
     private String patientName;
     private String doctorName;
-    private LocalDate appointmentDate;
-    private LocalTime appointmentTime;
-    private String status;
+    private String appointmentInterval;
 
 }
 

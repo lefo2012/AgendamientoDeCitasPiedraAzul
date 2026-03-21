@@ -1,4 +1,4 @@
-package Reports.services;
+package co.edu.unicauca.BackendPiedraAzul.Reports.services;
 
 import java.time.LocalDate;
 import java.util.List;

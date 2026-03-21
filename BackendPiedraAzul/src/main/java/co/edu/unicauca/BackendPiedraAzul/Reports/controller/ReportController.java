@@ -1,17 +1,12 @@
-package Reports.controller;
+package co.edu.unicauca.BackendPiedraAzul.Reports.controller;
 
-import Reports.services.AppointmentReportDTO;
-import Reports.services.AppointmentReportService;
+import co.edu.unicauca.BackendPiedraAzul.Reports.services.AppointmentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Rest controller for handling report-related endpoints.
@@ -35,6 +30,8 @@ public class ReportController {
             @RequestParam(value = "doctorId") Long doctorId,
             @RequestParam(value = "appointmentDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate
     ) {
+
+
         return  ResponseEntity.ok("se listara");
     }
 }
