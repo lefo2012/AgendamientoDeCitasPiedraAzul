@@ -1,27 +1,31 @@
 .welcome-section {
-    padding: 0 2rem 0 0;
+    padding: 0 clamp(1rem, 3vw, 2.5rem) 0 0;
     background-color: var(--fondo-suave);
     display: flex;
     align-items: center;
     position: relative;
-    min-height: 400px;
+    min-height: 420px;
     @media (max-width: 768px) {
         flex-direction: column;
         min-height: auto;
+        padding-right: 0;
     }
 }
 
 .welcome-image {
-    flex: 0 0 800px;
+    flex: 0 1 55%;
+    min-width: 0;
     
     .clinic-image {
         width: 100%;
         height: 100%;
+        object-fit: cover;
     }
     @media (max-width: 768px) {
         flex: none;
+        width: 100%;
         .clinic-image {
-            height: 200px;
+            height: 220px;
         }
     }
 }
@@ -35,7 +39,7 @@
 }
 
 .welcome-content {
-    padding: 2.5rem;
+    padding: clamp(1.2rem, 3.2vw, 2.5rem);
     
     h1 {
         color: var(--azul-profundo);
@@ -94,8 +98,8 @@
 
 .bottom-button-container {
     position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    bottom: 1.25rem;
+    left: clamp(1rem, 3vw, 2rem);
 
     .info-button {
         background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-profundo) 100%);
@@ -129,9 +133,15 @@
 
     @media (max-width: 768px) {
         position: static;
-        margin-top: 1rem;
+        margin: 0 0 1rem;
         display: flex;
         justify-content: center;
+        width: 100%;
+
+        .info-button {
+            width: min(360px, calc(100% - 2rem));
+            justify-content: center;
+        }
     }
 }
 
@@ -160,19 +170,20 @@
 .card-container{
     background: linear-gradient(180deg, var(--fondo-suave) 10%, var(--azul-profundo) 80%);
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 1.5rem;
     justify-content: center;
     align-items: stretch;
-    padding: 10rem;
+    padding: clamp(2rem, 8vw, 7rem) clamp(1rem, 4vw, 3rem);
     perspective: 1200px;
     border-bottom: 1px solid var(--azul-gris);
 }
 
 .card{
     position: relative;
-    width: 300px;
-    height: 500px;
+    width: min(320px, 100%);
+    min-height: 360px;
+    height: auto;
     cursor: pointer;
     transform-style: preserve-3d;
     border-radius: 20px;
@@ -236,10 +247,18 @@
     align-items: center;
 }
 
-
-
 @media (max-width: 768px) {
     .card-container {
-        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .card {
+        min-height: 280px;
+    }
+
+    .card:hover {
+        h1 {
+            font-size: 1.5rem;
+        }
     }
 }

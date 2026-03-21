@@ -1,18 +1,19 @@
 .footer {
   background-color: var(--azul-profundo);
   color: var(--blanco);
-  padding: 3rem 2rem 1rem;
+  padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) 1rem;
 }
 
 .footer-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 2rem;
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
 .footer-section {
-  flex: 1 1 200px;
+  min-width: 0;
 }
 
 .footer-section h2,
@@ -41,6 +42,8 @@
 }
 
 .footer-bottom {
+  width: min(1200px, 100%);
+  margin-inline: auto;
   margin-top: 2rem;
   text-align: center;
   border-top: 1px solid var(--azul-gris);
@@ -48,9 +51,41 @@
   font-size: 0.9rem;
 }
 
+.footer-bottom a {
+  color: var(--azul-gris-claro);
+  text-decoration: underline;
+}
+
+.footer-bottom a:hover {
+  color: var(--blanco);
+}
+
 .mat-mdc-button:hover {
     background-color: var(--azul-profundo);
     font-size: 1.05rem;
     padding: 10px;
     box-shadow: 0 10px 80px var(--azul-profundo);
+}
+
+@media (max-width: 992px) {
+  .footer-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .social-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .social-icons button {
+    margin-right: 0;
+  }
 }

@@ -3,10 +3,21 @@ body {
 }
 
 .register-card {
-  width: 600px;
+  width: min(760px, 100%);
   border-radius: 15px;
 }
 
 .card h2 {
   font-weight: 600;
+}
+
+.container {
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .register-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }

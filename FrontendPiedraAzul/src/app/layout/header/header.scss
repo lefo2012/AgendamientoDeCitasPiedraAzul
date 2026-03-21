@@ -1,8 +1,51 @@
-.box{
-  border-bottom: 1px solid var(--azul-profundo);
-  background-color: var(--blanco);
+.top-header {
+  position: sticky;
+  top: 0;
+  z-index: 1200;
+  border-bottom: 1px solid color-mix(in srgb, var(--azul-profundo) 22%, transparent);
+  background: linear-gradient(90deg, var(--azul-profundo) 0%, var(--azul-medio) 100%);
+  color: var(--blanco);
 }
-.separator{
-  height: 100px;
-  background-color: var(--azul-gris-claro);
+
+.header-inner {
+  width: min(1200px, 100% - 2rem);
+  margin: 0 auto;
+  min-height: 3.25rem;
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.welcome-message,
+.service-message {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.welcome-message {
+  font-weight: 600;
+}
+
+.service-message {
+  color: color-mix(in srgb, var(--blanco) 78%, transparent);
+}
+
+@media (max-width: 768px) {
+  .header-inner {
+    min-height: 2.9rem;
+    justify-content: center;
+    text-align: center;
+    padding: 0.45rem 0;
+  }
+
+  .service-message {
+    display: none;
+  }
+
+  .welcome-message {
+    font-size: 0.88rem;
+  }
 }
