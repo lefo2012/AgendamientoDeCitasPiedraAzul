@@ -1,46 +1,71 @@
-.app-footer {
-  background: var(--azul-gris-claro);
-  border-top: 1px solid var(--azul-medio);
-  padding: 0.75rem 1rem;
-  position: sticky;
-  bottom: 0;
-  width: 100%;
-  box-shadow: 0 -1px 5px rgba(0,0,0,.08);
-  z-index: 10;
+.footer {
+  background-color: var(--azul-profundo);
+  color: var(--blanco);
+  padding: clamp(1.6rem, 3vw, 2.2rem) clamp(1rem, 3vw, 2rem) 1rem;
 }
 
-.footer-buttons {
+.footer-container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.footer-section h2,
+.footer-section h3 {
+  margin: 0 0 0.9rem;
+  color: var(--azul-gris);
+}
+
+.footer-section p,
+.footer-section a {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
   align-items: center;
+  gap: 0.45rem;
+  margin-bottom: 0.55rem;
+  color: var(--azul-gris-claro);
+  text-decoration: none;
 }
 
-.footer-buttons button {
-  min-width: 140px;
-  color: var(--blanco);
-  font-weight: 600;
-  border-radius: 8px;
-  background: var(--azul-profundo);
-  border: 1px solid var(--azul-medio);
-}
-
-.footer-buttons button.mat-primary {
-  background: var(--azul-medio);
+.footer-section a:hover {
   color: var(--blanco);
 }
 
-.footer-buttons button.mat-accent {
-  background: var(--azul-oscuro);
-  color: var(--blanco);
+.footer-section mat-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
-.footer-buttons button.mat-warn {
-  background: var(--rojo-error);
-  color: var(--blanco);
+.social-icons {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.footer-buttons mat-icon {
-  margin-right: 0.35rem;
+.social-icons button {
+  color: var(--blanco);
+  background-color: color-mix(in srgb, var(--azul-gris) 72%, var(--azul-profundo));
+}
+
+.footer-bottom {
+  width: min(1200px, 100%);
+  margin: 1.4rem auto 0;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--azul-gris) 65%, transparent);
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--azul-gris-claro);
+}
+
+@media (max-width: 992px) {
+  .footer-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
 }

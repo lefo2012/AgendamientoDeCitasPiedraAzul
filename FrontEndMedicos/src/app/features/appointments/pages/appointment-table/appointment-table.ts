@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AppointmentButtons } from '../appointment-buttons/appointment-buttons';
 
 interface Appointment {
   doctor: string;
@@ -11,7 +12,7 @@ interface Appointment {
 @Component({
   selector: 'app-appointment-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AppointmentButtons],
   templateUrl: './appointment-table.html',
   styleUrls: ['./appointment-table.scss'],
 })
