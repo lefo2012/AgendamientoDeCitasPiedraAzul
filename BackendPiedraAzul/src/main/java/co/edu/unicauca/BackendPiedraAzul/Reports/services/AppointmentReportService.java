@@ -1,5 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.services;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  * this class will contain methods to retrieve and process appointment data for generating reports.
  * the methods in this class will interact with the Appointments service to fetch the necessary data
  */
+@Service
 public class AppointmentReportService {
 
     /**

@@ -1,6 +1,8 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.controller;
 
 import co.edu.unicauca.BackendPiedraAzul.Reports.services.AppointmentReportService;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.DoctorService;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,9 @@ public class ReportController {
 
     @Autowired
     private AppointmentReportService appointmentReportService;
+
+    @Autowired
+    private IDoctorService doctorService;
 
     /**
      * obtain the report of appointments for a doctor/therapist on a specific date.

@@ -23,5 +23,4 @@ public class AppointmentsController {
                     .body("Impossibilidad al reservar la cita"+ e.getMessage());
         }
     }
-
 }
