@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,79 +24,79 @@ import { AuthService, RegisterDoctorRequest } from '../../services/auth.service'
   ]
 })
 export class RegisterDoctor {
-  private readonly fb = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
-
-  readonly specialtyOptions = ['Terapia Neural', 'Quiropraxia', 'Fisioterapia'];
-  readonly maxBirthDate: Date = new Date();
-
-  registerForm: FormGroup = this.fb.group(
-    {
-      firstName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.pattern('^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$')
-        ]
-      ],
-      lastName: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.pattern('^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$')
-        ]
-      ],
-      documentType: ['', Validators.required],
-      identificationNumber: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]{6,12}$')
-        ]
-      ],
-      birthDate: [
-        '',
-        [
-          Validators.required,
-          this.noFutureDateValidator(),
-          this.minimumAgeValidator(0)
-        ]
-      ],
-      phone: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^[0-9]{10}$')
-        ]
-      ],
-      specialties: [[], [Validators.required]],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          
-        ]
-      ],
-      confirmPassword: ['', Validators.required]
-    },
-    {
-      validators: this.passwordMatchValidator
-    }
-  );
-
+  registerForm: FormGroup;
   formError = '';
   submitted = false;
+  readonly specialtyOptions = ['Terapia Neural', 'Quiropraxia', 'Fisioterapia'];
+  readonly maxBirthDate: Date;
+
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.maxBirthDate = new Date();
+
+    this.registerForm = this.fb.group(
+      {
+        firstName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$')
+          ]
+        ],
+        lastName: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.pattern('^[A-Za-zÁÉÍÓÚáéíóúñÑ ]+$')
+          ]
+        ],
+        documentType: ['', Validators.required],
+        identificationNumber: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[0-9]{6,12}$')
+          ]
+        ],
+        birthDate: [
+          '',
+          [
+            Validators.required,
+            this.noFutureDateValidator(),
+            this.minimumAgeValidator(0)
+          ]
+        ],
+        phone: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern('^[0-9]{10}$')
+          ]
+        ],
+        specialties: [[], [Validators.required]],
+        email: [
+          '',
+          [
+            Validators.required,
+            Validators.email
+          ]
+        ],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+
+          ]
+        ],
+        confirmPassword: ['', Validators.required]
+      },
+      {
+        validators: this.passwordMatchValidator
+      }
+    );
+  }
 
   registerDoctor(): void {
     this.submitted = true;
@@ -124,7 +124,7 @@ export class RegisterDoctor {
       user: {
         email: formData.email,
         password: formData.password,
-        roles: ['Medico']
+        roles: ['MEDICO']
       }
     };
 
