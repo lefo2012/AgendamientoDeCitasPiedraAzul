@@ -5,6 +5,9 @@
 .auth-page {
   min-height: 100%;
   padding: clamp(1rem, 2vw, 2rem);
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #d8e7f2, #b9d8ea 50%, #7eb4d3);
 }
 
 .auth-card {

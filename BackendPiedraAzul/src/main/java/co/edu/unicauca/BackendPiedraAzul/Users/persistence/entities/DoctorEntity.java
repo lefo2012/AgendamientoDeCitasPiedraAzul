@@ -2,6 +2,7 @@ package co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.AppointmentEntity;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.IntervalEntity;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.ScheduleEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,5 +29,7 @@ public class DoctorEntity extends PersonEntity {
     @OneToOne(cascade = CascadeType.ALL)
     private ScheduleEntity schedule;
     private boolean canSchedule;
+    @Embedded
+    private IntervalEntity appointmentInterval;
 
 }

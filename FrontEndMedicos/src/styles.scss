@@ -19,6 +19,11 @@ html {
   ));
 }
 
+// Difuminar el fondo del modal
+.mat-mdc-dialog-backdrop {
+  backdrop-filter: blur(5px);
+}
+
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
@@ -35,6 +40,30 @@ body {
   // Reset the user agent margin.
   margin: 0;
   height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+main,
+section,
+article,
+header,
+footer,
+nav,
+aside {
+  min-width: 0;
 }
 /* You can add global styles to this file, and also import other style files */
 :root {

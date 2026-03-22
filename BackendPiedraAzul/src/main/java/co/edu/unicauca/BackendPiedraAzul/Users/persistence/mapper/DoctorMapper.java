@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.IntervalMapper;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
@@ -10,7 +11,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(
         componentModel = "spring",
-        uses = {ScheduleMapper.class, AppointmentMapper.class, UserMapper.class}
+        uses = {ScheduleMapper.class, AppointmentMapper.class, UserMapper.class, IntervalMapper.class}
 )
 public interface DoctorMapper {
 

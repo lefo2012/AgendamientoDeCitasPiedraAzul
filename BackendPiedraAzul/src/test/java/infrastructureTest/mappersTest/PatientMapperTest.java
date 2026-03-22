@@ -49,7 +49,8 @@ public class PatientMapperTest {
                 user,
                 specialties,
                 schedule,
-                false
+                false,
+                new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
         );
 
 

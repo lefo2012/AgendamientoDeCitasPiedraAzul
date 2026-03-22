@@ -31,6 +31,7 @@ export class RegisterDoctor {
   formError = '';
   submitted = false;
   readonly specialtyOptions = ['TERAPIA_NEURAL', 'QUIROPRAXIA', 'FISIOTERAPIA'];
+  readonly consultationIntervals = [5, 10, 15, 20, 30, 45, 60];
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -79,6 +80,7 @@ export class RegisterDoctor {
         ],
         specialties: [[], [Validators.required]],
         canSchedule: [false, Validators.required],
+        consultationIntervalMinutes: [30, [Validators.required, Validators.min(5)]],
         email: [
           '',
           [
@@ -142,6 +144,10 @@ export class RegisterDoctor {
       canSchedule: formData.canSchedule,
       active: true,
       specialties: formData.specialties,
+      appointmentInterval: {
+        startTime: '00:00',
+        endTime: `00:${String(formData.consultationIntervalMinutes).padStart(2, '0')}`
+      },
       user: {
         email: formData.email,
         password: formData.password,

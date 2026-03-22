@@ -2,7 +2,7 @@
   <mat-card class="schedule-card">
     <mat-card-header>
       <mat-card-title>Configurar Agenda de Consultas</mat-card-title>
-      <mat-card-subtitle>Define tus días de trabajo, horarios y intervalos de consulta</mat-card-subtitle>
+      <mat-card-subtitle>Define tus días de trabajo y una o dos franjas horarias por día</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -31,10 +31,10 @@
 
         <mat-divider class="section-divider"></mat-divider>
 
-        <!-- Sección 2: Franjas Horarias -->
+        <!-- Sección 2: Franja Horaria Principal -->
         <mat-card class="section-card">
           <mat-card-header>
-            <mat-card-title class="section-title">2. Define tu Franja Horaria de Trabajo</mat-card-title>
+            <mat-card-title class="section-title">2. Define tu Franja Horaria Principal</mat-card-title>
           </mat-card-header>
           <mat-card-content>
             <div class="time-range-container">
@@ -102,27 +102,71 @@
 
         <mat-divider class="section-divider"></mat-divider>
 
-        <!-- Sección 3: Intervalo de Consulta -->
+        <!-- Sección 3: Franja Horaria Secundaria (Opcional) -->
         <mat-card class="section-card">
           <mat-card-header>
-            <mat-card-title class="section-title">3. Intervalo de Consulta</mat-card-title>
+            <mat-card-title class="section-title">3. Franja Horaria Secundaria (Opcional)</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-            <p class="section-description">
-              Selecciona cada cuántos minutos deseas que se agende una consulta. 
-              Por ejemplo, si seleccionas 10 minutos, los horarios serán: 8:00, 8:10, 8:20, etc.
-            </p>
-            <mat-form-field appearance="fill" class="full-width">
-              <mat-label>Intervalo (minutos)</mat-label>
-              <mat-select formControlName="consultationIntervalMinutes">
-                <mat-option *ngFor="let interval of intervals" [value]="interval">
-                  {{ interval }} minutos
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="scheduleForm.get('consultationIntervalMinutes')?.hasError('required')">
-                Debes seleccionar un intervalo
-              </mat-error>
-            </mat-form-field>
+            <mat-checkbox formControlName="hasSecondShift" class="full-width">
+              Agregar segunda franja horaria
+            </mat-checkbox>
+
+            <div class="time-range-container" *ngIf="scheduleForm.get('hasSecondShift')?.value">
+              <div class="time-field-group">
+                <h4>Inicio segunda franja</h4>
+                <div class="time-inputs">
+                  <mat-form-field appearance="fill" class="hour-field">
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="secondStartHour">
+                      <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{ padNumber(hour) }}:00
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="minute-field">
+                    <mat-label>Minutos</mat-label>
+                    <mat-select formControlName="secondStartMinute">
+                      <mat-option [value]="0">00</mat-option>
+                      <mat-option [value]="15">15</mat-option>
+                      <mat-option [value]="30">30</mat-option>
+                      <mat-option [value]="45">45</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <mat-icon class="time-icon">arrow_forward</mat-icon>
+
+              <div class="time-field-group">
+                <h4>Cierre segunda franja</h4>
+                <div class="time-inputs">
+                  <mat-form-field appearance="fill" class="hour-field">
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="secondEndHour">
+                      <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{ padNumber(hour) }}:00
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="minute-field">
+                    <mat-label>Minutos</mat-label>
+                    <mat-select formControlName="secondEndMinute">
+                      <mat-option [value]="0">00</mat-option>
+                      <mat-option [value]="15">15</mat-option>
+                      <mat-option [value]="30">30</mat-option>
+                      <mat-option [value]="45">45</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <mat-error *ngIf="scheduleForm.get('hasSecondShift')?.value && !validateSecondTimeRange()" class="validation-error">
+              La segunda franja debe ser válida y posterior a la principal
+            </mat-error>
           </mat-card-content>
         </mat-card>
 

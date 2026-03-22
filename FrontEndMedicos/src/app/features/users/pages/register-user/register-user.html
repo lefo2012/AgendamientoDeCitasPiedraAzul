@@ -106,6 +106,20 @@
           </mat-checkbox>
           <p class="checkbox-help">Marca esta opcion si deseas permitir que este medico configure su agenda de consultas.</p>
         </div>
+
+        <div class="field-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Intervalo de citas (minutos)</mat-label>
+            <mat-select formControlName="consultationIntervalMinutes">
+              @for (interval of consultationIntervals; track interval) {
+                <mat-option [value]="interval">{{ interval }} minutos</mat-option>
+              }
+            </mat-select>
+            @if (fieldInvalid('consultationIntervalMinutes')) {
+              <mat-error>Selecciona un intervalo valido.</mat-error>
+            }
+          </mat-form-field>
+        </div>
       </section>
 
       <section class="form-section credentials-section">

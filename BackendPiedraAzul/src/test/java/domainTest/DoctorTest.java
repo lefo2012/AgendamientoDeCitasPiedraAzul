@@ -39,8 +39,8 @@ public class DoctorTest {
                 user,
                 specialties,
                 schedule,
-                false
-
+                false,
+                new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
         );
 
 
@@ -108,7 +108,8 @@ public class DoctorTest {
                 scheduled,
                 attended,
                 schedule,
-                false
+                false,
+                new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
         );
 
 
@@ -153,7 +154,8 @@ public class DoctorTest {
                     user1,
                     specialties1,
                     schedule1,
-                    false
+                    false,
+                    new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
             );
 
             System.out.println(patient.getAppointmentCount());
@@ -198,7 +200,8 @@ public class DoctorTest {
                     user1,
                     specialties1,
                     schedule1,
-                    false
+                    false,
+                    new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
             );
 
             //here we create the appointment and add it to the patient and the doctor
@@ -245,7 +248,8 @@ public class DoctorTest {
                     user1,
                     specialties1,
                     schedule1,
-                    false
+                    false,
+                    new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
             );
 
             Doctor doctor2 = new Doctor(
@@ -259,7 +263,8 @@ public class DoctorTest {
                     user1,
                     specialties1,
                     schedule1,
-                    false
+                    false,
+                    new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
             );
 
             Appointment appointment1 = new Appointment(doctor1,nextMonday1,interval1,patient);

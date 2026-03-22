@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.IntervalDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,14 +12,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class DoctorDTO {
-    protected String documentType;
-    protected String identificationNumber;
-    protected String firstName;
-    protected String lastName;
-    protected String birthDate;
-    protected String phone;
-    protected boolean active;
-    protected UserDTO user;
-    protected List<SpecialtyEnum> specialties;
-    protected boolean canSchedule;
+    private String documentType;
+    private String identificationNumber;
+    private String firstName;
+    private String lastName;
+    private String birthDate;
+    private String phone;
+    private boolean active;
+    private UserDTO user;
+    private List<SpecialtyEnum> specialties;
+    private boolean canSchedule;
+    private IntervalDTO appointmentInterval;
 }

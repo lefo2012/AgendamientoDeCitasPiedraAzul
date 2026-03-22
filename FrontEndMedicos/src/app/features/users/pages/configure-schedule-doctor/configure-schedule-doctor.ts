@@ -73,7 +73,6 @@ export class ConfigureScheduleDoctor implements OnInit {
     { value: 0, label: 'Domingo', selected: false }
   ];
 
-  readonly intervals = [5, 10, 15, 20, 30, 45, 60];
   readonly hours = Array.from({ length: 24 }, (_, i) => i);
 
   constructor(
@@ -84,11 +83,15 @@ export class ConfigureScheduleDoctor implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.scheduleForm = this.fb.group({
-      consultationIntervalMinutes: ['', Validators.required],
       startHour: ['', Validators.required],
       startMinute: [0, Validators.required],
       endHour: ['', Validators.required],
       endMinute: [0, Validators.required],
+      hasSecondShift: [false],
+      secondStartHour: [null],
+      secondStartMinute: [0],
+      secondEndHour: [null],
+      secondEndMinute: [0],
       weeksRepeat: [4, [Validators.required, Validators.min(1), Validators.max(52)]],
       year: [new Date().getFullYear(), Validators.required]
     });
@@ -97,8 +100,7 @@ export class ConfigureScheduleDoctor implements OnInit {
   ngOnInit(): void {
     this.scheduleForm.patchValue({
       startHour: 8,
-      endHour: 17,
-      consultationIntervalMinutes: 30
+      endHour: 17
     });
   }
 
@@ -147,38 +149,19 @@ export class ConfigureScheduleDoctor implements OnInit {
     return `${this.padNumber(hour)}:${this.padNumber(minute)}`;
   }
 
-  /**
-   * Construye IntervalDTO[] (startTime/endTime) según intervalo de consulta
-   */
-  buildIntervals(
-    startHour: number,
-    startMinute: number,
-    endHour: number,
-    endMinute: number,
-    consultationIntervalMinutes: number
-  ): IntervalDTO[] {
-    const intervals: IntervalDTO[] = [];
-
-    let currentTotalMinutes = (startHour * 60) + startMinute;
-    const endTotalMinutes = (endHour * 60) + endMinute;
-
-    while (currentTotalMinutes < endTotalMinutes) {
-      const nextTotalMinutes = currentTotalMinutes + consultationIntervalMinutes;
-      if (nextTotalMinutes > endTotalMinutes) {
-        break;
+  buildIntervals(formValue: any): IntervalDTO[] {
+    const intervals: IntervalDTO[] = [
+      {
+        startTime: this.toTimeString(formValue.startHour, formValue.startMinute),
+        endTime: this.toTimeString(formValue.endHour, formValue.endMinute),
       }
+    ];
 
-      const fromHour = Math.floor(currentTotalMinutes / 60);
-      const fromMinute = currentTotalMinutes % 60;
-      const toHour = Math.floor(nextTotalMinutes / 60);
-      const toMinute = nextTotalMinutes % 60;
-
+    if (formValue.hasSecondShift) {
       intervals.push({
-        startTime: this.toTimeString(fromHour, fromMinute),
-        endTime: this.toTimeString(toHour, toMinute),
+        startTime: this.toTimeString(formValue.secondStartHour, formValue.secondStartMinute),
+        endTime: this.toTimeString(formValue.secondEndHour, formValue.secondEndMinute),
       });
-
-      currentTotalMinutes = nextTotalMinutes;
     }
 
     return intervals;
@@ -206,6 +189,15 @@ export class ConfigureScheduleDoctor implements OnInit {
       return;
     }
 
+    if (!this.validateSecondTimeRange()) {
+      this.snackBar.open('Verifica la segunda franja horaria: debe ser válida y posterior a la primera', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top'
+      });
+      return;
+    }
+
     this.isLoading = true;
     this.cdr.markForCheck();
     const formValue = this.scheduleForm.value;
@@ -215,13 +207,7 @@ export class ConfigureScheduleDoctor implements OnInit {
     const doctorId = localStorage.getItem('doctorId') || 'temp-id';
 
     const intervalConfig: IntervalListDTO = {
-      intervals: this.buildIntervals(
-        formValue.startHour,
-        formValue.startMinute,
-        formValue.endHour,
-        formValue.endMinute,
-        formValue.consultationIntervalMinutes
-      ),
+      intervals: this.buildIntervals(formValue),
     };
 
     const scheduleData: DoctorSchedule = {
@@ -285,5 +271,34 @@ export class ConfigureScheduleDoctor implements OnInit {
       if (startHour === endHour && startMinute < endMinute) return true;
     }
     return false;
+  }
+
+  validateSecondTimeRange(): boolean {
+    const hasSecondShift = this.scheduleForm.get('hasSecondShift')?.value;
+    if (!hasSecondShift) {
+      return true;
+    }
+
+    const secondStartHour = this.scheduleForm.get('secondStartHour')?.value;
+    const secondStartMinute = this.scheduleForm.get('secondStartMinute')?.value;
+    const secondEndHour = this.scheduleForm.get('secondEndHour')?.value;
+    const secondEndMinute = this.scheduleForm.get('secondEndMinute')?.value;
+
+    if (secondStartHour === null || secondStartHour === undefined || secondEndHour === null || secondEndHour === undefined) {
+      return false;
+    }
+
+    const secondStartTotalMinutes = (secondStartHour * 60) + secondStartMinute;
+    const secondEndTotalMinutes = (secondEndHour * 60) + secondEndMinute;
+
+    if (secondStartTotalMinutes >= secondEndTotalMinutes) {
+      return false;
+    }
+
+    const firstEndHour = this.scheduleForm.get('endHour')?.value;
+    const firstEndMinute = this.scheduleForm.get('endMinute')?.value;
+    const firstEndTotalMinutes = (firstEndHour * 60) + firstEndMinute;
+
+    return secondStartTotalMinutes > firstEndTotalMinutes;
   }
 }

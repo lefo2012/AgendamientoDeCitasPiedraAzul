@@ -80,7 +80,8 @@ public class PatientTest {
                 user1,
                 specialties1,
                 schedule1,
-                false
+                false,
+                new Interval( LocalTime.of(7, 0), LocalTime.of(13, 0))
         );
 
         System.out.println(patient.getAppointmentCount());

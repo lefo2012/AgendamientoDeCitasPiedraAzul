@@ -8,14 +8,14 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PatientDTO {
-    protected String documentType;
-    protected String identificationNumber;
-    protected String firstName;
-    protected String lastName;
-    protected String birthDate;
-    protected String phone;
-    protected boolean active;
-    protected UserDTO user;
+    private String documentType;
+    private String identificationNumber;
+    private String firstName;
+    private String lastName;
+    private String birthDate;
+    private String phone;
+    private boolean active;
+    private UserDTO user;
 
     public String getFirstName() {
         return firstName;
