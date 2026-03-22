@@ -47,6 +47,7 @@ public class AppointmentService implements IAppointmentService {
             doctor.getSchedule().print();
             System.out.println("---------------------------------------------------------------------------------------------");
             appointment.getDoctor().getSchedule().print();
+
             doctorPersistenceService.save(appointment.getDoctor());
             patientPersistenceService.save(appointment.getPatient());
 

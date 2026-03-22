@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/java/co/edu/unicauca/BackendPiedraAzul/Appointments/persistence/entities/ScheduleEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BackendPiedraAzul/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="fbd4255b-e82c-425a-9ac7-9156b8a70484" name="Changes" comment="refactor: the relationships between ScheduleEntity, IntervalListEntity and IntervalEntity were changed" />
     <list id="55ca0ea6-49f7-4791-b631-058e2f783578" name="Changes by nelso" comment="feat: configured properties of database" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,11 +85,11 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.BackendPiedraAzulApplication.executor": "Run",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Agendamiento",
+    "git-widget-placeholder": "Reportes",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Luisita/Desktop/Proyecto Software Clinica PiedraAzul/AgendamientoDeCitasPiedraAzul",
+    "last_opened_file_path": "C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -228,6 +224,7 @@
       <workItem from="1773096571793" duration="20597000" />
       <workItem from="1773170140618" duration="10089000" />
       <workItem from="1773185950147" duration="1116000" />
+      <workItem from="1774154790706" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
       <option name="closed" value="true" />

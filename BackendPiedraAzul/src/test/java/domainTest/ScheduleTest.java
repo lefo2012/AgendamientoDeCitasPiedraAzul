@@ -391,8 +391,20 @@ public class ScheduleTest {
 
 
     }
+    @Test
+    void scheduleShouldSetBusyTimeDateFromMapKey() throws Exception {
+        List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+        IntervalList mondayIntervals = new IntervalList();
+        mondayIntervals.addInterval(new Interval(LocalTime.of(7, 0), LocalTime.of(9, 0)));
 
+        Schedule schedule = new Schedule(days, List.of(mondayIntervals), 8, LocalDate.now().getYear());
+        assertFalse(schedule.getAvailableTimes().isEmpty());
 
+        LocalDate reserveDay = schedule.getAvailableTimes().keySet().stream().sorted().findFirst().orElseThrow();
+        Interval reserveInterval = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
 
+        assertTrue(schedule.schedule(reserveDay, reserveInterval));
+        assertEquals(reserveDay, schedule.getBusyTimes().get(reserveDay).getDate());
+    }
 
 }

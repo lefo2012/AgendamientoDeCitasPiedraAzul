@@ -40,16 +40,24 @@ public class Schedule {
             throw new IllegalArgumentException("INTERVAL NOT AVAILABLE");
         }
 
-        busyTimes.putIfAbsent(day, new IntervalList());
+        IntervalList busyIntervalsForDay = busyTimes.computeIfAbsent(day, keyDay -> {
+            IntervalList intervalList = new IntervalList();
+            intervalList.setDate(keyDay);
+            return intervalList;
+        });
 
-        for (Interval busy : busyTimes.get(day).getIntervals()) {
+        if (busyIntervalsForDay.getDate() == null) {
+            busyIntervalsForDay.setDate(day);
+        }
+
+        for (Interval busy : busyIntervalsForDay.getIntervals()) {
             if (busy.overlaps(interval)) {
                 throw new IllegalArgumentException("INTERVAL OCCUPIED");
             }
         }
 
         modifyAvailable(day,interval);
-        busyTimes.get(day).getIntervals().add(interval);
+        busyIntervalsForDay.getIntervals().add(interval);
 
         return true;
     }
