@@ -62,46 +62,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "JUnit.ApointmentTest.executor": "Run",
-    "JUnit.AppointmentTest.executor": "Run",
-    "JUnit.AppointmentTest.saveAppointmentTest.executor": "Run",
-    "JUnit.DoctorTest.addAppointmentToAttendTrueTest.executor": "Run",
-    "JUnit.DoctorTest.executor": "Run",
-    "JUnit.IntervalTest.isWithinTrueTest.executor": "Run",
-    "JUnit.PatientTest.executor": "Run",
-    "JUnit.ScheduleTest.executor": "Run",
-    "JUnit.ScheduleTest.scheduleGetInstanceTest.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.BackendPiedraAzulApplication.executor": "Run",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Reportes",
-    "ignore.virus.scanning.warn.message": "true",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul",
-    "node.js.detected.package.eslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.ApointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.AppointmentTest.saveAppointmentTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DoctorTest.addAppointmentToAttendTrueTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DoctorTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.IntervalTest.isWithinTrueTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PatientTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ScheduleTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ScheduleTest.scheduleGetInstanceTest.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BackendPiedraAzulApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Reportes&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/nelso/OneDrive/Documents/Proyecto Software 3/AgendamientoDeCitasPiedraAzul&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Luisita\Desktop\Proyecto Software Clinica PiedraAzul\AgendamientoDeCitasPiedraAzul\BackendPiedraAzul\src\main\java\Appointments\services\usecases" />
@@ -225,6 +225,7 @@
       <workItem from="1773170140618" duration="10089000" />
       <workItem from="1773185950147" duration="1116000" />
       <workItem from="1774154790706" duration="16000" />
+      <workItem from="1774156312518" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="feat: created the Doctor's test class">
       <option name="closed" value="true" />
