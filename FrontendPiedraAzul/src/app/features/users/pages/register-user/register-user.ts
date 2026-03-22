@@ -214,4 +214,8 @@ export class RegisterUser {
     const control = this.registerForm.get(fieldName);
     return !!control && control.invalid && (control.touched || this.submitted);
   }
+
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
 }

@@ -123,9 +123,12 @@
         </div>
       </section>
 
-      <button mat-flat-button class="auth-submit" type="submit">
-        Registrarse
-      </button>
+      <div class="actions-row">
+        <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">Volver</button>
+        <button mat-flat-button class="auth-submit" type="submit">
+          Registrarse
+        </button>
+      </div>
     </form>
   </div>
 </section>

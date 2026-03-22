@@ -37,6 +37,10 @@ export class Login {
     this.router.navigate(['/']);
   }
 
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
+
   fieldInvalid(fieldName: 'email' | 'password'): boolean {
     const control = this.loginForm.get(fieldName);
     return !!control && control.invalid && (control.touched || this.submitted);
