@@ -1,17 +1,19 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateAppointment } from '../../../appointments/pages/create-appointment/create-appointment';
 
 
 
 @Component({
   selector: 'app-main',
-  imports: [],
+  imports: [MatDialogModule],
   templateUrl: './main.html',
   styleUrl: './main.scss',
 })
 export class Main  {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private dialog: MatDialog) {}
 
  
   goToAbout() {
@@ -19,7 +21,11 @@ export class Main  {
   }
 
   goToCreateAppointment() {
-    this.router.navigate(['/citas/agendar']);
+    this.dialog.open(CreateAppointment, {
+      width: '50%',
+      height: '50%',
+      disableClose: false
+    });
   }
 
   goToRescheduleAppointment() {
