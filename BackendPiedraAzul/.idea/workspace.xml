@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="f380b3d4-01ec-437b-beff-dc9d8f2bcd3f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontEndMedicos/src/app/features/users/pages/register-user/register-user.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/admin-home/admin-home.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/admin-home/admin-home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/register-doctor/register-doctor.html" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/features/users/pages/register-doctor/register-doctor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../FrontendPiedraAzul/src/app/app.routes.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,12 +29,12 @@
     &quot;assignee&quot;: &quot;Nelson-LV&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git",
-    "accountId": "371c8c6e-d7bc-494c-b42d-7067cef332f4"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lefo2012/AgendamientoDeCitasPiedraAzul.git&quot;,
+    &quot;accountId&quot;: &quot;371c8c6e-d7bc-494c-b42d-7067cef332f4&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4

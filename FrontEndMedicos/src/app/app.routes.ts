@@ -1,26 +1,25 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './layout/main-layout/main-layout';
-import { Main } from './features/main/pages/main/main';
-import { Login } from './features/users/pages/login-user/login-user';
-import { RegisterDoctor} from './features/users/pages/register-user/register-user';
-import { AppointmentTable } from './features/appointments/pages/appointment-table/appointment-table';
 
 export const routes: Routes = [
 	{
 		path: '',
-		component: MainLayout,
+		loadComponent: () =>
+			import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
 		children: [
 			{
 				path: '',
-				component: Main,
+				loadComponent: () =>
+					import('./features/main/pages/main/main').then((m) => m.Main),
 			},
 			{
 				path: 'login',
-				component: Login,
+				loadComponent: () =>
+					import('./features/users/pages/login-user/login-user').then((m) => m.Login),
 			},
 			{
 				path: 'register',
-				component: RegisterDoctor,
+				loadComponent: () =>
+					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
 			},
 			{
 				path: 'citas',
@@ -29,7 +28,8 @@ export const routes: Routes = [
 			},
 			{
 				path: 'citas/agendar',
-				component: AppointmentTable,
+				loadComponent: () =>
+					import('./features/appointments/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
 			},
 		],
 	},
