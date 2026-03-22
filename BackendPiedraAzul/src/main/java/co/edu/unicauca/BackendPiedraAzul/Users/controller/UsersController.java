@@ -49,7 +49,6 @@ public class UsersController {
         }
     }
 
-
     @PostMapping("/createPatient")
     public ResponseEntity<?> savePatient(@RequestBody PatientDTO patientDTO){
         try {

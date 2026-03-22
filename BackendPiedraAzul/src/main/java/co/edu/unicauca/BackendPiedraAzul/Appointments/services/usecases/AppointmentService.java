@@ -11,10 +11,12 @@ import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IDoctorPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -40,12 +42,17 @@ public class AppointmentService implements IAppointmentService {
             Patient patient = patientPersistenceService.findById(reserveAppointmentDto.getIdPatient());
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
-            appointmentPersistenceService.save(appointment);
-            doctorPersistenceService.save(doctor);
-            patientPersistenceService.save(patient);
+
+            // appointmentPersistenceService.save(appointment);
+            doctor.getSchedule().print();
+            System.out.println("---------------------------------------------------------------------------------------------");
+            appointment.getDoctor().getSchedule().print();
+            doctorPersistenceService.save(appointment.getDoctor());
+            patientPersistenceService.save(appointment.getPatient());
 
         }catch (Exception e){
-            throw new Exception("Can't create appointment");
+          e.printStackTrace();
+          throw e;
         }
     }
 

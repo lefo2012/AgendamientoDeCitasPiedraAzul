@@ -19,9 +19,9 @@ public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     private DoctorEntity doctor;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne//(cascade = CascadeType.ALL)
     private PatientEntity patient;
     private LocalDate appointmentDate;
     @Enumerated(EnumType.STRING)

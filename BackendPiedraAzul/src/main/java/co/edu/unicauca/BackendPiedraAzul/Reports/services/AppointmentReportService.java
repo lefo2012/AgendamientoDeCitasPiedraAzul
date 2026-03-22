@@ -1,5 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.services;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,16 +16,46 @@ import java.util.List;
 @Service
 public class AppointmentReportService {
 
-    /**
-     * Obtain the total count of appointments for a doctor/therapist on a specific date.
-     *
-     * @param doctorId ID of the doctor/therapist
-     * @param appointmentDate date of the appointments to count (format: YYYY-MM-DD)
-     * @return count of appointments
-     */
-    public long countAppointmentsByDoctorAndDate(Long doctorId, LocalDate appointmentDate) {
-        //no se si esto va aqui
-        return 0;
+    private final IDoctorService doctorService;
+
+    public AppointmentReportService(IDoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
+
+    public long countAppointmentsByDoctorAndDate(Long doctorId, LocalDate appointmentDate) throws Exception {
+        List<Appointment> appointments =
+                doctorService.getAppointmentsByDoctorIDAndDate(doctorId, appointmentDate);
+
+        return appointments.size();
+    }
+
+    public List<AppointmentReport> convertInAppointmentReportDTO(List<Appointment> appointments) {
+
+        return appointments.stream().map(appointment -> {
+            AppointmentReport reportDTO = new AppointmentReport();
+
+            reportDTO.setDoctorName(
+                    appointment.getDoctor().getFirstName() + " " +
+                            appointment.getDoctor().getLastName()
+            );
+
+            reportDTO.setPatientName(
+                    appointment.getPatient().getFirstName() + " " +
+                            appointment.getPatient().getLastName()
+            );
+
+            reportDTO.setAppointmentInterval(appointment.getInterval().getStartTime().toString() + " - " + appointment.getInterval().getStartTime().toString() );
+
+            return reportDTO;
+        }).toList();
+    }
+
+    public List<AppointmentReport> getAppointmentsReport(Long doctorId, LocalDate date) throws Exception {
+
+        List<Appointment> appointments =
+                doctorService.getAppointmentsByDoctorIDAndDate(doctorId, date);
+
+        return convertInAppointmentReportDTO(appointments);
     }
 
 }

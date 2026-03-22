@@ -1,12 +1,8 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.services;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 /**
  * DTO for appointment report data.
@@ -17,7 +13,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentReportDTO {
+public class AppointmentReport {
 
     private String patientName;
     private String doctorName;

@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = {IntervalListMapper.class})
 public interface ScheduleMapper {
 
-
     Schedule toDomain(ScheduleEntity scheduleEntity);
+
     ScheduleEntity toEntity(Schedule schedule);
 }

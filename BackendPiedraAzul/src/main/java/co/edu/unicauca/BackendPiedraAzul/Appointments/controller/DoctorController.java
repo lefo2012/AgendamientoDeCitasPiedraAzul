@@ -32,13 +32,12 @@ public class DoctorController {
     }
 
     @GetMapping("/{doctorId}/getScheduledAppointments")
-    public ResponseEntity<?> getScheduledAppointments(@RequestParam Long doctorId) throws Exception {
+    public ResponseEntity<?> getScheduledAppointments(@PathVariable Long doctorId) throws Exception {
 
         return ResponseEntity.ok(appointmentService.getScheduledAppointmentsByDoctor(doctorId));
-
     }
     @GetMapping("/{doctorId}/getAttendedAppointments")
-    public ResponseEntity<?> getAttendedAppointments(@RequestParam Long doctorId) throws Exception {
+    public ResponseEntity<?> getAttendedAppointments(@PathVariable Long doctorId) throws Exception {
         return ResponseEntity.ok(appointmentService.getAttendedAppointments(doctorId));
     }
 

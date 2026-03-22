@@ -18,4 +18,5 @@ public class IntervalListEntity {
     private LocalDate date;
     @ElementCollection
     private List<IntervalEntity> intervals;
+
 }
