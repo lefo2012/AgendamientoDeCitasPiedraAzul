@@ -16,13 +16,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { asyncScheduler, finalize, observeOn } from 'rxjs';
-import {
-  DayOfWeekDto,
-  DoctorSchedule,
-  IntervalDTO,
-  IntervalListDTO,
-  ScheduleService,
-} from '../../services/schedule.service';
+import { DayOfWeekDto } from '../../models/DayOfWeekDto';
+import { DoctorSchedule } from '../../models/DoctorSchedule';
+import { IntervalDTO } from '../../models/IntervalDTO';
+import { IntervalListDTO } from '../../models/IntervalListDTO';
+import { ScheduleService } from '../../services/schedule.service';
 import { HttpClientModule } from '@angular/common/http';
 
 interface DaySelection {

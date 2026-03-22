@@ -1,37 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export type DayOfWeekDto =
-  | 'MONDAY'
-  | 'TUESDAY'
-  | 'WEDNESDAY'
-  | 'THURSDAY'
-  | 'FRIDAY'
-  | 'SATURDAY'
-  | 'SUNDAY';
-
-export interface IntervalDTO {
-  startTime: string;
-  endTime: string;
-}
-
-export interface IntervalListDTO {
-  intervals: IntervalDTO[];
-}
-
-export interface DoctorSchedule {
-  days: DayOfWeekDto[];
-  schedules: IntervalListDTO[];
-  weeksRepeat: number;
-  year: number;
-}
-
-export interface ScheduleSlot {
-  time: string;
-  dayOfWeek: number;
-  date: Date;
-}
+import { DoctorSchedule } from '../models/DoctorSchedule';
+import { ScheduleSlot } from '../models/ScheduleSlot';
 
 @Injectable({
   providedIn: 'root'

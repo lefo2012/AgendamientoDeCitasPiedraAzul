@@ -8,7 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { AuthService, RegisterDoctorRequest } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterDoctorRequest } from '../../models/RegisterDoctorRequest';
 
 @Component({
   selector: 'app-register-doctor',
