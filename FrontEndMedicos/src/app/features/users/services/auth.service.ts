@@ -22,6 +22,7 @@ export interface RegisterRequest {
 
 export interface RegisterDoctorRequest extends RegisterRequest {
   specialties: string[];
+  canSchedule: boolean;
 }
 
 export interface AuthTokenResponse {

@@ -31,6 +31,11 @@ export const routes: Routes = [
 				loadComponent: () =>
 					import('./features/appointments/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
 			},
+			{
+				path: 'configure-schedule',
+				loadComponent: () =>
+					import('./features/users/pages/configure-schedule-doctor/configure-schedule-doctor').then((m) => m.ConfigureScheduleDoctor),
+			},
 		],
 	},
 	{

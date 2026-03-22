@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +18,7 @@ import { AuthService, RegisterDoctorRequest } from '../../services/auth.service'
   imports: [
     ReactiveFormsModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
@@ -76,6 +78,7 @@ export class RegisterDoctor {
           ]
         ],
         specialties: [[], [Validators.required]],
+        canSchedule: [false, Validators.required],
         email: [
           '',
           [
@@ -136,6 +139,7 @@ export class RegisterDoctor {
       lastName: formData.lastName,
       birthDate: birthDateValue,
       phone: formData.phone,
+      canSchedule: formData.canSchedule,
       active: true,
       specialties: formData.specialties,
       user: {
@@ -151,10 +155,14 @@ export class RegisterDoctor {
     console.groupEnd();
 
     this.authService.registerDoctor(request).subscribe({
-      next: () => {
+      next: (response: any) => {
         console.log('[RegisterDoctorComponent] Doctor registration completed successfully.');
         this.formError = '';
-        this.router.navigate(['/admin']);
+        // Guardar el ID del doctor en localStorage para usarlo en la configuración de agenda
+        if (response && response.id) {
+          localStorage.setItem('doctorId', response.id);
+        }
+        this.router.navigate(['/configure-schedule']);
       },
       error: (err) => {
         console.error('Doctor registration error', err);
