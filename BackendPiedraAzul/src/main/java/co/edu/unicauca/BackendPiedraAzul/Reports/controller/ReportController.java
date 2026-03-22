@@ -36,7 +36,6 @@ public class ReportController {
             @RequestParam(value = "appointmentDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate
     ) {
 
-
         return  ResponseEntity.ok("se listara");
     }
 }

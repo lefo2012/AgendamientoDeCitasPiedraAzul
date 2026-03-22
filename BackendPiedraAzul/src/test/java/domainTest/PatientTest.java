@@ -79,7 +79,8 @@ public class PatientTest {
                 "3001112222",
                 user1,
                 specialties1,
-                schedule1
+                schedule1,
+                false
         );
 
         System.out.println(patient.getAppointmentCount());

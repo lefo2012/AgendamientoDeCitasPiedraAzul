@@ -38,7 +38,9 @@ public class DoctorTest {
                 "3001234567",
                 user,
                 specialties,
-                schedule
+                schedule,
+                false
+
         );
 
 
@@ -105,7 +107,8 @@ public class DoctorTest {
                 specialties,
                 scheduled,
                 attended,
-                schedule
+                schedule,
+                false
         );
 
 
@@ -149,7 +152,8 @@ public class DoctorTest {
                     "3001112222",
                     user1,
                     specialties1,
-                    schedule1
+                    schedule1,
+                    false
             );
 
             System.out.println(patient.getAppointmentCount());
@@ -193,7 +197,8 @@ public class DoctorTest {
                     "3001112222",
                     user1,
                     specialties1,
-                    schedule1
+                    schedule1,
+                    false
             );
 
             //here we create the appointment and add it to the patient and the doctor
@@ -239,7 +244,8 @@ public class DoctorTest {
                     "3001112222",
                     user1,
                     specialties1,
-                    schedule1
+                    schedule1,
+                    false
             );
 
             Doctor doctor2 = new Doctor(
@@ -252,7 +258,8 @@ public class DoctorTest {
                     "3001112222",
                     user1,
                     specialties1,
-                    schedule1
+                    schedule1,
+                    false
             );
 
             Appointment appointment1 = new Appointment(doctor1,nextMonday1,interval1,patient);

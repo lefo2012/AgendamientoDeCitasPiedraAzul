@@ -46,7 +46,8 @@ public class DoctorMapperTest {
                 "3001112222",
                 user,
                 specialties,
-                schedule
+                schedule,
+                false
         );
 
 

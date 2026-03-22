@@ -44,7 +44,8 @@ public class AppointmentTest {
                 "3001112222",
                 user,
                 specialties,
-                schedule
+                schedule,
+                false
         );
 
         // Preparar paciente

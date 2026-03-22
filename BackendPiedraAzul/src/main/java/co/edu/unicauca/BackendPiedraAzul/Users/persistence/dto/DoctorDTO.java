@@ -20,4 +20,5 @@ public class DoctorDTO {
     protected boolean active;
     protected UserDTO user;
     protected List<SpecialtyEnum> specialties;
+    protected boolean canSchedule;
 }

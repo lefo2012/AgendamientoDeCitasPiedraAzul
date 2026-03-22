@@ -27,5 +27,6 @@ public class DoctorEntity extends PersonEntity {
     //Think about a value object to make date distribution easier
     @OneToOne(cascade = CascadeType.ALL)
     private ScheduleEntity schedule;
+    private boolean canSchedule;
 
 }

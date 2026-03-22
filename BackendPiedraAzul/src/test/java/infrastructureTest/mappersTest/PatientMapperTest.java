@@ -48,7 +48,8 @@ public class PatientMapperTest {
                 "3001112222",
                 user,
                 specialties,
-                schedule
+                schedule,
+                false
         );
 
 

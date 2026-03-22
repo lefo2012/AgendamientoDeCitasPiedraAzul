@@ -17,29 +17,34 @@ public class Doctor extends Person {
     //Think about a value object to make date distribution easier
     private Schedule schedule;
 
+    private boolean canSchedule;
+
     public Doctor() {
         super();
+        this.canSchedule= false;
         this.specialties = new ArrayList<>();
         this.scheduledAppointments = new ArrayList<>();
         this.attendedAppointments = new ArrayList<>();
     }
 
     //constructor with all parameters, except lists, which are initialized as empty
-    public Doctor(long id, DocumentTypeEnum idType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, User user , List<SpecialtyEnum> specialties, Schedule schedule) {
+    public Doctor(long id, DocumentTypeEnum idType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, User user , List<SpecialtyEnum> specialties, Schedule schedule, boolean canSchedule) {
         super(id, idType, identificationNumber, firstName, lastName, birthDate,  phone, true, user );
         this.specialties = specialties;
         this.scheduledAppointments = new ArrayList<>();
         this.attendedAppointments = new ArrayList<>();
         this.schedule = schedule;
+        this.canSchedule = canSchedule;
     }
 
     //constructor with all parameters
-    public Doctor(long id, DocumentTypeEnum idType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, User user , List<SpecialtyEnum> specialties, List<Appointment> scheduledAppointments, List<Appointment> attendedAppointments, Schedule schedule) {
+    public Doctor(long id, DocumentTypeEnum idType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, User user , List<SpecialtyEnum> specialties, List<Appointment> scheduledAppointments, List<Appointment> attendedAppointments, Schedule schedule, boolean canSchedule) {
         super(id, idType, identificationNumber, firstName, lastName, birthDate,  phone, true, user );
         this.specialties = specialties;
         this.scheduledAppointments = scheduledAppointments;
         this.attendedAppointments = attendedAppointments;
         this.schedule = schedule;
+        this.canSchedule = canSchedule;
     }
 
     public boolean addAppointmentToAttend(Appointment appointment) throws Exception {
@@ -92,5 +97,12 @@ public class Doctor extends Person {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public boolean isCanSchedule() {
+        return canSchedule;
+    }
+    public void setCanSchedule(boolean canSchedule) {
+        this.canSchedule = canSchedule;
     }
 }

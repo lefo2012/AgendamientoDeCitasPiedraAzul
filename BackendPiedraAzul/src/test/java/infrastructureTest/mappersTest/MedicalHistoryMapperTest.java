@@ -55,7 +55,8 @@ public class MedicalHistoryMapperTest {
                 "3001112222",
                 user,
                 specialties,
-                schedule
+                schedule,
+                false
         );
 
         doctors.add(doctor);
