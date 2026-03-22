@@ -1,1 +1,124 @@
-<p>create-appointment works!</p>
+
+<mat-card class ="appointment-card">
+  <mat-card-header class="appointment-card-header">
+    <mat-card-title>Agendar Cita</mat-card-title>
+  </mat-card-header>
+  
+  <mat-card-content class="appointment-card-content">
+	<mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
+	@if (step== 0) {
+		
+		<h3>Selecciona tu especialidad</h3>
+		<mat-form-field class="form ">
+		
+		<mat-label>Especialidad</mat-label>
+		
+		<mat-select [(value)] ="specialitySelected" class="my-select" (selectionChange)="onSpecialityChange()">
+		@for (speciality of specialties; track speciality) {
+			<mat-option [value]="speciality" (mouseenter)="onHover($event, speciality)" (mouseleave)="onHover(null, null)" (click)="onHover(null,null)" >
+			
+			{{ speciality.viewValue }}
+			
+			</mat-option>
+		}
+		</mat-select>
+		</mat-form-field>
+	}
+	@if(step == 1 ){
+
+		
+		<h3>Selecciona el doctor</h3>
+		<mat-form-field class="form">
+		
+		<mat-label>Doctor</mat-label>
+		
+		<mat-select [(value)]="doctorSelected" (selectionChange)="onDoctorChange()"> 
+		@for (doctor of doctors; track doctor) {
+			<mat-option [value]="doctor">
+			
+			{{ doctor.viewValue }}
+			
+			</mat-option>
+		}
+		</mat-select>
+		</mat-form-field>
+
+	}
+	@if(step == 2 ){
+
+		
+		<h3>Selecciona la fecha</h3>
+		<mat-form-field class="form">
+		
+		<mat-label>Fecha</mat-label>
+		
+		<mat-select [(value)]="dateSelected">
+		@for (date of dates; track date) {
+			<mat-option [value]="date">
+			
+			{{ date.viewValue }}
+			
+			</mat-option>
+		}
+		</mat-select>
+		</mat-form-field>
+
+	}
+	@if(step == 3 ){
+
+		
+		<h3>Selecciona el horario</h3>
+		<mat-form-field class="form">
+		
+		<mat-label>Horario</mat-label>
+		
+		<mat-select [(value)]="intervalSelected">
+		@for (interval of intervals; track interval) {
+			<mat-option [value]="interval">
+			
+			{{ interval.viewValue }}
+			
+			</mat-option>
+		}
+		</mat-select>
+		</mat-form-field>
+
+	}
+	@if(step == 4) {
+		<h3>Confirma tu cita</h3>
+		<p>Estas a un paso de agendar tu cita</p>
+		<p>- Especialidad : {{specialitySelected.viewValue}}</p>
+		<p>- Doctor : {{doctorSelected.viewValue}}</p>
+		<p>- Fecha : {{dateSelected.viewValue}}</p>
+		<p>- Horario : {{intervalSelected.viewValue}}</p>
+
+		<p><strong>Estas seguro de agendar esta cita?</strong></p>
+	
+	}
+	@if (hoveredSpeciality) {
+		<div 
+			class="description"
+			[style.top.px]="panelY"
+			[style.left.px]="panelX">
+
+			<h4>Descripción</h4>
+			<p>{{ hoveredSpeciality.description }}</p>
+		</div>
+	}
+	
+	
+  </mat-card-content>
+  <mat-card-actions class="appointment-card-buttons" >
+    <button mat-button (click)="onCancel()">Cancelar</button>
+	@if(step > 0) {
+		<button mat-raised-button (click)="previous()">Anterior</button>
+	}
+	@if(step == 4) {
+		<button mat-raised-button (click)="confirmAppointment()">Confirmar</button>
+	}@else{
+		<button mat-raised-button (click)="next()">Siguiente</button>
+	}
+    
+  </mat-card-actions>
+</mat-card>
+

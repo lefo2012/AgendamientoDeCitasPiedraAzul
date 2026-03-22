@@ -1,101 +1,131 @@
-<div class="container vh-100 d-flex align-items-center justify-content-center">
+<section class="auth-page register-page">
+  <div class="auth-card register-card shadow-lg">
+    <header class="auth-header">
+      <p class="auth-kicker">Nuevo paciente</p>
+      <h1>Crear cuenta</h1>
+      <p class="auth-subtitle">Completa la informacion para acceder al portal de citas.</p>
+    </header>
 
-  <div class="card shadow-lg p-4 register-card">
+    <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
+      @if (formError) {
+        <div class="form-alert" role="alert">{{ formError }}</div>
+      }
 
-    <h2 class="text-center mb-4">Crear Cuenta</h2>
+      <section class="form-section">
+        <h2>Informacion personal</h2>
+        <div class="form-grid two-columns">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre(s)</mat-label>
+              <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)">
+              @if (fieldInvalid('firstName')) {
+                <mat-error>Ingresa un nombre válido (mínimo 2 letras).</mat-error>
+              }
+            </mat-form-field>
+          </div>
 
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
-
-      <div class="row">
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Nombre</label>
-          <input type="text"
-                 class="form-control"
-                 formControlName="firstName"
-                 placeholder="Juan">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Apellido(s)</mat-label>
+              <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)">
+              @if (fieldInvalid('lastName')) {
+                <mat-error>Ingresa un apellido válido (mínimo 2 letras).</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
 
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Apellido</label>
-          <input type="text"
-                 class="form-control"
-                 formControlName="lastName"
-                 placeholder="Pérez">
+        <div class="form-grid document-grid">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select formControlName="documentType">
+                <mat-option value="">Seleccione</mat-option>
+                <mat-option value="CC">Cédula</mat-option>
+                <mat-option value="TI">Tarjeta de Identidad</mat-option>
+                <mat-option value="CE">Cédula de Extranjería</mat-option>
+              </mat-select>
+              @if (fieldInvalid('documentType')) {
+                <mat-error>Selecciona un tipo de documento.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Numero de documento</mat-label>
+              <input matInput type="text" formControlName="identificationNumber" placeholder="123456789">
+              @if (fieldInvalid('identificationNumber')) {
+                <mat-error>Debe tener entre 6 y 12 dígitos numéricos.</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
 
-      </div>
+        <div class="form-grid two-columns">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="birthPicker" [max]="maxBirthDate" formControlName="birthDate" placeholder="Selecciona una fecha">
+              <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthPicker></mat-datepicker>
+              @if (fieldInvalid('birthDate')) {
+                <mat-error>No puede ser una fecha futura.</mat-error>
+              }
+            </mat-form-field>
+          </div>
 
-      <div class="row">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Telefono</mat-label>
+              <input matInput type="text" formControlName="phone" placeholder="3001234567">
+              @if (fieldInvalid('phone')) {
+                <mat-error>Ingresa un número de 10 dígitos.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+      </section>
 
-        <div class="col-md-4 mb-3">
-          <label class="form-label">Tipo de Documento</label>
-          <select class="form-select" formControlName="documentType">
-            <option value="">Seleccione</option>
-            <option value="CC">Cédula</option>
-            <option value="TI">Tarjeta de Identidad</option>
-            <option value="CE">Cédula de Extranjería</option>
-          </select>
+      <section class="form-section credentials-section">
+        <h2>Credenciales</h2>
+
+        <div class="field-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Correo electrónico</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="ejemplo@gmail.com" autocomplete="email">
+            @if (fieldInvalid('email')) {
+              <mat-error>Ingresa un correo electrónico válido.</mat-error>
+            }
+          </mat-form-field>
         </div>
 
-        <div class="col-md-8 mb-3">
-          <label class="form-label">Número de Documento</label>
-          <input type="text"
-                 class="form-control"
-                 formControlName="identificationNumber">
+        <div class="form-grid two-columns">
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contrasena</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="********" autocomplete="new-password">
+              @if (fieldInvalid('password')) {
+                <mat-error>Mínimo 8 caracteres, mayúscula, minúscula, número y símbolo.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Confirmar contraseña</mat-label>
+              <input matInput type="password" formControlName="confirmPassword" placeholder="********" autocomplete="new-password">
+              @if (fieldInvalid('confirmPassword') || registerForm.errors?.['passwordMismatch']) {
+                <mat-error>Las contraseñas no coinciden.</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
+      </section>
 
-      </div>
-
-      <div class="row">
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Fecha de Nacimiento</label>
-          <input type="date"
-                 class="form-control"
-                 formControlName="birthDate">
-        </div>
-
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Teléfono</label>
-          <input type="text"
-                 class="form-control"
-                 formControlName="phone"
-                 placeholder="3001234567">
-        </div>
-
-      </div>
-
-      <hr>
-
-      <h5 class="mb-3">Credenciales</h5>
-
-      <div class="mb-3">
-        <label class="form-label">Correo electrónico</label>
-        <input type="email"
-               class="form-control"
-               formControlName="email"
-               placeholder="correo@ejemplo.com">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Contraseña</label>
-        <input type="password"
-               class="form-control"
-               formControlName="password"
-               placeholder="********">
-      </div>
-
-      <button class="btn btn-primary w-100 mt-3">
+      <button mat-flat-button class="auth-submit" type="submit">
         Registrarse
       </button>
-
-      
-
     </form>
-
-
-
   </div>
-
-</div>
+</section>

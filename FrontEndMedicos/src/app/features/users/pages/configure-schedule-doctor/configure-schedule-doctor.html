@@ -1,0 +1,182 @@
+<div class="schedule-container">
+  <mat-card class="schedule-card">
+    <mat-card-header>
+      <mat-card-title>Configurar Agenda de Consultas</mat-card-title>
+      <mat-card-subtitle>Define tus días de trabajo, horarios y intervalos de consulta</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="scheduleForm" class="schedule-form">
+        
+        <!-- Sección 1: Días de Trabajo -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title class="section-title">1. Selecciona tus Días de Trabajo</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="days-grid">
+              <div *ngFor="let day of daysOfWeek" class="day-checkbox">
+                <mat-checkbox
+                  [(ngModel)]="day.selected"
+                  [ngModelOptions]="{standalone: true}">
+                  {{ day.label }}
+                </mat-checkbox>
+              </div>
+            </div>
+            <mat-error *ngIf="!isDaySelectionValid()" class="validation-error">
+              Debes seleccionar al menos un día de trabajo
+            </mat-error>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Sección 2: Franjas Horarias -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title class="section-title">2. Define tu Franja Horaria de Trabajo</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="time-range-container">
+              <div class="time-field-group">
+                <h4>Hora de Inicio</h4>
+                <div class="time-inputs">
+                  <mat-form-field appearance="fill" class="hour-field">
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="startHour">
+                      <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{ padNumber(hour) }}:00
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="scheduleForm.get('startHour')?.hasError('required')">
+                      Requerido
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="minute-field">
+                    <mat-label>Minutos</mat-label>
+                    <mat-select formControlName="startMinute">
+                      <mat-option [value]="0">00</mat-option>
+                      <mat-option [value]="15">15</mat-option>
+                      <mat-option [value]="30">30</mat-option>
+                      <mat-option [value]="45">45</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <mat-icon class="time-icon">arrow_forward</mat-icon>
+
+              <div class="time-field-group">
+                <h4>Hora de Cierre</h4>
+                <div class="time-inputs">
+                  <mat-form-field appearance="fill" class="hour-field">
+                    <mat-label>Hora</mat-label>
+                    <mat-select formControlName="endHour">
+                      <mat-option *ngFor="let hour of hours" [value]="hour">
+                        {{ padNumber(hour) }}:00
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="scheduleForm.get('endHour')?.hasError('required')">
+                      Requerido
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" class="minute-field">
+                    <mat-label>Minutos</mat-label>
+                    <mat-select formControlName="endMinute">
+                      <mat-option [value]="0">00</mat-option>
+                      <mat-option [value]="15">15</mat-option>
+                      <mat-option [value]="30">30</mat-option>
+                      <mat-option [value]="45">45</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <mat-error *ngIf="!validateTimeRange()" class="validation-error">
+              La hora de cierre debe ser posterior a la hora de inicio
+            </mat-error>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Sección 3: Intervalo de Consulta -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title class="section-title">3. Intervalo de Consulta</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="section-description">
+              Selecciona cada cuántos minutos deseas que se agende una consulta. 
+              Por ejemplo, si seleccionas 10 minutos, los horarios serán: 8:00, 8:10, 8:20, etc.
+            </p>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Intervalo (minutos)</mat-label>
+              <mat-select formControlName="consultationIntervalMinutes">
+                <mat-option *ngFor="let interval of intervals" [value]="interval">
+                  {{ interval }} minutos
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="scheduleForm.get('consultationIntervalMinutes')?.hasError('required')">
+                Debes seleccionar un intervalo
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Sección 4: Semanas y Año -->
+        <mat-card class="section-card">
+          <mat-card-header>
+            <mat-card-title class="section-title">4. Rango de Configuración</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="section-description">
+              Define cuántas semanas consecutivas quieres configurar en la agenda.
+            </p>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Semanas a configurar</mat-label>
+              <input matInput type="number" formControlName="weeksRepeat" min="1" max="52">
+              <mat-error *ngIf="scheduleForm.get('weeksRepeat')?.hasError('required')">
+                Requerido
+              </mat-error>
+              <mat-error *ngIf="scheduleForm.get('weeksRepeat')?.hasError('min')">
+                Debe ser mínimo 1 semana
+              </mat-error>
+              <mat-error *ngIf="scheduleForm.get('weeksRepeat')?.hasError('max')">
+                Debe ser máximo 52 semanas
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>Año</mat-label>
+              <input matInput type="number" formControlName="year" min="2024" max="2100">
+              <mat-error *ngIf="scheduleForm.get('year')?.hasError('required')">
+                Requerido
+              </mat-error>
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-divider class="section-divider"></mat-divider>
+
+        <!-- Botón para guardar -->
+        <div class="action-buttons">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="saveSchedule()"
+            [disabled]="scheduleForm.invalid || !isDaySelectionValid() || isLoading">
+            <mat-icon *ngIf="!isLoading">save</mat-icon>
+            <mat-icon *ngIf="isLoading" class="spinner">refresh</mat-icon>
+            {{ isLoading ? 'Guardando...' : 'Guardar Configuración' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,17 @@
+main {
+    background-color: var(--blanco);
+    min-height: 70vh;
+    padding-top: 5.2rem;
+}
+
+@media (max-width: 992px) {
+    main {
+        padding-top: 7.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding-top: 6.9rem;
+    }
+}

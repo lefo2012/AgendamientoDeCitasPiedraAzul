@@ -1,0 +1,50 @@
+<div class="welcome-section">
+    <div class="welcome-image">
+        <img src="/clinic-welcome.jpg" alt="Clínica Piedra Azul" class="clinic-image">
+    </div>
+    <div class="welcome-card">
+        <div class="welcome-content">
+            <h1>¡Bienvenido a Clínica Piedra Azul!</h1>
+            <p>En Clínica Piedra Azul nos dedicamos a proporcionar atención médica de calidad con un enfoque humano y personalizado. Nuestra misión es cuidar de tu salud con profesionalismo, tecnología de vanguardia y un equipo médico altamente calificado.</p>
+            <p>Ofrecemos una amplia gama de servicios médicos, desde consultas generales hasta especialidades avanzadas, todo en un ambiente cómodo y seguro para ti y tu familia.</p>
+            <div class="clinic-info">
+                <div class="info-item">
+                    <strong>Servicios:</strong> Consultas médicas, tratamientos alternativos
+                </div>
+                <div class="info-item">
+                    <strong>Especialidades:</strong> Terapia neural, Fisioterapia, Quiropraxia.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom-button-container">
+        <button class="info-button" (click)="goToAbout()">
+            Más Información
+            <span class="arrow">→</span>
+        </button>
+    </div>
+</div>
+
+<div class="card-container" id="appointments-options">
+    <div class ="card card-left" role="button" tabindex="0" aria-label="Agendar una cita" (click)="goToCreateAppointment()" (keydown.enter)="goToCreateAppointment()" (keydown.space)="goToCreateAppointment()">
+        <div class="face-card ">
+            <img src="/tiempo-del-calendario.png" class="img">
+            <img src="/tiempo-del-calendario.gif" class="gif">
+            <h1>Agenda una cita</h1>
+        </div>
+    </div>
+    <div class="card card-center" role="button" tabindex="0" aria-label="Reagendar una cita" (click)="goToRescheduleAppointment()" (keydown.enter)="goToRescheduleAppointment()" (keydown.space)="goToRescheduleAppointment()">
+        <div class="face-card">
+            <img src="/lapiz.png" class="img">
+            <img src="/lapiz.gif" class= "gif">
+            <h1>Reagendar una cita</h1>
+        </div>
+    </div>
+    <div class="card card-right" role="button" tabindex="0" aria-label="Cancelar una cita" (click)="goToCancelAppointment()" (keydown.enter)="goToCancelAppointment()" (keydown.space)="goToCancelAppointment()">
+        <div class="face-card">
+            <img src="/red-card.png" class="img" id="resize-card-img-biger">
+            <img src="/red-card.gif" class="gif" id="resize-card-gift-biger">
+            <h1>Cancelar tu cita</h1>
+        </div>
+    </div>
+</div>

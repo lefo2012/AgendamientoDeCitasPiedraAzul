@@ -5,13 +5,6 @@
     "packageManager": "npm",
     "analytics": false
   },
-
-
-
-
-
-
-
   "newProjectRoot": "projects",
   "projects": {
     "FrontendPiedraAzul": {
@@ -37,9 +30,9 @@
                 "input": "public"
               }
             ],
+
             "styles": [
-              "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss"
             ],
             "server": "src/main.server.ts",
             "outputMode": "server",
@@ -72,8 +65,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+          "proxyConfig": "proxy.conf.json"
+          },
+          
           "builder": "@angular/build:dev-server",
           "configurations": {
+
             "production": {
               "buildTarget": "FrontendPiedraAzul:build:production"
             },

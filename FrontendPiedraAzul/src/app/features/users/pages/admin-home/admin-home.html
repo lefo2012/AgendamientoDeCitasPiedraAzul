@@ -1,0 +1,23 @@
+<section class="admin-home-page">
+  <div class="admin-home-wrapper">
+    <header class="admin-header">
+      <p class="admin-kicker">Gestion administrativa</p>
+      <h1>Panel de Administrador</h1>
+      <p class="admin-subtitle">Administra los procesos de creacion de perfiles medicos.</p>
+    </header>
+    <mat-card class="admin-action-card" appearance="outlined">
+      <mat-card-content>
+        <div class="card-icon" aria-hidden="true">
+          <mat-icon>medical_services</mat-icon>
+        </div>
+        <h2>Registrar medico</h2>
+        <p>Crea una nueva cuenta para personal medico y asigna sus especialidades.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="irARegistrarMedico()">
+          Ir a registro de medico
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>

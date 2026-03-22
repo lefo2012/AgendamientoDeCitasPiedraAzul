@@ -1,0 +1,94 @@
+
+
+@use '@angular/material' as mat;
+
+.description{
+	
+	position: fixed;
+	background: var(--fondo-suave);
+	color: var(--azul-profundo);
+	border: 1px solid #ccc;
+	padding: 10px;
+	border-radius: 8px;
+	margin-right: auto;
+	box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+	max-width: 250px;
+	z-index: 10000;
+}
+.appointment-form-div{
+
+	display: flex;
+	align-items: center;
+	gap: 30px;
+
+}
+.form{
+
+	justify-content: center;
+	margin-bottom: auto;
+	background-color: var(--fondo-suave);
+	background: var(--fondo-suave);
+
+}
+
+.appointment-card {
+	padding: 10px;
+	background-color: var(--fondo-suave);
+	height: 100%;
+	width: 100%;
+	align-items: center;
+	
+}
+
+.appointment-card-content {
+	align-items: center;
+	justify-content: center;
+	margin-top: auto;
+	margin-bottom: auto;
+
+}
+
+.my-select {
+	@include mat.select-overrides((
+		panel-background-color: var(--fondo-suave),
+		enabled-trigger-text-color: var(--azul-profundo),
+	));
+}
+
+.form{
+  @include mat.form-field-overrides((
+    disabled-input-text-placeholder-color: orange,
+    disabled-leading-icon-color: red,
+	state-layer-color: var(--azul-profundo),
+
+  ));
+}
+
+.appointment-card-header{
+	
+	align-items: center;
+	justify-content: center;
+	margin-right: auto;
+
+}
+.appointment-card-buttons{
+	
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	gap: 5px;
+}
+@media (max-width: 768px) {
+	.create-appointment-page {
+		width: calc(100% - 1rem);
+	}
+
+	.date-time-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.actions {
+		flex-direction: column-reverse;
+		align-items: stretch;
+	}
+}
