@@ -84,6 +84,21 @@
               }
             </mat-form-field>
           </div>
+
+          <div class="field-block">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Genero</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option value="">Seleccione</mat-option>
+                @for (genderOption of genderOptions; track genderOption.value) {
+                  <mat-option [value]="genderOption.value">{{ genderOption.label }}</mat-option>
+                }
+              </mat-select>
+              @if (fieldInvalid('gender')) {
+                <mat-error>Selecciona un genero.</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </div>
 
         <div class="field-block">

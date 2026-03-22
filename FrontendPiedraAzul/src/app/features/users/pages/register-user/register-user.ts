@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { GENDER_OPTIONS } from '../../models/GenderEnum';
 
 @Component({
   selector: 'app-register-user',
@@ -30,6 +31,7 @@ export class RegisterUser {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
+  readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -78,6 +80,7 @@ export class RegisterUser {
             Validators.pattern('^[0-9]{10}$')
           ]
         ],
+        gender: ['', Validators.required],
         email: [
           '',
           [
@@ -139,6 +142,7 @@ export class RegisterUser {
       firstName: formData.firstName,
       lastName: formData.lastName,
       birthDate: birthDateValue,
+      gender: formData.gender,
       phone: formData.phone,
       active: true,
       user: {

@@ -9,6 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { AuthService } from '../../services/auth.service';
 import { RegisterDoctorRequest } from '../../models/RegisterDoctorRequest';
+import { GENDER_OPTIONS } from '../../models/GenderEnum';
 
 @Component({
   selector: 'app-register-doctor',
@@ -30,6 +31,7 @@ export class RegisterDoctor {
   formError = '';
   submitted = false;
   readonly specialtyOptions = ['TERAPIA_NEURAL', 'QUIROPRAXIA', 'FISIOTERAPIA'];
+  readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -76,6 +78,7 @@ export class RegisterDoctor {
             Validators.pattern('^[0-9]{10}$')
           ]
         ],
+        gender: ['', Validators.required],
         specialties: [[], [Validators.required]],
         email: [
           '',
@@ -136,6 +139,7 @@ export class RegisterDoctor {
       firstName: formData.firstName,
       lastName: formData.lastName,
       birthDate: birthDateValue,
+      gender: formData.gender,
       phone: formData.phone,
       active: true,
       specialties: formData.specialties,
