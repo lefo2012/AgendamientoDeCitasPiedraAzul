@@ -12,6 +12,7 @@ import { AuthService, RegisterDoctorRequest } from '../../services/auth.service'
 @Component({
   selector: 'app-register-doctor',
   templateUrl: './register-doctor.html',
+  standalone: true,
   styleUrls: ['./register-doctor.scss'],
   imports: [
     ReactiveFormsModule,
@@ -27,7 +28,7 @@ export class RegisterDoctor {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
-  readonly specialtyOptions = ['Terapia Neural', 'Quiropraxia', 'Fisioterapia'];
+  readonly specialtyOptions = ['TERAPIA_NEURAL', 'QUIROPRAXIA', 'FISIOTERAPIA'];
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -100,8 +101,24 @@ export class RegisterDoctor {
 
   registerDoctor(): void {
     this.submitted = true;
+    console.groupCollapsed('[RegisterDoctorComponent] Register doctor submit triggered');
+    console.log('Form value:', this.registerForm.value);
+    console.log('Form valid:', this.registerForm.valid);
+    console.groupEnd();
 
     if (this.registerForm.invalid) {
+      console.groupCollapsed('[RegisterDoctorComponent] Register doctor form invalid details');
+      Object.keys(this.registerForm.controls).forEach((fieldName) => {
+        const control = this.registerForm.get(fieldName);
+        if (control?.invalid) {
+          console.warn(`Field "${fieldName}" invalid with errors:`, control.errors);
+        }
+      });
+      if (this.registerForm.errors) {
+        console.warn('Form-level errors:', this.registerForm.errors);
+      }
+      console.groupEnd();
+
       this.registerForm.markAllAsTouched();
       this.formError = 'Corrige los campos del formulario antes de continuar.';
       return;
@@ -128,12 +145,30 @@ export class RegisterDoctor {
       }
     };
 
+    
+    console.groupCollapsed('[RegisterDoctorComponent] Register doctor request payload');
+    console.log('Payload sent to backend:', request);
+    console.groupEnd();
+
     this.authService.registerDoctor(request).subscribe({
       next: () => {
+        console.log('[RegisterDoctorComponent] Doctor registration completed successfully.');
         this.formError = '';
         this.router.navigate(['/admin']);
       },
-      error: () => {
+      error: (err) => {
+        console.error('Doctor registration error', err);
+        console.error('Doctor registration error status:', err?.status);
+        console.error('Doctor registration error statusText:', err?.statusText);
+        console.error('Doctor registration error payload:', err?.error);
+        console.error('Doctor registration error URL:', err?.url);
+
+        if (err?.status === 401) {
+          console.error('[RegisterDoctorComponent] Backend rejected authentication token (401).');
+        } else if (err?.status === 403) {
+          console.error('[RegisterDoctorComponent] Authenticated user lacks required role/permission (403).');
+        }
+
         this.formError = 'No se pudo registrar el medico. Intenta de nuevo mas tarde.';
       }
     });

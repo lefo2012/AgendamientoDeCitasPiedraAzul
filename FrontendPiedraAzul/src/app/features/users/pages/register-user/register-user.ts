@@ -89,7 +89,7 @@ export class RegisterUser {
           [
             Validators.required,
             Validators.minLength(8),
-            Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$')
+           // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$')
           ]
         ],
         confirmPassword: ['', Validators.required]
@@ -128,7 +128,6 @@ export class RegisterUser {
     }
 
     const formData = this.registerForm.value;
-
     const birthDateValue = formData.birthDate instanceof Date
       ? formData.birthDate.toISOString().split('T')[0]
       : formData.birthDate;

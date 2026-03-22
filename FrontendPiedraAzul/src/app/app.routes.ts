@@ -1,73 +1,70 @@
 import { Routes } from '@angular/router';
-import { MainLayout } from './layout/main-layout/main-layout';
-import { RegisterUser } from './features/users/pages/register-user/register-user';
-import { Login } from './features/users/pages/login-user/login-user';
-import { Header } from './layout/header/header';
-import { Main } from './features/main/pages/main/main';
-import { About } from './features/main/pages/about/about';
-import { CreateAppointment } from './features/appointments/pages/create-appointment/create-appointment';
-import { RescheduleAppointment } from './features/appointments/pages/reschedule-appointment/reschedule-appointment';
-import { CancelAppointment } from './features/appointments/pages/cancel-appointment/cancel-appointment';
-import { AdminHome } from './features/users/pages/admin-home/admin-home';
-import { RegisterDoctor } from './features/users/pages/register-doctor/register-doctor';
-export const routes: Routes = [
 
+export const routes: Routes = [
   {
     path: '',
-    component: MainLayout,
+    loadComponent: () =>
+      import('./layout/main-layout/main-layout').then((m) => m.MainLayout),
     children: [
       {
         path: '',
-        component: Main
-
+        loadComponent: () =>
+          import('./features/main/pages/main/main').then((m) => m.Main),
       },
-      
       {
         path: 'about',
-        component: About
+        loadComponent: () =>
+          import('./features/main/pages/about/about').then((m) => m.About),
       },
       {
         path: 'register',
-        component: RegisterUser
+        loadComponent: () =>
+          import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
       },
       {
         path: 'login',
-        component: Login
+        loadComponent: () =>
+          import('./features/users/pages/login-user/login-user').then((m) => m.Login),
       },
       {
         path: 'admin',
-        component: AdminHome
+        loadComponent: () =>
+          import('./features/users/pages/admin-home/admin-home').then((m) => m.AdminHome),
       },
       {
         path: 'admin/registrar-medico',
-        component: RegisterDoctor
+        loadComponent: () =>
+          import('./features/users/pages/register-doctor/register-doctor').then((m) => m.RegisterDoctor),
       },
-      
       {
         path: 'citas',
         redirectTo: 'citas/agendar',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
         path: 'citas/agendar',
-        component: CreateAppointment
+        loadComponent: () =>
+          import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
       },
       {
         path: 'citas/reagendar',
-        component: RescheduleAppointment
+        loadComponent: () =>
+          import('./features/appointments/pages/reschedule-appointment/reschedule-appointment').then((m) => m.RescheduleAppointment),
       },
       {
         path: 'citas/cancelar',
-        component: CancelAppointment
+        loadComponent: () =>
+          import('./features/appointments/pages/cancel-appointment/cancel-appointment').then((m) => m.CancelAppointment),
       },
       {
-        path:'header',
-        component: Header
+        path: 'header',
+        loadComponent: () =>
+          import('./layout/header/header').then((m) => m.Header),
       },
-      
-
-    ]
-
-  }
-
+    ],
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

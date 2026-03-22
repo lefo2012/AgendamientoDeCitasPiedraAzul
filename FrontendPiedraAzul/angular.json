@@ -65,8 +65,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+          "proxyConfig": "proxy.conf.json"
+          },
+          
           "builder": "@angular/build:dev-server",
           "configurations": {
+
             "production": {
               "buildTarget": "FrontendPiedraAzul:build:production"
             },
