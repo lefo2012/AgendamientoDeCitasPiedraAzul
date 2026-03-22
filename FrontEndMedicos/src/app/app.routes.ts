@@ -21,6 +21,11 @@ export const routes: Routes = [
 				loadComponent: () =>
 					import('./features/appointments/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
 			},
+			{
+				path: 'citas/nueva',
+				loadComponent: () =>
+					import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
+			},
 		],
 	},
 	{
