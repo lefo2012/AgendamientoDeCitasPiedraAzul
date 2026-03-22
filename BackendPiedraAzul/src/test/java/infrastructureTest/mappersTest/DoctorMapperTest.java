@@ -2,6 +2,7 @@ package infrastructureTest.mappersTest;
 
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.GenderEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.User;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.*;
@@ -45,6 +46,7 @@ public class DoctorMapperTest {
                 new java.util.Date(),
                 "3001112222",
                 user,
+                GenderEnum.Femenino,
                 specialties,
                 schedule,
                 false,
@@ -64,6 +66,7 @@ public class DoctorMapperTest {
                 "3105551234",
                 true,
                 user,
+                GenderEnum.Masculino,
                 0,
                 history
         );
@@ -95,4 +98,3 @@ public class DoctorMapperTest {
     }
 
 }
-

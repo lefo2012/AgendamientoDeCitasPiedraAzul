@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities;
 
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.GenderEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,6 @@ public abstract class PersonEntity {
     protected boolean active;
     @OneToOne(cascade = CascadeType.ALL)
     protected UserEntity user;
+    @Enumerated(EnumType.STRING)
+    protected GenderEnum gender;
 }

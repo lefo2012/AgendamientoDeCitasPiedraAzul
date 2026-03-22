@@ -1,6 +1,7 @@
 package domainTest;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.DocumentTypeEnum;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.GenderEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.User;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.*;
@@ -37,6 +38,7 @@ public class DoctorTest {
                 new Date(),
                 "3001234567",
                 user,
+                GenderEnum.Masculino,
                 specialties,
                 schedule,
                 false,
@@ -56,6 +58,7 @@ public class DoctorTest {
 
         //the scheduled never should be null
         assertEquals(schedule, doctor.getSchedule());
+        assertEquals(GenderEnum.Masculino, doctor.getGender());
     }
 
     /**
@@ -104,6 +107,7 @@ public class DoctorTest {
                 new Date(),
                 "3119876543",
                 user,
+                GenderEnum.Femenino,
                 specialties,
                 scheduled,
                 attended,
@@ -119,6 +123,7 @@ public class DoctorTest {
         assertEquals(scheduled, doctor.getScheduledAppointments());
         assertEquals(attended, doctor.getAttendedAppointments());
         assertEquals(schedule, doctor.getSchedule());
+        assertEquals(GenderEnum.Femenino, doctor.getGender());
     }
 
         /**
@@ -152,6 +157,7 @@ public class DoctorTest {
                     new java.util.Date(),
                     "3001112222",
                     user1,
+                    GenderEnum.Femenino,
                     specialties1,
                     schedule1,
                     false,
@@ -198,6 +204,7 @@ public class DoctorTest {
                     new java.util.Date(),
                     "3001112222",
                     user1,
+                    GenderEnum.Femenino,
                     specialties1,
                     schedule1,
                     false,
@@ -246,6 +253,7 @@ public class DoctorTest {
                     new java.util.Date(),
                     "3001112222",
                     user1,
+                    GenderEnum.Femenino,
                     specialties1,
                     schedule1,
                     false,
@@ -261,6 +269,7 @@ public class DoctorTest {
                     new java.util.Date(),
                     "3001112222",
                     user1,
+                    GenderEnum.Femenino,
                     specialties1,
                     schedule1,
                     false,

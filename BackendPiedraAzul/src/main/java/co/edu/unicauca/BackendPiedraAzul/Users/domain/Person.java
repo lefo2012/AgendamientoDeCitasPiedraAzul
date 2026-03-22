@@ -12,11 +12,12 @@ public class Person {
     protected String phone;
     protected boolean active;
     protected User user;
+    protected GenderEnum gender;
 
     public Person() {
     }
 
-    public Person(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user) {
+    public Person(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user, GenderEnum gender) {
         this.id = id;
         this.documentType = documentType;
         this.identificationNumber = identificationNumber;
@@ -26,6 +27,7 @@ public class Person {
         this.phone = phone;
         this.active = active;
         this.user = user;
+        this.gender = gender;
     }
 
     public Long getId() {
@@ -98,5 +100,13 @@ public class Person {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public GenderEnum getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
     }
 }

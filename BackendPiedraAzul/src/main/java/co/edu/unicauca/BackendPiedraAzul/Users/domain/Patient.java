@@ -22,17 +22,17 @@ public class Patient extends Person {
     }
 
     public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName,
-                   Date birthDate, String phone, boolean active, User user,
+                   Date birthDate, String phone, boolean active, User user, GenderEnum gender,
                    int appointmentCount, MedicalHistory medicalHistory) {
-        super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user);
+        super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user, gender);
         this.pendingAppointments = new ArrayList<>();
         this.appointmentCount = appointmentCount;
         this.medicalHistory = medicalHistory;
         this.pastAppointments = new ArrayList<>();
     }
 
-    public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user, List<Appointment> pendingAppointments, List<Appointment> pastAppointments, MedicalHistory medicalHistory, int appointmentCount) {
-        super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user);
+    public Patient(Long id, DocumentTypeEnum documentType, String identificationNumber, String firstName, String lastName, Date birthDate, String phone, boolean active, User user,GenderEnum gender, List<Appointment> pendingAppointments, List<Appointment> pastAppointments, MedicalHistory medicalHistory, int appointmentCount) {
+        super(id, documentType, identificationNumber, firstName, lastName, birthDate, phone, active, user, gender);
         this.pendingAppointments = pendingAppointments;
         this.pastAppointments = pastAppointments;
         this.medicalHistory = medicalHistory;

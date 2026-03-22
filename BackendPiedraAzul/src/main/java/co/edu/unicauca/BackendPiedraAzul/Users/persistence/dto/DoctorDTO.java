@@ -23,4 +23,5 @@ public class DoctorDTO {
     private List<SpecialtyEnum> specialties;
     private boolean canSchedule;
     private IntervalDTO appointmentInterval;
+    private String gender;
 }
