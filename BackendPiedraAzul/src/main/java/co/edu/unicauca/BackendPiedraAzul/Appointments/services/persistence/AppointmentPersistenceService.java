@@ -20,7 +20,6 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
     @Autowired
     private AppointmentMapper appointmentMapper;
 
-
     @Transactional
     @Override
     public Appointment save(Appointment appointment) throws Exception {

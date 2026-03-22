@@ -21,7 +21,7 @@ public class ReportController {
     @Autowired
     private AppointmentReportService appointmentReportService;
 
-    @GetMapping("/appointments/byDoctorAndDate")
+    @GetMapping("/appointmentsByDoctorAndDate")
     public ResponseEntity<?> getAppointmentsByDoctorAndDate(
             @RequestParam("doctorId") Long doctorId,
             @RequestParam("appointmentDate")

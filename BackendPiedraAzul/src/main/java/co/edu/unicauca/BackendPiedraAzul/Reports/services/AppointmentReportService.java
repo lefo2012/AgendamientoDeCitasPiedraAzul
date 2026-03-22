@@ -44,7 +44,7 @@ public class AppointmentReportService {
                             appointment.getPatient().getLastName()
             );
 
-            reportDTO.setAppointmentInterval(appointment.getInterval().getStartTime().toString() + " - " + appointment.getInterval().getStartTime().toString() );
+            reportDTO.setAppointmentInterval(appointment.getInterval().getStartTime().toString() + " - " + appointment.getInterval().getEndTime().toString() );
 
             return reportDTO;
         }).toList();
