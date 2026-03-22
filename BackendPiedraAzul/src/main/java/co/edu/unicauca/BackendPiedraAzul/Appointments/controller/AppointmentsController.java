@@ -1,6 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.controller;
 
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDto;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDTO;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.IAppointmentPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class AppointmentsController {
     @Autowired
     private IAppointmentService appointmentService;
     @PostMapping("/reserve")
-    public ResponseEntity<?> reserve(@RequestBody ReserveAppointmentDto dto) {
+    public ResponseEntity<?> reserve(@RequestBody ReserveAppointmentDTO dto) {
         try {
             appointmentService.reserveAppointment(dto);
 

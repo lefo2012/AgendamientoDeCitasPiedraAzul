@@ -1,7 +1,7 @@
-package co.edu.unicauca.BackendPiedraAzul.Reports.services;
+package co.edu.unicauca.BackendPiedraAzul.Reports.services.usecases;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
-import co.edu.unicauca.BackendPiedraAzul.Reports.Dto.AppointmentReport;
+import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
 

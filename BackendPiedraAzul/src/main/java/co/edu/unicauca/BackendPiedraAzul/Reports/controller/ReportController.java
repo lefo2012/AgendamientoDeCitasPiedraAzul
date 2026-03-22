@@ -1,8 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.controller;
 
-import co.edu.unicauca.BackendPiedraAzul.Reports.Dto.AppointmentReport;
-import co.edu.unicauca.BackendPiedraAzul.Reports.services.AppointmentReportService;
-import co.edu.unicauca.BackendPiedraAzul.Reports.services.IAppointmentReportService;
+import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
+import co.edu.unicauca.BackendPiedraAzul.Reports.services.usecases.IAppointmentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

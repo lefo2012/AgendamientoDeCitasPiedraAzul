@@ -1,13 +1,13 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases;
 
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDto;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDto;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDTO;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDTO;
 
 import java.util.List;
 
 public interface IAppointmentService {
 
-    void reserveAppointment(ReserveAppointmentDto reserveAppointmentDto) throws Exception;
-    List<AppointmentDto> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception;
-    List<AppointmentDto> getAttendedAppointments(Long doctorId) throws Exception;
+    void reserveAppointment(ReserveAppointmentDTO reserveAppointmentDto) throws Exception;
+    List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception;
+    List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception;
 }

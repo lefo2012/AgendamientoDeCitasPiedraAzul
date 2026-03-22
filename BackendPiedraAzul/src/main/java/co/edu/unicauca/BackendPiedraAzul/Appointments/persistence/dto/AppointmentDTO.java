@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AppointmentDto {
+public class AppointmentDTO {
     PatientDTO patient;
     DoctorDTO doctor;
     IntervalDTO interval;

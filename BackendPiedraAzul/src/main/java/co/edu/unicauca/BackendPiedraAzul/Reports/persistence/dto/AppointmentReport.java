@@ -1,4 +1,4 @@
-package co.edu.unicauca.BackendPiedraAzul.Reports.Dto;
+package co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

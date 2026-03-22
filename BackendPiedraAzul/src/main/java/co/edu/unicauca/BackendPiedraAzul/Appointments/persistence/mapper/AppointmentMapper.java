@@ -1,10 +1,8 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
-import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDto;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDTO;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.entities.AppointmentEntity;
-import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.DoctorMapper;
-import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.PatientMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -29,5 +27,5 @@ public interface AppointmentMapper {
 //    @Mapping(target = "patient.pendingAppointments",ignore = true)
     @Mapping(target = "doctor.user", ignore = true)
     @Mapping(target = "patient.user", ignore = true)
-    AppointmentDto toDto(Appointment appointment);
+    AppointmentDTO toDto(Appointment appointment);
 }
