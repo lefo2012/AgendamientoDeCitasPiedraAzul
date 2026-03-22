@@ -1,7 +1,8 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.controller;
 
-import co.edu.unicauca.BackendPiedraAzul.Reports.services.AppointmentReport;
+import co.edu.unicauca.BackendPiedraAzul.Reports.Dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Reports.services.AppointmentReportService;
+import co.edu.unicauca.BackendPiedraAzul.Reports.services.IAppointmentReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 /**
  * Rest controller for handling report-related endpoints.
  * This controller provides endpoints to retrieve appointment reports filtered by doctor and date.
@@ -19,7 +19,7 @@ import java.util.List;
 public class ReportController {
 
     @Autowired
-    private AppointmentReportService appointmentReportService;
+    private IAppointmentReportService appointmentReportService;
 
     @GetMapping("/appointmentsByDoctorAndDate")
     public ResponseEntity<?> getAppointmentsByDoctorAndDate(
