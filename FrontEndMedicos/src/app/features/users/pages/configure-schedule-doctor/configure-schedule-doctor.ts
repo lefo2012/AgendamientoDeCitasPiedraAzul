@@ -16,11 +16,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { asyncScheduler, finalize, observeOn } from 'rxjs';
-import { DayOfWeekDto } from '../../models/DayOfWeekDto';
-import { DoctorSchedule } from '../../models/DoctorSchedule';
-import { IntervalDTO } from '../../models/IntervalDTO';
-import { IntervalListDTO } from '../../models/IntervalListDTO';
-import { ScheduleService } from '../../services/schedule.service';
+import { DayOfWeekDto } from '../../../appointments/models/DayOfWeekDto';
+import { DoctorSchedule } from '../../../appointments/models/DoctorSchedule';
+import { IntervalDto } from '../../../appointments/models/IntervalDto';
+import { IntervalListDto } from '../../../appointments/models/IntervalListDto';
+import { ScheduleService } from '../../../appointments/services/schedule.service';
 import { HttpClientModule } from '@angular/common/http';
 
 interface DaySelection {
@@ -147,8 +147,8 @@ export class ConfigureScheduleDoctor implements OnInit {
     return `${this.padNumber(hour)}:${this.padNumber(minute)}`;
   }
 
-  buildIntervals(formValue: any): IntervalDTO[] {
-    const intervals: IntervalDTO[] = [
+  buildIntervals(formValue: any): IntervalDto[] {
+    const intervals: IntervalDto[] = [
       {
         startTime: this.toTimeString(formValue.startHour, formValue.startMinute),
         endTime: this.toTimeString(formValue.endHour, formValue.endMinute),
@@ -204,7 +204,7 @@ export class ConfigureScheduleDoctor implements OnInit {
     // Obtener el ID del doctor del localStorage o sesión
     const doctorId = localStorage.getItem('doctorId') || 'temp-id';
 
-    const intervalConfig: IntervalListDTO = {
+    const intervalConfig: IntervalListDto = {
       intervals: this.buildIntervals(formValue),
     };
 

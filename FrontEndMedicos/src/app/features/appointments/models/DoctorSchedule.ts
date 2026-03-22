@@ -1,9 +1,9 @@
 import { DayOfWeekDto } from './DayOfWeekDto';
-import { IntervalListDTO } from './IntervalListDTO';
+import { IntervalListDto } from './IntervalListDto';
 
 export interface DoctorSchedule {
   days: DayOfWeekDto[];
-  schedules: IntervalListDTO[];
+  schedules: IntervalListDto[];
   weeksRepeat: number;
   year: number;
 }
