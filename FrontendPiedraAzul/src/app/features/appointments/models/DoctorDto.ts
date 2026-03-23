@@ -1,7 +1,12 @@
-import { ScheduleDTO } from './ScheduleDto';
+import { IntervalDto } from './IntervalDto';
+import { ScheduleDto } from './ScheduleDto';
 
-export interface DoctorDTO {
+export interface DoctorDto {
   id: number;
-  name: string;
-  schedule: ScheduleDTO;
+  identificationNumber: string;
+  firstName: string;
+  lastName: string;
+  canSchedule: boolean;
+  appointmentInterval: IntervalDto | null;
+  schedule: ScheduleDto | null;
 }

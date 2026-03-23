@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.controller;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
@@ -100,10 +101,20 @@ public class UsersController {
             return ResponseEntity.ok(doctors);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body("{\"error\":\"Error retrieving patients: " + e.getMessage() + "\"}");
+                    .body("{\"error\":\"Error retrieving doctors: " + e.getMessage() + "\"}");
         }
     }
+    @GetMapping("/getDoctorsBySpecialty/{specialty}")
+    public ResponseEntity<?> getDoctorBySpecialty(@PathVariable String specialty){
+        try {
+            List<Doctor> doctors = doctorPersistenceService.findBySpecialtiesContaining(SpecialtyEnum.valueOf(specialty));
+            return ResponseEntity.ok(doctors);
+        }catch (Exception e){
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error retrieving doctors: " + e.getMessage() + "\"}");
+        }
 
+    }
     @GetMapping("/getPatientByIdentificationNumber/{identificationNumber}")
     public ResponseEntity<?> getPatientByIdentificacionNumber(@PathVariable String identificationNumber) {
         try {

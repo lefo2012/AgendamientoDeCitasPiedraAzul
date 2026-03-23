@@ -1,5 +1,5 @@
-import { IntervalListDTO } from './IntervalListDto';
+import { IntervalListDto } from './IntervalListDto';
 
-export interface ScheduleDTO {
-  availableTimes: Map<string, IntervalListDTO>;
+export interface ScheduleDto {
+  availableTimes: Record<string, IntervalListDto>;
 }

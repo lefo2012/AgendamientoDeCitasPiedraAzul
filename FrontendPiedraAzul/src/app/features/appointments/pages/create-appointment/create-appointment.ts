@@ -8,7 +8,9 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import { AppointmentService } from '../../services/appointmentService';
+import { DoctorDto } from '../../models/DoctorDto';
+import { IntervalDto } from '../../models/IntervalDto';
 
 @Component({
   selector: 'app-create-appointment',
@@ -37,9 +39,17 @@ export class CreateAppointment{
   hoveredSpeciality: any | null = null;
   step = 0;
   maxSteps = 5;
-  doctors: any[] = [];
+  doctors: DoctorDto[] = [];
   intervals: any[] = [];
   dates: any[] = [];
+
+
+  constructor(private readonly appointmentService:AppointmentService,  
+    private fb: FormBuilder,
+    @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
+  ){
+  }
+  
 
   specialties : any = [
     { value: 'FISIOTERAPIA', viewValue: 'Fisioterapia', description: 'La fisioterapia sirve para rehabilitar, prevenir y tratar lesiones físicas, dolor crónico y problemas de movilidad' },
@@ -94,52 +104,52 @@ export class CreateAppointment{
   panelY = 0;
 
   onSpecialityChange() {
-  if (this.specialitySelected?.value === 'FISIOTERAPIA') {
-    this.doctors = [
-      { value: 1, viewValue: 'Dra. Luisa' },
-      { value: 2, viewValue: 'Dra. Angela' },
-      { value: 3, viewValue: 'Dr. Brown Mauricio' }
-    ];
-
-    this.intervals = [
-      { value: { '8:00': '8:15' }, viewValue: '8:00 - 8:15' },
-      { value: { '8:15': '8:30' }, viewValue: '8:15 - 8:30' },
-      { value: { '8:30': '8:45' }, viewValue: '8:30 - 8:45' },
-      { value: { '8:45': '9:00' }, viewValue: '8:45 - 9:00' },
-    ];
-  } else {
-    this.doctors = [
-      { value: 1, viewValue: 'Dr. Fierro' },
-      { value: 2, viewValue: 'Dr. Paco Rabana' },
-      { value: 3, viewValue: 'Dr. Nelson' }
-    ];
-
-    this.intervals = [
-      { value: { '8:00': '8:30' }, viewValue: '8:00 - 8:30' },
-      { value: { '8:30': '9:00' }, viewValue: '8:30 - 9:00' },
-      { value: { '9:00': '9:30' }, viewValue: '9:00 - 9:30' },
-      { value: { '9:30': '10:00' }, viewValue: '9:30 - 10:00' },
-    ];
-    }
+    this.appointmentService.getDoctorsBySpeciality(this.specialitySelected).subscribe((doctors) => {
+      this.doctors = doctors;
+    })  
     
   }
   onDoctorChange(){
+    this.dates= Object.keys(this.doctorSelected.schedule) || [];
+  }
 
+  onDateChange(){
     
-    
-    this.dates = [
-      {value: '10/05/2023', viewValue: '10/05/2023'},
-      {value: '10/06/2023', viewValue: '10/06/2023'},
-      {value: '10/07/2023', viewValue: '10/07/2023'}, 
-    ]
+    const schedule = this.doctorSelected.schedule[this.dateSelected] || [];
 
+    const isFisio = this.specialitySelected === 'FISIOTERAPIA';
+    const minutes = isFisio ? 15 : 30;
+
+    const result: IntervalDto[] = [];
+
+    schedule.forEach((block : IntervalDto) => {
+
+      let start = this.toMinutes(block.startTime);
+      const end = this.toMinutes(block.endTime);
+
+      while (start + minutes <= end) {
+        result.push({
+          startTime: this.toTime(start),
+          endTime: this.toTime(start + minutes)
+        });
+        start += minutes;
+      }
+    });
+
+    this.intervals = result;
   }
   
+  toMinutes(time: string): number {
+    const [h, m] = time.split(':').map(Number);
+    return h * 60 + m;
+  }
 
-  constructor(
-    private fb: FormBuilder,
-    @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
-  ) {}
+  toTime(minutes: number): string {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+  }
+
   onHover(event: MouseEvent | null, speciality: any | null) {
     this.hoveredSpeciality = speciality;
 

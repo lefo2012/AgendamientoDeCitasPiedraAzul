@@ -25,8 +25,6 @@
 		</mat-form-field>
 	}
 	@if(step == 1 ){
-
-		
 		<h3>Selecciona el doctor</h3>
 		<mat-form-field class="form">
 		
@@ -35,14 +33,11 @@
 		<mat-select [(value)]="doctorSelected" (selectionChange)="onDoctorChange()"> 
 		@for (doctor of doctors; track doctor) {
 			<mat-option [value]="doctor">
-			
-			{{ doctor.viewValue }}
-			
+			{{ doctor.firstName }}{{doctor.lastName}}
 			</mat-option>
 		}
 		</mat-select>
 		</mat-form-field>
-
 	}
 	@if(step == 2 ){
 
