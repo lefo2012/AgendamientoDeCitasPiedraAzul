@@ -181,8 +181,7 @@ export class CreateAppointment implements OnInit {
           this.snackBar.open('Cita agendada correctamente.', 'Cerrar', {
             duration: 3000,
           });
-          this.appointmentForm.patchValue({ slot: null });
-          this.onDoctorChange();
+          this.resetAndReloadForm();
         },
         error: () => {
           this.snackBar.open('No fue posible agendar la cita.', 'Cerrar', {
@@ -316,6 +315,21 @@ export class CreateAppointment implements OnInit {
       month: '2-digit',
       year: 'numeric',
     }).format(parsedDate);
+  }
+
+  private resetAndReloadForm(): void {
+    this.patient = null;
+    this.patientError = '';
+    this.slots = [];
+
+    this.appointmentForm.reset({
+      identificationNumber: '',
+      doctorId: null,
+      slot: null,
+    });
+
+    this.slotControl.disable({ emitEvent: false });
+    this.loadDoctors();
   }
 
   goBack(): void {
