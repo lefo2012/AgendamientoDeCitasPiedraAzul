@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DoctorSchedule } from '../models/DoctorSchedule';
+import { DoctorDto } from '../models/DoctorDto';
+import { PatientDto } from '../models/PatientDto';
+import { ReserveAppointmentDto } from '../models/ReserveAppointmentDto';
 import { ScheduleSlot } from '../models/ScheduleSlot';
 
 @Injectable({
@@ -9,6 +12,8 @@ import { ScheduleSlot } from '../models/ScheduleSlot';
 })
 export class ScheduleService {
   private apiUrl = '/api/doctor';
+  private usersApi = '/api/users';
+  private appointmentsApi = '/api/appointments';
 
   constructor(private http: HttpClient) {}
 
@@ -72,5 +77,21 @@ export class ScheduleService {
 
   getDoctorSchedule(doctorId: string): Observable<DoctorSchedule> {
     return this.http.get<DoctorSchedule>(`${this.apiUrl}/${doctorId}/schedule`);
+  }
+
+  getAllDoctors(): Observable<DoctorDto[]> {
+    return this.http.get<DoctorDto[]>(`${this.usersApi}/getAllDoctors`);
+  }
+
+  getPatientByIdentificationNumber(identificationNumber: string): Observable<PatientDto> {
+    return this.http.get<PatientDto>(
+      `${this.usersApi}/getPatientByIdentificationNumber/${encodeURIComponent(identificationNumber)}`
+    );
+  }
+
+  reserveAppointment(payload: ReserveAppointmentDto): Observable<string> {
+    return this.http.post(`${this.appointmentsApi}/reserve`, payload, {
+      responseType: 'text',
+    });
   }
 }
