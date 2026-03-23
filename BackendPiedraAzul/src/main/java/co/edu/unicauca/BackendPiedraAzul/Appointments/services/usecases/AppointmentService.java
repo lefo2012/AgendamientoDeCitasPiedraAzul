@@ -14,7 +14,6 @@ import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPers
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -57,11 +56,8 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     public List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception {
-
         Doctor doctor = doctorPersistenceService.findById(doctorId);
-
         return doctor.getScheduledAppointments().stream().map(appointmentMapper::toDto).toList();
-
     }
 
     @Override
