@@ -70,4 +70,12 @@ public class AppointmentService implements IAppointmentService {
         return doctor.getAttendedAppointments().stream().map(appointmentMapper::toDto).toList();
     }
 
+    @Override
+    public List<Appointment> getAllAppointments() throws Exception{
+
+         List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+         System.out.println(appointments.size());
+         return appointments;
+    }
+
 }

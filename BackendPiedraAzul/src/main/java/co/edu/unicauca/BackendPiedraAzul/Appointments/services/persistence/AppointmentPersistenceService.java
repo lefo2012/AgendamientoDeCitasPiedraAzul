@@ -31,6 +31,7 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
     @Override
     public List<Appointment> findAll() throws Exception{
         List<AppointmentEntity> entities = jpaRepository.findAll();
+
         List<Appointment> appointments = new ArrayList<>();
 
         for (AppointmentEntity entity : entities) {
@@ -38,6 +39,7 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
         }
 
         return appointments;
+
     }
 
 }

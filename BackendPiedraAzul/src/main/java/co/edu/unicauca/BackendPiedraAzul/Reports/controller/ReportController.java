@@ -29,7 +29,7 @@ public class ReportController {
         try {
 
             List<AppointmentReport> report =
-                    appointmentReportService.getAppointmentsReport(doctorId, appointmentDate);
+                    appointmentReportService.getAppointmentsReportByDateAndDoctor(doctorId, appointmentDate);
 
             return ResponseEntity.ok(report);
 
@@ -39,4 +39,20 @@ public class ReportController {
                             + doctorId + " " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/appointmentsReport")
+    public ResponseEntity<?> getAppointmentsReport() {
+        try {
+            List<AppointmentReport> report =
+                    appointmentReportService.getAllAppointmentsReport();
+
+            return ResponseEntity.ok(report);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error getting appointments" + e.getMessage() + "\"}");
+        }
+    }
+
+
 }

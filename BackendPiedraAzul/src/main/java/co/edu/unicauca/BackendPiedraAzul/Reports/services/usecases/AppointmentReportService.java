@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.services.usecases;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,11 @@ import java.util.List;
 public class AppointmentReportService implements IAppointmentReportService{
 
     private final IDoctorService doctorService;
+    private final IAppointmentService appointmentService;
 
-    public AppointmentReportService(IDoctorService doctorService) {
+    public AppointmentReportService(IDoctorService doctorService,IAppointmentService appointmentService) {
         this.doctorService = doctorService;
+        this.appointmentService = appointmentService;
     }
 
     @Override
@@ -45,12 +48,19 @@ public class AppointmentReportService implements IAppointmentReportService{
     }
 
     @Override
-    public List<AppointmentReport> getAppointmentsReport(Long doctorId, LocalDate date) throws Exception {
+    public List<AppointmentReport> getAppointmentsReportByDateAndDoctor(Long doctorId, LocalDate date) throws Exception {
 
         List<Appointment> appointments =
                 doctorService.getAppointmentsByDoctorIDAndDate(doctorId, date);
 
         return convertInAppointmentReportDTO(appointments);
+    }
+
+    @Override
+    public List<AppointmentReport> getAllAppointmentsReport() throws Exception{
+        List<Appointment> appointments = appointmentService.getAllAppointments();
+        return convertInAppointmentReportDTO(appointments);
+
     }
 
 }
