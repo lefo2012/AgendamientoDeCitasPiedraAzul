@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { finalize } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DoctorDto } from '../../../appointments/models/DoctorDto';
 import { ReportService } from '../../services/ReportService';
 import { AppointmentReportDto } from '../../models/AppointmentReportDto';
@@ -23,7 +22,6 @@ import { AppointmentButtons } from "../../../appointments/pages/appointment-butt
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
@@ -36,48 +34,39 @@ import { AppointmentButtons } from "../../../appointments/pages/appointment-butt
   templateUrl: './appointment-table.html',
   styleUrls: ['./appointment-table.scss'],
 })
-export class AppointmentTable implements OnInit {
+export class AppointmentTable implements OnInit, OnDestroy {
 
   doctors: DoctorDto[] = [];
   appointments: AppointmentReportDto[] = [];
   displayedColumns: string[] = ['doctorName', 'date', 'appointmentInterval', 'patientName'];
-  isLoading = false;
   showResults = false;
-
-  filterForm;
+  selectedDoctorId: number | null = null;
+  selectedAppointmentDate: Date | null = null;
+  private latestRequestId = 0;
+  private activeSearchSub?: Subscription;
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
-    private readonly fb: FormBuilder,
     private readonly reportService: ReportService,
     private readonly scheduleService: ScheduleService,
     private readonly snackBar: MatSnackBar
-  ) {
-    this.filterForm = this.fb.group({
-      doctorId: [null as number | null],
-      appointmentDate: [null as Date | null],
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       this.loadDoctors();
-      // Si quieres que muestre todas las citas al cargar
       this.searchAppointments();
     }
   }
 
-  get doctorIdControl() {
-    return this.filterForm.controls.doctorId;
-  }
-
-  get appointmentDateControl() {
-    return this.filterForm.controls.appointmentDate;
+  ngOnDestroy(): void {
+    this.activeSearchSub?.unsubscribe();
   }
 
   loadDoctors(): void {
     this.scheduleService.getAllDoctors().subscribe({
       next: (doctors) => (this.doctors = doctors),
+      
       error: () => {
         this.snackBar.open('No se pudieron cargar los doctores.', 'Cerrar', { duration: 3000 });
       },
@@ -93,28 +82,58 @@ export class AppointmentTable implements OnInit {
   }
 
   searchAppointments(): void {
-    this.isLoading = true;
-    this.showResults = false;
+    this.executeSearch(this.selectedDoctorId, this.selectedAppointmentDate);
+  }
 
-    const doctorId = this.doctorIdControl.value;
-    const formattedDate = this.formatDateToIso(this.appointmentDateControl.value);
+  private executeSearch(doctorId: number | null, appointmentDate: Date | null): void {
+    const formattedDate = this.formatDateToIso(appointmentDate);
+    const selectedDoctor = doctorId
+      ? this.doctors.find((doctor) => doctor.id === doctorId)
+      : null;
+    const selectedDoctorName = selectedDoctor
+      ? `${selectedDoctor.firstName} ${selectedDoctor.lastName}`.trim().toLowerCase()
+      : null;
 
-    const obs$ = doctorId && formattedDate
+    const requestId = ++this.latestRequestId;
+
+    const request$ = doctorId && formattedDate
       ? this.reportService.getAppointmentsByDoctorAndDate(doctorId, formattedDate)
       : this.reportService.getAllAppointments();
 
-    obs$
-      .pipe(finalize(() => (this.isLoading = false)))
+    this.activeSearchSub?.unsubscribe();
+    this.activeSearchSub = request$
       .subscribe({
         next: (data) => {
-          // Asegurarse de que la columna "date" exista
-          this.appointments = data.map(a => ({
-            ...a,
-            date: a.date.split('T')[0] // formatear a YYYY-MM-DD si viene con hora
-          })).sort((a, b) => a.date.localeCompare(b.date));
+          if (requestId !== this.latestRequestId) {
+            return;
+          }
+
+          if (selectedDoctorName) {
+            data = data.filter((appointment) =>
+              appointment.doctorName.trim().toLowerCase() === selectedDoctorName
+            );
+          }
+
+          if (formattedDate) {
+            data = data.filter((appointment) => {
+              const appointmentDate = appointment.date.split('T')[0];
+              return appointmentDate === formattedDate;
+            });
+          }
+
+          this.appointments = data
+            .map(a => ({
+              ...a,
+              date: a.date.split('T')[0]
+            }))
+            .sort((a, b) => a.date.localeCompare(b.date));
           this.showResults = true;
         },
         error: () => {
+          if (requestId !== this.latestRequestId) {
+            return;
+          }
+
           this.snackBar.open('Error cargando citas.', 'Cerrar', { duration: 3000 });
           this.appointments = [];
           this.showResults = true;
@@ -123,7 +142,8 @@ export class AppointmentTable implements OnInit {
   }
 
   resetFilters(): void {
-    this.filterForm.reset();
-    this.searchAppointments();
+    this.selectedDoctorId = null;
+    this.selectedAppointmentDate = null;
+    this.executeSearch(null, null);
   }
 }

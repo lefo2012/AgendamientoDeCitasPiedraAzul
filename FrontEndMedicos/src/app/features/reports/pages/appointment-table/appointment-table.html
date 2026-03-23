@@ -1,29 +1,27 @@
-<div class="appointment-table mat-elevation-z2">
+<section class="appointment-table mat-elevation-z2">
   <h2>Reporte de Citas</h2>
 
-  <form [formGroup]="filterForm" class="filters" (ngSubmit)="searchAppointments()">
+  <div class="filters">
     <mat-form-field appearance="fill" class="filter-field">
       <mat-label>Doctor</mat-label>
-      <mat-select formControlName="doctorId">
+      <mat-select [(ngModel)]="selectedDoctorId" [ngModelOptions]="{ standalone: true }">
         <mat-option [value]="null">Todos</mat-option>
-        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.firstName }}</mat-option>
+        <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">{{ doctor.firstName }} {{ doctor.lastName }}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="filter-field">
       <mat-label>Fecha</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="appointmentDate">
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedAppointmentDate" [ngModelOptions]="{ standalone: true }">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <div class="filter-buttons">
-      <button mat-raised-button color="primary" type="submit">Buscar</button>
+      <button mat-raised-button color="primary" type="button" (click)="searchAppointments()">Actualizar</button>
       <button mat-stroked-button color="accent" type="button" (click)="resetFilters()">Mostrar todos</button>
     </div>
-  </form>
-
-  <div *ngIf="isLoading" class="loading">Cargando citas...</div>
+  </div>
 
   <table mat-table [dataSource]="appointments" *ngIf="showResults" class="mat-elevation-z1">
 
@@ -51,7 +49,5 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
   </table>
 
-</div>
- <div>
-    <app-appointment-buttons></app-appointment-buttons>
-  </div>
+</section>
+<app-appointment-buttons></app-appointment-buttons>
