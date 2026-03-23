@@ -1,7 +1,4 @@
 
-
-@use '@angular/material' as mat;
-
 .description{
 	
 	position: fixed;
@@ -48,21 +45,7 @@
 
 }
 
-.my-select {
-	@include mat.select-overrides((
-		panel-background-color: var(--fondo-suave),
-		enabled-trigger-text-color: var(--azul-profundo),
-	));
-}
 
-.form{
-  @include mat.form-field-overrides((
-    disabled-input-text-placeholder-color: orange,
-    disabled-leading-icon-color: red,
-	state-layer-color: var(--azul-profundo),
-
-  ));
-}
 
 .appointment-card-header{
 	

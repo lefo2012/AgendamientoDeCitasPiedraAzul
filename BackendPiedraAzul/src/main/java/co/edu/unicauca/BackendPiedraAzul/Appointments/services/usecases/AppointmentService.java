@@ -40,7 +40,7 @@ public class AppointmentService implements IAppointmentService {
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
 
-            // appointmentPersistenceService.save(appointment);
+            appointmentPersistenceService.save(appointment);
             doctor.getSchedule().print();
             System.out.println("---------------------------------------------------------------------------------------------");
             appointment.getDoctor().getSchedule().print();

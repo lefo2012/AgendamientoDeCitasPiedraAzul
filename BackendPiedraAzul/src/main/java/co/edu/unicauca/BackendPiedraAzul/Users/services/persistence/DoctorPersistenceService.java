@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.persistence;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
@@ -56,6 +57,15 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
         DoctorEntity entity = jpaRepository.findById(id)
                 . orElseThrow(() -> new Exception("Doctor not found with id: " + id));
         return doctorMapper.toDomain(entity);
+    }
+
+    @Override
+    public List<Doctor> findBySpecialtiesContaining(SpecialtyEnum specialty) {
+
+        return jpaRepository.findBySpecialtiesContaining(specialty)
+                .stream()
+                .map(doctorMapper::toDomain)
+                .toList();
     }
 
 
