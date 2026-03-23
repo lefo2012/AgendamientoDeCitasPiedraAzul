@@ -5,6 +5,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -26,11 +28,13 @@ import { ScheduleService } from '../../services/schedule.service';
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatNativeDateModule
   ],
   templateUrl: './create-appointment.html',
   styleUrl: './create-appointment.scss'
@@ -40,6 +44,9 @@ export class CreateAppointment implements OnInit {
 
   doctors: DoctorDto[] = [];
   slots: AppointmentSlotDto[] = [];
+  slotsByDate: Record<string, AppointmentSlotDto[]> = {};
+  slotsForSelectedDate: AppointmentSlotDto[] = [];
+  availableDateKeys = new Set<string>();
   patient: PatientDto | null = null;
   patientError = '';
 
@@ -57,6 +64,7 @@ export class CreateAppointment implements OnInit {
     this.appointmentForm = this.fb.group({
       identificationNumber: ['', [Validators.required]],
       doctorId: [null as number | null, [Validators.required]],
+      appointmentDate: [{ value: null as Date | null, disabled: true }, [Validators.required]],
       slot: [{ value: null as AppointmentSlotDto | null, disabled: true }, [Validators.required]],
     });
   }
@@ -79,11 +87,28 @@ export class CreateAppointment implements OnInit {
     return this.appointmentForm.controls.slot;
   }
 
+  get appointmentDateControl() {
+    return this.appointmentForm.controls.appointmentDate;
+  }
+
+  readonly appointmentDateFilter = (date: Date | null): boolean => {
+    if (!date) {
+      return false;
+    }
+
+    return this.availableDateKeys.has(this.toDateKey(date));
+  };
+
   loadDoctors(): void {
     this.isLoadingDoctors = true;
     this.doctorIdControl.disable({ emitEvent: false });
+    this.appointmentDateControl.disable({ emitEvent: false });
+    this.appointmentDateControl.setValue(null, { emitEvent: false });
     this.slotControl.disable({ emitEvent: false });
     this.slotControl.setValue(null, { emitEvent: false });
+    this.slotsForSelectedDate = [];
+    this.slotsByDate = {};
+    this.availableDateKeys.clear();
 
     this.scheduleService
       .getAllDoctors()
@@ -143,11 +168,38 @@ export class CreateAppointment implements OnInit {
   }
 
   onDoctorChange(): void {
+    this.appointmentDateControl.setValue(null, { emitEvent: false });
     this.slotControl.setValue(null);
+    this.slotsForSelectedDate = [];
+
     const selectedDoctor = this.getSelectedDoctor();
     this.slots = selectedDoctor ? this.buildSlotsFromDoctor(selectedDoctor) : [];
+    this.slotsByDate = this.groupSlotsByDate(this.slots);
+    this.availableDateKeys = new Set(Object.keys(this.slotsByDate));
 
     if (selectedDoctor && this.slots.length > 0) {
+      this.appointmentDateControl.enable({ emitEvent: false });
+      this.slotControl.disable({ emitEvent: false });
+    } else {
+      this.appointmentDateControl.disable({ emitEvent: false });
+      this.slotControl.disable({ emitEvent: false });
+    }
+  }
+
+  onDateChange(): void {
+    this.slotControl.setValue(null, { emitEvent: false });
+    this.slotsForSelectedDate = [];
+
+    const selectedDate = this.appointmentDateControl.value;
+    if (!selectedDate) {
+      this.slotControl.disable({ emitEvent: false });
+      return;
+    }
+
+    const selectedKey = this.toDateKey(selectedDate);
+    this.slotsForSelectedDate = this.slotsByDate[selectedKey] ?? [];
+
+    if (this.slotsForSelectedDate.length > 0) {
       this.slotControl.enable({ emitEvent: false });
     } else {
       this.slotControl.disable({ emitEvent: false });
@@ -173,7 +225,7 @@ export class CreateAppointment implements OnInit {
         idPatient: this.patient.id,
         idDoctor: selectedDoctor.id,
         interval: selectedSlot.interval,
-        appointmentDate: selectedSlot.appointmentDate,
+        appointmentDate: this.toDateKey(this.appointmentDateControl.value),
       })
       .pipe(finalize(() => (this.isReserving = false)))
       .subscribe({
@@ -221,7 +273,7 @@ export class CreateAppointment implements OnInit {
           generatedSlots.push({
             appointmentDate: dateKey,
             interval: splitInterval,
-            label: `${this.formatDate(dateKey)} | ${splitInterval.startTime} - ${splitInterval.endTime}`,
+            label: `${splitInterval.startTime} - ${splitInterval.endTime}`,
           });
         }
       }
@@ -317,17 +369,48 @@ export class CreateAppointment implements OnInit {
     }).format(parsedDate);
   }
 
+  private groupSlotsByDate(slots: AppointmentSlotDto[]): Record<string, AppointmentSlotDto[]> {
+    return slots.reduce<Record<string, AppointmentSlotDto[]>>((accumulator, slot) => {
+      const key = slot.appointmentDate;
+      if (!accumulator[key]) {
+        accumulator[key] = [];
+      }
+      accumulator[key].push(slot);
+      return accumulator;
+    }, {});
+  }
+
+  private toDateKey(date: Date | string | null): string {
+    if (!date) {
+      return '';
+    }
+
+    if (typeof date === 'string') {
+      return date;
+    }
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   private resetAndReloadForm(): void {
     this.patient = null;
     this.patientError = '';
     this.slots = [];
+    this.slotsByDate = {};
+    this.slotsForSelectedDate = [];
+    this.availableDateKeys.clear();
 
     this.appointmentForm.reset({
       identificationNumber: '',
       doctorId: null,
+      appointmentDate: null,
       slot: null,
     });
 
+    this.appointmentDateControl.disable({ emitEvent: false });
     this.slotControl.disable({ emitEvent: false });
     this.loadDoctors();
   }
