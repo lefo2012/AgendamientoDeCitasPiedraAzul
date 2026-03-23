@@ -19,4 +19,7 @@ public interface IPatientPersistenceService {
 
     @Transactional
     Patient findById(Long id) throws Exception;
+
+    @Transactional
+    Patient findByIdentificationNumber(String identificationNumber) throws Exception;
 }

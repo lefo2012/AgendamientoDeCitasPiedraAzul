@@ -59,4 +59,13 @@ public class PatientPersistenceService implements IPatientPersistenceService {
         return patientMapper.toDomain(patient);
 
     }
+
+    @Transactional
+    @Override
+    public Patient findByIdentificationNumber(String identificationNumber) throws Exception {
+        PatientEntity patient = jpaRepository.findByIdentificationNumber(identificationNumber)
+                .orElseThrow(() -> new Exception("Patient not found with identification number: " + identificationNumber));
+
+        return patientMapper.toDomain(patient);
+    }
 }

@@ -103,4 +103,20 @@ public class UsersController {
                     .body("{\"error\":\"Error retrieving patients: " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/getPatientByIdentificationNumber/{identificationNumber}")
+    public ResponseEntity<?> getPatientByIdentificacionNumber(@PathVariable String identificationNumber) {
+        try {
+            Patient patient = patientPersistenceService.findByIdentificationNumber(identificationNumber);
+            if (patient != null) {
+                return ResponseEntity.ok(patient);
+            } else {
+                return ResponseEntity.status(404)
+                        .body("{\"error\":\"Patient not found with identification number: " + identificationNumber + "\"}");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error retrieving patient: " + e.getMessage() + "\"}");
+        }
+    }
 }
