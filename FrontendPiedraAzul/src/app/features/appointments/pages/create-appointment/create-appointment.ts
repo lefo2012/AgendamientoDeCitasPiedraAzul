@@ -77,7 +77,7 @@ export class CreateAppointment{
       this.step--;
     }
   }
-
+  
   confirmAppointment() {
     this.dialogRef.close();
   }
