@@ -47,7 +47,6 @@ public class AppointmentService implements IAppointmentService {
             appointment.getDoctor().getSchedule().print();
 
             doctorPersistenceService.save(appointment.getDoctor());
-
             patientPersistenceService.save(appointment.getPatient());
 
         }catch (Exception e){
@@ -69,6 +68,14 @@ public class AppointmentService implements IAppointmentService {
     public List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception {
         Doctor doctor = doctorPersistenceService.findById(doctorId);
         return doctor.getAttendedAppointments().stream().map(appointmentMapper::toDto).toList();
+    }
+
+    @Override
+    public List<Appointment> getAllAppointments() throws Exception{
+
+         List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+         System.out.println(appointments.size());
+         return appointments;
     }
 
 }

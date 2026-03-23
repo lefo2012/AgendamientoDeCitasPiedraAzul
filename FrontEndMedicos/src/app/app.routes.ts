@@ -19,7 +19,7 @@ export const routes: Routes = [
 			{
 				path: 'citas/agendar',
 				loadComponent: () =>
-					import('./features/appointments/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
+					import('./features/reports/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
 			},
 			{
 				path: 'citas/nueva',
