@@ -17,16 +17,6 @@ export const routes: Routes = [
           import('./features/main/pages/about/about').then((m) => m.About),
       },
       {
-        path: 'register',
-        loadComponent: () =>
-          import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
-      },
-      {
-        path: 'login',
-        loadComponent: () =>
-          import('./features/users/pages/login-user/login-user').then((m) => m.Login),
-      },
-      {
         path: 'admin',
         loadComponent: () =>
           import('./features/users/pages/admin-home/admin-home').then((m) => m.AdminHome),
@@ -60,6 +50,23 @@ export const routes: Routes = [
         path: 'header',
         loadComponent: () =>
           import('./layout/header/header').then((m) => m.Header),
+      },
+    ],
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
+    children: [
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
+      },
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/users/pages/login-user/login-user').then((m) => m.Login),
       },
     ],
   },

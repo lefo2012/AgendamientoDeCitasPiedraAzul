@@ -110,4 +110,8 @@ export class Login {
     return !!control && control.invalid && (control.touched || this.submitted);
   }
 
+  goBack(): void {
+    this.router.navigate(['/']);
+  }
+
 }

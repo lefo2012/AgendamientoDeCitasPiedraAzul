@@ -85,6 +85,21 @@
             </mat-form-field>
           </div>
         </div>
+
+        <div class="field-block">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Genero</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option value="">Seleccione</mat-option>
+              @for (genderOption of genderOptions; track genderOption.value) {
+                <mat-option [value]="genderOption.value">{{ genderOption.label }}</mat-option>
+              }
+            </mat-select>
+            @if (fieldInvalid('gender')) {
+              <mat-error>Selecciona un genero.</mat-error>
+            }
+          </mat-form-field>
+        </div>
       </section>
 
       <section class="form-section credentials-section">
@@ -123,9 +138,12 @@
         </div>
       </section>
 
-      <button mat-flat-button class="auth-submit" type="submit">
-        Registrarse
-      </button>
+      <div class="actions-row">
+        <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">Volver</button>
+        <button mat-flat-button class="auth-submit" type="submit">
+          Registrarse
+        </button>
+      </div>
     </form>
   </div>
 </section>

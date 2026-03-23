@@ -1,4 +1,4 @@
-export interface IntervalDto {
-    startTime: string;
-    endTime: string;
+export interface IntervalDTO {
+  startTime: string;
+  endTime: string;
 }

@@ -8,7 +8,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { AuthService, RegisterDoctorRequest } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterDoctorRequest } from '../../models/RegisterDoctorRequest';
+import { GENDER_OPTIONS } from '../../models/GenderEnum';
 
 @Component({
   selector: 'app-register-doctor',
@@ -31,6 +33,8 @@ export class RegisterDoctor {
   formError = '';
   submitted = false;
   readonly specialtyOptions = ['TERAPIA_NEURAL', 'QUIROPRAXIA', 'FISIOTERAPIA'];
+  readonly consultationIntervals = [5, 10, 15, 20, 30, 45, 60];
+  readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -77,8 +81,10 @@ export class RegisterDoctor {
             Validators.pattern('^[0-9]{10}$')
           ]
         ],
+        gender: ['', Validators.required],
         specialties: [[], [Validators.required]],
         canSchedule: [false, Validators.required],
+        consultationIntervalMinutes: [30, [Validators.required, Validators.min(5)]],
         email: [
           '',
           [
@@ -138,10 +144,15 @@ export class RegisterDoctor {
       firstName: formData.firstName,
       lastName: formData.lastName,
       birthDate: birthDateValue,
+      gender: formData.gender,
       phone: formData.phone,
       canSchedule: formData.canSchedule,
       active: true,
       specialties: formData.specialties,
+      appointmentInterval: {
+        startTime: '00:00',
+        endTime: `00:${String(formData.consultationIntervalMinutes).padStart(2, '0')}`
+      },
       user: {
         email: formData.email,
         password: formData.password,

@@ -2,7 +2,7 @@
   <div class="auth-card login-card shadow">
     <header class="auth-header">
       <p class="auth-kicker">Bienvenido</p>
-      <h1>Iniciar sesion</h1>
+      <h1>Iniciar sesión</h1>
       <p class="auth-subtitle">Accede para gestionar las citas de la clinica.</p>
     </header>
 
@@ -31,7 +31,10 @@
         <div class="form-alert" role="alert">{{ errorMessage }}</div>
       }
 
-      <button mat-flat-button class="auth-submit" type="submit">Ingresar</button>
+      <div class="actions-row">
+        <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">Volver</button>
+        <button mat-flat-button class="auth-submit" type="submit">Ingresar</button>
+      </div>
     </form>
   </div>
 </section>

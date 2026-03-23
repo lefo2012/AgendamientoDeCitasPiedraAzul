@@ -1,7 +1,7 @@
-import { ScheduleDto } from "./ScheduleDto";
+import { ScheduleDTO } from './ScheduleDto';
 
-export interface DoctorDto {
-    id: number;
-    name: string;
-    schedule: ScheduleDto;
+export interface DoctorDTO {
+  id: number;
+  name: string;
+  schedule: ScheduleDTO;
 }

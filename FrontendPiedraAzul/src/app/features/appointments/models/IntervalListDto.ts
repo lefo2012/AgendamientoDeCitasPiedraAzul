@@ -1,5 +1,5 @@
-import { IntervalDto } from "./IntervalDto";
+import { IntervalDTO } from './IntervalDto';
 
-export interface IntervalListDto{
-    intervals: IntervalDto[];
+export interface IntervalListDTO {
+  intervals: IntervalDTO[];
 }

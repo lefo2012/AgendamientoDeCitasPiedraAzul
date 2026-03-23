@@ -1,0 +1,115 @@
+<section class="create-appointment-page">
+  <mat-card class="create-appointment-card">
+    <mat-card-header>
+      <mat-card-title class="appointment-tittle">Nueva Cita</mat-card-title>
+      <mat-card-subtitle>
+        Busca primero al paciente por identificacion. Solo se podra agendar si el paciente existe.
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="appointment-form" [formGroup]="appointmentForm">
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Número de identificación</mat-label>
+            <input matInput type="text" placeholder="Ej. 123456789" formControlName="identificationNumber">
+            <button mat-icon-button matSuffix type="button" (click)="searchPatient()" [disabled]="isSearchingPatient">
+              <mat-icon>search</mat-icon>
+            </button>
+            <mat-error *ngIf="identificationNumberControl.touched && identificationNumberControl.invalid">
+              Debes ingresar la identificacion del paciente.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Médico</mat-label>
+            <mat-select formControlName="doctorId" (selectionChange)="onDoctorChange()">
+              <mat-option *ngFor="let doctor of doctors" [value]="doctor.id">
+                {{ doctor.firstName }} {{ doctor.lastName }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="isLoadingDoctors">Cargando doctores...</mat-hint>
+            <mat-error *ngIf="doctorIdControl.touched && doctorIdControl.invalid">
+              Debes seleccionar un doctor.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha de la cita</mat-label>
+            <input
+              matInput
+              [matDatepicker]="appointmentDatePicker"
+              formControlName="appointmentDate"
+              [matDatepickerFilter]="appointmentDateFilter"
+              (dateChange)="onDateChange()"
+            >
+            <mat-datepicker-toggle matIconSuffix [for]="appointmentDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #appointmentDatePicker></mat-datepicker>
+            <mat-hint *ngIf="doctorIdControl.value">Solo se muestran dias con disponibilidad del doctor.</mat-hint>
+            <mat-error *ngIf="appointmentDateControl.touched && appointmentDateControl.invalid">
+              Debes seleccionar una fecha disponible.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Intervalo de la cita</mat-label>
+            <mat-select formControlName="slot">
+              <mat-option *ngFor="let slot of slotsForSelectedDate" [value]="slot">
+                {{ slot.label }}
+              </mat-option>
+            </mat-select>
+            <mat-hint *ngIf="appointmentDateControl.value && slotsForSelectedDate.length === 0">
+              No hay intervalos disponibles para la fecha seleccionada.
+            </mat-hint>
+            <mat-error *ngIf="slotControl.touched && slotControl.invalid">
+              Debes seleccionar un intervalo.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Género</mat-label>
+            <input matInput [value]="patient?.gender ?? ''" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombres del paciente</mat-label>
+            <input matInput type="text" [value]="patient?.firstName ?? ''" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Apellidos del paciente</mat-label>
+            <input matInput type="text" [value]="patient?.lastName ?? ''" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input matInput type="tel" [value]="patient?.phone ?? ''" readonly>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Estado paciente</mat-label>
+            <input matInput [value]="patient ? 'Paciente encontrado' : (patientError || 'Sin validar')" readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="actions-row">
+          <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Volver
+          </button>
+
+          <button mat-flat-button type="button" class="save-btn" (click)="reserveAppointment()" [disabled]="!canReserve()">
+            <mat-icon>event_available</mat-icon>
+            {{ isReserving ? 'Agendando...' : 'Agendar' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

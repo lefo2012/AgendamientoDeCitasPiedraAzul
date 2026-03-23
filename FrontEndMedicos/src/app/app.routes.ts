@@ -12,16 +12,6 @@ export const routes: Routes = [
 					import('./features/main/pages/main/main').then((m) => m.Main),
 			},
 			{
-				path: 'login',
-				loadComponent: () =>
-					import('./features/users/pages/login-user/login-user').then((m) => m.Login),
-			},
-			{
-				path: 'register',
-				loadComponent: () =>
-					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
-			},
-			{
 				path: 'citas',
 				redirectTo: 'citas/agendar',
 				pathMatch: 'full',
@@ -30,6 +20,28 @@ export const routes: Routes = [
 				path: 'citas/agendar',
 				loadComponent: () =>
 					import('./features/appointments/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
+			},
+			{
+				path: 'citas/nueva',
+				loadComponent: () =>
+					import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
+			},
+		],
+	},
+	{
+		path: '',
+		loadComponent: () =>
+			import('./layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
+		children: [
+			{
+				path: 'login',
+				loadComponent: () =>
+					import('./features/users/pages/login-user/login-user').then((m) => m.Login),
+			},
+			{
+				path: 'register',
+				loadComponent: () =>
+					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
 			},
 			{
 				path: 'configure-schedule',

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { AuthService, RegisterRequest } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
+import { RegisterRequest } from '../../models/RegisterRequest';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -8,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { GENDER_OPTIONS } from '../../models/GenderEnum';
 
 @Component({
   selector: 'app-register-user',
@@ -29,6 +31,7 @@ export class RegisterUser {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
+  readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
@@ -77,6 +80,7 @@ export class RegisterUser {
             Validators.pattern('^[0-9]{10}$')
           ]
         ],
+        gender: ['', Validators.required],
         email: [
           '',
           [
@@ -138,6 +142,7 @@ export class RegisterUser {
       firstName: formData.firstName,
       lastName: formData.lastName,
       birthDate: birthDateValue,
+      gender: formData.gender,
       phone: formData.phone,
       active: true,
       user: {
@@ -212,5 +217,9 @@ export class RegisterUser {
   fieldInvalid(fieldName: string): boolean {
     const control = this.registerForm.get(fieldName);
     return !!control && control.invalid && (control.touched || this.submitted);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 }

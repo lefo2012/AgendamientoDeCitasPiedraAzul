@@ -2,37 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { AuthConfig, AUTH_CONFIG } from './auth.config';
-
-export interface RegisterUserData {
-  email: string;
-  password: string;
-  roles: string[];
-}
-
-export interface RegisterRequest {
-  documentType: string;
-  identificationNumber: string;
-  firstName: string;
-  lastName: string;
-  birthDate: string;
-  phone: string;
-  active: boolean;
-  user: RegisterUserData;
-}
-
-export interface RegisterDoctorRequest extends RegisterRequest {
-  specialties: string[];
-  canSchedule: boolean;
-}
-
-export interface AuthTokenResponse {
-  access_token: string;
-  refresh_token?: string;
-  expires_in?: number;
-  refresh_expires_in?: number;
-  token_type?: string;
-  scope?: string;
-}
+import { AuthTokenResponse } from '../models/AuthTokenResponse';
+import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
+import { RegisterRequest } from '../models/RegisterRequest';
 
 @Injectable({
   providedIn: 'root'

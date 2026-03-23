@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -79,7 +79,7 @@ export class CreateAppointment{
   }
   
   confirmAppointment() {
-    this.dialogRef.close();
+    this.dialogRef?.close();
   }
 
   onBack() {
@@ -136,7 +136,10 @@ export class CreateAppointment{
   }
   
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<CreateAppointment>) {}
+  constructor(
+    private fb: FormBuilder,
+    @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
+  ) {}
   onHover(event: MouseEvent | null, speciality: any | null) {
     this.hoveredSpeciality = speciality;
 
@@ -153,6 +156,6 @@ export class CreateAppointment{
   }
 
   onCancel() {
-    this.dialogRef.close();
+    this.dialogRef?.close();
   }
 }
