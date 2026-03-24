@@ -54,7 +54,6 @@ public class AppointmentService implements IAppointmentService {
           throw e;
         }
     }
-
     @Override
     @Transactional
     public void cancelAppointment(Long appointmentId) throws Exception {
