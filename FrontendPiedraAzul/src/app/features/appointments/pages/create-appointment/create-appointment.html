@@ -47,11 +47,11 @@
 		
 		<mat-label>Fecha</mat-label>
 		
-		<mat-select [(value)]="dateSelected">
+		<mat-select [(value)]="dateSelected" (selectionChange)="onDateChange()">
 		@for (date of dates; track date) {
 			<mat-option [value]="date">
 			
-			{{ date.viewValue }}
+			{{ date }}
 			
 			</mat-option>
 		}
@@ -71,7 +71,7 @@
 		@for (interval of intervals; track interval) {
 			<mat-option [value]="interval">
 			
-			{{ interval.viewValue }}
+			{{ interval.startTime }} - {{interval.endTime}}
 			
 			</mat-option>
 		}
@@ -83,9 +83,9 @@
 		<h3>Confirma tu cita</h3>
 		<p>Estas a un paso de agendar tu cita</p>
 		<p>- Especialidad : {{specialitySelected.viewValue}}</p>
-		<p>- Doctor : {{doctorSelected.viewValue}}</p>
-		<p>- Fecha : {{dateSelected.viewValue}}</p>
-		<p>- Horario : {{intervalSelected.viewValue}}</p>
+		<p>- Doctor : {{doctorSelected.firstName}} {{doctorSelected.lastName}}</p>
+		<p>- Fecha : {{dateSelected}}</p>
+		<p>- Horario : {{intervalSelected.startTime}} - {{intervalSelected.endTime}}</p>
 
 		<p><strong>Estas seguro de agendar esta cita?</strong></p>
 	

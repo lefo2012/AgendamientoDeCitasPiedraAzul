@@ -13,7 +13,7 @@ export class AppointmentService {
   constructor(private http: HttpClient) { }
   
   getDoctorsBySpeciality(speciality: string): Observable<DoctorDto[]> {
-    return this.http.get<DoctorDto[]>(`${this.usersApi}/${speciality}`);
+    return this.http.get<DoctorDto[]>(`${this.usersApi}/getDoctorsBySpecialty/${speciality}`);
     console.log(speciality);
   }
 

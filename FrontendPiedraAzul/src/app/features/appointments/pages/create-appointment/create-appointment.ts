@@ -41,7 +41,7 @@ export class CreateAppointment{
   maxSteps = 5;
   doctors: DoctorDto[] = [];
   intervals: any[] = [];
-  dates: any[] = [];
+  dates: string[] = [];
 
 
   constructor(private readonly appointmentService:AppointmentService,  
@@ -104,25 +104,25 @@ export class CreateAppointment{
   panelY = 0;
 
   onSpecialityChange() {
-    this.appointmentService.getDoctorsBySpeciality(this.specialitySelected).subscribe((doctors) => {
+    this.appointmentService.getDoctorsBySpeciality(this.specialitySelected.value).subscribe((doctors) => {
       this.doctors = doctors;
     })  
     
   }
   onDoctorChange(){
-    this.dates= Object.keys(this.doctorSelected.schedule) || [];
+    this.dates= Object.keys(this.doctorSelected?.schedule?.availableTimes) || [];
   }
 
   onDateChange(){
     
-    const schedule = this.doctorSelected.schedule[this.dateSelected] || [];
+    const schedule = this.doctorSelected.schedule.availableTimes[this.dateSelected] || [];
 
     const isFisio = this.specialitySelected === 'FISIOTERAPIA';
     const minutes = isFisio ? 15 : 30;
 
     const result: IntervalDto[] = [];
 
-    schedule.forEach((block : IntervalDto) => {
+    schedule.intervals.forEach((block : IntervalDto) => {
 
       let start = this.toMinutes(block.startTime);
       const end = this.toMinutes(block.endTime);
