@@ -84,13 +84,6 @@ public class AppointmentService implements IAppointmentService {
         }
     }
 
-
-
-
-
-
-
-
     @Override
     public List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception {
         Doctor doctor = doctorPersistenceService.findById(doctorId);
