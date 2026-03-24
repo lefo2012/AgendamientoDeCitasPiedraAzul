@@ -3,10 +3,15 @@ package co.edu.unicauca.BackendPiedraAzul.Authentication.controller;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
 //import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserWithRolesDTO;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.keycloak.representations.idm.UserRepresentation;
 
@@ -17,9 +22,11 @@ import java.util.Map;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class KeycloakController {
-
+    @Autowired
     private final IKeycloakService keycloakService;
     private static final String CLIENT_ID = "piedraAzul-app";
+    @Autowired
+    private IPatientPersistenceService  patientPersistenceService;
 
     /**
      * Endpoint para crear un usuario con roles del cliente
@@ -175,6 +182,19 @@ public class KeycloakController {
                             "status", "error",
                             "message", "Error al eliminar usuario: " + e.getMessage()
                     ));
+        }
+    }
+    @GetMapping("/me")
+    public ResponseEntity<?> getMyUser(@AuthenticationPrincipal Jwt jwt) {
+        try {
+            String keycloakId = jwt.getSubject();
+
+            Patient patient = patientPersistenceService.findByKeycloakId(keycloakId);
+
+            return ResponseEntity.ok(patient); // ← aquí ya tienes el ID
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error");
         }
     }
 }
