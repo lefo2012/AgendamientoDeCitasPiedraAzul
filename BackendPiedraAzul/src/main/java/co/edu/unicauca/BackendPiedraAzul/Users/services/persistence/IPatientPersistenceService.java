@@ -22,4 +22,7 @@ public interface IPatientPersistenceService {
 
     @Transactional
     Patient findByIdentificationNumber(String identificationNumber) throws Exception;
+
+    @Transactional
+    Patient findByKeycloakId(String keycloakId) throws Exception;
 }
