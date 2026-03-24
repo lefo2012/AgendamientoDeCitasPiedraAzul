@@ -1,11 +1,11 @@
 package co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak;
 
-import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
+import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -85,7 +85,7 @@ public class KeyCloakService implements IKeycloakService {
 
                 realmResource.users().get(userId).roles().realmLevel().add(rolesRepresentation);
 
-                return "User created successfully!!";
+                return userId;
 
             } else if (status == 409) {
                 log.error("User exist already!");
@@ -107,10 +107,21 @@ public class KeyCloakService implements IKeycloakService {
         try {
             RealmResource realmResource = KeycloakProvider.getRealmResource();
 
-            // Obtener el cliente
-            ClientResource clientResource = realmResource.clients().get(clientId);
+            if (roleNames == null || roleNames.isEmpty()) {
+                log.warn("No roles provided to assign for user {} in client {}", userId, clientId);
+                return;
+            }
 
-            // Obtener los roles del cliente
+            // Keycloak Admin API expects the internal UUID, not the logical clientId.
+            List<ClientRepresentation> clients = realmResource.clients().findByClientId(clientId);
+            if (clients == null || clients.isEmpty()) {
+                log.error("Client not found in realm by clientId: {}", clientId);
+                return;
+            }
+
+            String clientUuid = clients.get(0).getId();
+            ClientResource clientResource = realmResource.clients().get(clientUuid);
+
             List<RoleRepresentation> clientRoles = clientResource.roles()
                     .list()
                     .stream()
@@ -118,15 +129,14 @@ public class KeyCloakService implements IKeycloakService {
                             .anyMatch(roleName -> roleName.equalsIgnoreCase(role.getName())))
                     .toList();
 
-            // Asignar los roles del cliente al usuario
             if (!clientRoles.isEmpty()) {
-                realmResource.users().get(userId).roles().clientLevel(clientId).add(clientRoles);
-                log.info("Client roles assigned successfully to user: " + userId);
+                realmResource.users().get(userId).roles().clientLevel(clientUuid).add(clientRoles);
+                log.info("Client roles assigned successfully to user {} for client {}", userId, clientId);
             } else {
-                log.warn("No client roles found for: " + roleNames);
+                log.warn("No matching client roles found for client {} and requested roles {}", clientId, roleNames);
             }
         } catch (Exception e) {
-            log.error("Error assigning client roles: ", e);
+            log.error("Error assigning client roles for user {} and client {}", userId, clientId, e);
         }
     }
 
