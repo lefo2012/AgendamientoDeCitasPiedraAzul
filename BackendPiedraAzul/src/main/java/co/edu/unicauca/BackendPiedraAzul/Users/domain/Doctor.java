@@ -64,6 +64,7 @@ public class Doctor extends Person {
 
     }
 
+
     public boolean cancelAppointment(Appointment appointment) {
 
         schedule.cancel(appointment.getAppointmentDate(),appointment.getInterval());
@@ -71,6 +72,9 @@ public class Doctor extends Person {
         return scheduledAppointments.remove(appointment);
 
     }
+
+
+
     public List<SpecialtyEnum> getSpecialties() {
         return specialties;
     }
