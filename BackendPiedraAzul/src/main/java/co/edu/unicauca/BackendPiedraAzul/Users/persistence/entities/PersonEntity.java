@@ -20,6 +20,7 @@ public abstract class PersonEntity {
     protected Long id;
     @Enumerated(EnumType.STRING)
     protected DocumentTypeEnum documentType;
+    @Column(unique = true)
     protected String identificationNumber;
     protected String firstName;
     protected String lastName;
