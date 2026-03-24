@@ -1,11 +1,11 @@
-import { Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
@@ -35,6 +35,7 @@ import { AppointmentButtons } from "../../../appointments/pages/appointment-butt
   styleUrls: ['./appointment-table.scss'],
 })
 export class AppointmentTable implements OnInit, OnDestroy {
+  @ViewChild('dateInputRef') private dateInputRef?: ElementRef<HTMLInputElement>;
 
   doctors: DoctorDto[] = [];
   appointments: AppointmentReportDto[] = [];
@@ -44,12 +45,14 @@ export class AppointmentTable implements OnInit, OnDestroy {
   selectedAppointmentDate: Date | null = null;
   private latestRequestId = 0;
   private activeSearchSub?: Subscription;
+  private pendingSearchTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly reportService: ReportService,
     private readonly scheduleService: ScheduleService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +64,10 @@ export class AppointmentTable implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.activeSearchSub?.unsubscribe();
+    if (this.pendingSearchTimeout) {
+      clearTimeout(this.pendingSearchTimeout);
+      this.pendingSearchTimeout = undefined;
+    }
   }
 
   loadDoctors(): void {
@@ -83,6 +90,32 @@ export class AppointmentTable implements OnInit, OnDestroy {
 
   searchAppointments(): void {
     this.executeSearch(this.selectedDoctorId, this.selectedAppointmentDate);
+  }
+
+  onDoctorFilterChange(): void {
+    this.queueSearch();
+  }
+
+  onDateFilterChange(event: MatDatepickerInputEvent<Date>, picker: MatDatepicker<Date>): void {
+    this.selectedAppointmentDate = event.value ?? null;
+    picker.close();
+    this.dateInputRef?.nativeElement.blur();
+    this.queueSearch();
+  }
+
+  onSearchClick(): void {
+    this.searchAppointments();
+  }
+
+  private queueSearch(): void {
+    if (this.pendingSearchTimeout) {
+      clearTimeout(this.pendingSearchTimeout);
+    }
+
+    this.pendingSearchTimeout = setTimeout(() => {
+      this.executeSearch(this.selectedDoctorId, this.selectedAppointmentDate);
+      this.pendingSearchTimeout = undefined;
+    }, 0);
   }
 
   private executeSearch(doctorId: number | null, appointmentDate: Date | null): void {
@@ -121,13 +154,22 @@ export class AppointmentTable implements OnInit, OnDestroy {
             });
           }
 
-          this.appointments = data
+          const normalizedData = data
             .map(a => ({
               ...a,
               date: a.date.split('T')[0]
             }))
             .sort((a, b) => a.date.localeCompare(b.date));
-          this.showResults = true;
+
+          setTimeout(() => {
+            if (requestId !== this.latestRequestId) {
+              return;
+            }
+
+            this.appointments = normalizedData;
+            this.showResults = true;
+            this.cdr.detectChanges();
+          }, 0);
         },
         error: () => {
           if (requestId !== this.latestRequestId) {
@@ -135,15 +177,35 @@ export class AppointmentTable implements OnInit, OnDestroy {
           }
 
           this.snackBar.open('Error cargando citas.', 'Cerrar', { duration: 3000 });
-          this.appointments = [];
-          this.showResults = true;
+
+          setTimeout(() => {
+            if (requestId !== this.latestRequestId) {
+              return;
+            }
+
+            this.appointments = [];
+            this.showResults = true;
+            this.cdr.detectChanges();
+          }, 0);
         },
       });
   }
 
   resetFilters(): void {
+    this.latestRequestId++;
+    this.activeSearchSub?.unsubscribe();
+
+    if (this.pendingSearchTimeout) {
+      clearTimeout(this.pendingSearchTimeout);
+      this.pendingSearchTimeout = undefined;
+    }
+
     this.selectedDoctorId = null;
     this.selectedAppointmentDate = null;
-    this.executeSearch(null, null);
+    this.dateInputRef?.nativeElement.blur();
+
+    setTimeout(() => {
+      this.executeSearch(null, null);
+    }, 0);
   }
 }
