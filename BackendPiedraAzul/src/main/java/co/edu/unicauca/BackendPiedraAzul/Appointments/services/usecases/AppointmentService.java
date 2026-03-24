@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.AppointmentStatusEnum;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Interval;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDTO;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDTO;
@@ -54,6 +55,42 @@ public class AppointmentService implements IAppointmentService {
           throw e;
         }
     }
+
+    @Override
+    @Transactional
+    public void cancelAppointment(Long appointmentId) throws Exception {
+        try {
+            // 1. Traer cita real
+            Appointment appointment = appointmentPersistenceService.findById(appointmentId);
+
+            if (appointment == null) {
+                throw new Exception("Appointment not found");
+            }
+            Doctor doctor = appointment.getDoctor();
+            Patient patient = appointment.getPatient();
+            // 2. Cancelar en doctor (esto libera busyTimes)
+            doctor.cancelAppointment(appointment);
+            // 3. Quitar del paciente
+            patient.getPendingAppointments().remove(appointment);
+            // 4. Cambiar estado
+            appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
+            // 5. Guardar (orden importa)
+            appointmentPersistenceService.save(appointment);
+            doctorPersistenceService.save(doctor);
+            patientPersistenceService.save(patient);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
+
+
+
+
+
 
     @Override
     public List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception {
