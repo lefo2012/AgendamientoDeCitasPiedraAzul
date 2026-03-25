@@ -94,14 +94,11 @@ export class CreateAppointment{
     
     if(this.step === 0 && this.specialitySelected === null){
       this.step = 0;
-    }else if(this.step === 1 && this.doctorSelected === null){
-      
+    }else if(this.step === 1 && this.doctorSelected?.id === 0){
       this.step = 1;
     }else if(this.step === 2 && this.dateSelected === null){
-      
       this.step = 2;
     }else if(this.step === 3 && this.intervalSelected === null){
-      
       this.step = 3;
     }else{
       if(this.step < this.maxSteps){
@@ -158,7 +155,6 @@ onDateChange(event: any) {
     console.log(event);
 
     if (!event.value) return;
-
 
     const date = event.value as Date;
     const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
