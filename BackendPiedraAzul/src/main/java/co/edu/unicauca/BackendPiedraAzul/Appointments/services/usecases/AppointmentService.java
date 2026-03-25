@@ -100,7 +100,6 @@ public class AppointmentService implements IAppointmentService {
     public List<Appointment> getAllAppointments() throws Exception{
 
          List<Appointment> appointments = this.appointmentPersistenceService.findAll();
-         System.out.println(appointments.size());
          return appointments;
     }
 

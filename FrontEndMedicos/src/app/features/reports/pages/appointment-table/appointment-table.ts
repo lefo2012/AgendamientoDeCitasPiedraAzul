@@ -10,7 +10,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { DoctorDto } from '../../../appointments/models/DoctorDto';
-import { ReportService } from '../../services/ReportService';
+import { ReportService } from '../../services/report.service';
 import { AppointmentReportDto } from '../../models/AppointmentReportDto';
 import { ScheduleService } from '../../../appointments/services/schedule.service';
 import { FormsModule } from '@angular/forms';
