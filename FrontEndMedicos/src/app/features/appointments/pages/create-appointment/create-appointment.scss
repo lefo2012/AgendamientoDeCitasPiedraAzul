@@ -19,10 +19,17 @@
   margin-top: 1rem;
 }
 
-.appointment-tittle {
-  font-size: 1.75rem;
+.appointment-title {
+  font-size: 2rem;
   color: var(--azul-profundo);
-  font-weight: 500;
+  font-weight: 1000;
+
+}
+
+.appointment-subtitle {
+  font-size: 1.1rem;
+  color: var(--gris-oscuro);
+  margin-top: 0.25rem;
 }
 
 .form-grid {
