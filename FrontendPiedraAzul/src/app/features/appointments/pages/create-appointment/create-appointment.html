@@ -101,6 +101,10 @@
 			<p>{{ hoveredSpeciality.description }}</p>
 		</div>
 	}
+
+	@if (reservationError) {
+		<p><strong>{{ reservationError }}</strong></p>
+	}
 	
 	
   </mat-card-content>

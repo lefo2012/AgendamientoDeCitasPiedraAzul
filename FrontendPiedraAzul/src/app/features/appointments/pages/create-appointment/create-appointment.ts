@@ -15,6 +15,7 @@ import { MatDatepicker } from '@angular/material/datepicker';
 import { MatInput } from '@angular/material/input';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { ReserveAppointmentDto } from '../../models/ReserveAppointmentDto';
+import { AuthService } from '../../../users/services/auth.service';
 @Component({
   selector: 'app-create-appointment',
   imports: [
@@ -37,6 +38,7 @@ import { ReserveAppointmentDto } from '../../models/ReserveAppointmentDto';
   styleUrl: './create-appointment.scss',
 })
 export class CreateAppointment{
+  reservationError = '';
   
 
   reserveAppointment : ReserveAppointmentDto = {
@@ -75,6 +77,7 @@ export class CreateAppointment{
 
   constructor(private readonly appointmentService:AppointmentService,  
     private fb: FormBuilder,
+    private readonly authService: AuthService,
     @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
   ){
   }
@@ -225,15 +228,28 @@ onDateChange(event: any) {
   }
 
   confirmAppointment() {
+    const currentPatientId = Number(this.authService.currentPatient()?.id);
+
+    if (!Number.isFinite(currentPatientId) || currentPatientId <= 0) {
+      this.reservationError = 'No se pudo identificar tu sesion. Inicia sesion nuevamente.';
+      return;
+    }
+
     this.reserveAppointment ={
-      idPatient: 1,
+      idPatient: currentPatientId,
       idDoctor: this.doctorSelected.id,
       interval: this.intervalSelected,
       appointmentDate: this.dateSelected
     }
+    this.reservationError = '';
     console.log(this.reserveAppointment);
-    this.appointmentService.reserveAppointment(this.reserveAppointment).subscribe(() => {
-      this.dialogRef?.close();
+    this.appointmentService.reserveAppointment(this.reserveAppointment).subscribe({
+      next: () => {
+        this.dialogRef?.close();
+      },
+      error: () => {
+        this.reservationError = 'No fue posible agendar la cita. Intenta nuevamente.';
+      }
     });
   }
 }
