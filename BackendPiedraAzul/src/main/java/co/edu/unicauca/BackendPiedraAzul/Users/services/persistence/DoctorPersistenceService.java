@@ -58,6 +58,13 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
                 . orElseThrow(() -> new Exception("Doctor not found with id: " + id));
         return doctorMapper.toDomain(entity);
     }
+    @Transactional
+    @Override
+    public Doctor findByEmail(String email) throws Exception{
+        DoctorEntity entity = jpaRepository.findByEmail(email).
+                orElseThrow(() -> new Exception("Doctor not found with email: " + email));
+        return doctorMapper.toDomain(entity);
+    }
 
     @Override
     public List<Doctor> findBySpecialtiesContaining(SpecialtyEnum specialty) {
@@ -67,6 +74,5 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
                 .map(doctorMapper::toDomain)
                 .toList();
     }
-
 
 }

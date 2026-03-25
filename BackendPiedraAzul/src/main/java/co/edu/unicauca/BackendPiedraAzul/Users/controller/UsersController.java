@@ -130,4 +130,20 @@ public class UsersController {
                     .body("{\"error\":\"Error retrieving patient: " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/getDoctorByEmail/{id}")
+    public ResponseEntity<?> getDoctorByEmail(@PathVariable String email) {
+        try {
+            Doctor doctor = doctorPersistenceService.findByEmail(email);
+            if (doctor != null) {
+                return ResponseEntity.ok(doctor);
+            } else {
+                return ResponseEntity.status(404)
+                        .body("{\"error\":\"Doctor not found with email: " + email + "\"}");
+            }
+        }catch (Exception e){
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error retrieving doctor: " + e.getMessage() + "\"}");
+        }
+    }
 }

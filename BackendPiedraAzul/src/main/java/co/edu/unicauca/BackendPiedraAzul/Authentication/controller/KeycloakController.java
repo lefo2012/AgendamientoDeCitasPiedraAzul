@@ -190,7 +190,7 @@ public class KeycloakController {
         }
     }
     @GetMapping("/me")
-    public ResponseEntity<?> me(Authentication authentication) {
+    public ResponseEntity<?> me(Authentication authentication){
         try {
             return ResponseEntity.ok(authService.getPatientByToken(authentication));
         }catch (Exception e) {
