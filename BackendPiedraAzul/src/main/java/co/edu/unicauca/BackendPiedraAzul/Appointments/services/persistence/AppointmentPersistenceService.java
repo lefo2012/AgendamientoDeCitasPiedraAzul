@@ -41,5 +41,15 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
         return appointments;
 
     }
+    @Override
+    public Appointment findById(long id) throws Exception {
+        AppointmentEntity entity = jpaRepository.findById(id).orElse(null);
+        if (entity == null) {
+            throw new Exception("Appointment not found");
+        }
+        return appointmentMapper.toDomain(entity);
+
+    }
+
 
 }

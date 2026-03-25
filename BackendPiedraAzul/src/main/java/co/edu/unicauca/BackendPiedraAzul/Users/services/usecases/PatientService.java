@@ -36,7 +36,7 @@ public class PatientService implements IPatientService {
 
         // 2️⃣ crear dominio
         Patient patient = patientMapper.dtoToDomain(patientDto);
-
+        patient.getUser().setKeycloakId(keycloakId);
         return patientService.save(patient);
 
     }
