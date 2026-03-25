@@ -116,7 +116,7 @@ public class UsersController {
 
     }
     @GetMapping("/getPatientByIdentificationNumber/{identificationNumber}")
-    public ResponseEntity<?> getPatientByIdentificacionNumber(@PathVariable String identificationNumber) {
+    public ResponseEntity<?> getPatientByIdentificationNumber(@PathVariable String identificationNumber) {
         try {
             Patient patient = patientPersistenceService.findByIdentificationNumber(identificationNumber);
             if (patient != null) {
