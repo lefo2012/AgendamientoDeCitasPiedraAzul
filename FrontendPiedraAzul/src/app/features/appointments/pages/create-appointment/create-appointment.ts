@@ -45,6 +45,15 @@ export class CreateAppointment{
     return this.authService.currentPatient();
   }
 
+  get doctorDisplayName(): string {
+    const doctor = this.doctorSelected;
+    if (!doctor) {
+      return '';
+    }
+    return `${doctor.firstName} ${doctor.lastName}`;
+  }
+
+
   get currentPatientDisplayName(): string {
     const patient = this.currentPatient;
     if (!patient) {
