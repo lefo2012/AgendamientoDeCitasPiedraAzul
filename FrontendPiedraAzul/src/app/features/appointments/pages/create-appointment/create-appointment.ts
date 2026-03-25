@@ -11,7 +11,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AppointmentService } from '../../services/appointmentService';
 import { DoctorDto } from '../../models/DoctorDto';
 import { IntervalDto } from '../../models/IntervalDto';
-
+import { MatDatepicker } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { ReserveAppointmentDto } from '../../models/ReserveAppointmentDto';
 @Component({
   selector: 'app-create-appointment',
   imports: [
@@ -22,17 +25,44 @@ import { IntervalDto } from '../../models/IntervalDto';
     MatDialogModule,
     MatButton,
     MatTooltipModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDatepicker,
+    MatInput,
+    MatNativeDateModule,
+    
+    
 
 ],
   templateUrl: './create-appointment.html',
   styleUrl: './create-appointment.scss',
 })
 export class CreateAppointment{
+  
+
+  reserveAppointment : ReserveAppointmentDto = {
+    idPatient: 0,
+    idDoctor: 0,
+    interval: {
+      startTime: "",
+      endTime: ""
+    },
+    appointmentDate: ''
+  }
+
   appointmentForm: any;
   
   specialitySelected: any | null = null;
-  doctorSelected: any | null = null;
+
+  doctorSelected: DoctorDto = {
+    id: 0,
+    identificationNumber: '',
+    firstName: '',
+    lastName: '',
+    canSchedule: false,
+    appointmentInterval: null,
+    schedule: { availableTimes: {} }
+  };
+
   dateSelected: any | null = null;
   intervalSelected: any | null = null;
 
@@ -43,14 +73,12 @@ export class CreateAppointment{
   intervals: any[] = [];
   dates: string[] = [];
 
-
   constructor(private readonly appointmentService:AppointmentService,  
     private fb: FormBuilder,
     @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
   ){
   }
   
-
   specialties : any = [
     { value: 'FISIOTERAPIA', viewValue: 'Fisioterapia', description: 'La fisioterapia sirve para rehabilitar, prevenir y tratar lesiones físicas, dolor crónico y problemas de movilidad' },
     { value: 'TERAPIA_NEURAL', viewValue: 'Terapia Neural', description: 'La terapia neural busca aliviar el dolor crónico y enfermedades funcionales' },
@@ -88,9 +116,7 @@ export class CreateAppointment{
     }
   }
   
-  confirmAppointment() {
-    this.dialogRef?.close();
-  }
+
 
   onBack() {
     if(this.step >= 1){
@@ -109,27 +135,60 @@ export class CreateAppointment{
     })  
     
   }
-  onDoctorChange(){
-    this.dates= Object.keys(this.doctorSelected?.schedule?.availableTimes) || [];
+  onDoctorChange() {
+ 
+    setTimeout(() => {
+      this.dates = Object.keys(this.doctorSelected?.schedule?.availableTimes || {});
+    });
+
   }
+  
+  dateFilter = (date: Date | null): boolean => {
+    if (!date) return false;
 
-  onDateChange(){
-    
-    const schedule = this.doctorSelected.schedule.availableTimes[this.dateSelected] || [];
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
-    const isFisio = this.specialitySelected === 'FISIOTERAPIA';
-    const minutes = isFisio ? 15 : 30;
+    const formatted = `${year}-${month}-${day}`;
+    return this.dates.includes(formatted);
+  };
+
+onDateChange(event: any) {
+    console.log(event);
+
+    if (!event.value) return;
+
+
+    const date = event.value as Date;
+    const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    this.dateSelected = formatted;
+    console.log('Fecha seleccionada:', formatted);
+
+
+    const daySchedule = this.doctorSelected.schedule?.availableTimes[formatted]?.intervals || [];
+
+    if (!this.doctorSelected.appointmentInterval) {
+
+      this.intervals = daySchedule.map(block => ({
+        startTime: block.startTime.slice(0,5), 
+        endTime: block.endTime.slice(0,5)
+      }));
+      return;
+    }
+
+
+    const minutes = this.toMinutes(this.doctorSelected.appointmentInterval.endTime) - this.toMinutes(this.doctorSelected.appointmentInterval.startTime);
 
     const result: IntervalDto[] = [];
 
-    schedule.intervals.forEach((block : IntervalDto) => {
-
+    daySchedule.forEach((block: IntervalDto) => {
       let start = this.toMinutes(block.startTime);
       const end = this.toMinutes(block.endTime);
 
       while (start + minutes <= end) {
         result.push({
-          startTime: this.toTime(start),
+          startTime: this.toTime(start), // HH:MM
           endTime: this.toTime(start + minutes)
         });
         start += minutes;
@@ -137,7 +196,7 @@ export class CreateAppointment{
     });
 
     this.intervals = result;
-  }
+}
   
   toMinutes(time: string): number {
     const [h, m] = time.split(':').map(Number);
@@ -147,7 +206,7 @@ export class CreateAppointment{
   toTime(minutes: number): string {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
+    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
   }
 
   onHover(event: MouseEvent | null, speciality: any | null) {
@@ -167,5 +226,18 @@ export class CreateAppointment{
 
   onCancel() {
     this.dialogRef?.close();
+  }
+
+  confirmAppointment() {
+    this.reserveAppointment ={
+      idPatient: 1,
+      idDoctor: this.doctorSelected.id,
+      interval: this.intervalSelected,
+      appointmentDate: this.dateSelected
+    }
+    console.log(this.reserveAppointment);
+    this.appointmentService.reserveAppointment(this.reserveAppointment).subscribe(() => {
+      this.dialogRef?.close();
+    });
   }
 }

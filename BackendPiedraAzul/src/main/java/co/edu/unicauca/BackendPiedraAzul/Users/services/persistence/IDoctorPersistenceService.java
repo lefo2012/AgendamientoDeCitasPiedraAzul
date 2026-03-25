@@ -22,4 +22,7 @@ public interface IDoctorPersistenceService {
 
     @Transactional
     List<Doctor> findBySpecialtiesContaining(SpecialtyEnum specialty);
+
+    @Transactional
+    Doctor findByEmail(String email) throws Exception;
 }

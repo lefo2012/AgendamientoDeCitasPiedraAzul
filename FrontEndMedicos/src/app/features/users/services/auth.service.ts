@@ -17,6 +17,7 @@ export class AuthService {
   ) {}
 
   private resolveAuthUrl(url: string): string {
+    
     // In local development, Keycloak commonly runs on HTTP (localhost:8080).
     if (url.startsWith('https://localhost')) {
       const httpLocalUrl = url.replace('https://', 'http://');

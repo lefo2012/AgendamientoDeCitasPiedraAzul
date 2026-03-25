@@ -33,7 +33,7 @@
 		<mat-select [(value)]="doctorSelected" (selectionChange)="onDoctorChange()"> 
 		@for (doctor of doctors; track doctor) {
 			<mat-option [value]="doctor">
-			{{ doctor.firstName }}{{doctor.lastName}}
+			Dr.	{{ doctor.firstName }} {{doctor.lastName}}
 			</mat-option>
 		}
 		</mat-select>
@@ -43,20 +43,20 @@
 
 		
 		<h3>Selecciona la fecha</h3>
-		<mat-form-field class="form">
-		
+		<mat-form-field appearance="fill">
 		<mat-label>Fecha</mat-label>
-		
-		<mat-select [(value)]="dateSelected" (selectionChange)="onDateChange()">
-		@for (date of dates; track date) {
-			<mat-option [value]="date">
-			
-			{{ date }}
-			
-			</mat-option>
-		}
-		</mat-select>
+
+		<input 
+		matInput 
+		type="text"
+		[matDatepicker]="picker" 
+		[matDatepickerFilter]="dateFilter"
+		(dateChange)="onDateChange($event)">
+
+		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		<mat-datepicker #picker></mat-datepicker>
 		</mat-form-field>
+
 
 	}
 	@if(step == 3 ){
@@ -68,10 +68,11 @@
 		<mat-label>Horario</mat-label>
 		
 		<mat-select [(value)]="intervalSelected">
-		@for (interval of intervals; track interval) {
+		@for (interval of intervals; track interval)
+	 	{
 			<mat-option [value]="interval">
 			
-			{{ interval.startTime }} - {{interval.endTime}}
+			{{ interval.startTime }} - {{ interval.endTime }}
 			
 			</mat-option>
 		}
@@ -85,7 +86,7 @@
 		<p>- Especialidad : {{specialitySelected.viewValue}}</p>
 		<p>- Doctor : {{doctorSelected.firstName}} {{doctorSelected.lastName}}</p>
 		<p>- Fecha : {{dateSelected}}</p>
-		<p>- Horario : {{intervalSelected.startTime}} - {{intervalSelected.endTime}}</p>
+		<p>- Horario : {{intervalSelected.startTime}}-{{intervalSelected.endTime}}</p>
 
 		<p><strong>Estas seguro de agendar esta cita?</strong></p>
 	

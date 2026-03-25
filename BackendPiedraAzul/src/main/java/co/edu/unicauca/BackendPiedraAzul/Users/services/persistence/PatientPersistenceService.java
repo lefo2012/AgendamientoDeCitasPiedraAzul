@@ -68,4 +68,13 @@ public class PatientPersistenceService implements IPatientPersistenceService {
 
         return patientMapper.toDomain(patient);
     }
+
+    @Transactional
+    @Override
+    public Patient findByKeycloakId(String keycloakId) throws Exception{
+        PatientEntity patient = jpaRepository.findByKeycloakId(keycloakId)
+                .orElseThrow(() -> new Exception("Patient not found with keycloakId: " + keycloakId));
+        return patientMapper.toDomain(patient);
+    }
+
 }

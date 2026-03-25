@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/appointments")
 public class AppointmentsController {
@@ -21,11 +24,17 @@ public class AppointmentsController {
         try {
             appointmentService.reserveAppointment(dto);
 
-            return  ResponseEntity.ok("Reserva realizada con exito");
+            // Retornamos un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Reserva realizada con éxito");
+
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("Impossibilidad al reservar la cita"+ e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Imposibilidad al reservar la cita: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 

@@ -13,12 +13,14 @@ public interface AppointmentMapper {
     @Mapping(target = "doctor.attendedAppointments",ignore = true)
     @Mapping(target = "patient.pastAppointments",ignore = true)
     @Mapping(target = "patient.pendingAppointments",ignore = true)
+    @Mapping(target = "doctor.schedule",ignore = true)
     Appointment toDomain(AppointmentEntity appointmentEntity) throws Exception;
 
     @Mapping(target = "doctor.scheduledAppointments",ignore = true)
     @Mapping(target = "doctor.attendedAppointments",ignore = true)
     @Mapping(target = "patient.pastAppointments",ignore = true)
     @Mapping(target = "patient.pendingAppointments",ignore = true)
+    @Mapping(target = "doctor.schedule",ignore = true)
     AppointmentEntity toEntity(Appointment appointment);
 
 //    @Mapping(target = "doctor.scheduledAppointments",ignore = true)
