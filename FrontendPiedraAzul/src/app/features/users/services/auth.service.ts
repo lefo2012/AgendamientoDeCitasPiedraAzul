@@ -1,20 +1,76 @@
-import { Inject, Injectable } from '@angular/core';
+import { computed, Inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, finalize, map, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthConfig, AUTH_CONFIG } from './auth.config';
 import { AuthTokenResponse } from '../models/AuthTokenResponse';
 import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
 import { RegisterRequest } from '../models/RegisterRequest';
+import { CurrentPatient } from '../models/CurrentPatient';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private readonly accessTokenKey = 'piedraAzul_access_token';
+  private readonly refreshTokenKey = 'piedraAzul_refresh_token';
+  private readonly currentPatientKey = 'piedraAzul_current_patient';
+  private readonly accessTokenSignal = signal<string | null>(this.readStoredAccessToken());
+  private readonly refreshTokenSignal = signal<string | null>(this.readStoredRefreshToken());
+  private readonly currentPatientSignal = signal<CurrentPatient | null>(this.readStoredCurrentPatient());
+  private refreshInFlight$: Observable<string> | null = null;
+
+  readonly accessToken = this.accessTokenSignal.asReadonly();
+  readonly refreshToken = this.refreshTokenSignal.asReadonly();
+  readonly currentPatient = this.currentPatientSignal.asReadonly();
+  readonly isAuthenticated = computed(() => !!this.accessTokenSignal() && !!this.currentPatientSignal());
+
   constructor(
     private http: HttpClient,
-    @Inject(AUTH_CONFIG) private config: AuthConfig
+    @Inject(AUTH_CONFIG) private config: AuthConfig,
+    @Inject(PLATFORM_ID) private platformId: object
   ) {}
+
+  private get isBrowser(): boolean {
+    return isPlatformBrowser(this.platformId);
+  }
+
+  private readStoredAccessToken(): string | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    return localStorage.getItem(this.accessTokenKey);
+  }
+
+  private readStoredRefreshToken(): string | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    return localStorage.getItem(this.refreshTokenKey);
+  }
+
+  private readStoredCurrentPatient(): CurrentPatient | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    const rawValue = localStorage.getItem(this.currentPatientKey);
+
+    if (!rawValue) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(rawValue) as CurrentPatient;
+    } catch (error) {
+      console.warn('[AuthService] Failed to parse stored current patient. Clearing invalid cache.', error);
+      localStorage.removeItem(this.currentPatientKey);
+      return null;
+    }
+  }
 
   private resolveAuthUrl(url: string): string {
     
@@ -142,7 +198,166 @@ export class AuthService {
 
   logout(): Observable<any> {
     const url = this.resolveAuthUrl(`${this.config.backendApi}/logout`);
-    return this.http.post(url, {}, { withCredentials: true });
+    return this.http.post(url, {}, { withCredentials: true }).pipe(
+      tap(() => this.clearSession())
+    );
+  }
+
+  initializeSession(tokenResponse: AuthTokenResponse): Observable<CurrentPatient> {
+    this.storeTokens(tokenResponse);
+    const accessToken = tokenResponse.access_token;
+
+    if (!accessToken) {
+      return throwError(() => new Error('No access token available to initialize session.'));
+    }
+
+    return this.fetchCurrentPatient(accessToken).pipe(
+      tap((patient) => {
+        this.currentPatientSignal.set(patient);
+
+        if (this.isBrowser) {
+          localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+        }
+      })
+    );
+  }
+
+  restoreSession(): Observable<CurrentPatient | null> {
+    const accessToken = this.readStoredAccessToken();
+
+    if (!accessToken) {
+      this.clearSession();
+      return of(null);
+    }
+
+    this.accessTokenSignal.set(accessToken);
+    this.refreshTokenSignal.set(this.readStoredRefreshToken());
+    const cachedPatient = this.readStoredCurrentPatient();
+
+    if (cachedPatient) {
+      this.currentPatientSignal.set(cachedPatient);
+      return of(cachedPatient);
+    }
+
+    return this.fetchCurrentPatient(accessToken).pipe(
+      tap((patient) => {
+        this.currentPatientSignal.set(patient);
+
+        if (this.isBrowser) {
+          localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          return this.refreshAccessToken().pipe(
+            switchMap((newAccessToken) => this.fetchCurrentPatient(newAccessToken)),
+            tap((patient) => {
+              this.currentPatientSignal.set(patient);
+
+              if (this.isBrowser) {
+                localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+              }
+            }),
+            catchError((refreshError: HttpErrorResponse) => {
+              this.clearSession();
+              return throwError(() => refreshError);
+            })
+          );
+        }
+
+        this.clearSession();
+        return throwError(() => error);
+      })
+    );
+  }
+
+  refreshAccessToken(): Observable<string> {
+    const refreshToken = this.refreshTokenSignal() ?? this.readStoredRefreshToken();
+
+    if (!refreshToken) {
+      return throwError(() => new Error('No refresh token available.'));
+    }
+
+    if (this.refreshInFlight$) {
+      return this.refreshInFlight$;
+    }
+
+    const tokenUrl = this.resolveAuthUrl(this.config.keycloakTokenUrl);
+    const body = new HttpParams()
+      .set('client_id', this.config.clientId)
+      .set('grant_type', 'refresh_token')
+      .set('refresh_token', refreshToken)
+      .set('client_secret', 'HFn9D3q4cLaZyLfTcs7h4J4cDLLLaRLh');
+
+    this.refreshInFlight$ = this.http.post<AuthTokenResponse>(tokenUrl, body.toString(), {
+      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
+      withCredentials: false
+    }).pipe(
+      tap((tokenResponse) => {
+        console.groupCollapsed('[AuthService] Refresh token response');
+        console.log('access_token:', tokenResponse?.access_token ?? '(none)');
+        console.log('refresh_token:', tokenResponse?.refresh_token ? '(received)' : '(not provided)');
+        console.groupEnd();
+
+        this.storeTokens(tokenResponse);
+      }),
+      map((tokenResponse) => tokenResponse.access_token),
+      catchError((error: HttpErrorResponse) => {
+        this.clearSession();
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        this.refreshInFlight$ = null;
+      }),
+      shareReplay(1)
+    );
+
+    return this.refreshInFlight$;
+  }
+
+  clearSession(): void {
+    this.accessTokenSignal.set(null);
+    this.refreshTokenSignal.set(null);
+    this.currentPatientSignal.set(null);
+    this.refreshInFlight$ = null;
+
+    if (this.isBrowser) {
+      localStorage.removeItem(this.accessTokenKey);
+      localStorage.removeItem(this.refreshTokenKey);
+      localStorage.removeItem(this.currentPatientKey);
+    }
+  }
+
+  private storeTokens(tokenResponse: AuthTokenResponse): void {
+    this.accessTokenSignal.set(tokenResponse.access_token);
+
+    if (tokenResponse.refresh_token) {
+      this.refreshTokenSignal.set(tokenResponse.refresh_token);
+    }
+
+    if (!this.isBrowser) {
+      return;
+    }
+
+    localStorage.setItem(this.accessTokenKey, tokenResponse.access_token);
+
+    if (tokenResponse.refresh_token) {
+      localStorage.setItem(this.refreshTokenKey, tokenResponse.refresh_token);
+    }
+  }
+
+  private fetchCurrentPatient(accessToken: string): Observable<CurrentPatient> {
+    return this.http.get<CurrentPatient>('/api/auth/me', {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${accessToken}`
+      })
+    }).pipe(
+      tap((patient) => {
+        console.groupCollapsed('[AuthService] /api/auth/me response');
+        console.log('Current patient payload:', patient);
+        console.groupEnd();
+      })
+    );
   }
 
 getRolesFromToken(token: string): string[] {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -55,32 +56,25 @@ export class Login {
     console.log('[LoginComponent] Calling AuthService.login for user:', email);
 
     this.authService.login(email, credentials.password)
-      .subscribe({
-        next: (token) => {
+      .pipe(
+        switchMap((token) => {
           console.groupCollapsed('[LoginComponent] Login success');
           console.log('Token response from service:', token);
           console.log('Access token received:', token?.access_token ?? '(none)');
           console.groupEnd();
 
-          localStorage.setItem('piedraAzul_access_token', token.access_token);
-          console.log('[LoginComponent] Token stored in localStorage key: piedraAzul_access_token');
-
+          return this.authService.initializeSession(token.access_token);
+        })
+      )
+      .subscribe({
+        next: (patient) => {
+          console.log('[LoginComponent] Current patient loaded:', patient);
           this.errorMessage = '';
-          const roles = this.authService.getRolesFromToken(token.access_token);
+          const token = this.authService.accessToken();
+          const roles = token ? this.authService.getRolesFromToken(token) : [];
 
           console.log('[LoginComponent] Roles extracted:', roles);
-
-          if (roles.includes('admin')) {
-            console.log('[LoginComponent] Redirecting to /admin');
-            this.router.navigate(['/admin']);
-          } else {
-            console.log('[LoginComponent] Redirecting to /');
-            this.router.navigate(['/']);
-          }
-
-
-
-
+          this.router.navigate(['/']);
 
         },
         error: (err) => {
