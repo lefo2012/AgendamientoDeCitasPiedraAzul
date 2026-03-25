@@ -57,12 +57,14 @@
   justify-content: center;
   align-items: stretch;
   padding: clamp(2rem, 8vw, 5rem) clamp(1rem, 4vw, 3rem);
+  min-height: calc(100vh - 9rem);
 }
 
 .card {
   position: relative;
   width: min(340px, 100%);
   min-height: 340px;
+  max-height: 450px;
   cursor: pointer;
   border-radius: 20px;
   background: var(--blanco);

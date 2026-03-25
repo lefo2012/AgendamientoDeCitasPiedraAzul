@@ -1,3 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100%;
+}
+
 .appointment-table {
   margin: 1rem;
   padding: 1rem;
@@ -56,4 +63,8 @@
       background-color: var(--fondo-suave-transparente);
     }
   }
+}
+
+footer {
+  margin-top: auto;
 }
