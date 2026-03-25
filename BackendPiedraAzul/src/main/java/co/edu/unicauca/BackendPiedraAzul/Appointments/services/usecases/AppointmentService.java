@@ -42,10 +42,6 @@ public class AppointmentService implements IAppointmentService {
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
 
             appointmentPersistenceService.save(appointment);
-            doctor.getSchedule().print();
-            System.out.println("---------------------------------------------------------------------------------------------");
-            appointment.getDoctor().getSchedule().print();
-
             doctorPersistenceService.save(appointment.getDoctor());
             patientPersistenceService.save(appointment.getPatient());
 
