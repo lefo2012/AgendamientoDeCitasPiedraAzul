@@ -83,12 +83,18 @@
 	@if(step == 4) {
 		<h3>Confirma tu cita</h3>
 		<p>Estas a un paso de agendar tu cita</p>
+		<p><strong>Información del Paciente:</strong></p>
+		<p>- Paciente : {{ currentPatientDisplayName }}</p>
+		@if (currentPatient?.email) {
+			<p>- Correo : {{ currentPatient?.email }}</p>
+		}
+		<p><strong>Información de la Cita:</strong></p>
 		<p>- Especialidad : {{specialitySelected.viewValue}}</p>
-		<p>- Doctor : {{doctorSelected.firstName}} {{doctorSelected.lastName}}</p>
+		<p>- Doctor : Dr. {{doctorDisplayName}}</p>
 		<p>- Fecha : {{dateSelected}}</p>
-		<p>- Horario : {{intervalSelected.startTime}}-{{intervalSelected.endTime}}</p>
+		<p>- Horario : {{intervalSelected.startTime}} - {{intervalSelected.endTime}}</p>
 
-		<p><strong>Estas seguro de agendar esta cita?</strong></p>
+		<p><strong>¿Estás seguro de agendar esta cita?</strong></p>
 	
 	}
 	@if (hoveredSpeciality) {

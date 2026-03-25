@@ -16,6 +16,7 @@ import { MatInput } from '@angular/material/input';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { ReserveAppointmentDto } from '../../models/ReserveAppointmentDto';
 import { AuthService } from '../../../users/services/auth.service';
+import { CurrentPatient } from '../../../users/models/CurrentPatient';
 @Component({
   selector: 'app-create-appointment',
   imports: [
@@ -39,7 +40,46 @@ import { AuthService } from '../../../users/services/auth.service';
 })
 export class CreateAppointment{
   reservationError = '';
-  
+
+  get currentPatient(): CurrentPatient | null {
+    return this.authService.currentPatient();
+  }
+
+  get currentPatientDisplayName(): string {
+    const patient = this.currentPatient;
+    if (!patient) {
+      return '';
+    }
+
+    const firstName = `${patient.firstName ?? ''}`.trim();
+    const lastName = `${patient.lastName ?? ''}`.trim();
+    const fullName = `${firstName} ${lastName}`.trim();
+
+    return fullName || `${patient.email ?? ''}`.trim() || 'Paciente';
+  }
+
+  private resolveCurrentPatientId(): number | null {
+    const patient = this.currentPatient;
+
+    if (!patient) {
+      return null;
+    }
+
+    const candidateIds = [
+      patient.id,
+      patient['idPatient'],
+      patient['patientId']
+    ];
+
+    for (const candidate of candidateIds) {
+      const parsed = Number(candidate);
+      if (Number.isFinite(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+
+    return null;
+  }
 
   reserveAppointment : ReserveAppointmentDto = {
     idPatient: 0,
@@ -228,9 +268,9 @@ onDateChange(event: any) {
   }
 
   confirmAppointment() {
-    const currentPatientId = Number(this.authService.currentPatient()?.id);
+    const currentPatientId = this.resolveCurrentPatientId();
 
-    if (!Number.isFinite(currentPatientId) || currentPatientId <= 0) {
+    if (!currentPatientId) {
       this.reservationError = 'No se pudo identificar tu sesion. Inicia sesion nuevamente.';
       return;
     }
