@@ -7,14 +7,16 @@ import { provideClientHydration, withEventReplay } from '@angular/platform-brows
 import { AUTH_CONFIG, defaultAuthConfig } from './features/users/services/auth.config';
 
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideHttpClient(withFetch()),
-    provideClientHydration(withEventReplay()),
-    provideNativeDateAdapter(),
-    { provide: AUTH_CONFIG, useValue: defaultAuthConfig }
-  ]
+	providers: [
+		provideBrowserGlobalErrorListeners(),
+		provideRouter(routes),
+		provideHttpClient(withFetch()),
+		provideClientHydration(withEventReplay()),
+		provideAnimations(),
+		provideNativeDateAdapter(),
+		{ provide: AUTH_CONFIG, useValue: defaultAuthConfig }
+	]
 };

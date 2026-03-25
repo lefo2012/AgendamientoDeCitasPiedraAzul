@@ -1,15 +1,15 @@
 <section class="create-appointment-page">
   <mat-card class="create-appointment-card">
     <mat-card-header>
-      <mat-card-title class="appointment-tittle">Nueva Cita</mat-card-title>
-      <mat-card-subtitle>
+      <mat-card-title class="appointment-title">Nueva Cita</mat-card-title>
+      <mat-card-subtitle class="appointment-subtitle">
         Busca primero al paciente por identificacion. Solo se podra agendar si el paciente existe.
       </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <form class="appointment-form" [formGroup]="appointmentForm">
-        <div class="form-grid two-columns">
+        <div class="form-grid one-column">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Número de identificación</mat-label>
             <input matInput type="text" placeholder="Ej. 123456789" formControlName="identificationNumber">
@@ -20,7 +20,8 @@
               Debes ingresar la identificacion del paciente.
             </mat-error>
           </mat-form-field>
-
+        </div>
+        <div class="form-grid one-column">        
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Médico</mat-label>
             <mat-select formControlName="doctorId" (selectionChange)="onDoctorChange()">
@@ -70,11 +71,7 @@
         </div>
 
         <div class="form-grid two-columns">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Género</mat-label>
-            <input matInput [value]="patient?.gender ?? ''" readonly>
-          </mat-form-field>
-
+          
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombres del paciente</mat-label>
             <input matInput type="text" [value]="patient?.firstName ?? ''" readonly>
@@ -84,13 +81,20 @@
             <mat-label>Apellidos del paciente</mat-label>
             <input matInput type="text" [value]="patient?.lastName ?? ''" readonly>
           </mat-form-field>
-        </div>
 
-        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Género</mat-label>
+            <input matInput [value]="patient?.gender ?? ''" readonly>
+          </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Teléfono</mat-label>
             <input matInput type="tel" [value]="patient?.phone ?? ''" readonly>
           </mat-form-field>
+        </div>
+
+        <div class="form-grid one-column">
+          
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Estado paciente</mat-label>

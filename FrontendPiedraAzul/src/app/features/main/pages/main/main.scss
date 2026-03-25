@@ -97,10 +97,6 @@
 }
 
 .bottom-button-container {
-    position: absolute;
-    bottom: 1.25rem;
-    left: clamp(1rem, 3vw, 2rem);
-
     .info-button {
         background: linear-gradient(135deg, var(--azul-medio) 0%, var(--azul-profundo) 100%);
         color: var(--blanco);
@@ -128,19 +124,6 @@
 
         &:hover .arrow {
             transform: translateX(3px);
-        }
-    }
-
-    @media (max-width: 768px) {
-        position: static;
-        margin: 0 0 1rem;
-        display: flex;
-        justify-content: center;
-        width: 100%;
-
-        .info-button {
-            width: min(360px, calc(100% - 2rem));
-            justify-content: center;
         }
     }
 }
@@ -261,4 +244,116 @@
             font-size: 1.5rem;
         }
     }
+}
+
+.welcome-section-split {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+    min-height: 520px;
+    gap: 24px;
+    align-items: stretch;
+}
+
+/* Carrusel izquierda */
+.carousel-left {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+    min-height: 600px;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(25, 40, 50, 0.2);
+    background: var(--azul-profundo);
+}
+
+.carousel-slide {
+  position: absolute;
+    inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+    transform: scale(1.03);
+    transition: opacity 0.8s ease-in-out, transform 1.2s ease;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+    transform: scale(1);
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-left::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 38%;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* Botones */
+.prev-btn, .next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.88);
+    color: var(--azul-profundo);
+    font-size: 1.4rem;
+    font-weight: 700;
+  z-index: 2;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.prev-btn { left: 10px; }
+.next-btn { right: 10px; }
+
+.prev-btn:hover,
+.next-btn:hover {
+    transform: translateY(-50%) scale(1.06);
+    background: var(--blanco);
+}
+
+.carousel-left .bottom-button-container {
+    position: absolute;
+    left: 16px;
+    bottom: 16px;
+    z-index: 3;
+}
+
+.welcome-card-right .bottom-button-container {
+    margin-top: 1.5rem;
+}
+
+/* Información derecha */
+.welcome-card-right {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 12px;
+}
+
+.welcome-card-right .welcome-content h1 {
+  margin-bottom: 15px;
+}
+
+.clinic-info {
+  margin-top: 15px;
+}
+
+.info-item {
+  margin-bottom: 10px;
 }
