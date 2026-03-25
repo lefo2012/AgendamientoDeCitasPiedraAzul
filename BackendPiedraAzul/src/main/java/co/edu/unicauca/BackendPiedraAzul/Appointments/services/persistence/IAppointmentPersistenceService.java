@@ -13,6 +13,9 @@ public interface IAppointmentPersistenceService {
     @Transactional
     List<Appointment> findAll() throws Exception;
 
+    @Transactional
+    Appointment findById(long id) throws Exception;
+
 //    void update(Appointment appointment, Long id);
 //    Optional<Appointment> findById(Long id);
 //    List<Appointment> findAll();

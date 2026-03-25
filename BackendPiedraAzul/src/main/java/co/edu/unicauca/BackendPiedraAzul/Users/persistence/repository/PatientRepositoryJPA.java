@@ -13,4 +13,6 @@ public interface PatientRepositoryJPA extends JpaRepository<PatientEntity,Long> 
 
     @Query("SELECT p FROM PatientEntity p WHERE p.identificationNumber = :identificationNumber")
     Optional<PatientEntity> findByIdentificationNumber(String identificationNumber) throws Exception;
+    @Query("SELECT p FROM PatientEntity p WHERE p.user.keycloakId = :keycloakId")
+    Optional<PatientEntity> findByKeycloakId(String keycloakId)  throws Exception;
 }

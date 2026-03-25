@@ -48,5 +48,25 @@ public class AppointmentsController {
                     .body("no existe");
         }
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getAppointmentById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(appointmentPersistenceService.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Error al obtener la cita con id: " + id + " " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
+        try {
+            appointmentService.cancelAppointment(id);
+            return ResponseEntity.ok("Cita cancelada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Error al cancelar: " + e.getMessage());
+        }
+    }
 
 }

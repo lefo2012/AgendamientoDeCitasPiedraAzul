@@ -42,6 +42,8 @@ public class AppointmentReportService implements IAppointmentReportService{
                             appointment.getPatient().getLastName()
             );
 
+            reportDTO.setDate(appointment.getAppointmentDate().toString());
+
             reportDTO.setAppointmentInterval(appointment.getInterval().getStartTime().toString() + " - " + appointment.getInterval().getEndTime().toString() );
             return reportDTO;
         }).toList();

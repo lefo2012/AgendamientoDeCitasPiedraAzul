@@ -3,10 +3,18 @@ package co.edu.unicauca.BackendPiedraAzul.Authentication.controller;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserRequest;
 //import co.edu.unicauca.BackendPiedraAzul.Authentication.dto.UserWithRolesDTO;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
+import co.edu.unicauca.BackendPiedraAzul.Authentication.services.IAuthService;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import org.keycloak.representations.idm.UserRepresentation;
 
@@ -14,12 +22,16 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class KeycloakController {
-
+    @Autowired
     private final IKeycloakService keycloakService;
     private static final String CLIENT_ID = "piedraAzul-app";
+    @Autowired
+    private IPatientPersistenceService  patientPersistenceService;
+    @Autowired
+    private IAuthService authService;
 
     /**
      * Endpoint para crear un usuario con roles del cliente
@@ -177,4 +189,16 @@ public class KeycloakController {
                     ));
         }
     }
+    @GetMapping("/me")
+    public ResponseEntity<?> me(Authentication authentication){
+        try {
+            return ResponseEntity.ok(authService.getPatientByToken(authentication));
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error at getting user by token: " + e.getMessage());
+        }
+    }
+
+
+
+
 }
