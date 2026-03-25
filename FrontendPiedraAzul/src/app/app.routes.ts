@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authRequiredGuard } from './core/guards/auth-required.guard';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,7 @@ export const routes: Routes = [
       },
       {
         path: 'citas/agendar',
+        canActivate: [authRequiredGuard],
         loadComponent: () =>
           import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
       },
@@ -58,11 +60,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./layout/auth-layout/auth-layout').then((m) => m.AuthLayout),
     children: [
-      {
-        path: 'register',
-        loadComponent: () =>
-          import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
-      },
       {
         path: 'login',
         loadComponent: () =>

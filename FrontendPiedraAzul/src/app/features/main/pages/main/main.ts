@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateAppointment } from '../../../appointments/pages/create-appointment/create-appointment';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../users/services/auth.service';
 
 
 
@@ -14,7 +16,14 @@ import { CommonModule } from '@angular/common';
 })
 export class Main  {
 
-  constructor(private router: Router, private dialog: MatDialog) {}
+  private readonly loginRequiredMessage = 'Debes iniciar sesion para agendar una cita.';
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) {}
 
  
   goToAbout() {
@@ -22,6 +31,19 @@ export class Main  {
   }
 
   goToCreateAppointment() {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open(this.loginRequiredMessage, 'Ir al login', {
+        duration: 4200,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['auth-warning-snackbar']
+      });
+      this.router.navigate(['/login'], {
+        queryParams: { message: this.loginRequiredMessage }
+      });
+      return;
+    }
+
     this.dialog.open(CreateAppointment, {
       width: '50%',
       height: '50%',

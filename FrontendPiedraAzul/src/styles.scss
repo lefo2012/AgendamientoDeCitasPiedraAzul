@@ -108,5 +108,17 @@ aside {
   --azul-medio: #5B9FCF;   /* para botones o links */
 }
 
+.auth-warning-snackbar {
+  --mdc-snackbar-supporting-text-color: #ffffff;
+  --mat-snack-bar-button-color: #e5edf1;
+}
+
+.auth-warning-snackbar .mat-mdc-snackbar-surface {
+  background: linear-gradient(135deg, #2f4858 0%, #3b667d 100%);
+  border-left: 4px solid #5b9fcf;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(20, 45, 66, 0.28);
+}
+
 
 

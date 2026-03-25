@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators,ValidatorFn,AbstractControl} from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +38,12 @@ export class Login {
   readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
@@ -111,6 +116,14 @@ export class Login {
       }
     );
 
+  }
+
+  ngOnInit(): void {
+    const routeMessage = this.route.snapshot.queryParamMap.get('message');
+
+    if (routeMessage) {
+      this.errorMessage = routeMessage;
+    }
   }
 
   login() {
