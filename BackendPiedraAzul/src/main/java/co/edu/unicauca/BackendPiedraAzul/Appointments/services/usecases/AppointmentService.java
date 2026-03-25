@@ -41,6 +41,7 @@ public class AppointmentService implements IAppointmentService {
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
 
+            
             Appointment savedAppointment = appointmentPersistenceService.save(appointment);
             // Keep the generated id in the same object referenced by doctor/patient lists.
             // Without this, cascading save can treat it as a new appointment and insert duplicates.
