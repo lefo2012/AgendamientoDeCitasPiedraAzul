@@ -261,6 +261,8 @@ export class Login {
         password: formData.password,
         roles: ['PACIENTE']
       }
+
+    
     };
 
     console.groupCollapsed('[RegisterComponent] Register request payload');

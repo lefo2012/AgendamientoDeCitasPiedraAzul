@@ -1,5 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -127,7 +128,8 @@ export class CreateAppointment{
   constructor(private readonly appointmentService:AppointmentService,  
     private fb: FormBuilder,
     private readonly authService: AuthService,
-    @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null
+    @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null,
+    private snackBar: MatSnackBar
   ){
   }
   
@@ -295,6 +297,9 @@ onDateChange(event: any) {
     this.appointmentService.reserveAppointment(this.reserveAppointment).subscribe({
       next: () => {
         this.dialogRef?.close();
+        this.snackBar.open('Cita agendada con éxito', 'Cerrar', {
+          duration: 3000
+        });
       },
       error: () => {
         this.reservationError = 'No fue posible agendar la cita. Intenta nuevamente.';
