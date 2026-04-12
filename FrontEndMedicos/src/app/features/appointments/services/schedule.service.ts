@@ -89,6 +89,12 @@ export class ScheduleService {
     );
   }
 
+  searchPatientsByIdentificationNumber(identificationNumber: string): Observable<PatientDto[]> {
+    return this.http.get<PatientDto[]>(
+      `${this.usersApi}/searchPatientsByIdentificationNumber/${encodeURIComponent(identificationNumber)}`
+    );
+  }
+
   reserveAppointment(payload: ReserveAppointmentDto): Observable<string> {
     return this.http.post(`${this.appointmentsApi}/reserve`, payload, {
       responseType: 'text',

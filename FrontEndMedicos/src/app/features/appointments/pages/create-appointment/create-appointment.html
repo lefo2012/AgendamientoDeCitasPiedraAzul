@@ -12,10 +12,43 @@
         <div class="form-grid one-column">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Número de identificación</mat-label>
-            <input matInput type="text" placeholder="Ej. 123456789" formControlName="identificationNumber">
-            <button mat-icon-button matSuffix type="button" (click)="searchPatient()" [disabled]="isSearchingPatient">
-              <mat-icon>search</mat-icon>
-            </button>
+            <input 
+              matInput 
+              type="text" 
+              placeholder="Ej. 123456789" 
+              formControlName="identificationNumber"
+              (input)="onIdentificationInput($event)"
+              [matAutocomplete]="patientAutocomplete"
+            >
+            <mat-autocomplete 
+              #patientAutocomplete="matAutocomplete"
+              (optionSelected)="onPatientSelected($event.option.value)"
+              autoActiveFirstOption
+            >
+              <mat-optgroup *ngIf="isLoadingPatients" label="Buscando...">
+                <mat-option disabled>
+                  <mat-spinner diameter="20"></mat-spinner>
+                  Cargando pacientes...
+                </mat-option>
+              </mat-optgroup>
+              <mat-optgroup *ngIf="filteredPatients.length > 0 && !isLoadingPatients" label="Pacientes encontrados">
+                <mat-option *ngFor="let patient of filteredPatients" [value]="patient.identificationNumber">
+                  <div class="patient-option">
+                    <strong>{{ patient.identificationNumber }}</strong> - 
+                    {{ patient.firstName }} {{ patient.lastName }}
+                  </div>
+                  <div class="patient-option-details">
+                    <small>Género: {{ patient.gender }} | Teléfono: {{ patient.phone }}</small>
+                  </div>
+                </mat-option>
+              </mat-optgroup>
+              <mat-optgroup *ngIf="patientError && !isLoadingPatients && filteredPatients.length === 0" label="Sin resultados">
+                <mat-option disabled class="no-results-option">
+                  {{ patientError }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+            <mat-hint *ngIf="patient" class="patient-selected-hint">✓ Paciente seleccionado</mat-hint>
             <mat-error *ngIf="identificationNumberControl.touched && identificationNumberControl.invalid">
               Debes ingresar la identificacion del paciente.
             </mat-error>

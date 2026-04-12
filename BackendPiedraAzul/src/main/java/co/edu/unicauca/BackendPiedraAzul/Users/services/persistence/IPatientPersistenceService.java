@@ -24,5 +24,8 @@ public interface IPatientPersistenceService {
     Patient findByIdentificationNumber(String identificationNumber) throws Exception;
 
     @Transactional
+    List<Patient> findByIdentificationNumberContaining(String identificationNumber) throws Exception;
+
+    @Transactional
     Patient findByKeycloakId(String keycloakId) throws Exception;
 }

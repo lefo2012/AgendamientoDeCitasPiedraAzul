@@ -63,6 +63,28 @@
   color: var(--blanco) !important;
 }
 
+// Autocomplete styles
+.patient-option {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.patient-option-details {
+  padding-top: 0.25rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.no-results-option {
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-style: italic;
+}
+
+.patient-selected-hint {
+  color: #4caf50 !important;
+}
+
 @media (max-width: 768px) {
   .two-columns {
     grid-template-columns: 1fr;

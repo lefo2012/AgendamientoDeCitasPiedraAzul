@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -144,6 +145,21 @@ public class UsersController {
         }catch (Exception e){
             return ResponseEntity.badRequest()
                     .body("{\"error\":\"Error retrieving doctor: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @GetMapping("/searchPatientsByIdentificationNumber/{identificationNumber}")
+    public ResponseEntity<?> searchPatientsByIdentificationNumber(
+            @PathVariable String identificationNumber) {
+        try {
+            List<Patient> patients = patientPersistenceService.findByIdentificationNumberContaining(identificationNumber);
+            // 2. Limitar a 15 resultados máximo
+            List<Patient> limitedPatients = patients.stream()
+                    .limit(15).toList();
+            return ResponseEntity.ok(limitedPatients);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error searching patients: " + e.getMessage() + "\"}");
         }
     }
 }

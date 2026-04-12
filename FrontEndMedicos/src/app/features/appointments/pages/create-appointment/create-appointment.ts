@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -12,7 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { finalize } from 'rxjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { finalize, Subscription } from 'rxjs';
 import { AppointmentSlotDto } from '../../models/AppointmentSlotDto';
 import { DoctorDto } from '../../models/DoctorDto';
 import { IntervalDto } from '../../models/IntervalDto';
@@ -34,12 +36,14 @@ import { ScheduleService } from '../../services/schedule.service';
     MatSelectModule,
     MatIconModule,
     MatSnackBarModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './create-appointment.html',
   styleUrl: './create-appointment.scss'
 })
-export class CreateAppointment implements OnInit {
+export class CreateAppointment implements OnInit, OnDestroy {
   readonly appointmentForm;
 
   doctors: DoctorDto[] = [];
@@ -49,6 +53,12 @@ export class CreateAppointment implements OnInit {
   availableDateKeys = new Set<string>();
   patient: PatientDto | null = null;
   patientError = '';
+  
+  // Autocomplete properties
+  filteredPatients: PatientDto[] = [];
+  isLoadingPatients = false;
+  private patientSearchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private patientSearchSubscription: Subscription | null = null;
 
   isLoadingDoctors = false;
   isSearchingPatient = false;
@@ -59,7 +69,8 @@ export class CreateAppointment implements OnInit {
     private readonly router: Router,
     private readonly fb: FormBuilder,
     private readonly scheduleService: ScheduleService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef
   ) {
     this.appointmentForm = this.fb.group({
       identificationNumber: ['', [Validators.required]],
@@ -73,6 +84,82 @@ export class CreateAppointment implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.loadDoctors();
     }
+  }
+
+  ngOnDestroy(): void {
+    if (this.patientSearchDebounceTimer) {
+      clearTimeout(this.patientSearchDebounceTimer);
+      this.patientSearchDebounceTimer = null;
+    }
+
+    this.patientSearchSubscription?.unsubscribe();
+  }
+
+  onIdentificationInput(event: Event): void {
+    const identificationNumber = (event.target as HTMLInputElement).value.trim();
+
+    if (this.patient && this.patient.identificationNumber !== identificationNumber) {
+      this.patient = null;
+    }
+
+    if (this.patientSearchDebounceTimer) {
+      clearTimeout(this.patientSearchDebounceTimer);
+      this.patientSearchDebounceTimer = null;
+    }
+
+    this.patientSearchSubscription?.unsubscribe();
+
+    if (!identificationNumber || identificationNumber.length < 3) {
+      this.isLoadingPatients = false;
+      this.filteredPatients = [];
+      this.patientError = '';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.patientSearchDebounceTimer = setTimeout(() => {
+      this.runPatientSearch(identificationNumber);
+    }, 250);
+  }
+
+  private runPatientSearch(identificationNumber: string): void {
+    this.isLoadingPatients = true;
+    this.patientError = '';
+
+    this.patientSearchSubscription = this.scheduleService
+      .searchPatientsByIdentificationNumber(identificationNumber)
+      .pipe(finalize(() => {
+        this.isLoadingPatients = false;
+        this.cdr.detectChanges();
+      }))
+      .subscribe({
+        next: (patients: PatientDto[]) => {
+          const currentTerm = (this.identificationNumberControl.value ?? '').toString().trim();
+          if (currentTerm !== identificationNumber) {
+            return;
+          }
+
+          this.filteredPatients = (patients ?? []).filter((patient) =>
+            String(patient.identificationNumber ?? '').startsWith(currentTerm)
+          );
+
+          this.patientError = this.filteredPatients.length === 0
+            ? 'No se encontraron pacientes con ese número de identificación.'
+            : '';
+        },
+        error: (error: { status?: number }) => {
+          const currentTerm = (this.identificationNumberControl.value ?? '').toString().trim();
+          if (currentTerm !== identificationNumber) {
+            return;
+          }
+
+          this.filteredPatients = [];
+          this.patientError =
+            error?.status === 400 || error?.status === 404
+              ? 'No se encontraron pacientes con ese número de identificación.'
+              : 'Error al buscar pacientes. Intenta nuevamente.';
+        },
+      });
   }
 
   get identificationNumberControl() {
@@ -131,6 +218,24 @@ export class CreateAppointment implements OnInit {
           });
         },
       });
+  }
+
+  onPatientSelected(selectedIdentification: string): void {
+    const selectedPatient = this.filteredPatients.find(
+      (patient) => patient.identificationNumber === selectedIdentification
+    );
+
+    if (!selectedPatient) {
+      return;
+    }
+
+    this.patient = selectedPatient;
+    this.identificationNumberControl.setValue(selectedPatient.identificationNumber, { emitEvent: false });
+    this.filteredPatients = [];
+    this.patientError = '';
+    this.snackBar.open('Paciente seleccionado correctamente.', 'Cerrar', {
+      duration: 2500,
+    });
   }
 
   searchPatient(): void {
