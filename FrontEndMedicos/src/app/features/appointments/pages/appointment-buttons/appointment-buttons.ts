@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -11,9 +11,16 @@ import { Router } from '@angular/router';
   styleUrl: './appointment-buttons.scss',
 })
 export class AppointmentButtons {
+  @Input() exportDisabled = false;
+  @Output() exportRequested = new EventEmitter<void>();
+
   constructor(private router: Router) {}
 
   goToNewAppointment(): void {
     this.router.navigate(['/citas/nueva']);
+  }
+
+  onExportClick(): void {
+    this.exportRequested.emit();
   }
 }

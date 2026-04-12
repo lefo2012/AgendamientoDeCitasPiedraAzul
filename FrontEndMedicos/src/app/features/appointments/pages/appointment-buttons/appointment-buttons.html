@@ -4,7 +4,7 @@
     <button mat-flat-button color="accent"><mat-icon>edit</mat-icon>Editar</button>
     <button mat-flat-button color="warn"><mat-icon>delete</mat-icon>Eliminar</button>
     <button mat-flat-button><mat-icon>schedule</mat-icon>Re-agendar</button>
-    <button mat-flat-button><mat-icon>download</mat-icon>Exportar</button>
+    <button mat-flat-button [disabled]="exportDisabled" (click)="onExportClick()"><mat-icon>download</mat-icon>Exportar</button>
     <button mat-flat-button><mat-icon>description</mat-icon>Historia clínica</button>
     <button mat-flat-button><mat-icon>exit_to_app</mat-icon>Cerrar sesión</button>
   </div>

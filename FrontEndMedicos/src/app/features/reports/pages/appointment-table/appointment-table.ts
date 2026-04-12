@@ -208,4 +208,63 @@ export class AppointmentTable implements OnInit, OnDestroy {
       this.executeSearch(null, null);
     }, 0);
   }
+
+  exportCurrentResultsToCsv(): void {
+    if (!this.appointments.length) {
+      this.snackBar.open('No hay citas para exportar.', 'Cerrar', { duration: 3000 });
+      return;
+    }
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const headers = ['Doctor', 'Fecha', 'Horario', 'Paciente'];
+    const rows = this.appointments.map((appointment) => [
+      appointment.doctorName,
+      appointment.date,
+      appointment.appointmentInterval,
+      appointment.patientName,
+    ]);
+
+    const csvBody = [headers, ...rows]
+      .map((row) => row.map((cell) => this.escapeCsvCell(cell)).join(';'))
+      .join('\r\n');
+
+    const csvWithBom = `\uFEFF${csvBody}`;
+    const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8;' });
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+
+    anchor.href = url;
+    anchor.download = this.buildCsvFileName();
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    window.URL.revokeObjectURL(url);
+
+    this.snackBar.open('CSV exportado correctamente.', 'Cerrar', { duration: 2500 });
+  }
+
+  private escapeCsvCell(value: string): string {
+    const normalizedValue = `${value ?? ''}`.replace(/"/g, '""');
+    return `"${normalizedValue}"`;
+  }
+
+  private buildCsvFileName(): string {
+    const selectedDoctor = this.selectedDoctorId
+      ? this.doctors.find((doctor) => doctor.id === this.selectedDoctorId)
+      : null;
+    const doctorSegment = selectedDoctor
+      ? `${selectedDoctor.firstName}-${selectedDoctor.lastName}`
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, '-')
+      : 'todos-los-medicos';
+    const dateSegment = this.selectedAppointmentDate
+      ? this.formatDateToIso(this.selectedAppointmentDate)
+      : 'todas-las-fechas';
+
+    return `reporte-citas-${doctorSegment}-${dateSegment}.csv`;
+  }
 }

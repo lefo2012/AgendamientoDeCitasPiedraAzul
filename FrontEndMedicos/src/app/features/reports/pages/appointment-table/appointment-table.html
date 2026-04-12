@@ -51,5 +51,8 @@
 
 </section>
 <footer>
-  <app-appointment-buttons></app-appointment-buttons>
+  <app-appointment-buttons
+    [exportDisabled]="appointments.length === 0"
+    (exportRequested)="exportCurrentResultsToCsv()"
+  ></app-appointment-buttons>
 </footer>
