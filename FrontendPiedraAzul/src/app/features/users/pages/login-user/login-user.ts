@@ -157,6 +157,12 @@ export class Login {
     )
       .subscribe({
         next: ({ token, patient }) => {
+          if (!patient) {
+            this.authService.clearSession();
+            this.errorMessage = 'No se pudo recuperar la informacion del paciente. Inicia sesion nuevamente.';
+            return;
+          }
+
           console.groupCollapsed('[LoginComponent] Login success');
           console.log('Token response from service:', token);
           console.log('Access token received:', token?.access_token ?? '(none)');
@@ -168,7 +174,7 @@ export class Login {
 
           console.log('[LoginComponent] Roles extracted:', roles);
 
-          if (roles.includes('admin')) {
+          if (roles.includes('ADMIN')) {
             console.log('[LoginComponent] Redirecting to /admin');
             this.router.navigate(['/admin']);
           } else {

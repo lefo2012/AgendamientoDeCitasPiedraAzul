@@ -213,7 +213,7 @@ export class AuthService {
     this.storeTokens(tokenResponse);
   }
 
-  initializeSession(tokenResponse: AuthTokenResponse): Observable<CurrentPatient> {
+  initializeSession(tokenResponse: AuthTokenResponse): Observable<CurrentPatient | null> {
     this.storeTokens(tokenResponse);
     const accessToken = tokenResponse.access_token;
 
@@ -227,7 +227,25 @@ export class AuthService {
 
         if (this.isBrowser) {
           localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+          if (patient?.id !== undefined && patient?.id !== null) {
+            localStorage.setItem('doctorId', String(patient.id));
+          }
         }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (this.isMissingDoctorProfileError(error)) {
+          console.warn('[AuthService] Doctor profile not found after login. Keeping authenticated session with token only.');
+          this.currentPatientSignal.set(null);
+
+          if (this.isBrowser) {
+            localStorage.removeItem(this.currentPatientKey);
+            localStorage.removeItem('doctorId');
+          }
+
+          return of(null);
+        }
+
+        return throwError(() => error);
       })
     );
   }
@@ -244,7 +262,7 @@ export class AuthService {
     this.refreshTokenSignal.set(this.readStoredRefreshToken());
 
     const roles = this.getRolesFromToken(accessToken);
-    if (roles.includes('admin')) {
+    if (roles.includes('ADMIN')) {
       return of(this.readStoredCurrentPatient());
     }
 
@@ -252,6 +270,9 @@ export class AuthService {
 
     if (cachedPatient) {
       this.currentPatientSignal.set(cachedPatient);
+      if (this.isBrowser && cachedPatient?.id !== undefined && cachedPatient?.id !== null) {
+        localStorage.setItem('doctorId', String(cachedPatient.id));
+      }
       return of(cachedPatient);
     }
 
@@ -261,9 +282,17 @@ export class AuthService {
 
         if (this.isBrowser) {
           localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+          if (patient?.id !== undefined && patient?.id !== null) {
+            localStorage.setItem('doctorId', String(patient.id));
+          }
         }
       }),
       catchError((error: HttpErrorResponse) => {
+        if (this.isMissingDoctorProfileError(error)) {
+          this.currentPatientSignal.set(null);
+          return of(null);
+        }
+
         if (error.status === 401) {
           return this.refreshAccessToken().pipe(
             switchMap((newAccessToken) => this.fetchCurrentPatient(newAccessToken)),
@@ -272,6 +301,9 @@ export class AuthService {
 
               if (this.isBrowser) {
                 localStorage.setItem(this.currentPatientKey, JSON.stringify(patient));
+                if (patient?.id !== undefined && patient?.id !== null) {
+                  localStorage.setItem('doctorId', String(patient.id));
+                }
               }
             }),
             catchError((refreshError: HttpErrorResponse) => {
@@ -341,6 +373,7 @@ export class AuthService {
       localStorage.removeItem(this.accessTokenKey);
       localStorage.removeItem(this.refreshTokenKey);
       localStorage.removeItem(this.currentPatientKey);
+      localStorage.removeItem('doctorId');
     }
   }
 
@@ -376,10 +409,24 @@ export class AuthService {
     );
   }
 
+  private isMissingDoctorProfileError(error: HttpErrorResponse): boolean {
+    const errorMessage = typeof error.error === 'string'
+      ? error.error
+      : error.error?.error ?? error.error?.message ?? '';
+
+    return (error.status === 400 || error.status === 404)
+      && typeof errorMessage === 'string'
+      && errorMessage.toLowerCase().includes('doctor not found');
+  }
+
 getRolesFromToken(token: string): string[] {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload?.realm_access?.roles || [];
+    const roles = payload?.realm_access?.roles || [];
+    return roles
+      .filter((role: unknown): role is string => typeof role === 'string')
+      .map((role: string) => role.toUpperCase())
+      .filter((role: string, index: number, arr: string[]) => arr.indexOf(role) === index);
   } catch (e) {
     console.error('Error parsing token', e);
     return [];

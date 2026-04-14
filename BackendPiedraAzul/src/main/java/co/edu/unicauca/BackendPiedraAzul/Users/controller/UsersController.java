@@ -63,7 +63,7 @@ public class UsersController {
     }
 
     @GetMapping("/getAllPatients")
-    @PreAuthorize("hasAnyRole('DOCTOR','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     public ResponseEntity<?> getAllPatients(){
         try {
             List<Patient> patients = patientPersistenceService.findAll();
@@ -75,7 +75,7 @@ public class UsersController {
     }
 
     @PostMapping("/registerDoctor")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     public ResponseEntity<?> registerDoctor(@RequestBody DoctorDTO doctorDTO){
         try {
             Doctor doctorSaved = doctorService.register(doctorDTO, CLIENT_ID);
@@ -87,7 +87,7 @@ public class UsersController {
     }
 
     @PostMapping("/createDoctor")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     public ResponseEntity<?> saveDoctor(@RequestBody DoctorDTO doctorDTO){
         try {
             Doctor doctorSaved = doctorPersistenceService.save(doctorDTO);
@@ -99,7 +99,7 @@ public class UsersController {
     }
 
     @GetMapping("/getAllDoctors")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getAllDoctor(){
         try {
             List<Doctor> doctors = doctorPersistenceService.findAll();
@@ -110,7 +110,7 @@ public class UsersController {
         }
     }
     @GetMapping("/getDoctorsBySpecialty/{specialty}")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getDoctorBySpecialty(@PathVariable String specialty){
         try {
             List<Doctor> doctors = doctorPersistenceService.findBySpecialtiesContaining(SpecialtyEnum.valueOf(specialty));
@@ -123,7 +123,7 @@ public class UsersController {
     }
 
     @GetMapping("/getPatientByIdentificationNumber/{identificationNumber}")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     public ResponseEntity<?> getPatientByIdentificationNumber(@PathVariable String identificationNumber) {
         try {
             Patient patient = patientPersistenceService.findByIdentificationNumber(identificationNumber);
@@ -140,7 +140,7 @@ public class UsersController {
     }
 
     @GetMapping("/getDoctorByEmail/{id}")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     public ResponseEntity<?> getDoctorByEmail(@PathVariable String email) {
         try {
             Doctor doctor = doctorPersistenceService.findByEmail(email);
@@ -157,7 +157,7 @@ public class UsersController {
     }
 
     @GetMapping("/searchPatientsByIdentificationNumber/{identificationNumber}")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> searchPatientsByIdentificationNumber(
             @PathVariable String identificationNumber) {
         try {

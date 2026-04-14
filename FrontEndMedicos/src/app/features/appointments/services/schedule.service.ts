@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DoctorSchedule } from '../models/DoctorSchedule';
 import { DoctorDto } from '../models/DoctorDto';
 import { PatientDto } from '../models/PatientDto';
 import { ReserveAppointmentDto } from '../models/ReserveAppointmentDto';
 import { ScheduleSlot } from '../models/ScheduleSlot';
+import { AuthService } from '../../users/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,10 @@ export class ScheduleService {
   private usersApi = '/api/users';
   private appointmentsApi = '/api/appointments';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   generateScheduleSlots(
     daysOfWeek: number[],
@@ -69,18 +73,31 @@ export class ScheduleService {
     return days[dayOfWeek];
   }
 
+  private buildAuthHeaders(): HttpHeaders {
+    const accessToken = this.authService.accessToken();
+
+    return accessToken
+      ? new HttpHeaders({ Authorization: `Bearer ${accessToken}` })
+      : new HttpHeaders();
+  }
+
   saveDoctorSchedule(doctorId: string, schedule: DoctorSchedule): Observable<string> {
     return this.http.post(`${this.apiUrl}/${doctorId}/configureSchedule`, schedule, {
+      headers: this.buildAuthHeaders(),
       responseType: 'text'
     });
   }
 
   getDoctorSchedule(doctorId: string): Observable<DoctorSchedule> {
-    return this.http.get<DoctorSchedule>(`${this.apiUrl}/${doctorId}/schedule`);
+    return this.http.get<DoctorSchedule>(`${this.apiUrl}/${doctorId}/schedule`, {
+      headers: this.buildAuthHeaders()
+    });
   }
 
   getAllDoctors(): Observable<DoctorDto[]> {
-    return this.http.get<DoctorDto[]>(`${this.usersApi}/getAllDoctors`);
+    return this.http.get<DoctorDto[]>(`${this.usersApi}/getAllDoctors`, {
+      headers: this.buildAuthHeaders()
+    });
   }
 
   getPatientByIdentificationNumber(identificationNumber: string): Observable<PatientDto> {
@@ -92,11 +109,15 @@ export class ScheduleService {
   searchPatientsByIdentificationNumber(identificationNumber: string): Observable<PatientDto[]> {
     return this.http.get<PatientDto[]>(
       `${this.usersApi}/searchPatientsByIdentificationNumber/${encodeURIComponent(identificationNumber)}`
+      , {
+        headers: this.buildAuthHeaders()
+      }
     );
   }
 
   reserveAppointment(payload: ReserveAppointmentDto): Observable<string> {
     return this.http.post(`${this.appointmentsApi}/reserve`, payload, {
+      headers: this.buildAuthHeaders(),
       responseType: 'text',
     });
   }

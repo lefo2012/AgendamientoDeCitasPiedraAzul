@@ -37,6 +37,7 @@ public class DoctorService implements IDoctorService {
                 keycloakService.createUserWithClientRoles(doctorDto.getUser(), doctorDto.getFirstName(), doctorDto.getLastName(), client_id);
         // 2️⃣ crear dominio
         Doctor doctor = doctorMapper.dtoToDomain(doctorDto);
+        doctor.getUser().setKeycloakId(keycloakId);
 
         return doctorService.save(doctor);
 

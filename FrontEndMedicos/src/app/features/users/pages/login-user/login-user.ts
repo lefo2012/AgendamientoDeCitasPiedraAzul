@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -77,14 +76,20 @@ export class Login {
 
           console.log('[LoginComponent] Roles extracted:', roles);
 
-          if (roles.includes('admin')) {
+          if (roles.includes('ADMIN')) {
             this.authService.startSessionWithToken(token);
             this.errorMessage = '';
             console.log('[LoginComponent] Redirecting to /admin');
             this.router.navigate(['/admin']);
           } else {
             this.authService.initializeSession(token).subscribe({
-              next: () => {
+              next: (doctor) => {
+                if (!doctor) {
+                  this.authService.clearSession();
+                  this.errorMessage = 'No se pudo recuperar la informacion del medico. Inicia sesion nuevamente.';
+                  return;
+                }
+
                 this.errorMessage = '';
                 console.log('[LoginComponent] Redirecting to /');
                 this.router.navigate(['/']);

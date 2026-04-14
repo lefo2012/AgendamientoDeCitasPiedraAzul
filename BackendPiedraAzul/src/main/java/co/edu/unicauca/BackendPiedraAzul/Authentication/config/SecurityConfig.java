@@ -19,6 +19,7 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Configuration
@@ -44,7 +45,7 @@ public class SecurityConfig {
                 List<String> realmRoles = (List<String>) realmAccess.get("roles");
                 if (realmRoles != null) {
                     realmRoles.forEach(role ->
-                            authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+                            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase(Locale.ROOT)))
                     );
                 }
             }
@@ -57,7 +58,7 @@ public class SecurityConfig {
                     List<String> roles = (List<String>) clientRoles.get("roles");
                     if (roles != null) {
                         roles.forEach(role ->
-                                authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+                                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase(Locale.ROOT)))
                         );
                     }
                 }

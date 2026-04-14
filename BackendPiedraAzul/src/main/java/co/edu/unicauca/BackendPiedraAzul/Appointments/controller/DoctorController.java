@@ -17,7 +17,7 @@ public class DoctorController {
     @Autowired
     private IAppointmentService appointmentService;
 
-    @PreAuthorize("hasAnyRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @PostMapping("/{doctorId}/configureSchedule")
     public ResponseEntity<?> configureSchedule(
             @PathVariable Long doctorId,
@@ -33,14 +33,14 @@ public class DoctorController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @GetMapping("/{doctorId}/getScheduledAppointments")
     public ResponseEntity<?> getScheduledAppointments(@PathVariable Long doctorId) throws Exception {
 
         return ResponseEntity.ok(appointmentService.getScheduledAppointmentsByDoctor(doctorId));
     }
 
-    @PreAuthorize("hasAnyRole('DOCTOR')")
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @GetMapping("/{doctorId}/getAttendedAppointments")
     public ResponseEntity<?> getAttendedAppointments(@PathVariable Long doctorId) throws Exception {
         return ResponseEntity.ok(appointmentService.getAttendedAppointments(doctorId));

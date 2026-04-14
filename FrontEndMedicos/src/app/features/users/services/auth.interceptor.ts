@@ -8,7 +8,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const token = authService.accessToken();
-  const isApiRequest = req.url.startsWith('/api/');
+  const isApiRequest = req.url.includes('/api/');
   const isAuthMeRequest = req.url.includes('/api/auth/getDoctorByToken');
   const isRefreshRequest = req.url.includes('/protocol/openid-connect/token')
     && req.body?.toString?.().includes('grant_type=refresh_token');

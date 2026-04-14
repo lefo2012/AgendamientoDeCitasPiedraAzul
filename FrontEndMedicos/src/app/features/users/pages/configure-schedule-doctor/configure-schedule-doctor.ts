@@ -22,6 +22,7 @@ import { IntervalDto } from '../../../appointments/models/IntervalDto';
 import { IntervalListDto } from '../../../appointments/models/IntervalListDto';
 import { ScheduleService } from '../../../appointments/services/schedule.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 interface DaySelection {
   value: number;
@@ -76,6 +77,7 @@ export class ConfigureScheduleDoctor implements OnInit {
   constructor(
     private fb: FormBuilder,
     private scheduleService: ScheduleService,
+    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef
@@ -165,6 +167,22 @@ export class ConfigureScheduleDoctor implements OnInit {
     return intervals;
   }
 
+  private resolveDoctorId(): string | null {
+    const currentDoctorId = this.authService.currentPatient()?.id;
+
+    if (currentDoctorId !== undefined && currentDoctorId !== null) {
+      return String(currentDoctorId);
+    }
+
+    const storedDoctorId = localStorage.getItem('doctorId');
+
+    if (storedDoctorId && storedDoctorId.trim().length > 0) {
+      return storedDoctorId;
+    }
+
+    return null;
+  }
+
   /**
    * Guardar la configuración
    */
@@ -200,9 +218,18 @@ export class ConfigureScheduleDoctor implements OnInit {
     this.cdr.markForCheck();
     const formValue = this.scheduleForm.value;
     const selectedDays = this.getSelectedDays();
+    const doctorId = this.resolveDoctorId();
 
-    // Obtener el ID del doctor del localStorage o sesión
-    const doctorId = localStorage.getItem('doctorId') || 'temp-id';
+    if (!doctorId) {
+      this.isLoading = false;
+      this.cdr.markForCheck();
+      this.snackBar.open('No se pudo identificar el medico para configurar el horario.', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top'
+      });
+      return;
+    }
 
     const intervalConfig: IntervalListDto = {
       intervals: this.buildIntervals(formValue),
@@ -232,8 +259,6 @@ export class ConfigureScheduleDoctor implements OnInit {
           horizontalPosition: 'end',
           verticalPosition: 'top'
         });
-        // Limpiar localStorage
-        localStorage.removeItem('doctorId');
         this.router.navigate(['/admin']);
       },
       error: (error) => {
@@ -251,7 +276,6 @@ export class ConfigureScheduleDoctor implements OnInit {
    * Cancelar y volver
    */
   cancel(): void {
-    localStorage.removeItem('doctorId');
     this.router.navigate(['/admin']);
   }
 

@@ -22,7 +22,7 @@ public class ReportController {
     private IAppointmentReportService appointmentReportService;
 
     @GetMapping("/appointmentsByDoctorAndDate")
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     public ResponseEntity<?> getAppointmentsByDoctorAndDate(
             @RequestParam("doctorId") Long doctorId,
             @RequestParam("appointmentDate")
@@ -42,7 +42,7 @@ public class ReportController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     @GetMapping("/appointmentsReport")
     public ResponseEntity<?> getAppointmentsReport() {
         try {

@@ -390,7 +390,11 @@ export class AuthService {
 getRolesFromToken(token: string): string[] {
   try {
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload?.realm_access?.roles || [];
+    const roles = payload?.realm_access?.roles || [];
+    return roles
+      .filter((role: unknown): role is string => typeof role === 'string')
+      .map((role: string) => role.toUpperCase())
+      .filter((role: string, index: number, arr: string[]) => arr.indexOf(role) === index);
   } catch (e) {
     console.error('Error parsing token', e);
     return [];
