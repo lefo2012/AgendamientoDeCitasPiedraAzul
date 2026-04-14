@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Reports.services.usecases.IAppointmentR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class ReportController {
     private IAppointmentReportService appointmentReportService;
 
     @GetMapping("/appointmentsByDoctorAndDate")
+    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
     public ResponseEntity<?> getAppointmentsByDoctorAndDate(
             @RequestParam("doctorId") Long doctorId,
             @RequestParam("appointmentDate")
@@ -40,6 +42,7 @@ public class ReportController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('DOCTOR','ADMIN')")
     @GetMapping("/appointmentsReport")
     public ResponseEntity<?> getAppointmentsReport() {
         try {

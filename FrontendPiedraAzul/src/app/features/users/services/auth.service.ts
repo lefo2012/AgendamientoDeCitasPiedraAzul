@@ -41,7 +41,20 @@ export class AuthService {
       return null;
     }
 
-    return localStorage.getItem(this.accessTokenKey);
+    const storedToken = localStorage.getItem(this.accessTokenKey);
+
+    if (!storedToken) {
+      return null;
+    }
+
+    if (this.isTokenExpired(storedToken)) {
+      localStorage.removeItem(this.accessTokenKey);
+      localStorage.removeItem(this.refreshTokenKey);
+      localStorage.removeItem(this.currentPatientKey);
+      return null;
+    }
+
+    return storedToken;
   }
 
   private readStoredRefreshToken(): string | null {
@@ -196,11 +209,9 @@ export class AuthService {
     );
   }
 
-  logout(): Observable<any> {
-    const url = this.resolveAuthUrl(`${this.config.backendApi}/logout`);
-    return this.http.post(url, {}, { withCredentials: true }).pipe(
-      tap(() => this.clearSession())
-    );
+  logout(): Observable<void> {
+    this.clearSession();
+    return of(void 0);
   }
 
   initializeSession(tokenResponse: AuthTokenResponse): Observable<CurrentPatient> {
@@ -347,17 +358,33 @@ export class AuthService {
   }
 
   private fetchCurrentPatient(accessToken: string): Observable<CurrentPatient> {
-    return this.http.get<CurrentPatient>('/api/auth/me', {
+    return this.http.get<CurrentPatient>('/api/auth/getPatientByToken', {
       headers: new HttpHeaders({
         Authorization: `Bearer ${accessToken}`
       })
     }).pipe(
       tap((patient) => {
-        console.groupCollapsed('[AuthService] /api/auth/me response');
+        console.groupCollapsed('[AuthService] /api/auth/getPatientByToken response');
         console.log('Current patient payload:', patient);
         console.groupEnd();
       })
     );
+  }
+
+  private isTokenExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const exp = Number(payload?.exp);
+
+      if (!exp) {
+        return true;
+      }
+
+      const nowInSeconds = Math.floor(Date.now() / 1000);
+      return exp <= nowInSeconds;
+    } catch {
+      return true;
+    }
   }
 
 getRolesFromToken(token: string): string[] {

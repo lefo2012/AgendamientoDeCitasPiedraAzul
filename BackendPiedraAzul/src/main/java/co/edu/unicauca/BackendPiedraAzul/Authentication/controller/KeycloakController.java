@@ -39,6 +39,8 @@ public class KeycloakController {
      * @param userRequest DTO con email, password y roles
      * @return ResponseEntity con mensaje de éxito o error
      */
+
+
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> createUser(@RequestBody UserRequest userRequest) {
         try {
@@ -189,7 +191,8 @@ public class KeycloakController {
                     ));
         }
     }
-    @GetMapping("/me")
+
+    @GetMapping("/getPatientByToken")
     public ResponseEntity<?> me(Authentication authentication){
         try {
             return ResponseEntity.ok(authService.getPatientByToken(authentication));
@@ -198,7 +201,12 @@ public class KeycloakController {
         }
     }
 
-
-
-
+    @GetMapping("/getDoctorByToken")
+    public ResponseEntity<?> meDoctor(Authentication authentication) {
+        try {
+            return ResponseEntity.ok(authService.getDoctorByToken(authentication));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error at getting user by token: " + e.getMessage());
+        }
+    }
 }

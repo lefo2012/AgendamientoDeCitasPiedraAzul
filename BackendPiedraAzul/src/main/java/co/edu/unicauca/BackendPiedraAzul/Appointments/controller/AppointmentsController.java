@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.IAppo
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class AppointmentsController {
 
     @Autowired
     private IAppointmentService appointmentService;
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PostMapping("/reserve")
     public ResponseEntity<?> reserve(@RequestBody ReserveAppointmentDTO dto) {
         try {
@@ -39,6 +41,7 @@ public class AppointmentsController {
     }
 
     @GetMapping("/getAppointments")
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     public ResponseEntity<?> getAppointments() {
         try {
 
@@ -58,6 +61,7 @@ public class AppointmentsController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('DOCTOR','PACIENTE')")
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
         try {

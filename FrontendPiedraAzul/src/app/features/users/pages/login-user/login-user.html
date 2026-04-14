@@ -34,8 +34,8 @@
         }
 
         <div class="actions-row">
-          <button mat-stroked-button  (click)="goBack()">Volver</button>
-          <button mat-raised-button color="" type="submit" >
+          <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">Volver</button>
+          <button mat-raised-button type="submit" class="auth-submit">
             Ingresar
           </button>
         </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="right-panel">
       <h1 style="color: white;">Eres nuevo?</h1>
-      <button mat-raised-button (click)="changeToRegister()">
+      <button mat-raised-button type="button" (click)="changeToRegister()">
             Registrate aqui
           </button>
     </div>
@@ -191,8 +191,8 @@
         </section>
 
         <div class="actions-row">
-          <button mat-stroked-button (click)="goBack()">Volver</button>
-          <button mat-raised-button >
+          <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">Volver</button>
+          <button mat-raised-button type="submit" class="auth-submit">
             Registrarse
           </button>
         </div>
@@ -201,7 +201,7 @@
     </div>
     <div class="left-panel">
       <h1 style="color: white;">Bienvenido</h1>
-      <button mat-raised-button (click)="changeToLogin()" >
+      <button mat-raised-button type="button" (click)="changeToLogin()" >
             Iniciar sesion
           </button>
     </div>

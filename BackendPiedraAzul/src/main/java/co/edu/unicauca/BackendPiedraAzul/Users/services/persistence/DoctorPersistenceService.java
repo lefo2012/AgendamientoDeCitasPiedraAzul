@@ -75,4 +75,10 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
                 .toList();
     }
 
+    @Override
+    public Doctor findByKeycloakId(String keycloakId) throws Exception {
+        DoctorEntity entity = jpaRepository.findByKeycloakId(keycloakId)
+                .orElseThrow(() -> new Exception("Doctor not found with keycloakId: " + keycloakId));
+        return doctorMapper.toDomain(entity);
+    }
 }

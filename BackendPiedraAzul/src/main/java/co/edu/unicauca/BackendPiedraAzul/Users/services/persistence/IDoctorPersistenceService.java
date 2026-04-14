@@ -2,6 +2,7 @@ package co.edu.unicauca.BackendPiedraAzul.Users.services.persistence;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import jakarta.transaction.Transactional;
 
@@ -25,4 +26,7 @@ public interface IDoctorPersistenceService {
 
     @Transactional
     Doctor findByEmail(String email) throws Exception;
+
+    @Transactional
+    Doctor findByKeycloakId(String keycloakId) throws Exception;
 }

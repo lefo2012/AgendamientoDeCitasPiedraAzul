@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authRequiredGuard } from './core/guards/auth-required.guard';
 
 export const routes: Routes = [
 	{
@@ -18,6 +19,7 @@ export const routes: Routes = [
 			},
 			{
 				path: 'citas/agendar',
+				canActivate: [authRequiredGuard],
 				loadComponent: () =>
 					import('./features/reports/pages/appointment-table/appointment-table').then((m) => m.AppointmentTable),
 			},
@@ -25,6 +27,16 @@ export const routes: Routes = [
 				path: 'citas/nueva',
 				loadComponent: () =>
 					import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
+			},
+			{
+				path: 'admin',
+				loadComponent: () =>
+					import('./features/users/pages/admin-home/admin-home').then((m) => m.AdminHome),
+			},
+			{
+				path: 'admin/registrar-medico',
+				loadComponent: () =>
+					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
 			},
 		],
 	},

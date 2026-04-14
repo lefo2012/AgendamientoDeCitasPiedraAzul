@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,22 +21,33 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './login-user.scss'
 })
 export class Login {
-
   loginForm: FormGroup;
   errorMessage = '';
   submitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
-
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', Validators.required]
     });
+  }
 
+  ngOnInit(): void {
+    const routeMessage = this.route.snapshot.queryParamMap.get('message');
+
+    if (routeMessage) {
+      this.errorMessage = routeMessage;
+    }
   }
 
   login() {
     this.submitted = true;
+    this.errorMessage = '';
     console.groupCollapsed('[LoginComponent] Login submit triggered');
     console.log('Form value:', this.loginForm.value);
     console.log('Form valid:', this.loginForm.valid);
@@ -61,25 +73,38 @@ export class Login {
           console.log('Token response from service:', token);
           console.log('Access token received:', token?.access_token ?? '(none)');
           console.groupEnd();
-
-          localStorage.setItem('piedraAzul_access_token', token.access_token);
-          console.log('[LoginComponent] Token stored in localStorage key: piedraAzul_access_token');
-
-          this.errorMessage = '';
           const roles = this.authService.getRolesFromToken(token.access_token);
 
           console.log('[LoginComponent] Roles extracted:', roles);
 
-          switch(roles.length > 0) {
-            case roles.includes('admin'):
-              this.router.navigate(['/admin']);
-              break;
-            case roles.includes('Medico'):
-              this.router.navigate(['/']);
-              break;
-            default:
-              console.warn('[LoginComponent] No recognized role found. Navigating to default page.');
-              this.router.navigate(['/']);
+          if (roles.includes('admin')) {
+            this.authService.startSessionWithToken(token);
+            this.errorMessage = '';
+            console.log('[LoginComponent] Redirecting to /admin');
+            this.router.navigate(['/admin']);
+          } else {
+            this.authService.initializeSession(token).subscribe({
+              next: () => {
+                this.errorMessage = '';
+                console.log('[LoginComponent] Redirecting to /');
+                this.router.navigate(['/']);
+              },
+              error: (sessionError) => {
+                console.error('[LoginComponent] Could not load doctor profile from backend.', sessionError);
+
+                if (sessionError?.status === 401) {
+                  this.errorMessage = 'Token valido, pero no fue posible cargar el perfil del doctor.';
+                  return;
+                }
+
+                if (sessionError?.status === 0) {
+                  this.errorMessage = 'No fue posible conectar con el backend para cargar el perfil del doctor.';
+                  return;
+                }
+
+                this.errorMessage = 'No se pudo cargar la informacion del doctor.';
+              }
+            });
           }
 
         },
@@ -113,5 +138,4 @@ export class Login {
   goBack(): void {
     this.router.navigate(['/']);
   }
-
 }

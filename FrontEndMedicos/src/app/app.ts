@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from "@angular/router";
+import { AuthService } from './features/users/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,14 @@ import { RouterOutlet } from "@angular/router";
   styleUrls: ['./app.scss']
 })
 export class App {
+  private readonly authService = inject(AuthService);
   protected readonly title = signal('FrontEndMedicos');
+
+  constructor() {
+    this.authService.restoreSession().subscribe({
+      error: (error) => {
+        console.warn('[App] Could not restore user session from stored token.', error);
+      }
+    });
+  }
 }

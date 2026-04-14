@@ -11,8 +11,11 @@
     <nav aria-label="Navegacion principal">
       <a mat-button routerLink="/">Inicio</a>
       <a mat-button (click)="scrollToCards()">Agendar cita</a>
-      <a mat-button routerLink="/login">Iniciar sesion</a>
-      <a mat-button routerLink="/register">Registrarse</a>
+      @if (!isAuthenticated) {
+        <a mat-button routerLink="/login">Acceder</a>
+      } @else {
+        <button mat-button type="button" (click)="onLogout()">Cerrar sesion</button>
+      }
     </nav>
   </div>
 
@@ -23,8 +26,11 @@
     <mat-menu #menu="matMenu">
       <a mat-menu-item routerLink="/">Inicio</a>
       <a mat-menu-item (click)="scrollToCards()">Agendar cita</a>
-      <a mat-menu-item routerLink="/login">Iniciar sesion</a>
-      <a mat-menu-item routerLink="/register">Registrarse</a>
+      @if (!isAuthenticated) {
+        <a mat-menu-item routerLink="/login">Acceder</a>
+      } @else {
+        <button mat-menu-item type="button" (click)="onLogout()">Cerrar sesion</button>
+      }
     </mat-menu>
   </div>
 </mat-toolbar>
