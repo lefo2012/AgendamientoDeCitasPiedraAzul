@@ -1,0 +1,22 @@
+<div class="export-dialog">
+  <div class="export-header">
+    <mat-icon class="export-icon">file_download</mat-icon>
+    <h2 mat-dialog-title class="export-title">Confirmar exportacion</h2>
+  </div>
+  <mat-dialog-content>
+    <div class="export-summary">
+      <span>Total de citas</span>
+      <strong>{{ data.appointmentCount }}</strong>
+    </div>
+    <p class="export-details">El archivo se descargara con el nombre segun los filtros aplicados.</p>
+    <mat-divider></mat-divider>
+    <p class="export-message">Deseas continuar con la descarga?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button mat-flat-button color="primary" (click)="onConfirm()">
+      <mat-icon>download</mat-icon>
+      Descargar
+    </button>
+  </mat-dialog-actions>
+</div>

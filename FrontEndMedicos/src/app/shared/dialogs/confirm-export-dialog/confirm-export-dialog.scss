@@ -1,0 +1,61 @@
+.export-dialog {
+  padding: 8px 0;
+}
+
+.export-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.export-icon {
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  color: var(--azul-medio);
+}
+
+.export-title {
+  margin: 0;
+  color: var(--azul-profundo);
+  font-size: 20px;
+}
+
+.export-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--fondo-suave);
+  border: 1px solid var(--gris-claro);
+  font-size: 13px;
+  color: var(--gris-oscuro);
+}
+
+.export-summary strong {
+  font-size: 18px;
+  color: var(--azul-oscuro);
+}
+
+.export-details {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--gris-oscuro);
+}
+
+.export-message {
+  margin: 12px 0 0;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}
+
+button[color="primary"] {
+  gap: 8px;
+}

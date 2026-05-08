@@ -14,9 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { finalize, Subscription } from 'rxjs';
 import { AppointmentSlotDto } from '../../models/AppointmentSlotDto';
 import { DoctorDto } from '../../models/DoctorDto';
@@ -24,6 +22,8 @@ import { IntervalDto } from '../../models/IntervalDto';
 import { IntervalListDto } from '../../models/IntervalListDto';
 import { PatientDto } from '../../models/PatientDto';
 import { ScheduleService } from '../../services/schedule.service';
+import { ConfirmAppointmentDialog } from '../../../../shared/dialogs/confirm-appointment-dialog/confirm-appointment-dialog';
+import { SuccessAppointmentDialog } from '../../../../shared/dialogs/success-appointment-dialog/success-appointment-dialog';
 
 @Component({
   selector: 'app-create-appointment',
@@ -42,8 +42,7 @@ import { ScheduleService } from '../../services/schedule.service';
     MatNativeDateModule,
     MatAutocompleteModule,
     MatProgressSpinnerModule,
-    MatDialogModule,
-    MatDividerModule
+    MatDialogModule
   ],
   templateUrl: './create-appointment.html',
   styleUrl: './create-appointment.scss'
@@ -564,212 +563,5 @@ export class CreateAppointment implements OnInit, OnDestroy {
       verticalPosition: 'top',
       panelClass,
     });
-  }
-}
-
-// Confirmation Dialog Component
-@Component({
-  selector: 'app-confirm-appointment-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, CommonModule, MatDividerModule, MatIconModule],
-  template: `
-    <div class="dialog-header">
-      <mat-icon class="dialog-icon">event_available</mat-icon>
-      <h2 mat-dialog-title class="dialog-title">Confirmar Agendamiento de Cita</h2>
-    </div>
-    <mat-dialog-content>
-      <div class="confirmation-details">
-        <div>
-          <span>Médico</span>
-          <strong>{{ data.doctorName }}</strong>
-        </div>
-        <div>
-          <span>Paciente</span>
-          <strong>{{ data.patientName }}</strong>
-        </div>
-        <div>
-          <span>Fecha</span>
-          <strong>{{ data.date }}</strong>
-        </div>
-        <div>
-          <span>Hora</span>
-          <strong>{{ data.time }}</strong>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-      <p class="confirmation-message">¿Deseas agendar esta cita con estos datos?</p>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()" cdkFocusInitial>Cancelar</button>
-      <button mat-flat-button color="primary" (click)="onConfirm()">Confirmar</button>
-    </mat-dialog-actions>
-  `,
-  styles: [`
-    .dialog-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 4px;
-    }
-    .dialog-icon {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
-      color: var(--azul-profundo);
-    }
-    .dialog-title {
-      margin: 0;
-      font-size: 20px;
-      color: var(--azul-profundo);
-    }
-    .confirmation-details {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px 16px;
-      padding: 16px;
-      background: var(--fondo-suave);
-      border-radius: 12px;
-      border: 1px solid var(--gris-claro);
-    }
-    .confirmation-details div {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 13px;
-      color: var(--gris-oscuro);
-    }
-    .confirmation-details strong {
-      font-size: 14px;
-      color: var(--azul-oscuro);
-    }
-    .confirmation-message {
-      margin: 16px 0 0;
-      text-align: center;
-      font-weight: 600;
-      color: var(--azul-oscuro);
-    }
-    @media (max-width: 480px) {
-      .confirmation-details {
-        grid-template-columns: 1fr;
-      }
-    }
-  `]
-})
-export class ConfirmAppointmentDialog {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private readonly dialogRef: MatDialogRef<ConfirmAppointmentDialog>
-  ) {}
-
-  onConfirm(): void {
-    this.dialogRef.close(true);
-  }
-
-  onCancel(): void {
-    this.dialogRef.close(false);
-  }
-}
-
-// Success Dialog Component
-@Component({
-  selector: 'app-success-appointment-dialog',
-  standalone: true,
-  imports: [MatButtonModule, MatDialogModule, CommonModule, MatIconModule, MatDividerModule],
-  template: `
-    <div class="success-dialog">
-      <div class="success-header">
-        <mat-icon class="success-icon">check_circle</mat-icon>
-        <h2 mat-dialog-title>¡Cita Agendada Exitosamente!</h2>
-      </div>
-      <mat-dialog-content>
-        <div class="success-details">
-          <div>
-            <span>Médico</span>
-            <strong>{{ data.doctorName }}</strong>
-          </div>
-          <div>
-            <span>Paciente</span>
-            <strong>{{ data.patientName }}</strong>
-          </div>
-          <div>
-            <span>Fecha</span>
-            <strong>{{ data.date }}</strong>
-          </div>
-          <div>
-            <span>Hora</span>
-            <strong>{{ data.time }}</strong>
-          </div>
-        </div>
-        <mat-divider></mat-divider>
-        <p class="success-message">La cita ha sido registrada correctamente en el sistema. El paciente y el médico recibirán una notificación.</p>
-      </mat-dialog-content>
-      <mat-dialog-actions align="center">
-        <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>Aceptar</button>
-      </mat-dialog-actions>
-    </div>
-  `,
-  styles: [`
-    .success-dialog {
-      padding: 8px 0;
-    }
-    .success-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 16px 0;
-    }
-    .success-icon {
-      font-size: 32px;
-      width: 32px;
-      height: 32px;
-      color: #4caf50;
-    }
-    .success-header h2 {
-      margin: 0;
-      color: #4caf50;
-      font-size: 20px;
-    }
-    .success-details {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px 16px;
-      padding: 16px;
-      background: rgba(76, 175, 80, 0.08);
-      border-radius: 12px;
-      border: 1px solid rgba(76, 175, 80, 0.3);
-    }
-    .success-details div {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 13px;
-      color: var(--gris-oscuro);
-    }
-    .success-details strong {
-      font-size: 14px;
-      color: var(--azul-oscuro);
-    }
-    .success-message {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 13px;
-      color: #666;
-    }
-    @media (max-width: 480px) {
-      .success-details {
-        grid-template-columns: 1fr;
-      }
-    }
-  `]
-})
-export class SuccessAppointmentDialog {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private readonly dialogRef: MatDialogRef<SuccessAppointmentDialog>
-  ) {}
-
-  onClose(): void {
-    this.dialogRef.close(true);
   }
 }
