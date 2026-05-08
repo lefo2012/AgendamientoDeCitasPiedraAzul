@@ -23,6 +23,10 @@ export class Navbar {
     return this.authService.isAuthenticated();
   }
 
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   onLogout(): void {
     this.authService.logout().subscribe({
       next: () => {

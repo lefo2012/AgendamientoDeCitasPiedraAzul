@@ -14,7 +14,7 @@ import { ReportService } from '../../services/report.service';
 import { AppointmentReportDto } from '../../models/AppointmentReportDto';
 import { ScheduleService } from '../../../appointments/services/schedule.service';
 import { FormsModule } from '@angular/forms';
-import { AppointmentButtons } from "../../../appointments/pages/appointment-buttons/appointment-buttons";
+import { AppointmentButtonsModule } from '../../../../shared/components/appointment-buttons/appointment-buttons.module';
 
 @Component({
   selector: 'app-appointment-table',
@@ -29,7 +29,7 @@ import { AppointmentButtons } from "../../../appointments/pages/appointment-butt
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    AppointmentButtons
+    AppointmentButtonsModule
 ],
   templateUrl: './appointment-table.html',
   styleUrls: ['./appointment-table.scss'],

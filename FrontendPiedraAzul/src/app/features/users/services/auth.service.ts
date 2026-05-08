@@ -2,7 +2,7 @@ import { computed, Inject, Injectable, PLATFORM_ID, signal } from '@angular/core
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, finalize, map, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { AuthConfig, AUTH_CONFIG } from './auth.config';
+import { AuthConfig, AUTH_CONFIG } from '../../../core/auth/auth.config';
 import { AuthTokenResponse } from '../models/AuthTokenResponse';
 import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
 import { RegisterRequest } from '../models/RegisterRequest';

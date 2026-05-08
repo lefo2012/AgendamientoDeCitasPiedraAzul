@@ -48,11 +48,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/appointments/pages/cancel-appointment/cancel-appointment').then((m) => m.CancelAppointment),
       },
-      {
-        path: 'header',
-        loadComponent: () =>
-          import('./layout/header/header').then((m) => m.Header),
-      },
     ],
   },
   {

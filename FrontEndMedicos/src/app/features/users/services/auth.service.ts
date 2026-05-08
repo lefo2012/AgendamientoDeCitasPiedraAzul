@@ -2,7 +2,7 @@ import { computed, Inject, Injectable, PLATFORM_ID, signal } from '@angular/core
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, catchError, finalize, map, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
-import { AuthConfig, AUTH_CONFIG } from './auth.config';
+import { AuthConfig, AUTH_CONFIG } from '../../../core/auth/auth.config';
 import { AuthTokenResponse } from '../models/AuthTokenResponse';
 import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
 import { RegisterRequest } from '../models/RegisterRequest';
@@ -32,6 +32,14 @@ export class AuthService {
   readonly refreshToken = this.refreshTokenSignal.asReadonly();
   readonly currentPatient = this.currentPatientSignal.asReadonly();
   readonly isAuthenticated = computed(() => !!this.accessTokenSignal());
+
+  // Public helper to check if current session has ADMIN role
+  isAdmin(): boolean {
+    const token = this.accessTokenSignal() ?? this.readStoredAccessToken();
+    if (!token) return false;
+    const roles = this.getRolesFromToken(token);
+    return roles.includes('ADMIN');
+  }
 
   constructor(
     private http: HttpClient,
