@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100%;
+  min-height: calc(100vh - 9rem);
+  background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
 }
 
 .appointment-table {

@@ -1,5 +1,7 @@
 :host {
   display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
 }
 
 .create-appointment-page {

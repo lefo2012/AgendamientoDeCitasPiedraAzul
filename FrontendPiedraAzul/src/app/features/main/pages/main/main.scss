@@ -1,3 +1,7 @@
+:host {
+    background: transparent;
+}
+
 .welcome-section {
     padding: 0 clamp(1rem, 3vw, 2.5rem) 0 0;
     background-color: var(--fondo-suave);

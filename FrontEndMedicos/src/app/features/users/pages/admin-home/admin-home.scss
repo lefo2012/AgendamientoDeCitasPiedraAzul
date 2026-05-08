@@ -1,11 +1,12 @@
 :host {
 	display: block;
+	background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
 }
 
 .admin-home-page {
 	min-height: calc(100vh - 88px);
 	padding: clamp(1rem, 3vw, 2rem);
-	background: linear-gradient(145deg, #e7f0f6 0%, #d4e6f1 55%, #bdd9ea 100%);
+	background: transparent;
 }
 
 .admin-home-wrapper {

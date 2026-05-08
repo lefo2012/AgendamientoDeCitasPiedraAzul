@@ -6,13 +6,22 @@
 
 main {
 	flex: 1;
-	display: block;
+	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
+	/* Gradient background visible behind the semi-transparent navbar */
+	background: linear-gradient(180deg, var(--fondo-suave) 10%, var(--azul-profundo) 80%);
+}
+
+/* Spacer that doesn't affect content position */
+main::before {
+	content: '';
+	height: 5rem;
+	flex-shrink: 0;
+	order: -1;
 }
 
 .main-content {
-	padding-top: 5rem;
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -26,8 +35,11 @@ main {
 }
 
 @media (max-width: 768px) {
+	main::before {
+		height: 7.5rem;
+	}
+
 	.main-content {
-		padding-top: 7.5rem;
 		min-height: calc(100vh - 7.5rem);
 	}
 }
