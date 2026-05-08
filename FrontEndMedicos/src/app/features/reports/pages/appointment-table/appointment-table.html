@@ -19,7 +19,14 @@
     </mat-form-field>
 
     <div class="filter-buttons">
-      <button mat-stroked-button color="accent" type="button" (click)="resetFilters()">Mostrar todos</button>
+      <button mat-stroked-button color="accent" type="button" (click)="showAppointmentsForToday()">
+        <mat-icon>today</mat-icon>
+        Mostrar citas hoy
+      </button>
+      <button mat-stroked-button color="accent" type="button" (click)="resetFilters()">
+        <mat-icon>refresh</mat-icon>
+        Mostrar todos
+      </button>
     </div>
   </div>
 

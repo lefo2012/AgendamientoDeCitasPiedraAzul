@@ -188,29 +188,17 @@ export class ConfigureScheduleDoctor implements OnInit {
    */
   saveSchedule(): void {
     if (this.scheduleForm.invalid || !this.isDaySelectionValid()) {
-      this.snackBar.open('Por favor completa todos los campos', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('Por favor completa todos los campos', 'error');
       return;
     }
 
     if (!this.validateTimeRange()) {
-      this.snackBar.open('La hora de cierre debe ser posterior a la hora de inicio', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('La hora de cierre debe ser posterior a la hora de inicio', 'error');
       return;
     }
 
     if (!this.validateSecondTimeRange()) {
-      this.snackBar.open('Verifica la segunda franja horaria: debe ser válida y posterior a la primera', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('Verifica la segunda franja horaria: debe ser válida y posterior a la primera', 'error');
       return;
     }
 
@@ -223,11 +211,7 @@ export class ConfigureScheduleDoctor implements OnInit {
     if (!doctorId) {
       this.isLoading = false;
       this.cdr.markForCheck();
-      this.snackBar.open('No se pudo identificar el medico para configurar el horario.', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('No se pudo identificar el medico para configurar el horario.', 'error');
       return;
     }
 
@@ -254,20 +238,12 @@ export class ConfigureScheduleDoctor implements OnInit {
       )
       .subscribe({
       next: () => {
-        this.snackBar.open('¡Horario configurado exitosamente!', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
+        this.openSnackBar('¡Horario configurado exitosamente!', 'success');
         this.router.navigate(['/admin']);
       },
       error: (error) => {
         console.error('Error al guardar el horario:', error);
-        this.snackBar.open('Error al guardar la configuración. Intenta de nuevo.', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
+        this.openSnackBar('Error al guardar la configuración. Intenta de nuevo.', 'error');
       }
     });
   }
@@ -322,5 +298,23 @@ export class ConfigureScheduleDoctor implements OnInit {
     const firstEndTotalMinutes = (firstEndHour * 60) + firstEndMinute;
 
     return secondStartTotalMinutes > firstEndTotalMinutes;
+  }
+
+  private openSnackBar(message: string, type: 'success' | 'error' | 'info'): void {
+    const panelClass = ['app-snackbar'];
+    if (type === 'success') {
+      panelClass.push('app-snackbar-success');
+    } else if (type === 'error') {
+      panelClass.push('app-snackbar-error');
+    } else {
+      panelClass.push('app-snackbar-info');
+    }
+
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 4500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass,
+    });
   }
 }

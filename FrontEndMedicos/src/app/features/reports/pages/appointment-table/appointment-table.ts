@@ -8,6 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 import { Subscription } from 'rxjs';
 import { DoctorDto } from '../../../appointments/models/DoctorDto';
 import { ReportService } from '../../services/report.service';
@@ -29,6 +32,9 @@ import { AppointmentButtonsModule } from '../../../../shared/components/appointm
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatDialogModule,
+    MatIconModule,
+    MatDividerModule,
     AppointmentButtonsModule
 ],
   templateUrl: './appointment-table.html',
@@ -52,7 +58,8 @@ export class AppointmentTable implements OnInit, OnDestroy {
     private readonly reportService: ReportService,
     private readonly scheduleService: ScheduleService,
     private readonly snackBar: MatSnackBar,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -209,12 +216,36 @@ export class AppointmentTable implements OnInit, OnDestroy {
     }, 0);
   }
 
+  showAppointmentsForToday(): void {
+    const today = new Date();
+    this.selectedAppointmentDate = today;
+    this.selectedDoctorId = null;
+    this.dateInputRef?.nativeElement.blur();
+    this.queueSearch();
+  }
+
   exportCurrentResultsToCsv(): void {
     if (!this.appointments.length) {
       this.snackBar.open('No hay citas para exportar.', 'Cerrar', { duration: 3000 });
       return;
     }
 
+    const dialogRef = this.dialog.open(ConfirmExportDialog, {
+      width: '400px',
+      disableClose: false,
+      data: {
+        appointmentCount: this.appointments.length
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.performCsvExport();
+      }
+    });
+  }
+
+  private performCsvExport(): void {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
@@ -266,5 +297,104 @@ export class AppointmentTable implements OnInit, OnDestroy {
       : 'todas-las-fechas';
 
     return `reporte-citas-${doctorSegment}-${dateSegment}.csv`;
+  }
+}
+
+// Confirm Export Dialog Component
+@Component({
+  selector: 'app-confirm-export-dialog',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogModule, CommonModule, MatDividerModule, MatIconModule],
+  template: `
+    <div class="export-dialog">
+      <div class="export-header">
+        <mat-icon class="export-icon">file_download</mat-icon>
+        <h2 mat-dialog-title class="export-title">Confirmar Exportación</h2>
+      </div>
+      <mat-dialog-content>
+        <div class="export-summary">
+          <span>Total de citas</span>
+          <strong>{{ data.appointmentCount }}</strong>
+        </div>
+        <p class="export-details">El archivo se descargará con el nombre segun los filtros aplicados.</p>
+        <mat-divider></mat-divider>
+        <p class="export-message">¿Deseas continuar con la descarga?</p>
+      </mat-dialog-content>
+      <mat-dialog-actions align="end">
+        <button mat-button (click)="onCancel()">Cancelar</button>
+        <button mat-flat-button color="primary" (click)="onConfirm()">
+          <mat-icon>download</mat-icon>
+          Descargar
+        </button>
+      </mat-dialog-actions>
+    </div>
+  `,
+  styles: [`
+    .export-dialog {
+      padding: 8px 0;
+    }
+    .export-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .export-icon {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: var(--azul-medio);
+    }
+    .export-title {
+      margin: 0;
+      color: var(--azul-profundo);
+      font-size: 20px;
+    }
+    .export-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: var(--fondo-suave);
+      border: 1px solid var(--gris-claro);
+      font-size: 13px;
+      color: var(--gris-oscuro);
+    }
+    .export-summary strong {
+      font-size: 18px;
+      color: var(--azul-oscuro);
+    }
+    .export-details {
+      margin: 0 0 12px;
+      font-size: 13px;
+      color: var(--gris-oscuro);
+    }
+    .export-message {
+      margin: 12px 0 0;
+      font-weight: 600;
+      color: var(--azul-oscuro);
+    }
+    mat-dialog-actions {
+      gap: 8px;
+    }
+    button[color="primary"] {
+      gap: 8px;
+    }
+  `]
+})
+export class ConfirmExportDialog {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private readonly dialogRef: MatDialogRef<ConfirmExportDialog>
+  ) {}
+
+  onConfirm(): void {
+    this.dialogRef.close(true);
+  }
+
+  onCancel(): void {
+    this.dialogRef.close(false);
   }
 }
