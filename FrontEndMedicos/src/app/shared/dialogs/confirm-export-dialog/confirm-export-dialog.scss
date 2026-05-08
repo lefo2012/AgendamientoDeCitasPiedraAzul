@@ -1,54 +1,39 @@
 .export-dialog {
-  padding: 8px 0;
+  padding: 8px 8px 8px 8px;
 }
 
 .export-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 0;
+  padding: 8px 16px;
 }
 
 .export-icon {
   font-size: 28px;
   width: 28px;
   height: 28px;
-  color: var(--azul-medio);
+  color: var(--azul-profundo);
+  padding-left: 0.25rem;
+  padding-top: 0.3rem;
 }
 
 .export-title {
   margin: 0;
   color: var(--azul-profundo);
-  font-size: 20px;
-}
-
-.export-summary {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 8px 0 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--fondo-suave);
-  border: 1px solid var(--gris-claro);
-  font-size: 13px;
-  color: var(--gris-oscuro);
-}
-
-.export-summary strong {
-  font-size: 18px;
-  color: var(--azul-oscuro);
+  font-size: 25px;
+  font-weight: 800;
 }
 
 .export-details {
   margin: 0 0 12px;
-  font-size: 13px;
+  font-size: 18px;
   color: var(--gris-oscuro);
 }
 
 .export-message {
   margin: 12px 0 0;
-  font-weight: 600;
+  font-weight: 1000;
   color: var(--azul-oscuro);
 }
 

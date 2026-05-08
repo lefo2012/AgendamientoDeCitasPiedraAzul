@@ -1,5 +1,5 @@
 .success-dialog {
-  padding: 8px 0;
+  padding: 8px 8px 8px 8px;
 }
 
 .success-header {
@@ -7,20 +7,23 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 16px 0;
+  padding: 16px 8px;
 }
 
 .success-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+  font-size: 28px;
+  width: 30px;
+  height: 30px;
   color: #4caf50;
+  padding-left: 0.25rem;
+  padding-top: 0.3rem;
 }
 
-.success-header h2 {
+.success-title {
   margin: 0;
-  color: #4caf50;
-  font-size: 20px;
+  color: var(--azul-profundo);
+  font-size: 25px;
+  font-weight: 800;
 }
 
 .success-details {
@@ -28,33 +31,27 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px 16px;
   padding: 16px;
-  background: rgba(76, 175, 80, 0.08);
+  background: var(--fondo-suave);
   border-radius: 12px;
-  border: 1px solid rgba(76, 175, 80, 0.3);
+  border: 1px solid var(--gris-claro);
 }
 
 .success-details div {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  font-size: 13px;
+  font-size: 18px;
   color: var(--gris-oscuro);
 }
 
 .success-details strong {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--azul-oscuro);
 }
 
 .success-message {
   margin-top: 16px;
   text-align: center;
-  font-size: 13px;
-  color: #666;
-}
-
-@media (max-width: 480px) {
-  .success-details {
-    grid-template-columns: 1fr;
-  }
+  font-size: 16px;
+  color: var(--gris-oscuro);
 }

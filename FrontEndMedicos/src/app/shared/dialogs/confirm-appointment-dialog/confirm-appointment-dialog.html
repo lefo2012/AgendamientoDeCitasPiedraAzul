@@ -1,30 +1,32 @@
-<div class="dialog-header">
-  <mat-icon class="dialog-icon">event_available</mat-icon>
-  <h2 mat-dialog-title class="dialog-title">Confirmar Agendamiento de Cita</h2>
-</div>
-<mat-dialog-content>
-  <div class="confirmation-details">
-    <div>
-      <span>Medico</span>
-      <strong>{{ data.doctorName }}</strong>
-    </div>
-    <div>
-      <span>Paciente</span>
-      <strong>{{ data.patientName }}</strong>
-    </div>
-    <div>
-      <span>Fecha</span>
-      <strong>{{ data.date }}</strong>
-    </div>
-    <div>
-      <span>Hora</span>
-      <strong>{{ data.time }}</strong>
-    </div>
+<div class="confirm-dialog">
+  <div class="dialog-header">
+    <mat-icon class="dialog-icon">event_available</mat-icon>
+    <h2 mat-dialog-title class="dialog-title">Confirmar Cita</h2>
   </div>
-  <mat-divider></mat-divider>
-  <p class="confirmation-message">Deseas agendar esta cita con estos datos?</p>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="onCancel()" cdkFocusInitial>Cancelar</button>
-  <button mat-flat-button color="primary" (click)="onConfirm()">Confirmar</button>
-</mat-dialog-actions>
+  <mat-dialog-content>
+    <div class="confirmation-details">
+      <div>
+        <span>Medico</span>
+        <strong>{{ data.doctorName }}</strong>
+      </div>
+      <div>
+        <span>Paciente</span>
+        <strong>{{ data.patientName }}</strong>
+      </div>
+      <div>
+        <span>Fecha</span>
+        <strong>{{ data.date }}</strong>
+      </div>
+      <div>
+        <span>Hora</span>
+        <strong>{{ data.time }}</strong>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <p class="confirmation-message">Deseas agendar esta cita con estos datos?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" cdkFocusInitial>Cancelar</button>
+    <button mat-flat-button color="primary" (click)="onConfirm()">Confirmar</button>
+  </mat-dialog-actions>
+</div>
