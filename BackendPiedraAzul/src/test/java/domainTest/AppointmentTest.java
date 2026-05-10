@@ -314,6 +314,77 @@ public class AppointmentTest {
     }
 
     @Test
+    void scheduleAppointmentWhenPatientPendingListIsNullTest() throws Exception {
+        Doctor doctor = buildDoctorWithMondayAvailability();
+        Patient patient = new Patient();
+        patient.setPendingAppointments(null);
+        LocalDate nextMonday = nextWorkingMonday(doctor.getSchedule());
+
+        Appointment appointment = new Appointment(
+                doctor,
+                nextMonday,
+                new Interval(LocalTime.of(10, 0), LocalTime.of(11, 0)),
+                patient
+        );
+
+        assertNotNull(patient.getPendingAppointments());
+        assertEquals(1, patient.getPendingAppointments().size());
+        assertTrue(patient.getPendingAppointments().contains(appointment));
+        assertEquals(1, patient.getAppointmentCount());
+    }
+
+    @Test
+    void scheduleAppointmentsOnDifferentMondaysTest() throws Exception {
+        Doctor doctor = buildDoctorWithMondayAvailability();
+        Patient patient = new Patient();
+
+        LocalDate firstMonday = nextWorkingMonday(doctor.getSchedule());
+        LocalDate secondMonday = firstMonday.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        while (doctor.getSchedule().getHolidays().contains(secondMonday)) {
+            secondMonday = secondMonday.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        }
+
+        Appointment firstAppointment = new Appointment(
+                doctor,
+                firstMonday,
+                new Interval(LocalTime.of(11, 0), LocalTime.of(12, 0)),
+                patient
+        );
+
+        Appointment secondAppointment = new Appointment(
+                doctor,
+                secondMonday,
+                new Interval(LocalTime.of(11, 0), LocalTime.of(12, 0)),
+                patient
+        );
+
+        assertEquals(2, doctor.getScheduledAppointments().size());
+        assertTrue(doctor.getScheduledAppointments().contains(firstAppointment));
+        assertTrue(doctor.getScheduledAppointments().contains(secondAppointment));
+        assertEquals(2, patient.getPendingAppointments().size());
+        assertEquals(2, patient.getAppointmentCount());
+    }
+
+    @Test
+    void failedCreationKeepsPatientCountUnchangedTest() throws Exception {
+        Doctor doctor = buildDoctorWithMondayAvailability();
+        Patient patient = new Patient();
+        LocalDate nextMonday = nextWorkingMonday(doctor.getSchedule());
+
+        new Appointment(doctor, nextMonday, new Interval(LocalTime.of(9, 0), LocalTime.of(10, 0)), patient);
+        assertEquals(1, patient.getAppointmentCount());
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Appointment(doctor, nextMonday, new Interval(LocalTime.of(9, 30), LocalTime.of(10, 30)), patient)
+        );
+
+        assertEquals(1, patient.getAppointmentCount());
+        assertEquals(1, patient.getPendingAppointments().size());
+        assertEquals(1, doctor.getScheduledAppointments().size());
+    }
+
+    @Test
     void doctorWithoutScheduleTest() {
         Doctor doctor = new Doctor(); // Sin schedule
         Patient patient = new Patient();
