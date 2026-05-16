@@ -65,5 +65,30 @@ public class AppointmentReportService implements IAppointmentReportService{
 
     }
 
+    @Override
+    public String convertToCSV(Long doctorId, LocalDate date) throws Exception {
+        StringBuilder csv = new StringBuilder();
+        csv.append("Doctor;Fecha;Horario;Paciente\r\n");
+        List<AppointmentReport> reports = getAppointmentsReportByDateAndDoctor(doctorId, date);
+        for (AppointmentReport report : reports) {
+            csv.append(escapeCSVCell(report.getDoctorName())).append(";")
+                    .append(escapeCSVCell(report.getDate())).append(";")
+                    .append(escapeCSVCell(report.getAppointmentInterval())).append(";")
+                    .append(escapeCSVCell(report.getPatientName())).append("\r\n");
+        }
+        return csv.toString();
+
+    }
+
+    private String escapeCSVCell(String cell) {
+        if (cell == null) {
+            return "";
+        }
+        if (cell.contains("\"") || cell.contains(";") || cell.contains("\n") || cell.contains("\r")) {
+            return "\"" + cell.replace("\"", "\"\"") + "\"";
+        }
+
+        return cell;
+    }
 }
 

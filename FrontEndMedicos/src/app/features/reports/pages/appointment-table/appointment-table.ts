@@ -248,37 +248,24 @@ export class AppointmentTable implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    this.reportService.exportAppointmentsCsv().subscribe({
+      next: (csvBlob) => {
+        const url = window.URL.createObjectURL(csvBlob);
+        const anchor = document.createElement('a');
 
-    const headers = ['Doctor', 'Fecha', 'Horario', 'Paciente'];
-    const rows = this.appointments.map((appointment) => [
-      appointment.doctorName,
-      appointment.date,
-      appointment.appointmentInterval,
-      appointment.patientName,
-    ]);
+        anchor.href = url;
+        anchor.download = this.buildCsvFileName();
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        window.URL.revokeObjectURL(url);
 
-    const csvBody = [headers, ...rows]
-      .map((row) => row.map((cell) => this.escapeCsvCell(cell)).join(';'))
-      .join('\r\n');
-
-    const csvWithBom = `\uFEFF${csvBody}`;
-    const blob = new Blob([csvWithBom], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-
-    anchor.href = url;
-    anchor.download = this.buildCsvFileName();
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
-    window.URL.revokeObjectURL(url);
-
-    this.snackBar.open('CSV exportado correctamente.', 'Cerrar', { duration: 2500 });
-  }
-
-  private escapeCsvCell(value: string): string {
-    const normalizedValue = `${value ?? ''}`.replace(/"/g, '""');
-    return `"${normalizedValue}"`;
+        this.snackBar.open('CSV exportado correctamente.', 'Cerrar', { duration: 2500 });
+      },
+      error: () => {
+        this.snackBar.open('No se pudo exportar el CSV.', 'Cerrar', { duration: 3000 });
+      }
+    });
   }
 
   private buildCsvFileName(): string {

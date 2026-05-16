@@ -30,4 +30,10 @@ export class ReportService {
   getAllAppointments(): Observable<AppointmentReportDto[]> {
     return this.http.get<AppointmentReportDto[]>(`${this.apiUrl}/appointmentsReport`);
   }
+
+  exportAppointmentsCsv(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/exportCSVAppointments`, {
+      responseType: 'blob'
+    });
+  }
 }
