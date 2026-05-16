@@ -2,12 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReserveAppointmentDto } from '../models/ReserveAppointmentDto';
+import { getAppEnv } from '../../../core/config/app-env';
+
+const env = getAppEnv();
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-  private appointmentsApi = '/api/appointments';
+  private appointmentsApi = env.API_APPOINTMENTS;
 
   constructor(private http: HttpClient) {}
 

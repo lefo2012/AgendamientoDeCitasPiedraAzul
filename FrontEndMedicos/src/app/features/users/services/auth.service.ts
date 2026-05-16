@@ -363,7 +363,7 @@ export class AuthService {
   }
 
   private fetchCurrentPatient(accessToken: string): Observable<CurrentPatient> {
-    return this.http.get<CurrentPatient>('/api/auth/getDoctorByToken', {
+    return this.http.get<CurrentPatient>(`${this.config.authApi}/getDoctorByToken`, {
       headers: new HttpHeaders({
         Authorization: `Bearer ${accessToken}`
       })

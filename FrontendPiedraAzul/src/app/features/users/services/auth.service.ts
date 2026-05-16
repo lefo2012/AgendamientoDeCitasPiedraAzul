@@ -303,7 +303,7 @@ export class AuthService {
   }
 
   private fetchCurrentPatient(accessToken: string): Observable<CurrentPatient> {
-    return this.http.get<CurrentPatient>('/api/auth/getPatientByToken', {
+    return this.http.get<CurrentPatient>(`${this.config.authApi}/getPatientByToken`, {
       headers: new HttpHeaders({
         Authorization: `Bearer ${accessToken}`
       })

@@ -11,6 +11,11 @@ const env = envResult.parsed || {};
 
 const allowedKeys = [
   'BACKEND_API',
+  'API_USERS',
+  'API_APPOINTMENTS',
+  'API_DOCTOR',
+  'API_REPORTS',
+  'API_AUTH',
   'KEYCLOAK_TOKEN_URL',
   'KEYCLOAK_CLIENT_ID',
   'KEYCLOAK_CLIENT_SECRET'

@@ -3,13 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DoctorSchedule } from '../models/DoctorSchedule';
 import { DoctorDto } from '../models/DoctorDto';
+import { getAppEnv } from '../../../core/config/app-env';
+
+const env = getAppEnv();
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
-  private apiUrl = '/api/doctor';
-  private usersApi = '/api/users';
+  private apiUrl = env.API_DOCTOR;
+  private usersApi = env.API_USERS;
 
   constructor(private http: HttpClient) {}
 
