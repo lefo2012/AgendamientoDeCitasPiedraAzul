@@ -10,7 +10,7 @@ export class ReportService {
 
   private apiUrl = '/api/reports';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getAppointmentsByDoctorAndDate(
     doctorId: number,
@@ -31,8 +31,19 @@ export class ReportService {
     return this.http.get<AppointmentReportDto[]>(`${this.apiUrl}/appointmentsReport`);
   }
 
-  exportAppointmentsCsv(): Observable<Blob> {
+  exportAppointmentsCsv(doctorId: number | null, appointmentDate: string): Observable<Blob> {
+    const params: Record<string, string> = {
+      appointmentDate
+    };
+
+    if (doctorId !== null) {
+      params['doctorId'] = String(doctorId);
+    } else {
+      params['doctorId'] = '';
+    }
+
     return this.http.get(`${this.apiUrl}/exportCSVAppointments`, {
+      params,
       responseType: 'blob'
     });
   }

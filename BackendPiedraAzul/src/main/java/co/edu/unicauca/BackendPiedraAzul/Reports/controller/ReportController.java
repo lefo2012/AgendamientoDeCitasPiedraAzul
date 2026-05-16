@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ReportController {
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     @GetMapping("/exportCSVAppointments")
     public ResponseEntity<?> getAppointmentsReportByDoctorAndDate(
-            @RequestParam("doctorId") Long doctorId,
+            @RequestParam(value = "doctorId", required = false) Long doctorId,
             @RequestParam("appointmentDate")
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate
     ) {
@@ -69,11 +70,16 @@ public class ReportController {
             String csv = appointmentReportService.convertToCSV(doctorId, appointmentDate);
 
             byte[] csvBytes = csv.getBytes(StandardCharsets.UTF_8);
+            byte[] bom = new byte[] {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            outputStream.write(bom);
+            outputStream.write(csvBytes);
+            byte[] responseBytes = outputStream.toByteArray();
 
             return ResponseEntity.ok()
                     .header("Content-Disposition", "attachment; filename=ListaCitas"+appointmentDate+".csv")
-                    .header("Content-Type", "text/csv;charset=UTF-8")
-                    .body(csvBytes);
+                    .header("Content-Type", "text/csv; charset=UTF-8")
+                    .body(responseBytes);
         }catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body("{\"error\":\"Error exporting report for doctor with id: "

@@ -248,7 +248,15 @@ export class AppointmentTable implements OnInit, OnDestroy {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.reportService.exportAppointmentsCsv().subscribe({
+    const exportDate = this.selectedAppointmentDate ?? new Date();
+    const formattedDate = this.formatDateToIso(exportDate);
+
+    if (!formattedDate) {
+      this.snackBar.open('No se pudo determinar la fecha para exportar.', 'Cerrar', { duration: 3000 });
+      return;
+    }
+
+    this.reportService.exportAppointmentsCsv(this.selectedDoctorId, formattedDate).subscribe({
       next: (csvBlob) => {
         const url = window.URL.createObjectURL(csvBlob);
         const anchor = document.createElement('a');
@@ -275,13 +283,10 @@ export class AppointmentTable implements OnInit, OnDestroy {
     const doctorSegment = selectedDoctor
       ? `${selectedDoctor.firstName}-${selectedDoctor.lastName}`
           .trim()
-          .toLowerCase()
           .replace(/\s+/g, '-')
-      : 'todos-los-medicos';
-    const dateSegment = this.selectedAppointmentDate
-      ? this.formatDateToIso(this.selectedAppointmentDate)
-      : 'todas-las-fechas';
+      : 'Todos-Los-Doctores';
+    const dateSegment = this.formatDateToIso(this.selectedAppointmentDate ?? new Date());
 
-    return `reporte-citas-${doctorSegment}-${dateSegment}.csv`;
+    return `Lista-Citas-${doctorSegment}-${dateSegment}.csv`;
   }
 }

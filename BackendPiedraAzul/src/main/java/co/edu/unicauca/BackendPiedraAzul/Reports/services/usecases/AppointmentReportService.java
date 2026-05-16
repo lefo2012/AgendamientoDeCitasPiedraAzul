@@ -7,6 +7,7 @@ import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,12 @@ public class AppointmentReportService implements IAppointmentReportService{
     }
 
     @Override
+    public List<AppointmentReport> getAppointmentsReportByDate(LocalDate date) throws Exception {
+        List<Appointment> appointments = appointmentService.getAllAppointmentsByDate(date);
+        return convertInAppointmentReportDTO(appointments);
+    }
+
+    @Override
     public List<AppointmentReport> getAllAppointmentsReport() throws Exception{
         List<Appointment> appointments = appointmentService.getAllAppointments();
         return convertInAppointmentReportDTO(appointments);
@@ -69,7 +76,14 @@ public class AppointmentReportService implements IAppointmentReportService{
     public String convertToCSV(Long doctorId, LocalDate date) throws Exception {
         StringBuilder csv = new StringBuilder();
         csv.append("Doctor;Fecha;Horario;Paciente\r\n");
-        List<AppointmentReport> reports = getAppointmentsReportByDateAndDoctor(doctorId, date);
+
+        List<AppointmentReport> reports;
+        if (doctorId == null){
+            reports = getAppointmentsReportByDate(date);
+        }else{
+            reports = getAppointmentsReportByDateAndDoctor(doctorId, date);
+        }
+
         for (AppointmentReport report : reports) {
             csv.append(escapeCSVCell(report.getDoctorName())).append(";")
                     .append(escapeCSVCell(report.getDate())).append(";")

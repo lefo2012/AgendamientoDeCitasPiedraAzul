@@ -54,15 +54,11 @@ public class DoctorService implements IDoctorService {
         if (doctor == null) {
             throw new Exception("Doctor not found");
         }
-        LocalDate today = LocalDate.now();
 
         List<Appointment> sourceAppointments;
 
-        if (date.isBefore(today)) {
-            sourceAppointments = doctor.getAttendedAppointments();
-        } else {
-            sourceAppointments = doctor.getScheduledAppointments();
-        }
+        sourceAppointments = doctor.getScheduledAppointments();
+        sourceAppointments.addAll(doctor.getAttendedAppointments());
 
         return sourceAppointments.stream()
                 .filter(app -> app.getAppointmentDate().isEqual(date))

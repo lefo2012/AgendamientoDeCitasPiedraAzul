@@ -15,6 +15,8 @@ import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPers
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -103,4 +105,11 @@ public class AppointmentService implements IAppointmentService {
          return appointments;
     }
 
+    @Override
+    public List<Appointment> getAllAppointmentsByDate(LocalDate date)throws Exception{
+        List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+        return appointments.stream()
+                .filter(app -> app.getAppointmentDate().isEqual(date))
+                .toList();
+    }
 }

@@ -4,6 +4,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.AppointmentDTO;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.dto.ReserveAppointmentDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IAppointmentService {
@@ -12,5 +13,6 @@ public interface IAppointmentService {
     List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception;
     List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception;
     List<Appointment> getAllAppointments()throws Exception;
+    List<Appointment> getAllAppointmentsByDate(LocalDate date)throws Exception;
     void cancelAppointment(Long appointmentId) throws Exception;
 }
