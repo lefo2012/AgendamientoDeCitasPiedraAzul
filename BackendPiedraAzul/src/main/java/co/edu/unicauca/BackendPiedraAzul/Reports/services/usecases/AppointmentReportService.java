@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppoint
 import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
+import java.nio.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -62,8 +63,32 @@ public class AppointmentReportService implements IAppointmentReportService{
     public List<AppointmentReport> getAllAppointmentsReport() throws Exception{
         List<Appointment> appointments = appointmentService.getAllAppointments();
         return convertInAppointmentReportDTO(appointments);
+    }
+
+    @Override
+    public String convertToCSV(Long doctorId, LocalDate date) throws Exception {
+        StringBuilder csv = new StringBuilder();
+        csv.append("Doctor;Fecha;Horario;Paciente\r\n");
+        List<AppointmentReport> reports = getAppointmentsReportByDateAndDoctor(doctorId, date);
+        for (AppointmentReport report : reports) {
+            csv.append(escapeCSVCell(report.getDoctorName())).append(";")
+                    .append(escapeCSVCell(report.getDate())).append(";")
+                    .append(escapeCSVCell(report.getAppointmentInterval())).append(";")
+                    .append(escapeCSVCell(report.getPatientName())).append("\r\n");
+        }
+        return csv.toString();
 
     }
 
+    private String escapeCSVCell(String cell) {
+        if (cell == null) {
+            return "";
+        }
+        if (cell.contains("\"") || cell.contains(";") || cell.contains("\n") || cell.contains("\r")) {
+            return "\"" + cell.replace("\"", "\"\"") + "\"";
+        }
+
+        return cell;
+    }
 }
 
