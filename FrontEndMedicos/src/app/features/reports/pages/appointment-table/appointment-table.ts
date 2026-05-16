@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { DoctorDto } from '../../../appointments/models/DoctorDto';
 import { ReportService } from '../../services/report.service';
 import { AppointmentReportDto } from '../../models/AppointmentReportDto';
-import { ScheduleService } from '../../../appointments/services/schedule.service';
+import { DoctorService } from '../../../appointments/services/doctor.service';
 import { FormsModule } from '@angular/forms';
 import { AppointmentButtonsModule } from '../../../../shared/components/appointment-buttons/appointment-buttons.module';
 import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-dialog/confirm-export-dialog';
@@ -55,7 +55,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly reportService: ReportService,
-    private readonly scheduleService: ScheduleService,
+    private readonly doctorService: DoctorService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
     private readonly dialog: MatDialog
@@ -77,7 +77,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
   }
 
   loadDoctors(): void {
-    this.scheduleService.getAllDoctors().subscribe({
+    this.doctorService.getAllDoctors().subscribe({
       next: (doctors) => (this.doctors = doctors),
       
       error: () => {

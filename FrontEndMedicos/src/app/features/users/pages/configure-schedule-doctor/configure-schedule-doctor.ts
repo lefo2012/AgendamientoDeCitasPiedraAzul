@@ -20,7 +20,7 @@ import { DayOfWeekDto } from '../../../appointments/models/DayOfWeekDto';
 import { DoctorSchedule } from '../../../appointments/models/DoctorSchedule';
 import { IntervalDto } from '../../../appointments/models/IntervalDto';
 import { IntervalListDto } from '../../../appointments/models/IntervalListDto';
-import { ScheduleService } from '../../../appointments/services/schedule.service';
+import { DoctorService } from '../../../appointments/services/doctor.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 
@@ -52,7 +52,6 @@ interface DaySelection {
     HttpClientModule
   ],
   providers: [
-    ScheduleService,
     { provide: MAT_DATE_LOCALE, useValue: 'es-CO' }
   ],
   templateUrl: './configure-schedule-doctor.html',
@@ -76,7 +75,7 @@ export class ConfigureScheduleDoctor implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private scheduleService: ScheduleService,
+    private doctorService: DoctorService,
     private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -228,7 +227,7 @@ export class ConfigureScheduleDoctor implements OnInit {
       year: formValue.year,
     };
 
-    this.scheduleService.saveDoctorSchedule(doctorId, scheduleData)
+    this.doctorService.saveDoctorSchedule(doctorId, scheduleData)
       .pipe(
         observeOn(asyncScheduler),
         finalize(() => {

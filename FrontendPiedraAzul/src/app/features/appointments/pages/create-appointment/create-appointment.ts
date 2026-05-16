@@ -10,6 +10,7 @@ import { MatButton } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { AppointmentService } from '../../services/appointment.service';
+import { DoctorService } from '../../services/doctor.service';
 import { DoctorDto } from '../../models/DoctorDto';
 import { IntervalDto } from '../../models/IntervalDto';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -125,7 +126,9 @@ export class CreateAppointment{
   intervals: any[] = [];
   dates: string[] = [];
 
-  constructor(private readonly appointmentService:AppointmentService,  
+  constructor(
+    private readonly appointmentService: AppointmentService,
+    private readonly doctorService: DoctorService,
     private fb: FormBuilder,
     private readonly authService: AuthService,
     @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null,
@@ -181,7 +184,7 @@ export class CreateAppointment{
   panelY = 0;
 
   onSpecialityChange() {
-    this.appointmentService.getDoctorsBySpeciality(this.specialitySelected.value).subscribe((doctors) => {
+    this.doctorService.getDoctorsBySpeciality(this.specialitySelected.value).subscribe((doctors) => {
       this.doctors = doctors;
     })  
     

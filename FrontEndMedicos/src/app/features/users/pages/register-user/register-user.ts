@@ -28,7 +28,7 @@ import { GENDER_OPTIONS } from '../../models/GenderEnum';
     MatSelectModule
   ]
 })
-export class RegisterDoctor {
+export class RegisterUser {
   registerForm: FormGroup;
   formError = '';
   submitted = false;

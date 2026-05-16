@@ -21,7 +21,9 @@ import { DoctorDto } from '../../models/DoctorDto';
 import { IntervalDto } from '../../models/IntervalDto';
 import { IntervalListDto } from '../../models/IntervalListDto';
 import { PatientDto } from '../../models/PatientDto';
-import { ScheduleService } from '../../services/schedule.service';
+import { AppointmentService } from '../../services/appointment.service';
+import { DoctorService } from '../../services/doctor.service';
+import { PatientService } from '../../services/patient.service';
 import { ConfirmAppointmentDialog } from '../../../../shared/dialogs/confirm-appointment-dialog/confirm-appointment-dialog';
 import { SuccessAppointmentDialog } from '../../../../shared/dialogs/success-appointment-dialog/success-appointment-dialog';
 
@@ -72,7 +74,9 @@ export class CreateAppointment implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private readonly platformId: object,
     private readonly router: Router,
     private readonly fb: FormBuilder,
-    private readonly scheduleService: ScheduleService,
+    private readonly doctorService: DoctorService,
+    private readonly patientService: PatientService,
+    private readonly appointmentService: AppointmentService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
     private readonly dialog: MatDialog
@@ -131,7 +135,7 @@ export class CreateAppointment implements OnInit, OnDestroy {
     this.isLoadingPatients = true;
     this.patientError = '';
 
-    this.patientSearchSubscription = this.scheduleService
+    this.patientSearchSubscription = this.patientService
       .searchPatientsByIdentificationNumber(identificationNumber)
       .pipe(finalize(() => {
         this.isLoadingPatients = false;
@@ -202,7 +206,7 @@ export class CreateAppointment implements OnInit, OnDestroy {
     this.slotsByDate = {};
     this.availableDateKeys.clear();
 
-    this.scheduleService
+    this.doctorService
       .getAllDoctors()
       .pipe(finalize(() => (this.isLoadingDoctors = false)))
       .subscribe({
@@ -248,7 +252,7 @@ export class CreateAppointment implements OnInit, OnDestroy {
     this.patientError = '';
     this.isSearchingPatient = true;
 
-    this.scheduleService
+    this.patientService
       .getPatientByIdentificationNumber(identificationNumber)
       .pipe(finalize(() => (this.isSearchingPatient = false)))
       .subscribe({
@@ -340,7 +344,7 @@ export class CreateAppointment implements OnInit, OnDestroy {
 
   private submitAppointment(selectedDoctor: DoctorDto, selectedSlot: AppointmentSlotDto): void {
     this.isReserving = true;
-    this.scheduleService
+    this.appointmentService
       .reserveAppointment({
         idPatient: this.patient!.id,
         idDoctor: selectedDoctor.id,

@@ -36,7 +36,7 @@ export const routes: Routes = [
 			{
 				path: 'admin/registrar-medico',
 				loadComponent: () =>
-					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
+					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
 			},
 		],
 	},
@@ -53,7 +53,7 @@ export const routes: Routes = [
 			{
 				path: 'register',
 				loadComponent: () =>
-					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterDoctor),
+					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
 			},
 			{
 				path: 'configure-schedule',

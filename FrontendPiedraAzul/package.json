@@ -4,9 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
+    "prestart": "node scripts/load-env.js",
     "build": "ng build",
+    "prebuild": "node scripts/load-env.js",
     "watch": "ng build --watch --configuration development",
+    "prewatch": "node scripts/load-env.js",
     "test": "ng test",
+    "pretest": "node scripts/load-env.js",
     "serve:ssr:FrontendPiedraAzul": "node dist/FrontendPiedraAzul/server/server.mjs"
   },
   "prettier": {
@@ -53,6 +57,7 @@
     "@types/express": "^5.0.1",
     "@types/hammerjs": "^2.0.46",
     "@types/node": "^20.17.19",
+    "dotenv": "^16.6.1",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
