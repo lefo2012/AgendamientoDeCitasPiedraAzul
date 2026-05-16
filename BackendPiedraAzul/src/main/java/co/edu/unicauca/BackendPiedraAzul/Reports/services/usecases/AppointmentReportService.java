@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppoint
 import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
 import org.springframework.stereotype.Service;
+import java.nio.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

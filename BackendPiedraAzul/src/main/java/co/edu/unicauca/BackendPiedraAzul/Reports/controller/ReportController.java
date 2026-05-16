@@ -44,6 +44,7 @@ public class ReportController {
         }
     }
 
+
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
     @GetMapping("/appointmentsReport")
     public ResponseEntity<?> getAppointmentsReport() {
