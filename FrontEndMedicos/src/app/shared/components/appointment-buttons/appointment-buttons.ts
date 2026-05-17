@@ -14,7 +14,7 @@ export class AppointmentButtons {
   @Input() exportDisabled = false;
   @Input() cancelDisabled = false;
   @Input() rescheduleDisabled = false;
-  @Input() selectedAppointmentId: number | null = null;  // ← el padre le pasa el ID
+  @Input() selectedAppointmentId: number | null = null;  
   @Output() exportRequested = new EventEmitter<void>();
   @Output() cancelRequested = new EventEmitter<void>();
 

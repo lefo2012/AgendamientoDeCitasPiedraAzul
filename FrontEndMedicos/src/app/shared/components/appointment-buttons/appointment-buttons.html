@@ -2,8 +2,8 @@
   <div class="buttons">
     <button mat-flat-button color="primary" (click)="goToNewAppointment()"><mat-icon>add</mat-icon>Nueva</button>
     <button mat-flat-button color="accent"><mat-icon>edit</mat-icon>Editar</button>
-    <button mat-flat-button color="warn" [disabled]="cancelDisabled" (click)="onCancelClick()"><mat-icon>cancel</mat-icon>Cancelar</button>
-    <button mat-flat-button color="accent" [disabled]="rescheduleDisabled" (click)="goToReschedule()"> <mat-icon>event_repeat</mat-icon>Reagendar</button>
+    <button mat-flat-button color="warn" [attr.disabled]="cancelDisabled ? true : null" (click)="onCancelClick()"><mat-icon>cancel</mat-icon>Cancelar</button>
+    <button mat-flat-button><mat-icon>schedule</mat-icon>Re-agendar</button>
     <button mat-flat-button [disabled]="exportDisabled" (click)="onExportClick()"><mat-icon>download</mat-icon>Exportar</button>
     <button mat-flat-button><mat-icon>description</mat-icon>Historia clínica</button>
     <button mat-flat-button><mat-icon>exit_to_app</mat-icon>Cerrar sesión</button>
