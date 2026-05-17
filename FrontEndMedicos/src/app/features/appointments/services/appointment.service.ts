@@ -12,11 +12,21 @@ const env = getAppEnv();
 export class AppointmentService {
   private appointmentsApi = env.API_APPOINTMENTS;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   reserveAppointment(payload: ReserveAppointmentDto): Observable<string> {
     return this.http.post(`${this.appointmentsApi}/reserve`, payload, {
       responseType: 'text'
     });
+  }
+
+  cancelAppointment(appointmentId: number): Observable<string> {
+    return this.http.put(
+      `${this.appointmentsApi}/cancel/${encodeURIComponent(appointmentId)}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
   }
 }

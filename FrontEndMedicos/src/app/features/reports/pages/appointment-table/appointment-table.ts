@@ -10,14 +10,18 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Subscription } from 'rxjs';
+import { SelectionModel } from '@angular/cdk/collections';
 import { DoctorDto } from '../../../appointments/models/DoctorDto';
 import { ReportService } from '../../services/report.service';
+import { AppointmentService } from '../../../appointments/services/appointment.service';
 import { AppointmentReportDto } from '../../models/AppointmentReportDto';
 import { DoctorService } from '../../../appointments/services/doctor.service';
 import { FormsModule } from '@angular/forms';
 import { AppointmentButtonsModule } from '../../../../shared/components/appointment-buttons/appointment-buttons.module';
 import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-dialog/confirm-export-dialog';
+import { ConfirmCancelDialog } from '../../../../shared/dialogs/confirm-cancel-dialog/confirm-cancel-dialog';
 
 @Component({
   selector: 'app-appointment-table',
@@ -34,6 +38,7 @@ import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-d
     MatNativeDateModule,
     MatDialogModule,
     MatIconModule,
+    MatCheckboxModule,
     AppointmentButtonsModule
 ],
   templateUrl: './appointment-table.html',
@@ -41,19 +46,22 @@ import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-d
 })
 export class AppointmentTable implements OnInit, OnDestroy {
   @ViewChild('dateInputRef') private dateInputRef?: ElementRef<HTMLInputElement>;
-
   doctors: DoctorDto[] = [];
   appointments: AppointmentReportDto[] = [];
-  displayedColumns: string[] = ['doctorName', 'date', 'appointmentInterval', 'patientName'];
+  displayedColumns: string[] = ['select', 'doctorName', 'date', 'appointmentInterval', 'patientName'];
   showResults = false;
   selectedDoctorId: number | null = null;
   selectedAppointmentDate: Date | null = null;
+  selectedAppointmentId: number | null = null;
+  selectedAppointment: AppointmentReportDto | null = null;
+  selection = new SelectionModel<AppointmentReportDto>(false, []);
   private latestRequestId = 0;
   private activeSearchSub?: Subscription;
   private pendingSearchTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
+    private readonly appointmentService: AppointmentService,
     private readonly reportService: ReportService,
     private readonly doctorService: DoctorService,
     private readonly snackBar: MatSnackBar,
@@ -173,6 +181,12 @@ export class AppointmentTable implements OnInit, OnDestroy {
             }
 
             this.appointments = normalizedData;
+            if (!this.selectedAppointmentId) {
+              this.setSelectedAppointment(null);
+            } else {
+              const matching = this.appointments.find(a => a.id === this.selectedAppointmentId) ?? null;
+              this.setSelectedAppointment(matching);
+            }
             this.showResults = true;
             this.cdr.detectChanges();
           }, 0);
@@ -208,6 +222,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
 
     this.selectedDoctorId = null;
     this.selectedAppointmentDate = null;
+    this.setSelectedAppointment(null);
     this.dateInputRef?.nativeElement.blur();
 
     setTimeout(() => {
@@ -288,5 +303,77 @@ export class AppointmentTable implements OnInit, OnDestroy {
     const dateSegment = this.formatDateToIso(this.selectedAppointmentDate ?? new Date());
 
     return `Lista-Citas-${doctorSegment}-${dateSegment}.csv`;
+  }
+
+  cancelAppointment(): void {
+    if (!this.selectedAppointmentId || !this.selectedAppointment) {
+      return;
+    }
+    const dialogRef = this.dialog.open(ConfirmCancelDialog, {
+      width: '400px',
+      disableClose: false,
+      data: {
+        appointment: {
+          doctorName: this.selectedAppointment.doctorName,
+          patientName: this.selectedAppointment.patientName,
+          date: this.selectedAppointment.date,
+          appointmentInterval: this.selectedAppointment.appointmentInterval
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.performCancelAppointment();
+      }
+    });
+  }
+
+  private performCancelAppointment(): void {
+    if (!this.selectedAppointmentId) {
+      return;
+    }
+
+    this.appointmentService.cancelAppointment(this.selectedAppointmentId).subscribe({
+      next: () => {
+        this.snackBar.open('Cita cancelada correctamente.', 'Cerrar', { duration: 2500 });
+        this.selectedAppointmentId = null;
+        this.selectedAppointment = null;
+        this.searchAppointments();
+      },
+      error: () => {
+        this.snackBar.open('No se pudo cancelar la cita.', 'Cerrar', { duration: 3000 });
+      }
+    });
+  }
+
+  get hasSelection(): boolean {
+    return this.selection.hasValue();
+  }
+
+  selectAppointment(appointment: AppointmentReportDto): void {
+    this.setSelectedAppointment(appointment);
+  }
+
+  toggleSelection(appointment: AppointmentReportDto): void {
+    if (this.selection.isSelected(appointment)) {
+      this.setSelectedAppointment(null);
+      return;
+    }
+
+    this.setSelectedAppointment(appointment);
+  }
+
+  private setSelectedAppointment(appointment: AppointmentReportDto | null): void {
+    this.selection.clear();
+    if (!appointment) {
+      this.selectedAppointmentId = null;
+      this.selectedAppointment = null;
+      return;
+    }
+
+    this.selection.select(appointment);
+    this.selectedAppointmentId = appointment.id;
+    this.selectedAppointment = appointment;
   }
 }

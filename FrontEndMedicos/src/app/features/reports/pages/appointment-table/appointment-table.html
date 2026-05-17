@@ -30,7 +30,19 @@
     </div>
   </div>
 
-  <table mat-table [dataSource]="appointments" *ngIf="showResults" class="mat-elevation-z1">
+  <table mat-table [dataSource]="appointments" *ngIf="showResults" class="mat-elevation-z1" >
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>Seleccionar</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          [checked]="selection.isSelected(element)"
+          (change)="toggleSelection(element)"
+          (click)="$event.stopPropagation()"
+          aria-label="Seleccionar cita"
+        ></mat-checkbox>
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="doctorName">
       <th mat-header-cell *matHeaderCellDef>Doctor</th>
@@ -53,7 +65,13 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns;"
+      class="table-row"
+      (click)="selectAppointment(row)"
+      [class.is-selected]="selectedAppointmentId === row.id"
+    ></tr>
   </table>
 
 </section>
@@ -61,5 +79,8 @@
   <app-appointment-buttons
     [exportDisabled]="appointments.length === 0"
     (exportRequested)="exportCurrentResultsToCsv()"
+    [cancelDisabled]="selectedAppointmentId == null"
+    (cancelRequested)="cancelAppointment()"
   ></app-appointment-buttons>
+  
 </footer>

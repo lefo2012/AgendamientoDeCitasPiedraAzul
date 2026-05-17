@@ -58,4 +58,5 @@ public class KeycloakProvider {
         RealmResource realmResource = getRealmResource();
         return realmResource.users();
     }
+
 }

@@ -48,7 +48,7 @@ public class AppointmentsController {
             return  ResponseEntity.ok(appointmentPersistenceService.findAll());
         }catch (Exception e){
             return ResponseEntity.badRequest()
-                    .body("no existe");
+                    .body("No se encontraron citas: " + e.getMessage());
         }
     }
     @GetMapping("/{id}")

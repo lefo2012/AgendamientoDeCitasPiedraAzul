@@ -79,6 +79,14 @@
     tr:hover {
       background-color: var(--fondo-suave-transparente);
     }
+
+    .table-row.is-selected {
+      background-color: var(--azul-gris-claro);
+    }
+  }
+
+  mat-checkbox {
+    --mdc-checkbox-state-layer-size: 36px;
   }
 }
 

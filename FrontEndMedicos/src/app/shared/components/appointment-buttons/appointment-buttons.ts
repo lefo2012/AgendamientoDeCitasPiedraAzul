@@ -12,7 +12,9 @@ import { Router } from '@angular/router';
 })
 export class AppointmentButtons {
   @Input() exportDisabled = false;
+  @Input() cancelDisabled = false;
   @Output() exportRequested = new EventEmitter<void>();
+  @Output() cancelRequested = new EventEmitter<void>();
 
   constructor(private router: Router) {}
 
@@ -23,4 +25,9 @@ export class AppointmentButtons {
   onExportClick(): void {
     this.exportRequested.emit();
   }
+
+  onCancelClick(): void {
+    this.cancelRequested.emit();
+  }
+  
 }
