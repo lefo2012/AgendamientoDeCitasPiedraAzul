@@ -55,6 +55,7 @@ export class AuthService {
     }
 
     return storedToken;
+
   }
 
   private readStoredRefreshToken(): string | null {
