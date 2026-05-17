@@ -10,6 +10,7 @@ import java.util.List;
 public interface IAppointmentService {
 
     void reserveAppointment(ReserveAppointmentDTO reserveAppointmentDto) throws Exception;
+    void reSchedule(ReserveAppointmentDTO reserveAppointmentDto) throws Exception;
     List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception;
     List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception;
     List<Appointment> getAllAppointments()throws Exception;

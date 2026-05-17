@@ -13,6 +13,8 @@ import { Router } from '@angular/router';
 export class AppointmentButtons {
   @Input() exportDisabled = false;
   @Input() cancelDisabled = false;
+  @Input() rescheduleDisabled = false;
+  @Input() selectedAppointmentId: number | null = null;  // ← el padre le pasa el ID
   @Output() exportRequested = new EventEmitter<void>();
   @Output() cancelRequested = new EventEmitter<void>();
 
@@ -29,5 +31,9 @@ export class AppointmentButtons {
   onCancelClick(): void {
     this.cancelRequested.emit();
   }
-  
+
+  goToReschedule(): void {
+  if (!this.selectedAppointmentId) return;
+  this.router.navigate(['/citas/reagendar', this.selectedAppointmentId]);
+}
 }

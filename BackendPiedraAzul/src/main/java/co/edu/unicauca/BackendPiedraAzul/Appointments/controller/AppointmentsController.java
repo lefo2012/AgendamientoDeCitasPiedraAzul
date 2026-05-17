@@ -51,6 +51,7 @@ public class AppointmentsController {
                     .body("No se encontraron citas: " + e.getMessage());
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getAppointmentById(@PathVariable Long id) {
         try {
@@ -72,5 +73,26 @@ public class AppointmentsController {
                     .body("Error al cancelar: " + e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
+    @PostMapping("/reschedule")
+    public ResponseEntity<?> reSchedule(@RequestBody ReserveAppointmentDTO dto) {
+        try {
+            appointmentService.reSchedule(dto);
+
+            // Retornamos un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Reserva realizada con éxito");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Imposibilidad al reservar la cita: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
 
 }

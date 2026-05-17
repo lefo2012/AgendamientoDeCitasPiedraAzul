@@ -109,6 +109,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
   onDoctorFilterChange(): void {
     this.queueSearch();
   }
+  
 
   onDateFilterChange(event: MatDatepickerInputEvent<Date>, picker: MatDatepicker<Date>): void {
     this.selectedAppointmentDate = event.value ?? null;

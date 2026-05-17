@@ -50,6 +50,16 @@ public class Patient extends Person {
         return true;
     }
 
+    public boolean addPastAppointment(Appointment appointment) {
+
+        if (pastAppointments == null) {
+            pastAppointments = new ArrayList<>();
+        }
+        pastAppointments.add(appointment);
+
+        return true;
+    }
+
     public List<Appointment> getPendingAppointments() {
         return pendingAppointments;
     }

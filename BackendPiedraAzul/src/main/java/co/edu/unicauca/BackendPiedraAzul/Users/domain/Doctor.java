@@ -64,6 +64,16 @@ public class Doctor extends Person {
 
     }
 
+    public boolean addAppointmentAttended(Appointment appointment) throws Exception {
+
+        if (attendedAppointments == null) {
+            attendedAppointments = new ArrayList<>();
+        }
+        attendedAppointments.add(appointment);
+
+        return true;
+
+    }
 
     public boolean cancelAppointment(Appointment appointment) {
 

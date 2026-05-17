@@ -20,6 +20,12 @@ export class AppointmentService {
     });
   }
 
+  rescheduleAppointment(payload: ReserveAppointmentDto): Observable<string> {
+    return this.http.post(`${this.appointmentsApi}/reschedule`, payload, {
+      responseType: 'text'
+    });
+  }
+
   cancelAppointment(appointmentId: number): Observable<string> {
     return this.http.put(
       `${this.appointmentsApi}/cancel/${encodeURIComponent(appointmentId)}`,

@@ -19,6 +19,5 @@ public class AppointmentReport {
     private String doctorName;
     private String appointmentInterval;
     private String date;
-    
 }
 
