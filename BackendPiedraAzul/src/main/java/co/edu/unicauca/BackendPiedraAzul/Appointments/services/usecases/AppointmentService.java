@@ -41,9 +41,9 @@ public class AppointmentService implements IAppointmentService {
             Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
             Patient patient = patientPersistenceService.findById(reserveAppointmentDto.getIdPatient());
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
-            Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
+            Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(), interval, patient);
 
-            
+
             Appointment savedAppointment = appointmentPersistenceService.save(appointment);
             // Keep the generated id in the same object referenced by doctor/patient lists.
             // Without this, cascading save can treat it as a new appointment and insert duplicates.
@@ -52,9 +52,9 @@ public class AppointmentService implements IAppointmentService {
             doctorPersistenceService.save(appointment.getDoctor());
             patientPersistenceService.save(appointment.getPatient());
 
-        }catch (Exception e){
-          e.printStackTrace();
-          throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -63,32 +63,36 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void reSchedule(ReserveAppointmentDTO dto) throws Exception {
         try {
-            
-            if (dto.getId() != null) {
-                Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
-                Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
-                Patient patient = patientPersistenceService.findById(dto.getIdPatient());
-
-                oldAppointment.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA);
-                oldAppointment.setDoctor(oldDoctor);
-                oldDoctor.cancelAppointment(oldAppointment);
-
-                oldDoctor.getScheduledAppointments().stream()
-                        .filter(a -> a.getId().equals(dto.getId()))
-                        .findFirst()
-                        .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
-
-
-                oldDoctor.addAppointmentAttended(oldAppointment);
-                patient.addPastAppointment(oldAppointment);
-                patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
-
-                appointmentPersistenceService.save(oldAppointment);
-                doctorPersistenceService.save(oldDoctor);
-                patientPersistenceService.save(patient);
-
+            if (dto.getId() == null) {
+                throw new Exception("El id de la cita a reprogramar no puede ser nulo");
             }
 
+            Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
+            Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(dto.getIdPatient());
+
+            // 1. Setear estado en la cita y en la lista del doctor
+            oldAppointment.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA);
+            oldAppointment.setDoctor(oldDoctor);
+
+            oldDoctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(dto.getId()))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
+
+            // 2. Mover a listas de historial
+            oldDoctor.getScheduledAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+            oldDoctor.addAppointmentAttended(oldAppointment);
+            patient.addPastAppointment(oldAppointment);
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
+            // 3. Guardar solo doctor y paciente — el cascade se encarga de la cita
+            doctorPersistenceService.save(oldDoctor);
+            patientPersistenceService.save(patient);
+            // Guardar la cita por separado DESPUÉS para que el estado quede persistido
+            appointmentPersistenceService.save(oldAppointment);
+
+            // 4. Crear nueva cita
             Doctor newDoctor = doctorPersistenceService.findById(dto.getIdDoctor());
             Patient newPatient = patientPersistenceService.findById(dto.getIdPatient());
             Interval interval = intervalMapper.dtoToDomain(dto.getInterval());
@@ -114,7 +118,6 @@ public class AppointmentService implements IAppointmentService {
 
             Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
             Patient patient = appointment.getPatient();
-
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
 
             appointment.setDoctor(doctor);
@@ -150,14 +153,14 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
-    public List<Appointment> getAllAppointments() throws Exception{
+    public List<Appointment> getAllAppointments() throws Exception {
 
-         List<Appointment> appointments = this.appointmentPersistenceService.findAll();
-         return appointments;
+        List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+        return appointments;
     }
 
     @Override
-    public List<Appointment> getAllAppointmentsByDate(LocalDate date)throws Exception{
+    public List<Appointment> getAllAppointmentsByDate(LocalDate date) throws Exception {
         List<Appointment> appointments = this.appointmentPersistenceService.findAll();
         return appointments.stream()
                 .filter(app -> app.getAppointmentDate().isEqual(date))

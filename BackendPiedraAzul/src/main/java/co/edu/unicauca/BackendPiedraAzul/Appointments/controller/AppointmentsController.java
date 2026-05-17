@@ -15,12 +15,12 @@ import java.util.Map;
 @RequestMapping("/api/appointments")
 public class AppointmentsController {
 
-    //aver si si esta funcando
     @Autowired
     private IAppointmentPersistenceService appointmentPersistenceService;
 
     @Autowired
     private IAppointmentService appointmentService;
+
     @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PostMapping("/reserve")
     public ResponseEntity<?> reserve(@RequestBody ReserveAppointmentDTO dto) {

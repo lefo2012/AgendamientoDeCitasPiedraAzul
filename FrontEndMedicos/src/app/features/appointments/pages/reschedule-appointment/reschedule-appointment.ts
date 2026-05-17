@@ -195,7 +195,7 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
     this.isRescheduling = true;
 
     const patientId = Number(this.route.snapshot.queryParamMap.get('idPatient'));
-    
+
     console.log('Reagendando cita', {
       appointmentId: this.appointmentId,
       patientId,
@@ -205,13 +205,14 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
     });
 
     const payload: ReserveAppointmentDto = {
-      idAppointment: this.appointmentId,
+      id: this.appointmentId,
       idPatient: patientId,
       idDoctor: selectedDoctor.id,
       interval: selectedSlot.interval,
       appointmentDate: this.toDateKey(this.appointmentDateControl.value),
     };
 
+    console.log('Payload para reagendar cita', payload);
 
     this.appointmentService
       .rescheduleAppointment(payload)
