@@ -35,6 +35,7 @@ public class AppointmentReportService implements IAppointmentReportService{
         return appointments.stream().map(appointment -> {
             AppointmentReport reportDTO = new AppointmentReport();
 
+            reportDTO.setPatientId(appointment.getPatient().getId());
             reportDTO.setId(appointment.getId());
             reportDTO.setDoctorName(
                     appointment.getDoctor().getFirstName() + " " +
@@ -74,7 +75,7 @@ public class AppointmentReportService implements IAppointmentReportService{
 
         return convertInAppointmentReportDTO(
                 appointments.stream()
-                        .filter(a -> a.getAppointmentStatus() != AppointmentStatusEnum.CANCELADA)
+                        .filter(a -> a.getAppointmentStatus() == AppointmentStatusEnum.AGENDADA)
                         .toList()
         );
     }

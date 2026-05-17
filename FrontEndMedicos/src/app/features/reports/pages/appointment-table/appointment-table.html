@@ -74,15 +74,14 @@
 
 </section>
 <footer>
-  <app-appointment-buttons
-    [exportDisabled]="appointments.length === 0"
-    (exportRequested)="exportCurrentResultsToCsv()"
-    [cancelDisabled]="selectedAppointmentId == null"
-    (cancelRequested)="cancelAppointment()"
-    [rescheduleDisabled]="!hasSelection"
-    [selectedAppointmentId]="selectedAppointmentId"
-  ></app-appointment-buttons>
-
+ <app-appointment-buttons
+  [exportDisabled]="appointments.length === 0"
+  (exportRequested)="exportCurrentResultsToCsv()"
+  [cancelDisabled]="selectedAppointmentId == null"
+  (cancelRequested)="cancelAppointment()"
+  [rescheduleDisabled]="selectedAppointmentId == null"
+  [selectedAppointment]="selectedAppointment"
+></app-appointment-buttons>
 
   
 </footer>

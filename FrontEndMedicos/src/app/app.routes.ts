@@ -29,7 +29,7 @@ export const routes: Routes = [
 					import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
 			},
 			{
-				path: 'citas/reagendar',
+				path: 'citas/reagendar/:id',
 				loadComponent: () =>
 					import('./features/appointments/pages/reschedule-appointment/reschedule-appointment').then((m) => m.RescheduleAppointment),
 			},

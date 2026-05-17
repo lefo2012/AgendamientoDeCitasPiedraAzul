@@ -22,7 +22,7 @@ import { AppointmentService } from '../../services/appointment.service';
 import { DoctorService } from '../../services/doctor.service';
 import { ConfirmAppointmentDialog } from '../../../../shared/dialogs/confirm-appointment-dialog/confirm-appointment-dialog';
 import { SuccessAppointmentDialog } from '../../../../shared/dialogs/success-appointment-dialog/success-appointment-dialog';
-
+import { ReserveAppointmentDto } from '../../models/ReserveAppointmentDto';
 @Component({
   selector: 'app-reschedule-appointment',
   standalone: true,
@@ -83,7 +83,7 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   // ── Getters de controles ──────────────────────────────────────────────────
 
@@ -194,14 +194,27 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
   private submitReschedule(selectedDoctor: DoctorDto, selectedSlot: AppointmentSlotDto): void {
     this.isRescheduling = true;
 
+    const patientId = Number(this.route.snapshot.queryParamMap.get('idPatient'));
+    
+    console.log('Reagendando cita', {
+      appointmentId: this.appointmentId,
+      patientId,
+      doctorId: selectedDoctor.id,
+      interval: selectedSlot.interval,
+      appointmentDate: this.toDateKey(this.appointmentDateControl.value),
+    });
+
     const payload: ReserveAppointmentDto = {
-      newDate: this.toDateKey(this.appointmentDateControl.value),
-      newInterval: selectedSlot.interval,
-      newDoctorId: selectedDoctor.id,
+      idAppointment: this.appointmentId,
+      idPatient: patientId,
+      idDoctor: selectedDoctor.id,
+      interval: selectedSlot.interval,
+      appointmentDate: this.toDateKey(this.appointmentDateControl.value),
     };
 
+
     this.appointmentService
-      .rescheduleAppointment(this.appointmentId, payload)
+      .rescheduleAppointment(payload)
       .pipe(finalize(() => (this.isRescheduling = false)))
       .subscribe({
         next: () => {

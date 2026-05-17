@@ -15,6 +15,7 @@ import java.util.Map;
 @RequestMapping("/api/appointments")
 public class AppointmentsController {
 
+    //aver si si esta funcando
     @Autowired
     private IAppointmentPersistenceService appointmentPersistenceService;
 
@@ -62,7 +63,7 @@ public class AppointmentsController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
         try {
@@ -74,7 +75,7 @@ public class AppointmentsController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO')")
     @PostMapping("/reschedule")
     public ResponseEntity<?> reSchedule(@RequestBody ReserveAppointmentDTO dto) {
         try {

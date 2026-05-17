@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
+  padding: 1.5rem 1rem 2rem;
+}
+
+.create-appointment-page {
+  width: 100%;
+}
+
+.create-appointment-card {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  border-radius: 16px;
+  border: 1px solid var(--gris-claro);
+  box-shadow: 0 12px 28px rgba(31, 45, 59, 0.12);
+}
+
+.appointment-form {
+  margin-top: 1.25rem;
+}
+
+.appointment-title {
+  font-size: 2rem;
+  color: var(--azul-profundo);
+  font-weight: 1000;
+}
+
+.appointment-subtitle {
+  font-size: 1.1rem;
+  color: var(--gris-oscuro);
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.form-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.two-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.full-width {
+  width: 100%;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+}
+
+.actions-row button {
+  border-radius: 999px;
+  min-width: 140px;
+}
+
+.save-btn {
+  background-color: var(--azul-profundo) !important;
+  color: var(--blanco) !important;
+}
+
+// Autocomplete styles
+.patient-option {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.patient-option-details {
+  padding-top: 0.25rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.no-results-option {
+  color: rgba(0, 0, 0, 0.6) !important;
+  font-style: italic;
+}
+
+.patient-selected-hint {
+  color: #4caf50 !important;
+}
+
+@media (max-width: 768px) {
+  .two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .actions-row {
+    flex-direction: column-reverse;
+  }
+
+  .actions-row button {
+    width: 100%;
+  }
+}

@@ -1,7 +1,7 @@
 import { IntervalDto } from './IntervalDto';
 
 export interface ReserveAppointmentDto {
-  id ?: number;
+  idAppointment?: number;  
   idPatient: number;
   idDoctor: number;
   interval: IntervalDto;

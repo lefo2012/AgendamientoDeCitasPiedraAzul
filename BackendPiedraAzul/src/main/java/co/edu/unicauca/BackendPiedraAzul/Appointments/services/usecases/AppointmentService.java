@@ -63,8 +63,6 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void reSchedule(ReserveAppointmentDTO dto) throws Exception {
         try {
-            // 1. Marcar la cita anterior como ATENDIDA estopara el psuh
-
             
             if (dto.getId() != null) {
                 Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
@@ -80,18 +78,17 @@ public class AppointmentService implements IAppointmentService {
                         .findFirst()
                         .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
 
-                // Agregar a listas de historial
+
                 oldDoctor.addAppointmentAttended(oldAppointment);
                 patient.addPastAppointment(oldAppointment);
                 patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
 
-                // Guardar la cita vieja primero para que tenga estado ATENDIDA persistido
                 appointmentPersistenceService.save(oldAppointment);
                 doctorPersistenceService.save(oldDoctor);
                 patientPersistenceService.save(patient);
+
             }
 
-            // 2. Crear nueva cita — el constructor ya llama addAppointmentToAttend y addPendingAppointment
             Doctor newDoctor = doctorPersistenceService.findById(dto.getIdDoctor());
             Patient newPatient = patientPersistenceService.findById(dto.getIdPatient());
             Interval interval = intervalMapper.dtoToDomain(dto.getInterval());
@@ -114,13 +111,11 @@ public class AppointmentService implements IAppointmentService {
     public void cancelAppointment(Long appointmentId) throws Exception {
         try {
             Appointment appointment = appointmentPersistenceService.findById(appointmentId);
-            System.out.println("Estado antes: " + appointment.getAppointmentStatus());
 
             Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
             Patient patient = appointment.getPatient();
 
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
-            System.out.println("Estado después de setear: " + appointment.getAppointmentStatus());
 
             appointment.setDoctor(doctor);
             doctor.cancelAppointment(appointment);
@@ -134,8 +129,6 @@ public class AppointmentService implements IAppointmentService {
             Appointment saved = appointmentPersistenceService.save(appointment);
             doctorPersistenceService.save(doctor);
             patientPersistenceService.save(patient);
-            System.out.println("Estado guardado: " + saved.getAppointmentStatus());
-            System.out.println("estado del doctor guardado: " + doctor.getScheduledAppointments().getFirst().getAppointmentStatus());
 
         } catch (Exception e) {
             e.printStackTrace();

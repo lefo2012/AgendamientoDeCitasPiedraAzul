@@ -1,6 +1,6 @@
 export interface AppointmentReportDto {
-  id: number;
-  idPaciente: number;
+  id?: number;
+  patientId: number;
   patientName: string;
   doctorName: string;
   appointmentInterval: string;

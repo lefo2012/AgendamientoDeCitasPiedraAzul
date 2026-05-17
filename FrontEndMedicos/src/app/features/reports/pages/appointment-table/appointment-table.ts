@@ -40,7 +40,7 @@ import { ConfirmCancelDialog } from '../../../../shared/dialogs/confirm-cancel-d
     MatIconModule,
     MatCheckboxModule,
     AppointmentButtonsModule
-],
+  ],
   templateUrl: './appointment-table.html',
   styleUrls: ['./appointment-table.scss'],
 })
@@ -67,7 +67,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
     private readonly dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -85,18 +85,18 @@ export class AppointmentTable implements OnInit, OnDestroy {
   }
 
   loadDoctors(): void {
-  this.doctorService.getAllDoctors().subscribe({
-    next: (doctors) => {
-      setTimeout(() => {
-        this.doctors = doctors;
-        this.cdr.detectChanges();
-      }, 0);
-    },
-    error: () => {
-      this.snackBar.open('No se pudieron cargar los doctores.', 'Cerrar', { duration: 3000 });
-    },
-  });
-}
+    this.doctorService.getAllDoctors().subscribe({
+      next: (doctors) => {
+        setTimeout(() => {
+          this.doctors = doctors;
+          this.cdr.detectChanges();
+        }, 0);
+      },
+      error: () => {
+        this.snackBar.open('No se pudieron cargar los doctores.', 'Cerrar', { duration: 3000 });
+      },
+    });
+  }
 
   private formatDateToIso(date: Date | null): string | null {
     if (!date) return null;
@@ -113,7 +113,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
   onDoctorFilterChange(): void {
     this.queueSearch();
   }
-  
+
 
   onDateFilterChange(event: MatDatepickerInputEvent<Date>, picker: MatDatepicker<Date>): void {
     this.selectedAppointmentDate = event.value ?? null;
@@ -156,7 +156,6 @@ export class AppointmentTable implements OnInit, OnDestroy {
     this.activeSearchSub = request$
       .subscribe({
         next: (data) => {
-          console.log('Primera cita del backend:', data[0]);
           if (requestId !== this.latestRequestId) {
             return;
           }
@@ -303,8 +302,8 @@ export class AppointmentTable implements OnInit, OnDestroy {
       : null;
     const doctorSegment = selectedDoctor
       ? `${selectedDoctor.firstName}-${selectedDoctor.lastName}`
-          .trim()
-          .replace(/\s+/g, '-')
+        .trim()
+        .replace(/\s+/g, '-')
       : 'Todos-Los-Doctores';
     const dateSegment = this.formatDateToIso(this.selectedAppointmentDate ?? new Date());
 
@@ -315,9 +314,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
     if (!this.selectedAppointmentId || !this.selectedAppointment) {
       return;
     }
-     console.log('cancelAppointment llamado');
-  console.log('selectedAppointmentId:', this.selectedAppointmentId);
-  console.log('selectedAppointment:', this.selectedAppointment);
+
     const dialogRef = this.dialog.open(ConfirmCancelDialog, {
       width: '400px',
       disableClose: false,
@@ -360,34 +357,26 @@ export class AppointmentTable implements OnInit, OnDestroy {
     return this.selection.hasValue();
   }
 
-  //selectAppointment(appointment: AppointmentReportDto): void {
-   // this.setSelectedAppointment(appointment);
-  //}
+  toggleSelection(appointment: AppointmentReportDto): void {
 
- toggleSelection(appointment: AppointmentReportDto): void {
-  console.log('toggleSelection llamado, id:', appointment.id);
-  console.log('selectedAppointmentId actual:', this.selectedAppointmentId);
-  
-  if (this.selectedAppointmentId === appointment.id) {
-    console.log('→ deseleccionando');
-    this.setSelectedAppointment(null);
-    return;
+    if (this.selectedAppointmentId === appointment.id) {
+      this.setSelectedAppointment(null);
+      return;
+    }
+    this.setSelectedAppointment(appointment);
   }
-  console.log('→ seleccionando');
-  this.setSelectedAppointment(appointment);
-}
 
   private setSelectedAppointment(appointment: AppointmentReportDto | null): void {
-  console.log('setSelectedAppointment llamado con:', appointment?.id ?? null);
-  this.selection.clear();
-  if (!appointment) {
-    this.selectedAppointmentId = null;
-    this.selectedAppointment = null;
-    return;
+
+    this.selection.clear();
+    if (!appointment) {
+      this.selectedAppointmentId = null;
+      this.selectedAppointment = null;
+      return;
+    }
+    this.selection.select(appointment);
+    this.selectedAppointmentId = appointment.id ?? null;
+    this.selectedAppointment = appointment;
+
   }
-  this.selection.select(appointment);
-  this.selectedAppointmentId = appointment.id;
-  this.selectedAppointment = appointment;
-  console.log('selectedAppointmentId ahora es:', this.selectedAppointmentId);
-}
 }
