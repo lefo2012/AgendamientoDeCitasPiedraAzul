@@ -61,7 +61,7 @@ public class AppointmentsController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE','ADMIN')")
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
         try {

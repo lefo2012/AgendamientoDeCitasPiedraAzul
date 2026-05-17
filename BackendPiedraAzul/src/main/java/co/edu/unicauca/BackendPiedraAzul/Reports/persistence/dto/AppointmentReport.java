@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppointmentReport {
-
+    private Long id;
     private String patientName;
     private String doctorName;
     private String appointmentInterval;

@@ -61,24 +61,29 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void cancelAppointment(Long appointmentId) throws Exception {
         try {
-            // 1. Traer cita real
             Appointment appointment = appointmentPersistenceService.findById(appointmentId);
+            System.out.println("Estado antes: " + appointment.getAppointmentStatus());
 
-            if (appointment == null) {
-                throw new Exception("Appointment not found");
-            }
-            Doctor doctor = appointment.getDoctor();
+            Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
             Patient patient = appointment.getPatient();
-            // 2. Cancelar en doctor (esto libera busyTimes)
-            doctor.cancelAppointment(appointment);
-            // 3. Quitar del paciente
-            patient.getPendingAppointments().remove(appointment);
-            // 4. Cambiar estado
+
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
-            // 5. Guardar (orden importa)
-            appointmentPersistenceService.save(appointment);
+            System.out.println("Estado después de setear: " + appointment.getAppointmentStatus());
+
+            appointment.setDoctor(doctor);
+            doctor.cancelAppointment(appointment);
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(appointmentId));
+
+            doctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(appointmentId))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.CANCELADA));
+
+            Appointment saved = appointmentPersistenceService.save(appointment);
             doctorPersistenceService.save(doctor);
             patientPersistenceService.save(patient);
+            System.out.println("Estado guardado: " + saved.getAppointmentStatus());
+            System.out.println("estado del doctor guardado: " + doctor.getScheduledAppointments().getFirst().getAppointmentStatus());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,6 +100,7 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception {
         Doctor doctor = doctorPersistenceService.findById(doctorId);
+
         return doctor.getAttendedAppointments().stream().map(appointmentMapper::toDto).toList();
     }
 

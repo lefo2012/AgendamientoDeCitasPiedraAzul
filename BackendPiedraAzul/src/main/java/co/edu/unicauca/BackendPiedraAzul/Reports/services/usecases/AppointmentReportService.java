@@ -1,6 +1,7 @@
 package co.edu.unicauca.BackendPiedraAzul.Reports.services.usecases;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.AppointmentStatusEnum;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import co.edu.unicauca.BackendPiedraAzul.Reports.persistence.dto.AppointmentReport;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
@@ -34,6 +35,7 @@ public class AppointmentReportService implements IAppointmentReportService{
         return appointments.stream().map(appointment -> {
             AppointmentReport reportDTO = new AppointmentReport();
 
+            reportDTO.setId(appointment.getId());
             reportDTO.setDoctorName(
                     appointment.getDoctor().getFirstName() + " " +
                             appointment.getDoctor().getLastName()
@@ -69,8 +71,12 @@ public class AppointmentReportService implements IAppointmentReportService{
     @Override
     public List<AppointmentReport> getAllAppointmentsReport() throws Exception{
         List<Appointment> appointments = appointmentService.getAllAppointments();
-        return convertInAppointmentReportDTO(appointments);
 
+        return convertInAppointmentReportDTO(
+                appointments.stream()
+                        .filter(a -> a.getAppointmentStatus() != AppointmentStatusEnum.CANCELADA)
+                        .toList()
+        );
     }
 
     @Override
