@@ -1,0 +1,78 @@
+<section class="appointment-table mat-elevation-z2">
+  <h2>Gestión de Médicos</h2>
+  <p>Busca y selecciona un médico para editar su información</p>
+
+  <div class="filters">
+    <mat-form-field appearance="fill" class="filter-field">
+      <mat-label>Buscar por nombre o identificación</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        [ngModelOptions]="{ standalone: true }"
+        (input)="onSearchChange()"
+        placeholder="Ej. García o 123456"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="filter-buttons">
+      <button mat-stroked-button color="accent" type="button" (click)="resetFilters()">
+        <mat-icon>refresh</mat-icon>
+        Mostrar todos
+      </button>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        [disabled]="!selectedDoctorId"
+        (click)="goToEditDoctor()"
+      >
+        <mat-icon>edit</mat-icon>
+        Editar médico
+      </button>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="filteredDoctors" *ngIf="showResults" class="mat-elevation-z1">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>Seleccionar</th>
+      <td mat-cell *matCellDef="let element">
+        <mat-checkbox
+          [checked]="selectedDoctorId === element.id"
+          (change)="toggleSelection(element)"
+          (click)="$event.stopPropagation()"
+          aria-label="Seleccionar médico"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let element">{{ element.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef>Apellido</th>
+      <td mat-cell *matCellDef="let element">{{ element.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="identificationNumber">
+      <th mat-header-cell *matHeaderCellDef>Identificación</th>
+      <td mat-cell *matCellDef="let element">{{ element.identificationNumber }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      class="table-row"
+      (click)="toggleSelection(row)"
+      [class.is-selected]="selectedDoctorId === row.id"
+    ></tr>
+  </table>
+
+  <p *ngIf="showResults && filteredDoctors.length === 0" class="no-results">
+    No se encontraron médicos.
+  </p>
+</section>

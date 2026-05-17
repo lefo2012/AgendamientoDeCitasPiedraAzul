@@ -24,4 +24,8 @@ export class AdminHome {
   irAListaCitas(): void {
     this.router.navigate(['/citas/agendar']);
   }
+
+  irAConfiguracionDoctores(): void {
+    this.router.navigate(['/admin/configuracion']);
+  }
 }

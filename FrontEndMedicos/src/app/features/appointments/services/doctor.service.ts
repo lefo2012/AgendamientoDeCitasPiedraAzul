@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { DoctorSchedule } from '../models/DoctorSchedule';
 import { DoctorDto } from '../models/DoctorDto';
 import { getAppEnv } from '../../../core/config/app-env';
+import { ConfigDoctor } from '../../users/models/ConfigDoctor';
+import { RegisterDoctorRequest } from '../../users/models/RegisterDoctorRequest';
+import { UpdateDoctorDto } from '../../users/models/UpdateDoctorDto';
 
 const env = getAppEnv();
 
@@ -28,5 +31,21 @@ export class DoctorService {
 
   getAllDoctors(): Observable<DoctorDto[]> {
     return this.http.get<DoctorDto[]>(`${this.usersApi}/getAllDoctors`);
+  }
+
+  getAllConfigurableDoctors(): Observable<ConfigDoctor[]> {
+    return this.http.get<ConfigDoctor[]>(`${this.usersApi}/getAllConfigDoctors`);
+  }
+
+  // Revisar bien y acomodar esto
+  getDoctorById(doctorId: number): Observable<UpdateDoctorDto> {
+    return this.http.get<UpdateDoctorDto>(`${this.usersApi}/getDoctorById/${doctorId}`);
+  }
+
+  // Revisar bien y acomodar esto
+  updateDoctor(doctorId: number, doctorData: Partial<UpdateDoctorDto>): Observable<string> {
+    return this.http.put(`${this.usersApi}/updateDoctor/${doctorId}`, doctorData, {
+      responseType: 'text'
+    });
   }
 }

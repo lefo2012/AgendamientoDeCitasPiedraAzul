@@ -3,8 +3,10 @@ package co.edu.unicauca.BackendPiedraAzul.Users.controller;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.ConfDoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.PatientDTO;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.DoctorMapper;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IDoctorPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.usecases.IDoctorService;
@@ -109,6 +111,19 @@ public class UsersController {
                     .body("{\"error\":\"Error retrieving doctors: " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/getAllConfigDoctors")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> getAllConfigDoctors(){
+        try {
+            List<ConfDoctorDTO> doctors = doctorService.getAllConfigDoctors();
+            return ResponseEntity.ok(doctors);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error retrieving doctors: " + e.getMessage() + "\"}");
+        }
+    }
+
     @GetMapping("/getDoctorsBySpecialty/{specialty}")
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getDoctorBySpecialty(@PathVariable String specialty){
@@ -139,16 +154,16 @@ public class UsersController {
         }
     }
 
-    @GetMapping("/getDoctorByEmail/{id}")
+    @GetMapping("/getDoctorById/{id}")
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
-    public ResponseEntity<?> getDoctorByEmail(@PathVariable String email) {
+    public ResponseEntity<?> getDoctorById(@PathVariable Long id) {
         try {
-            Doctor doctor = doctorPersistenceService.findByEmail(email);
+            Doctor doctor = doctorPersistenceService.findById(id);
             if (doctor != null) {
                 return ResponseEntity.ok(doctor);
             } else {
                 return ResponseEntity.status(404)
-                        .body("{\"error\":\"Doctor not found with email: " + email + "\"}");
+                        .body("{\"error\":\"Doctor not found with id: " + id + "\"}");
             }
         }catch (Exception e){
             return ResponseEntity.badRequest()

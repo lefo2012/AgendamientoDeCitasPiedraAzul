@@ -1,0 +1,5 @@
+export enum SpecialtyEnum {
+  TERAPIA_NEURAL = 'TERAPIA_NEURAL',
+  QUIROPRAXIA    = 'QUIROPRAXIA',
+  FISIOTERAPIA   = 'FISIOTERAPIA'
+}

@@ -43,6 +43,16 @@ export const routes: Routes = [
 				loadComponent: () =>
 					import('./features/users/pages/register-user/register-user').then((m) => m.RegisterUser),
 			},
+			{
+				path: 'admin/configuracion',
+				loadComponent: () =>
+					import('./features/users/pages/configure-doctors/configure-doctors').then((m) => m.ConfigureDoctors),
+			},		
+			{
+				path: 'admin/editar-medico/:id',
+				loadComponent: () =>
+					import('./features/users/pages/update-doctor/update-doctor').then((m) => m.UpdateDoctor),
+			}
 		],
 	},
 	{
