@@ -63,7 +63,9 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void reSchedule(ReserveAppointmentDTO dto) throws Exception {
         try {
-            // 1. Marcar la cita anterior como ATENDIDA
+            // 1. Marcar la cita anterior como ATENDIDA estopara el psuh
+
+            
             if (dto.getId() != null) {
                 Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
                 Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
