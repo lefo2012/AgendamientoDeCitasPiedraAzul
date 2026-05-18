@@ -133,4 +133,8 @@ export class ConfigureDoctors implements OnInit, OnDestroy {
       },
     });
   }
+
+  goBack(): void {
+    this.router.navigate(['/admin']);
+  }
 }

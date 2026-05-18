@@ -75,4 +75,11 @@
   <p *ngIf="showResults && filteredDoctors.length === 0" class="no-results">
     No se encontraron médicos.
   </p>
+
+  <div class="back-button">
+    <button mat-stroked-button color="warn" type="button" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Volver al panel
+    </button>
+  </div>
 </section>
