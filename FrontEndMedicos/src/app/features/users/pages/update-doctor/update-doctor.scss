@@ -22,6 +22,7 @@
     color: var(--azul-profundo);
     font-size: 1.9rem;
     margin-bottom: 0.35rem;
+    font-weight: 700;
   }
 
   mat-card-subtitle {
@@ -36,7 +37,7 @@
 
 .section-title {
   color: var(--azul-oscuro);
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   font-weight: 700;
   margin: 1rem 0 0.75rem;
 }
@@ -64,13 +65,13 @@
 
 // Especialidades
 .specialty-group {
-  grid-column: 1 / -1;  // ocupa todo el ancho
+  grid-column: 1 / -1; // ocupa todo el ancho
 
   .specialty-label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 1.2rem;
     color: var(--gris-oscuro);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .specialty-chips {
@@ -108,9 +109,26 @@
   }
 }
 
+.interval-label {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--gris-oscuro);
+  margin-bottom: 1rem;
+}
+
+.active-label,
+.schedule-label {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--azul-profundo);
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
 // Toggles
 .toggle-group {
-  grid-column: 1 / -1;
+  grid-column: 1 / -1; // ocupa todo el ancho
   display: flex;
   gap: 2rem;
   align-items: center;

@@ -16,6 +16,9 @@ public interface IDoctorPersistenceService {
     Doctor save(DoctorDTO doctorDTO) throws Exception;
 
     @Transactional
+    Doctor update(DoctorDTO doctorDTO) throws Exception;
+
+    @Transactional
     List<Doctor> findAll () throws Exception;
 
     @Transactional

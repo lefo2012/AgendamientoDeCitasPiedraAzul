@@ -98,8 +98,8 @@ export class ConfigureScheduleDoctor implements OnInit {
 
   ngOnInit(): void {
     this.scheduleForm.patchValue({
-      startHour: 8,
-      endHour: 17
+      startHour: 7,
+      endHour: 18
     });
   }
 

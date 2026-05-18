@@ -51,6 +51,7 @@ export class UpdateDoctor implements OnInit {
   maxBirthDate = new Date(); // no permite fechas futuras
 
   genderOptions = Object.values(GENDER_OPTIONS);
+  readonly consultationIntervals = [5, 10, 15, 20, 30, 45, 60];
   documentTypeOptions = Object.values(DocumentTypeEnum);
   specialtyOptions = Object.values(SpecialtyEnum);
 
@@ -73,8 +74,7 @@ export class UpdateDoctor implements OnInit {
       specialties: [[] as string[], Validators.required],
       canSchedule: [true],
       active: [true],
-      intervalStart: ['', Validators.required],
-      intervalEnd: ['', Validators.required],
+      consultationIntervalMinutes: [30, Validators.required],
     });
   }
 
@@ -100,14 +100,32 @@ export class UpdateDoctor implements OnInit {
           specialties: doctor.specialties,
           canSchedule: doctor.canSchedule,
           active: doctor.active,
-          intervalStart: doctor.appointmentInterval.startTime,
-          intervalEnd: doctor.appointmentInterval.endTime,
+          consultationIntervalMinutes: doctor.appointmentInterval
+            ? this.calculateIntervalMinutes(doctor.appointmentInterval)
+            : 30,
         });
       },
       error: () => this.openSnackBar('No se pudo cargar la información del médico.', 'error'),
     });
   }
 
+  private calculateIntervalMinutes(interval: { startTime: string; endTime: string }): number {
+    const start = this.parseTime(interval.startTime);
+    const end = this.parseTime(interval.endTime);
+    if (start && end) {
+      const diffMs = end.getTime() - start.getTime();
+      return Math.round(diffMs / 60000); // convertir ms a minutos
+    }
+    return 30; // valor por defecto
+  }
+
+  private parseTime(timeStr: string): Date | null {
+    if (!timeStr) return null;
+    const [hours, minutes] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
   // Convierte "1990-05-17" → Date para que el datepicker lo entienda
   private parseDateString(dateStr: string): Date | null {
     if (!dateStr) return null;
@@ -169,19 +187,19 @@ export class UpdateDoctor implements OnInit {
       specialties: v.specialties ?? [],
       canSchedule: v.canSchedule ?? true,
       appointmentInterval: {
-        startTime: v.intervalStart ?? '',
-        endTime: v.intervalEnd ?? '',
+        startTime: '00:00',
+        endTime: `00:${String(v.consultationIntervalMinutes).padStart(2, '0')}`,
       },
     };
 
     this.isSaving = true;
     this.doctorService
-      .updateDoctor(this.doctorId, payload)
+      .updateDoctor(payload)
       .pipe(finalize(() => (this.isSaving = false)))
       .subscribe({
         next: () => {
           this.openSnackBar('Médico actualizado correctamente.', 'success');
-          this.router.navigate(['/admin/configuracion']);
+          this.router.navigate(['/admin/editar-medico', this.doctorId]);
         },
         error: () => this.openSnackBar('No se pudo actualizar el médico.', 'error'),
       });
@@ -189,6 +207,11 @@ export class UpdateDoctor implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/admin/configuracion']);
+  }
+
+  goToScheduleConfig(): void {
+    localStorage.setItem('doctorId', this.doctorId.toString());
+    this.router.navigate(['/configure-schedule']);
   }
 
   private openSnackBar(message: string, type: 'success' | 'error' | 'info'): void {

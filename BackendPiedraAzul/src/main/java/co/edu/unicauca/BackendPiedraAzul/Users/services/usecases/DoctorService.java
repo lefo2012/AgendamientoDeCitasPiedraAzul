@@ -75,4 +75,16 @@ public class DoctorService implements IDoctorService {
                 .map(doctorMapper::toConfDoctorDTO)
                 .toList();
     }
+
+
+
+
+
+
+
+
+
+
+
+
 }

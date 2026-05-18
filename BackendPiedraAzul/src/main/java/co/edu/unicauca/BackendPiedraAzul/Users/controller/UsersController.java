@@ -100,6 +100,18 @@ public class UsersController {
         }
     }
 
+    @PutMapping("/updateDoctor")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ResponseEntity<?> updateDoctor(@RequestBody DoctorDTO doctorDTO){
+        try {
+            Doctor doctorUpdate = doctorPersistenceService.update(doctorDTO);
+            return ResponseEntity.ok(doctorUpdate);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error updating patient: " + e.getMessage() + "\"}");
+        }
+    }
+
     @GetMapping("/getAllDoctors")
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getAllDoctor(){

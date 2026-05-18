@@ -169,7 +169,7 @@ export class RegisterUser {
       next: (response: any) => {
         console.log('[RegisterDoctorComponent] Doctor registration completed successfully.');
         this.formError = '';
-        // Guardar el ID del doctor en localStorage para usarlo en la configuración de agenda
+
         if (response && response.id) {
           localStorage.setItem('doctorId', response.id);
         }

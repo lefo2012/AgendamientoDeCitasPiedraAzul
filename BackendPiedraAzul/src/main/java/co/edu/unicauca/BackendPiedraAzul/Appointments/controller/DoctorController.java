@@ -46,4 +46,6 @@ public class DoctorController {
         return ResponseEntity.ok(appointmentService.getAttendedAppointments(doctorId));
     }
 
+
+
 }

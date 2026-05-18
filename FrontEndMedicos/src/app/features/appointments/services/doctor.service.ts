@@ -37,15 +37,14 @@ export class DoctorService {
     return this.http.get<ConfigDoctor[]>(`${this.usersApi}/getAllConfigDoctors`);
   }
 
-  // Revisar bien y acomodar esto
   getDoctorById(doctorId: number): Observable<UpdateDoctorDto> {
     return this.http.get<UpdateDoctorDto>(`${this.usersApi}/getDoctorById/${doctorId}`);
   }
 
-  // Revisar bien y acomodar esto
-  updateDoctor(doctorId: number, doctorData: Partial<UpdateDoctorDto>): Observable<string> {
-    return this.http.put(`${this.usersApi}/updateDoctor/${doctorId}`, doctorData, {
+  updateDoctor(payload: UpdateDoctorDto): Observable<string> {
+    return this.http.put(`${this.usersApi}/updateDoctor`, payload, {
       responseType: 'text'
     });
   }
+
 }

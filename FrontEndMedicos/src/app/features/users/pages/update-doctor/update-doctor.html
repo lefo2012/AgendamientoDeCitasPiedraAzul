@@ -96,31 +96,58 @@
           </div>
 
           <!-- Intervalo de cita -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Inicio intervalo cita</mat-label>
-            <input matInput type="time" formControlName="intervalStart" />
-            <mat-error>Requerido</mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Fin intervalo cita</mat-label>
-            <input matInput type="time" formControlName="intervalEnd" />
-            <mat-error>Requerido</mat-error>
-          </mat-form-field>
+          <div class="field-block">
+            <label class="interval-label">Intervalo de citas</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Intervalo de citas (minutos)</mat-label>
+              <mat-select formControlName="consultationIntervalMinutes">
+                @for (interval of consultationIntervals; track interval) {
+                  <mat-option [value]="interval">{{ interval }} minutos</mat-option>
+                }
+              </mat-select>
+              @if (fieldInvalid('consultationIntervalMinutes')) {
+                <mat-error>Selecciona un intervalo valido.</mat-error>
+              }
+            </mat-form-field>
+          </div>
 
           <!-- Toggles -->
+
           <div class="toggle-group">
-            <mat-slide-toggle formControlName="active" color="primary">
-              Médico activo
-            </mat-slide-toggle>
-            <mat-slide-toggle formControlName="canSchedule" color="primary">
-              Puede agendar citas
-            </mat-slide-toggle>
+            <label class="active-label">¿Médico activo?</label>
+            <div class="toggle-group">
+              <mat-slide-toggle formControlName="active" color="primary">
+                Médico activo
+              </mat-slide-toggle>
+            </div>
+            <div class="toggle-group">
+              <label class="schedule-label">¿Puede agendar citas?</label>
+              <mat-slide-toggle formControlName="canSchedule" color="primary">
+                Puede agendar citas
+              </mat-slide-toggle>
+            </div>
           </div>
         </div>
 
         <mat-divider class="section-divider" />
 
+        <div class="field-block">
+          <h3 class="section-title">Reconfigurar horario </h3>
+            <p class="schedule-help">
+              Si deseas modificar el horario de atención de este médico, haz clic en el siguiente botón para configurar nuevamente su agenda de citas.
+            </p>
+          <button
+            mat-flat-button
+            color="accent"
+            type="button"
+            class="configure-schedule-btn"
+            (click)="goToScheduleConfig()"
+          >
+            <mat-icon>schedule</mat-icon>
+            Reconfigurar Horario
+          </button>
+        </div>
+        <mat-divider class="section-divider" />
         <!-- ACCIONES -->
         <div class="actions-row">
           <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">
