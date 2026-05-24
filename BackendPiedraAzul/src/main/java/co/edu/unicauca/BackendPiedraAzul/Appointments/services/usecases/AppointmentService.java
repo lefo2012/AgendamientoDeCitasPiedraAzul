@@ -45,7 +45,7 @@ public class AppointmentService implements IAppointmentService {
             if(!patient.canScheduleAppointment()) {
                 throw new Exception("El paciente ha alcanzado el límite de citas pendientes (1). No se pueden reservar más citas hasta que se atiendan o cancelen las actuales.");
             }
-            
+
             Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(), interval, patient);
@@ -141,10 +141,12 @@ public class AppointmentService implements IAppointmentService {
             Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
             Patient patient = appointment.getPatient();
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
-
             appointment.setDoctor(doctor);
+
             doctor.cancelAppointment(appointment);
+
             patient.getPendingAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            patient.addPastAppointment(appointment);
 
             doctor.getScheduledAppointments().stream()
                     .filter(a -> a.getId().equals(appointmentId))

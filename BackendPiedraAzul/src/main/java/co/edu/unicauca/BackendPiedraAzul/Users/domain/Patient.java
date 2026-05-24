@@ -56,7 +56,7 @@ public class Patient extends Person {
             pastAppointments = new ArrayList<>();
         }
         pastAppointments.add(appointment);
-        appointmentCount--;
+        appointmentCount=0;
         return true;
     }
 
