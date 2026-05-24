@@ -164,6 +164,38 @@ public class AppointmentService implements IAppointmentService {
     }
 
     @Override
+    @Transactional
+    public void attendAppointment(Long appointmentId) throws Exception {
+        try {
+            Appointment appointment = appointmentPersistenceService.findById(appointmentId);
+            Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(appointment.getPatient().getId());
+
+            appointment.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA);
+            appointment.setDoctor(doctor);
+
+            doctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(appointmentId))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
+
+            doctor.getScheduledAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            doctor.addAppointmentAttended(appointment);
+
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            patient.addPastAppointment(appointment);
+
+            appointmentPersistenceService.save(appointment);
+            doctorPersistenceService.save(doctor);
+            patientPersistenceService.save(patient);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
     public List<AppointmentDTO> getScheduledAppointmentsByDoctor(Long doctorId) throws Exception {
         Doctor doctor = doctorPersistenceService.findById(doctorId);
         return doctor.getScheduledAppointments().stream().map(appointmentMapper::toDto).toList();

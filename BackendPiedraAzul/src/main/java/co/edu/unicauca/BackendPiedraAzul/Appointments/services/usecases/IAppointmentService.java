@@ -15,5 +15,6 @@ public interface IAppointmentService {
     List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception;
     List<Appointment> getAllAppointments()throws Exception;
     List<Appointment> getAllAppointmentsByDate(LocalDate date)throws Exception;
+    void attendAppointment(Long appointmentId)throws Exception;
     void cancelAppointment(Long appointmentId) throws Exception;
 }

@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { AppointmentButtonsModule } from '../../../../shared/components/appointment-buttons/appointment-buttons.module';
 import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-dialog/confirm-export-dialog';
 import { ConfirmCancelDialog } from '../../../../shared/dialogs/confirm-cancel-dialog/confirm-cancel-dialog';
+import { ConfirmAttendDialog } from '../../../../shared/dialogs/confirm-attend-dialog/confirm-attend-dialog';
 
 @Component({
   selector: 'app-appointment-table',
@@ -48,7 +49,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
   @ViewChild('dateInputRef') private dateInputRef?: ElementRef<HTMLInputElement>;
   doctors: DoctorDto[] = [];
   appointments: AppointmentReportDto[] = [];
-  displayedColumns: string[] = ['select', 'doctorName', 'date', 'appointmentInterval', 'patientName'];
+  displayedColumns: string[] = ['select', 'doctorName', 'date', 'appointmentInterval', 'patientName', 'actions'];
   showResults = false;
   selectedDoctorId: number | null = null;
   selectedAppointmentDate: Date | null = null;
@@ -378,5 +379,43 @@ export class AppointmentTable implements OnInit, OnDestroy {
     this.selectedAppointmentId = appointment.id ?? null;
     this.selectedAppointment = appointment;
 
+  }
+
+  attendAppointment(appointment: AppointmentReportDto): void {
+    this.setSelectedAppointment(appointment);
+
+    const dialogRef = this.dialog.open(ConfirmAttendDialog, {
+      width: '400px',
+      disableClose: false,
+      data: {
+        appointment: {
+          doctorName: appointment.doctorName,
+          patientName: appointment.patientName,
+          date: appointment.date,
+          appointmentInterval: appointment.appointmentInterval
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        if (!appointment.id) return;
+        this.performAttendAppointment(appointment.id);
+      }
+    });
+  }
+
+  private performAttendAppointment(appointmentId: number): void {
+    this.appointmentService.attendAppointment(appointmentId).subscribe({
+      next: () => {
+        this.snackBar.open('Cita marcada como atendida.', 'Cerrar', { duration: 2500 });
+        this.selectedAppointmentId = null;
+        this.selectedAppointment = null;
+        setTimeout(() => this.searchAppointments(), 0);
+      },
+      error: () => {
+        this.snackBar.open('No se pudo marcar la cita como atendida.', 'Cerrar', { duration: 3000 });
+      }
+    });
   }
 }

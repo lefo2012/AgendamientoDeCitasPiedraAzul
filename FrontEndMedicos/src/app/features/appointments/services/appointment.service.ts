@@ -25,6 +25,12 @@ export class AppointmentService {
       responseType: 'text'
     });
   }
+  
+  attendAppointment(id: number): Observable<string> {
+  return this.http.put(`${this.appointmentsApi}/attend/${id}`, {}, {
+    responseType: 'text'
+  });
+}
 
   cancelAppointment(appointmentId: number): Observable<string> {
     return this.http.put(

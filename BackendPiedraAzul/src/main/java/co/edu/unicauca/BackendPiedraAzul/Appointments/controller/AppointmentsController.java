@@ -63,6 +63,18 @@ public class AppointmentsController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('MEDICO')")
+    @PutMapping("/attend/{id}")
+    public ResponseEntity<?> attendAppointment(@PathVariable Long id) {
+        try {
+            appointmentService.attendAppointment(id);
+            return ResponseEntity.ok("Cita marcada como atendida");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Error al marcar cita: " + e.getMessage());
+        }
+    }
+
     @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
