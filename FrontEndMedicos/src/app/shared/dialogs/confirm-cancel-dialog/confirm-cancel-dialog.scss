@@ -1,37 +1,37 @@
-.export-dialog {
+.cancel-dialog {
   padding: 8px 8px 8px 8px;
 }
 
-.export-header {
+.cancel-header {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
   padding: 8px 16px;
 }
 
-.export-icon {
-  font-size: 28px;
-  width: 28px;
-  height: 28px;
+.cancel-icon {
+  font-size: 25px;
+  width: 30px;
+  height: 30px;
   color: var(--azul-profundo);
   padding-left: 0.25rem;
   padding-top: 0.3rem;
 }
 
-.export-title {
+.cancel-title {
   margin: 0;
   color: var(--azul-profundo);
   font-size: 25px;
   font-weight: 800;
 }
 
-.export-details {
+.cancel-details {
   margin: 0 0 12px;
   font-size: 18px;
   color: var(--gris-oscuro);
 }
 
-.export-message {
+.cancel-message {
   margin: 12px 0 16px;
   font-weight: 600;
   color: var(--azul-oscuro);

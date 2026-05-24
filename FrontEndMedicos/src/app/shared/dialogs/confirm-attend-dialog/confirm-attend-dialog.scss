@@ -1,15 +1,15 @@
-.export-dialog {
+.attend-dialog {
   padding: 8px 8px 8px 8px;
 }
 
-.export-header {
+.attend-header {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 8px 16px;
 }
 
-.export-icon {
+.attend-icon {
   font-size: 28px;
   width: 28px;
   height: 28px;
@@ -18,20 +18,20 @@
   padding-top: 0.3rem;
 }
 
-.export-title {
+.attend-title {
   margin: 0;
   color: var(--azul-profundo);
   font-size: 25px;
   font-weight: 800;
 }
 
-.export-details {
+.attend-details {
   margin: 0 0 12px;
   font-size: 18px;
   color: var(--gris-oscuro);
 }
 
-.export-message {
+.attend-message {
   margin: 12px 0 16px;
   font-weight: 600;
   color: var(--azul-oscuro);
