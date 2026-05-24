@@ -32,6 +32,8 @@ public class AppointmentService implements IAppointmentService {
     private IPatientPersistenceService patientPersistenceService;
     @Autowired
     private IntervalMapper intervalMapper;
+    @Autowired
+    private WhatsAppNotificationService whatsAppService;
 
     @Override
     @Transactional
@@ -51,6 +53,14 @@ public class AppointmentService implements IAppointmentService {
 
             doctorPersistenceService.save(appointment.getDoctor());
             patientPersistenceService.save(appointment.getPatient());
+
+            whatsAppService.sendAppointmentConfirmation(
+                    patient.getPhone(),
+                    patient.getFirstName(),
+                    doctor.getFirstName() + " " + doctor.getLastName(),
+                    reserveAppointmentDto.getAppointmentDate().toString(),
+                    reserveAppointmentDto.getInterval().getStartTime()
+            );
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,6 +114,14 @@ public class AppointmentService implements IAppointmentService {
             doctorPersistenceService.save(newAppointment.getDoctor());
             patientPersistenceService.save(newAppointment.getPatient());
 
+            whatsAppService.sendAppointmentReschedule(
+                    newPatient.getPhone(),
+                    newPatient.getFirstName(),
+                    newDoctor.getFirstName() + " " + newDoctor.getLastName(),
+                    dto.getAppointmentDate().toString(),
+                    dto.getInterval().getStartTime()
+            );
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -132,6 +150,12 @@ public class AppointmentService implements IAppointmentService {
             Appointment saved = appointmentPersistenceService.save(appointment);
             doctorPersistenceService.save(doctor);
             patientPersistenceService.save(patient);
+            whatsAppService.sendAppointmentCancellation(
+                    patient.getPhone(),
+                    patient.getFirstName(),
+                    appointment.getAppointmentDate().toString(),
+                    appointment.getInterval().getStartTime().toString()
+            );
 
         } catch (Exception e) {
             e.printStackTrace();

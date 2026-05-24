@@ -193,7 +193,9 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
   }
 
   private submitReschedule(selectedDoctor: DoctorDto, selectedSlot: AppointmentSlotDto): void {
-    this.isRescheduling = true;
+    queueMicrotask(() => {
+      this.isRescheduling = true;
+    });
 
     const patientId = Number(this.route.snapshot.queryParamMap.get('idPatient'));
 
