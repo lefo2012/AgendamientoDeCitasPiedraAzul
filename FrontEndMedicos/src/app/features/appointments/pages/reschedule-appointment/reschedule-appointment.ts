@@ -56,6 +56,7 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
 
   isLoadingDoctors = false;
   isRescheduling = false;
+  minDate = new Date();
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,

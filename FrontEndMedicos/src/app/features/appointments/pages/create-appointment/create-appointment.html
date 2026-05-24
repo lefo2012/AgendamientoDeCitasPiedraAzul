@@ -93,6 +93,7 @@
             <input
               matInput
               [matDatepicker]="appointmentDatePicker"
+              [min]="minDate"
               formControlName="appointmentDate"
               [matDatepickerFilter]="appointmentDateFilter"
               (dateChange)="onDateChange()"

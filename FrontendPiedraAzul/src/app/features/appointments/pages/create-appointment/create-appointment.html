@@ -49,6 +49,7 @@
 		<input 
 		matInput 
 		type="text"
+		[min]="minDate"
 		[matDatepicker]="picker" 
 		[matDatepickerFilter]="dateFilter"
 		(dateChange)="onDateChange($event)">

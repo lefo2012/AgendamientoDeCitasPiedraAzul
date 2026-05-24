@@ -69,6 +69,7 @@ export class CreateAppointment implements OnInit, OnDestroy {
   isLoadingDoctors = false;
   isSearchingPatient = false;
   isReserving = false;
+  minDate = new Date();
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,

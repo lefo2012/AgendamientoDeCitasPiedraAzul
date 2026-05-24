@@ -42,6 +42,7 @@ import { CurrentPatient } from '../../../users/models/CurrentPatient';
 })
 export class CreateAppointment{
   reservationError = '';
+  minDate = new Date();
 
   get currentPatient(): CurrentPatient | null {
     return this.authService.currentPatient();
