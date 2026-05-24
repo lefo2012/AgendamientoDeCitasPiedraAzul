@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PatientDTO {
+    private Long id;
     private String documentType;
     private String identificationNumber;
     private String firstName;

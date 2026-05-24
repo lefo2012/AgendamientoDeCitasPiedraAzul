@@ -84,7 +84,7 @@ public class UsersController {
             return ResponseEntity.ok(doctorSaved);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body("{\"error\":\"Error registering patient: " + e.getMessage() + "\"}");
+                    .body("{\"error\":\"Error registering doctor: " + e.getMessage() + "\"}");
         }
     }
 
@@ -96,7 +96,7 @@ public class UsersController {
             return ResponseEntity.ok(doctorSaved);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
-                    .body("{\"error\":\"Error saving patient: " + e.getMessage() + "\"}");
+                    .body("{\"error\":\"Error creating doctor: " + e.getMessage() + "\"}");
         }
     }
 
@@ -106,6 +106,18 @@ public class UsersController {
         try {
             Doctor doctorUpdate = doctorPersistenceService.update(doctorDTO);
             return ResponseEntity.ok(doctorUpdate);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error updating doctor: " + e.getMessage() + "\"}");
+        }
+    }
+
+    @PutMapping("/updatePatient")
+    @PreAuthorize("hasAnyRole('PACIENTE')")
+    public ResponseEntity<?> updatePatient(@RequestBody PatientDTO patientDTO){
+        try {
+            Patient patientUpdate = patientPersistenceService.update(patientDTO);
+            return ResponseEntity.ok(patientUpdate);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body("{\"error\":\"Error updating patient: " + e.getMessage() + "\"}");
@@ -165,6 +177,24 @@ public class UsersController {
                     .body("{\"error\":\"Error retrieving patient: " + e.getMessage() + "\"}");
         }
     }
+
+    @GetMapping("/getPatientById/{id}")
+    @PreAuthorize("hasAnyRole('PACIENTE')")
+    public ResponseEntity<?> getPatientById(@PathVariable String id) {
+        try {
+            Patient patient = patientPersistenceService.findById(Long.valueOf(id));
+            if (patient != null) {
+                return ResponseEntity.ok(patient);
+            } else {
+                return ResponseEntity.status(404)
+                        .body("{\"error\":\"Patient not found  with id: " + id + "\"}");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("{\"error\":\"Error retrieving patient: " + e.getMessage() + "\"}");
+        }
+    }
+
 
     @GetMapping("/getDoctorById/{id}")
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")

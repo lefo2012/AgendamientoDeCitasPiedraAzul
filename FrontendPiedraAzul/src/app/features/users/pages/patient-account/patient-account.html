@@ -1,0 +1,167 @@
+<section class="account-page">
+  <div class="account-header">
+    <h1>Mi cuenta</h1>
+    <p>Revisa y actualiza tu informacion personal y consulta tu cita pendiente.</p>
+  </div>
+
+  <div class="account-grid">
+    <mat-card class="account-card">
+      <mat-card-header>
+        <mat-card-title class="account-title">Informacion del paciente</mat-card-title>
+        @if (patientEmail) {
+          <mat-card-subtitle class="account-subtitle">Correo: {{ patientEmail }}</mat-card-subtitle>
+        }
+      </mat-card-header>
+
+      <mat-card-content>
+        @if (isLoadingProfile) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
+
+        @if (profileError) {
+          <div class="alert" role="alert">{{ profileError }}</div>
+        }
+
+        <form class="account-form" [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+          <div class="form-grid two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre(s)</mat-label>
+              <input matInput type="text" formControlName="firstName" placeholder="Nombre(s)">
+              @if (fieldInvalid('firstName')) {
+                <mat-error>Ingresa un nombre válido.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Apellido(s)</mat-label>
+              <input matInput type="text" formControlName="lastName" placeholder="Apellido(s)">
+              @if (fieldInvalid('lastName')) {
+                <mat-error>Ingresa un apellido válido.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-grid document-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select formControlName="documentType">
+                <mat-option value="">Seleccione</mat-option>
+                <mat-option value="CC">Cedula</mat-option>
+                <mat-option value="TI">Tarjeta de Identidad</mat-option>
+                <mat-option value="CE">Cedula de Extranjeria</mat-option>
+              </mat-select>
+              @if (fieldInvalid('documentType')) {
+                <mat-error>Selecciona un tipo de documento.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Numero de documento</mat-label>
+              <input matInput type="text" formControlName="identificationNumber" placeholder="123456789">
+              @if (fieldInvalid('identificationNumber')) {
+                <mat-error>Debe tener entre 6 y 12 digitos.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-grid two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input matInput [matDatepicker]="birthPicker" formControlName="birthDate" placeholder="Selecciona una fecha">
+              <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthPicker></mat-datepicker>
+              @if (fieldInvalid('birthDate')) {
+                <mat-error>Selecciona una fecha valida.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Telefono</mat-label>
+              <input matInput type="text" formControlName="phone" placeholder="3001234567">
+              @if (fieldInvalid('phone')) {
+                <mat-error>Ingresa un numero de 10 digitos.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-grid two-columns">
+            <mat-form-field appearance="outline">
+              <mat-label>Genero</mat-label>
+              <mat-select formControlName="gender">
+                <mat-option value="">Seleccione</mat-option>
+                @for (genderOption of genderOptions; track genderOption.value) {
+                  <mat-option [value]="genderOption.value">{{ genderOption.label }}</mat-option>
+                }
+              </mat-select>
+              @if (fieldInvalid('gender')) {
+                <mat-error>Selecciona un genero.</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="active">
+                <mat-option [value]="true">Activo</mat-option>
+                <mat-option [value]="false">Inactivo</mat-option>
+              </mat-select>
+              @if (fieldInvalid('active')) {
+                <mat-error>Selecciona el estado.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit" [disabled]="isSaving">
+              @if (isSaving) {
+                Guardando...
+              } @else {
+                Guardar cambios
+              }
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="account-card">
+      <mat-card-header>
+        <mat-card-title class="account-title">Cita pendiente</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        @if (isLoadingAppointments) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
+
+        @if (appointmentError) {
+          <div class="alert" role="alert">{{ appointmentError }}</div>
+        }
+
+        @if (!isLoadingAppointments && !appointmentError) {
+          @if (pendingAppointment) {
+            <div class="appointment-details">
+              <div class="detail-row">
+                <span class="label">Doctor</span>
+                <span>{{ pendingAppointment.doctor?.firstName }} {{ pendingAppointment.doctor?.lastName }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Fecha</span>
+                <span>{{ pendingAppointment.appointmentDate }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Horario</span>
+                <span>{{ pendingAppointment.interval?.startTime }} - {{ pendingAppointment.interval?.endTime }}</span>
+              </div>
+              <div class="detail-row">
+                <span class="label">Estado</span>
+                <span>{{ pendingAppointment.appointmentStatus }}</span>
+              </div>
+            </div>
+          } @else {
+            <p class="empty-state">No tienes citas pendientes en este momento.</p>
+          }
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

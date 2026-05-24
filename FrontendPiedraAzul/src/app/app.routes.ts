@@ -48,6 +48,12 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/appointments/pages/cancel-appointment/cancel-appointment').then((m) => m.CancelAppointment),
       },
+      {
+        path: 'mi-cuenta',
+        canActivate: [authRequiredGuard],
+        loadComponent: () =>
+          import('./features/users/pages/patient-account/patient-account').then((m) => m.PatientAccount),
+      },
     ],
   },
   {

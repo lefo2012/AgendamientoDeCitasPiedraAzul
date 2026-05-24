@@ -370,8 +370,9 @@ export class CreateAppointment implements OnInit, OnDestroy {
             this.resetAndReloadForm();
           });
         },
-        error: () => {
-          this.openSnackBar('No fue posible agendar la cita.', 'error');
+        error: (error) => {
+          const message = this.resolveReserveErrorMessage(error);
+          this.openSnackBar(message, 'error');
         },
       });
   }
@@ -568,5 +569,49 @@ export class CreateAppointment implements OnInit, OnDestroy {
       verticalPosition: 'top',
       panelClass,
     });
+  }
+
+  private resolveReserveErrorMessage(error: unknown): string {
+    const defaultMessage = 'No fue posible agendar la cita.';
+    const message = this.extractErrorMessage(error);
+
+    if (!message) {
+      return defaultMessage;
+    }
+
+    const normalized = message.toLowerCase();
+    if (normalized.includes('límite de citas pendientes') || normalized.includes('limite de citas pendientes')) {
+      return 'El paciente ya tiene una cita pendiente. Debe atenderla o cancelarla antes de agendar otra.';
+    }
+
+    return message;
+  }
+
+  private extractErrorMessage(error: unknown): string {
+    if (!error || typeof error !== 'object') {
+      return '';
+    }
+
+    const httpError = error as { error?: unknown; message?: string };
+    if (typeof httpError.error === 'string') {
+      const raw = httpError.error.trim();
+      if (!raw) {
+        return httpError.message ?? '';
+      }
+
+      try {
+        const parsed = JSON.parse(raw) as { message?: string };
+        return parsed.message ?? raw;
+      } catch {
+        return raw;
+      }
+    }
+
+    if (httpError.error && typeof httpError.error === 'object') {
+      const payload = httpError.error as { message?: string };
+      return payload.message ?? httpError.message ?? '';
+    }
+
+    return httpError.message ?? '';
   }
 }

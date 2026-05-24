@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ReserveAppointmentDto } from '../models/ReserveAppointmentDto';
+import { PendingAppointment } from '../models/PendingAppointment';
 import { getAppEnv } from '../../../core/config/app-env';
 
 const env = getAppEnv();
@@ -11,9 +12,16 @@ const env = getAppEnv();
 })
 export class AppointmentService {
   private appointmentsApi = env.API_APPOINTMENTS;
+  private patientApi = env.API_PATIENT;
   constructor(private http: HttpClient) { }
   reserveAppointment(appointment: ReserveAppointmentDto): Observable<any> {
     return this.http.post<any>(`${this.appointmentsApi}/reserve`, appointment);
+  }
+
+  getPendingAppointments(patientId: number): Observable<PendingAppointment[] | { pendingAppointments?: PendingAppointment[] }> {
+    return this.http.get<PendingAppointment[] | { pendingAppointments?: PendingAppointment[] }>(
+      `${this.patientApi}/${patientId}/getPendingAppointments`
+    );
   }
 
 }

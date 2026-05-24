@@ -12,6 +12,9 @@
     <nav aria-label="Navegacion principal">
       <a mat-button (click)="backToHome()">Inicio</a>
       <a mat-button (click)="scrollToCards()">Citas</a>
+      @if (isAuthenticated && isPatientUser) {
+        <button mat-button type="button" (click)="openPatientAccount()">Mi cuenta</button>
+      }
       @if (!isAuthenticated) {
         <a mat-button routerLink="/login">Acceder</a>
       } @else {
@@ -27,6 +30,9 @@
     <mat-menu #menu="matMenu">
       <a mat-menu-item routerLink="/">Inicio</a>
       <a mat-menu-item (click)="scrollToCards()">Citas</a>
+      @if (isAuthenticated && isPatientUser) {
+        <button mat-menu-item type="button" (click)="openPatientAccount()">Mi cuenta</button>
+      }
       @if (!isAuthenticated) {
         <a mat-menu-item routerLink="/login">Acceder</a>
       } @else {

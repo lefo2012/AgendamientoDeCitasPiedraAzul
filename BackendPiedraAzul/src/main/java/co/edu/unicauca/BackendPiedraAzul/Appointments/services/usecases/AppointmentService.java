@@ -39,16 +39,19 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void reserveAppointment(ReserveAppointmentDTO reserveAppointmentDto) throws Exception {
         try {
-            //To do: verify the time of interval for reserve
-            Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
+
             Patient patient = patientPersistenceService.findById(reserveAppointmentDto.getIdPatient());
+
+            if(!patient.canScheduleAppointment()) {
+                throw new Exception("El paciente ha alcanzado el límite de citas pendientes (1). No se pueden reservar más citas hasta que se atiendan o cancelen las actuales.");
+            }
+            
+            Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
             Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
             Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(), interval, patient);
 
 
             Appointment savedAppointment = appointmentPersistenceService.save(appointment);
-            // Keep the generated id in the same object referenced by doctor/patient lists.
-            // Without this, cascading save can treat it as a new appointment and insert duplicates.
             appointment.setId(savedAppointment.getId());
 
             doctorPersistenceService.save(appointment.getDoctor());
@@ -73,6 +76,7 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void reSchedule(ReserveAppointmentDTO dto) throws Exception {
         try {
+
             if (dto.getId() == null) {
                 throw new Exception("El id de la cita a reprogramar no puede ser nulo");
             }

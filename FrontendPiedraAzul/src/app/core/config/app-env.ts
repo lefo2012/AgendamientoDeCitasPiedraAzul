@@ -2,6 +2,7 @@ export interface AppEnv {
   BACKEND_API: string;
   API_USERS: string;
   API_APPOINTMENTS: string;
+  API_PATIENT: string;
   API_DOCTOR: string;
   API_REPORTS: string;
   API_AUTH: string;
@@ -20,6 +21,7 @@ const defaultEnv: AppEnv = {
   BACKEND_API: '/api/users',
   API_USERS: '/api/users',
   API_APPOINTMENTS: '/api/appointments',
+  API_PATIENT: '/api/patient',
   API_DOCTOR: '/api/doctor',
   API_REPORTS: '/api/reports',
   API_AUTH: '/api/auth',

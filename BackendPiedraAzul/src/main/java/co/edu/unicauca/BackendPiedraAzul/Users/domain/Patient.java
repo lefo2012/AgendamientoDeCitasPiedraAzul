@@ -56,7 +56,14 @@ public class Patient extends Person {
             pastAppointments = new ArrayList<>();
         }
         pastAppointments.add(appointment);
+        appointmentCount--;
+        return true;
+    }
 
+    public boolean canScheduleAppointment() {
+        if(appointmentCount==1){
+            return false;
+        }
         return true;
     }
 

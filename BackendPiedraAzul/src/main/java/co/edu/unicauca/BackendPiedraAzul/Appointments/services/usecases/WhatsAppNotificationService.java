@@ -30,7 +30,6 @@ public class WhatsAppNotificationService {
                         "Si necesitas cancelar o reagendar, comunícate con nosotros.",
                 patientName, doctorName, date, time
         );
-        System.out.println("TU COLA");
         sendMessage(toPhone, body);
     }
 
@@ -53,8 +52,6 @@ public class WhatsAppNotificationService {
 
     private void sendMessage(String toPhone, String body) {
         String formattedPhone = formatPhone(toPhone);
-        System.out.println("Enviando WhatsApp a: " + formattedPhone);
-        System.out.println("Mensaje: " + body);
 
         try {
             Message message = Message.creator(

@@ -13,6 +13,7 @@ const allowedKeys = [
   'BACKEND_API',
   'API_USERS',
   'API_APPOINTMENTS',
+  'API_PATIENT',
   'API_DOCTOR',
   'API_REPORTS',
   'API_AUTH',
