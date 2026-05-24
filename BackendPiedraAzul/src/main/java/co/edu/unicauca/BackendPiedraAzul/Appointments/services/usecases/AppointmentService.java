@@ -139,7 +139,7 @@ public class AppointmentService implements IAppointmentService {
             Appointment appointment = appointmentPersistenceService.findById(appointmentId);
 
             Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
-            Patient patient = appointment.getPatient();
+            Patient patient = patientPersistenceService.findById(appointment.getPatient().getId());
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
             appointment.setDoctor(doctor);
 
