@@ -9,38 +9,29 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const env = getAppEnv();
-  const token = authService.accessToken();
   const isApiRequest = req.url.includes('/api/');
   const isAuthMeRequest = req.url.includes(`${env.API_AUTH}/getDoctorByToken`);
+  const isSessionRequest = req.url.includes(`${env.API_AUTH}/session/`);
+  const isSessionLoginRequest = req.url.includes(`${env.API_AUTH}/session/login`);
+  const isSessionRefreshRequest = req.url.includes(`${env.API_AUTH}/session/refresh`);
   const isRefreshRequest = req.url.includes('/protocol/openid-connect/token')
     && req.body?.toString?.().includes('grant_type=refresh_token');
   const isLoginRequest = req.url.includes('/protocol/openid-connect/token')
     && req.body?.toString?.().includes('grant_type=password');
 
-  const requestWithToken = isApiRequest && token && !req.headers.has('Authorization')
-    ? req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+  const shouldAttachCredentials = isApiRequest || isAuthMeRequest || isSessionRequest;
+  const requestWithCredentials = shouldAttachCredentials && !req.withCredentials
+    ? req.clone({ withCredentials: true })
     : req;
 
-  return next(requestWithToken).pipe(
+  return next(requestWithCredentials).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status !== 401 || isRefreshRequest || isLoginRequest || isAuthMeRequest) {
+      if (error.status !== 401 || isRefreshRequest || isLoginRequest || isAuthMeRequest || isSessionLoginRequest || isSessionRefreshRequest) {
         return throwError(() => error);
       }
 
       return authService.refreshAccessToken().pipe(
-        switchMap((newAccessToken) => {
-          const retriedRequest = req.clone({
-            setHeaders: {
-              Authorization: `Bearer ${newAccessToken}`
-            }
-          });
-
-          return next(retriedRequest);
-        }),
+        switchMap(() => next(requestWithCredentials)),
         catchError((refreshError: HttpErrorResponse) => {
           authService.clearSession();
           router.navigate(['/login']);

@@ -17,9 +17,9 @@ describe('Login', () => {
         {
           provide: AuthService,
           useValue: {
-            login: () => of({ access_token: 'token' }),
-            startSessionWithToken: () => undefined,
-            getRolesFromToken: () => []
+            login: () => of(void 0),
+            initializeSession: () => of(null),
+            getRoles: () => []
           }
         }
       ],

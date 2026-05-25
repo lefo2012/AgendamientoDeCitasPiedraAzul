@@ -88,10 +88,30 @@ public class AppointmentsController {
     }
 
     @PreAuthorize("hasAnyRole('MEDICO')")
-    @PostMapping("/reschedule")
-    public ResponseEntity<?> reSchedule(@RequestBody ReserveAppointmentDTO dto) {
+    @PostMapping("/rescheduleDoctor")
+    public ResponseEntity<?> reScheduleDoctor(@RequestBody ReserveAppointmentDTO dto) {
         try {
-            appointmentService.reSchedule(dto);
+            appointmentService.reScheduleDoctor(dto);
+
+            // Retornamos un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Reserva realizada con éxito");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Imposibilidad al reservar la cita: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MEDICO')")
+    @PostMapping("/reschedulePatient")
+    public ResponseEntity<?> reSchedulePatient(@RequestBody ReserveAppointmentDTO dto) {
+        try {
+            appointmentService.reSchedulePatient(dto);
 
             // Retornamos un objeto JSON
             Map<String, String> response = new HashMap<>();

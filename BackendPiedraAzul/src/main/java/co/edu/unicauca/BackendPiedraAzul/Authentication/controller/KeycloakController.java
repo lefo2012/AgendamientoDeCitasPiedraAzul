@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -208,5 +209,22 @@ public class KeycloakController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error at getting user by token: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<?> getRoles(Authentication authentication) {
+        if (authentication == null || authentication.getAuthorities() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No authentication available");
+        }
+
+        List<String> roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.startsWith("ROLE_"))
+                .map(authority -> authority.substring("ROLE_".length()))
+                .distinct()
+                .toList();
+
+        return ResponseEntity.ok(roles);
     }
 }

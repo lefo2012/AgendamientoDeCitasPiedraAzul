@@ -169,11 +169,10 @@ export class RegisterUser {
       next: (response: any) => {
         console.log('[RegisterDoctorComponent] Doctor registration completed successfully.');
         this.formError = '';
-
-        if (response && response.id) {
-          localStorage.setItem('doctorId', response.id);
-        }
-        this.router.navigate(['/configure-schedule']);
+        const doctorId = response?.id;
+        this.router.navigate(['/configure-schedule'], {
+          queryParams: doctorId ? { doctorId } : undefined
+        });
       },
       error: (err) => {
         console.error('Doctor registration error', err);

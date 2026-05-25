@@ -31,12 +31,7 @@ export class Navbar {
   }
 
   get isPatientUser(): boolean {
-    const token = this.authService.accessToken();
-    if (!token) {
-      return false;
-    }
-
-    return this.authService.getRolesFromToken(token).includes('PACIENTE');
+    return this.authService.getRoles().includes('PACIENTE');
   }
 
   onLogout(): void {

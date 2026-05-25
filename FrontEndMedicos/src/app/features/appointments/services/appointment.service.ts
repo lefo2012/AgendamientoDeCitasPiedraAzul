@@ -21,7 +21,7 @@ export class AppointmentService {
   }
 
   rescheduleAppointment(payload: ReserveAppointmentDto): Observable<string> {
-    return this.http.post(`${this.appointmentsApi}/reschedule`, payload, {
+    return this.http.post(`${this.appointmentsApi}/rescheduleDoctor`, payload, {
       responseType: 'text'
     });
   }

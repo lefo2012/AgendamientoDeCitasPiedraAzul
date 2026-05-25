@@ -15,50 +15,36 @@ export const authRequiredGuard: CanActivateFn = () => {
     return true;
   }
 
-  const token = authService.accessToken();
-  if (token) {
-    return authService.restoreSession().pipe(
-      map((patient) => {
-        if (patient) {
-          return true;
-        }
+  return authService.restoreSession().pipe(
+    map((patient) => {
+      if (patient) {
+        return true;
+      }
 
-        snackBar.open(LOGIN_REQUIRED_MESSAGE, 'Ir al login', {
-          duration: 4200,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-          panelClass: ['auth-warning-snackbar']
-        });
+      snackBar.open(LOGIN_REQUIRED_MESSAGE, 'Ir al login', {
+        duration: 4200,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['auth-warning-snackbar']
+      });
 
-        return router.createUrlTree(['/login'], {
+      return router.createUrlTree(['/login'], {
+        queryParams: { message: LOGIN_REQUIRED_MESSAGE }
+      });
+    }),
+    catchError(() => {
+      snackBar.open(LOGIN_REQUIRED_MESSAGE, 'Ir al login', {
+        duration: 4200,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['auth-warning-snackbar']
+      });
+
+      return of(
+        router.createUrlTree(['/login'], {
           queryParams: { message: LOGIN_REQUIRED_MESSAGE }
-        });
-      }),
-      catchError(() => {
-        snackBar.open(LOGIN_REQUIRED_MESSAGE, 'Ir al login', {
-          duration: 4200,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-          panelClass: ['auth-warning-snackbar']
-        });
-
-        return of(
-          router.createUrlTree(['/login'], {
-            queryParams: { message: LOGIN_REQUIRED_MESSAGE }
-          })
-        );
-      })
-    );
-  }
-
-  snackBar.open(LOGIN_REQUIRED_MESSAGE, 'Ir al login', {
-    duration: 4200,
-    horizontalPosition: 'end',
-    verticalPosition: 'top',
-    panelClass: ['auth-warning-snackbar']
-  });
-
-  return router.createUrlTree(['/login'], {
-    queryParams: { message: LOGIN_REQUIRED_MESSAGE }
-  });
+        })
+      );
+    })
+  );
 };

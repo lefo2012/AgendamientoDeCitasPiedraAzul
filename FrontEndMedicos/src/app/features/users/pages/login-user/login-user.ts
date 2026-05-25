@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -66,52 +67,34 @@ export class Login {
     console.log('[LoginComponent] Calling AuthService.login for user:', email);
 
     this.authService.login(email, credentials.password)
+      .pipe(
+        switchMap(() => this.authService.initializeSession())
+      )
       .subscribe({
-        next: (token) => {
+        next: (doctor) => {
           console.groupCollapsed('[LoginComponent] Login success');
-          console.log('Token response from service:', token);
-          console.log('Access token received:', token?.access_token ?? '(none)');
+          console.log('Current doctor from /api/auth/getDoctorByToken:', doctor);
           console.groupEnd();
-          const roles = this.authService.getRolesFromToken(token.access_token);
 
+          const roles = this.authService.getRoles();
           console.log('[LoginComponent] Roles extracted:', roles);
 
           if (roles.includes('ADMIN')) {
-            this.authService.startSessionWithToken(token);
             this.errorMessage = '';
             console.log('[LoginComponent] Redirecting to /admin');
             this.router.navigate(['/admin']);
-          } else {
-            this.authService.initializeSession(token).subscribe({
-              next: (doctor) => {
-                if (!doctor) {
-                  this.authService.clearSession();
-                  this.errorMessage = 'No se pudo recuperar la informacion del medico. Inicia sesion nuevamente.';
-                  return;
-                }
-
-                this.errorMessage = '';
-                console.log('[LoginComponent] Redirecting to /');
-                this.router.navigate(['/']);
-              },
-              error: (sessionError) => {
-                console.error('[LoginComponent] Could not load doctor profile from backend.', sessionError);
-
-                if (sessionError?.status === 401) {
-                  this.errorMessage = 'Token valido, pero no fue posible cargar el perfil del doctor.';
-                  return;
-                }
-
-                if (sessionError?.status === 0) {
-                  this.errorMessage = 'No fue posible conectar con el backend para cargar el perfil del doctor.';
-                  return;
-                }
-
-                this.errorMessage = 'No se pudo cargar la informacion del doctor.';
-              }
-            });
+            return;
           }
 
+          if (!doctor) {
+            this.authService.clearSession();
+            this.errorMessage = 'No se pudo recuperar la informacion del medico. Inicia sesion nuevamente.';
+            return;
+          }
+
+          this.errorMessage = '';
+          console.log('[LoginComponent] Redirecting to /');
+          this.router.navigate(['/']);
         },
         error: (err) => {
           console.groupCollapsed('[LoginComponent] Login failed');
@@ -120,13 +103,13 @@ export class Login {
           console.error('Backend payload:', err?.error);
           console.groupEnd();
 
-          if (err?.status === 400 && err?.error?.error === 'invalid_grant') {
-            this.errorMessage = 'Credenciales incorrectas (invalid_grant).';
+          if (err?.status === 401 || err?.error?.error === 'invalid_credentials') {
+            this.errorMessage = 'Credenciales incorrectas.';
             return;
           }
 
           if (err?.status === 0) {
-            this.errorMessage = 'No hubo conexión con Keycloak (CORS, SSL o servidor apagado).';
+            this.errorMessage = 'No hubo conexión con el backend (CORS o servidor apagado).';
             return;
           }
 

@@ -11,7 +11,7 @@ import { GENDER_OPTIONS } from '../../models/GenderEnum';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { map, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -145,18 +145,13 @@ export class Login {
     const credentials = this.loginForm.value;
     const email = credentials.email?.trim?.() ?? credentials.email;
 
-
     console.log('[LoginComponent] Calling AuthService.login for user:', email);
 
     this.authService.login(email, credentials.password).pipe(
-      switchMap((token) =>
-        this.authService.initializeSession(token).pipe(
-          map((patient) => ({ token, patient }))
-        )
-      )
+      switchMap(() => this.authService.initializeSession())
     )
       .subscribe({
-        next: ({ token, patient }) => {
+        next: (patient) => {
           if (!patient) {
             this.authService.clearSession();
             this.errorMessage = 'No se pudo recuperar la informacion del paciente. Inicia sesion nuevamente.';
@@ -164,13 +159,11 @@ export class Login {
           }
 
           console.groupCollapsed('[LoginComponent] Login success');
-          console.log('Token response from service:', token);
-          console.log('Access token received:', token?.access_token ?? '(none)');
-          console.log('Current patient from /api/auth/me:', patient);
+          console.log('Current patient from /api/auth/getPatientByToken:', patient);
           console.groupEnd();
 
           this.errorMessage = '';
-          const roles = this.authService.getRolesFromToken(token.access_token);
+          const roles = this.authService.getRoles();
 
           console.log('[LoginComponent] Roles extracted:', roles);
 
@@ -181,11 +174,6 @@ export class Login {
             console.log('[LoginComponent] Redirecting to /');
             this.router.navigate(['/']);
           }
-
-
-
-
-
         },
         error: (err) => {
           console.groupCollapsed('[LoginComponent] Login failed');
@@ -194,18 +182,13 @@ export class Login {
           console.error('Backend payload:', err?.error);
           console.groupEnd();
 
-          if (err?.status === 400 && err?.error?.error === 'invalid_grant') {
-            this.errorMessage = 'Credenciales incorrectas (invalid_grant).';
-            return;
-          }
-
-          if (err?.status === 401) {
-            this.errorMessage = 'Token válido, pero no fue posible cargar el perfil del paciente.';
+          if (err?.status === 401 || err?.error?.error === 'invalid_credentials') {
+            this.errorMessage = 'Credenciales incorrectas.';
             return;
           }
 
           if (err?.status === 0) {
-            this.errorMessage = 'No hubo conexión con Keycloak (CORS, SSL o servidor apagado).';
+            this.errorMessage = 'No hubo conexión con el backend (CORS o servidor apagado).';
             return;
           }
 
@@ -213,17 +196,6 @@ export class Login {
         }
       });
   }
-
-  fieldInvalidLogin(fieldName: 'email' | 'password'): boolean {
-    const control = this.loginForm.get(fieldName);
-    return !!control && control.invalid && (control.touched || this.loginSubmitted);
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
-  }
-
-
 
   register() {
     this.registerSubmitted = true;
@@ -270,8 +242,6 @@ export class Login {
         password: formData.password,
         roles: ['PACIENTE']
       }
-
-    
     };
 
     console.groupCollapsed('[RegisterComponent] Register request payload');
@@ -380,6 +350,15 @@ export class Login {
   fieldInvalidRegister(fieldName: string): boolean {
     const control = this.registerForm.get(fieldName);
     return !!control && control.invalid && (control.touched || this.registerSubmitted);
+  }
+
+  fieldInvalidLogin(fieldName: 'email' | 'password'): boolean {
+    const control = this.loginForm.get(fieldName);
+    return !!control && control.invalid && (control.touched || this.loginSubmitted);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
   changeToRegister() {
     this.loginActive = false;

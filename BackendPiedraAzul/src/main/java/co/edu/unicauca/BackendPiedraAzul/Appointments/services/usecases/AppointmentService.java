@@ -74,7 +74,7 @@ public class AppointmentService implements IAppointmentService {
 
     @Override
     @Transactional
-    public void reSchedule(ReserveAppointmentDTO dto) throws Exception {
+    public void reScheduleDoctor(ReserveAppointmentDTO dto) throws Exception {
         try {
 
             if (dto.getId() == null) {
@@ -97,6 +97,60 @@ public class AppointmentService implements IAppointmentService {
             // 2. Mover a listas de historial
             oldDoctor.getScheduledAppointments().removeIf(a -> a.getId().equals(dto.getId()));
             oldDoctor.addAppointmentAttended(oldAppointment);
+            patient.addPastAppointment(oldAppointment);
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
+            // 3. Guardar solo doctor y paciente — el cascade se encarga de la cita
+            doctorPersistenceService.save(oldDoctor);
+            patientPersistenceService.save(patient);
+            // Guardar la cita por separado DESPUÉS para que el estado quede persistido
+            appointmentPersistenceService.save(oldAppointment);
+
+            // 4. Crear nueva cita
+            Doctor newDoctor = doctorPersistenceService.findById(dto.getIdDoctor());
+            Patient newPatient = patientPersistenceService.findById(dto.getIdPatient());
+            Interval interval = intervalMapper.dtoToDomain(dto.getInterval());
+
+            Appointment newAppointment = new Appointment(newDoctor, dto.getAppointmentDate(), interval, newPatient);
+            Appointment saved = appointmentPersistenceService.save(newAppointment);
+            newAppointment.setId(saved.getId());
+
+            doctorPersistenceService.save(newAppointment.getDoctor());
+            patientPersistenceService.save(newAppointment.getPatient());
+
+            whatsAppService.sendAppointmentReschedule(
+                    newPatient.getPhone(),
+                    newPatient.getFirstName(),
+                    newDoctor.getFirstName() + " " + newDoctor.getLastName(),
+                    dto.getAppointmentDate().toString(),
+                    dto.getInterval().getStartTime()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void reSchedulePatient(ReserveAppointmentDTO dto) throws Exception {
+        try {
+
+            if (dto.getId() == null) {
+                throw new Exception("El id de la cita a reprogramar no puede ser nulo");
+            }
+
+            Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
+            Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(dto.getIdPatient());
+
+            //cambio a cancelada
+            oldAppointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
+
+            // 2. Esta no se mueve a la lista del historial porque se canceló, solo se elimina de las pendientes
+            oldDoctor.getScheduledAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
             patient.addPastAppointment(oldAppointment);
             patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
 

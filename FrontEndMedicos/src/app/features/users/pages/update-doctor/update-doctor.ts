@@ -210,8 +210,9 @@ export class UpdateDoctor implements OnInit {
   }
 
   goToScheduleConfig(): void {
-    localStorage.setItem('doctorId', this.doctorId.toString());
-    this.router.navigate(['/configure-schedule']);
+    this.router.navigate(['/configure-schedule'], {
+      queryParams: { doctorId: this.doctorId }
+    });
   }
 
   private openSnackBar(message: string, type: 'success' | 'error' | 'info'): void {

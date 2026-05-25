@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -77,6 +77,7 @@ export class ConfigureScheduleDoctor implements OnInit {
     private fb: FormBuilder,
     private doctorService: DoctorService,
     private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef
@@ -173,10 +174,9 @@ export class ConfigureScheduleDoctor implements OnInit {
       return String(currentDoctorId);
     }
 
-    const storedDoctorId = localStorage.getItem('doctorId');
-
-    if (storedDoctorId && storedDoctorId.trim().length > 0) {
-      return storedDoctorId;
+    const queryDoctorId = this.route.snapshot.queryParamMap.get('doctorId');
+    if (queryDoctorId && queryDoctorId.trim().length > 0) {
+      return queryDoctorId;
     }
 
     return null;
