@@ -90,11 +90,13 @@ export class Main  {
   }
 
   goToRescheduleAppointment() {
+    
     this.router.navigate(['/citas/reagendar']);
   }
 
   goToCancelAppointment() {
     this.router.navigate(['/citas/cancelar']);
+    console.log('Navegando a cancelar cita');
   }
 
   slides = [

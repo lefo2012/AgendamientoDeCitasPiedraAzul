@@ -1,0 +1,31 @@
+<div class="success-dialog">
+  <div class="success-header">
+    <mat-icon class="success-icon">check_circle</mat-icon>
+    <h2 mat-dialog-title class="success-title">Cita agendada exitosamente</h2>
+  </div>
+  <mat-dialog-content>
+    <div class="success-details">
+      <div>
+        <span>Medico</span>
+        <strong>{{ data.doctorName }}</strong>
+      </div>
+      <div>
+        <span>Paciente</span>
+        <strong>{{ data.patientName }}</strong>
+      </div>
+      <div>
+        <span>Fecha</span>
+        <strong>{{ data.date }}</strong>
+      </div>
+      <div>
+        <span>Hora</span>
+        <strong>{{ data.time }}</strong>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <p class="success-message">La cita ha sido registrada correctamente en el sistema.</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-flat-button color="primary" (click)="onClose()" cdkFocusInitial>Aceptar</button>
+  </mat-dialog-actions>
+</div>

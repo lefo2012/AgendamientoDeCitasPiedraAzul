@@ -14,8 +14,25 @@ export class AppointmentService {
   private appointmentsApi = env.API_APPOINTMENTS;
   private patientApi = env.API_PATIENT;
   constructor(private http: HttpClient) { }
+
   reserveAppointment(appointment: ReserveAppointmentDto): Observable<any> {
     return this.http.post<any>(`${this.appointmentsApi}/reserve`, appointment);
+  }
+
+  cancelAppointment(appointmentId: number): Observable<string> {
+    return this.http.put(
+      `${this.appointmentsApi}/cancel/${encodeURIComponent(appointmentId)}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
+  }
+  
+  rescheduleAppointment(payload: ReserveAppointmentDto): Observable<string> {
+    return this.http.post(`${this.appointmentsApi}/reschedulePatient`, payload, {
+      responseType: 'text'
+    });
   }
 
   getPendingAppointments(patientId: number): Observable<PendingAppointment[] | { pendingAppointments?: PendingAppointment[] }> {

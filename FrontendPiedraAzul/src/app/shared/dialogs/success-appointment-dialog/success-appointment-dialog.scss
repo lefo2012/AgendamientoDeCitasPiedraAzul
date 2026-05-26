@@ -1,0 +1,57 @@
+.success-dialog {
+  padding: 8px 8px 8px 8px;
+}
+
+.success-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 8px;
+}
+
+.success-icon {
+  font-size: 28px;
+  width: 30px;
+  height: 30px;
+  color: #4caf50;
+  padding-left: 0.25rem;
+  padding-top: 0.3rem;
+}
+
+.success-title {
+  margin: 0;
+  color: var(--azul-profundo);
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.success-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 16px;
+  padding: 16px;
+  background: var(--fondo-suave);
+  border-radius: 12px;
+  border: 1px solid var(--gris-claro);
+}
+
+.success-details div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 18px;
+  color: var(--gris-oscuro);
+}
+
+.success-details strong {
+  font-size: 18px;
+  color: var(--azul-oscuro);
+}
+
+.success-message {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 16px;
+  color: var(--gris-oscuro);
+}

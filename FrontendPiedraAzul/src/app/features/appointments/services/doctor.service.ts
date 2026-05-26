@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DoctorDto } from '../models/DoctorDto';
 import { getAppEnv } from '../../../core/config/app-env';
+import { AppointmentDoctorDto } from '../../users/models/AppointmentDoctorDto';
 
 const env = getAppEnv();
 
@@ -16,5 +17,9 @@ export class DoctorService {
 
   getDoctorsBySpeciality(specialty: string): Observable<DoctorDto[]> {
     return this.http.get<DoctorDto[]>(`${this.usersApi}/getDoctorsBySpecialty/${specialty}`);
+  }
+
+  getDoctorById(doctorId: number): Observable<AppointmentDoctorDto> {
+    return this.http.get<AppointmentDoctorDto>(`${this.usersApi}/getDoctorById/${doctorId}`);
   }
 }

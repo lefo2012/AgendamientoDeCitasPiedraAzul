@@ -107,7 +107,7 @@ public class AppointmentsController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('MEDICO')")
+    @PreAuthorize("hasAnyRole('PACIENTE')")
     @PostMapping("/reschedulePatient")
     public ResponseEntity<?> reSchedulePatient(@RequestBody ReserveAppointmentDTO dto) {
         try {

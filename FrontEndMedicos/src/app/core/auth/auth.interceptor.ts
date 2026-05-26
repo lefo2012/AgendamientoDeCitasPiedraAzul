@@ -26,7 +26,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(requestWithCredentials).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status !== 401 || isRefreshRequest || isLoginRequest || isAuthMeRequest || isSessionLoginRequest || isSessionRefreshRequest) {
+      if (error.status !== 401 || isRefreshRequest || isLoginRequest || isSessionLoginRequest || isSessionRefreshRequest) {
         return throwError(() => error);
       }
 

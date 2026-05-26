@@ -197,7 +197,7 @@ public class UsersController {
 
 
     @GetMapping("/getDoctorById/{id}")
-    @PreAuthorize("hasAnyRole('MEDICO','ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICO','ADMIN', 'PACIENTE')")
     public ResponseEntity<?> getDoctorById(@PathVariable Long id) {
         try {
             Doctor doctor = doctorPersistenceService.findById(id);
