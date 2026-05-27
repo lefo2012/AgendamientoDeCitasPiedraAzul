@@ -126,7 +126,15 @@ export class AuthService {
           return this.loadRoles().pipe(
             map(() => null),
             tap(() => this.sessionActiveSignal.set(true)),
-            catchError(() => of(null))
+            catchError((rolesError: HttpErrorResponse) => {
+              if (rolesError.status === 401 || rolesError.status === 400) {
+                this.clearSession();
+                return of(null);
+              }
+
+              this.clearSession();
+              return of(null);
+            })
           );
         }
 
