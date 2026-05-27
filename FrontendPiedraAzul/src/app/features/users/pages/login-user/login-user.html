@@ -1,5 +1,5 @@
 <section class="auth-page">
-<div class="auth-container" [class.register-active]="registerActive" [class.login-active]="loginActive">
+  <div class="auth-container" [class.register-active]="registerActive" [class.login-active]="loginActive">
 
     <div class="auth-card">
       <header class="auth-header">
@@ -7,6 +7,11 @@
         <h1>Iniciar sesión</h1>
         <p class="auth-subtitle">Accede para gestionar tus citas de forma rápida y segura.</p>
       </header>
+
+      <div class="mobile-switch">
+        <span class="mobile-label">¿No tienes cuenta?</span>
+        <button mat-button type="button" (click)="changeToRegister()" class="mobile-button">Registrate aqui</button>
+      </div>
 
       <form class="auth-form form-section-login" [formGroup]="loginForm" (ngSubmit)="login()">
         <div class="field-block">
@@ -43,10 +48,10 @@
       
     </div>
     <div class="right-panel">
-      <h1 style="color: white;">Eres nuevo?</h1>
+      <h1 class="panel-title">Eres nuevo?</h1>
       <button mat-raised-button type="button" (click)="changeToRegister()">
-            Registrate aqui
-          </button>
+        Registrate aqui
+      </button>
     </div>
 
     
@@ -57,6 +62,11 @@
         <h1>Crear cuenta</h1>
         <p class="auth-subtitle">Completa la informacion para acceder al portal de citas.</p>
       </header>
+
+      <div class="mobile-switch">
+        <span class="mobile-label">¿Ya tienes cuenta?</span>
+        <button mat-button type="button" (click)="changeToLogin()" class="mobile-button">Iniciar sesion</button>
+      </div>
 
       <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="register()">
         @if (formError) {
@@ -200,10 +210,10 @@
     
     </div>
     <div class="left-panel">
-      <h1 style="color: white;">Bienvenido</h1>
-      <button mat-raised-button type="button" (click)="changeToLogin()" >
-            Iniciar sesion
-          </button>
+      <h1 class="panel-title">Bienvenido</h1>
+      <button mat-raised-button type="button" (click)="changeToLogin()">
+        Iniciar sesion
+      </button>
     </div>
     
     

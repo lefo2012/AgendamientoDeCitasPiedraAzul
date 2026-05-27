@@ -365,11 +365,16 @@ export class Login {
     this.registerActive = true;
     this.formError = '';
     this.errorMessage = '';
+    this.loginSubmitted = false;
+    this.loginForm.markAsPristine();
+    this.loginForm.markAsUntouched();
   }
   changeToLogin() {
     this.loginActive = true;
     this.registerActive = false;
     this.formError = '';
     this.registerSubmitted = false;
+    this.registerForm.markAsPristine();
+    this.registerForm.markAsUntouched();
   }
 }
