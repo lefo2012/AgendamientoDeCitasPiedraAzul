@@ -68,7 +68,9 @@ public class ReportController {
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate appointmentDate
     ) {
         try {
+            System.out.println( "Generando CSV para doctorId: " + doctorId + " y appointmentDate: " + appointmentDate); // Debug: Imprime los parámetros recibidos
             String csv = appointmentReportService.convertToCSV(doctorId, appointmentDate);
+            System.out.println( "CSV generado:\n" + csv); // Debug: Imprime el CSV generado
 
             byte[] csvBytes = csv.getBytes(StandardCharsets.UTF_8);
             byte[] bom = new byte[] {(byte) 0xEF, (byte) 0xBB, (byte) 0xBF};
@@ -81,11 +83,11 @@ public class ReportController {
                     .header("Content-Disposition", "attachment; filename=ListaCitas"+appointmentDate+".csv")
                     .header("Content-Type", "text/csv; charset=UTF-8")
                     .body(responseBytes);
-        }catch (Exception e) {
-            return ResponseEntity.badRequest()
-                    .body("{\"error\":\"Error exporting report for doctor with id: "
-                            + doctorId + " and date: " +appointmentDate + " " + e.getMessage() + "\"}");
-
-        }
+        } catch (Exception e) {
+        e.printStackTrace(); // ← agrega esto
+        return ResponseEntity.badRequest()
+                .body("{\"error\":\"Error exporting report for doctor with id: "
+                        + doctorId + " and date: " + appointmentDate + " " + e.getMessage() + "\"}");
+    }
     }
 }

@@ -41,8 +41,6 @@ export class ReportService {
 
     if (doctorId !== null) {
       params['doctorId'] = String(doctorId);
-    } else {
-      params['doctorId'] = '';
     }
 
     return this.http.get(`${this.apiUrl}/exportCSVAppointments`, {
