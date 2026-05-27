@@ -17,7 +17,7 @@ export const authRequiredGuard: CanActivateFn = () => {
 
   return authService.restoreSession().pipe(
     map((patient) => {
-      if (patient || authService.isAuthenticated()) {
+      if (patient) {
         return true;
       }
 
