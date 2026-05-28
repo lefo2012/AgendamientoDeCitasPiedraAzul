@@ -6,9 +6,18 @@ import { AuthService } from '../../../users/services/auth.service';
 import { AUTH_CONFIG, defaultAuthConfig } from '../../../../core/auth/auth.config';
 
 const authServiceMock = {
+  currentPatient: () => null,
+  roles: () => [],
   isAuthenticated: () => false,
-  logout: () => of({}),
-  clearSession: () => undefined
+  register: () => of({}),
+  registerDoctor: () => of({}),
+  login: () => of(void 0),
+  logout: () => of(void 0),
+  initializeSession: () => of(null),
+  restoreSession: () => of(null),
+  refreshAccessToken: () => of(void 0),
+  clearSession: () => undefined,
+  getRoles: () => []
 };
 
 const activatedRouteMock = {

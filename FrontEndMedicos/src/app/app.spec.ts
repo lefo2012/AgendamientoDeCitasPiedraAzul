@@ -6,9 +6,19 @@ import { AuthService } from './features/users/services/auth.service';
 import { AUTH_CONFIG, defaultAuthConfig } from './core/auth/auth.config';
 
 const authServiceMock = {
+  currentPatient: () => null,
+  roles: () => [],
   isAuthenticated: () => false,
-  logout: () => of({}),
-  clearSession: () => undefined
+  isAdmin: () => false,
+  register: () => of({}),
+  registerDoctor: () => of({}),
+  login: () => of(void 0),
+  logout: () => of(void 0),
+  initializeSession: () => of(null),
+  restoreSession: () => of(null),
+  refreshAccessToken: () => of(void 0),
+  clearSession: () => undefined,
+  getRoles: () => []
 };
 
 const activatedRouteMock = {
@@ -36,11 +46,11 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render app layout', async () => {
+  it('should render router outlet', async () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('app-main-layout')).toBeTruthy();
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
   });
 });
