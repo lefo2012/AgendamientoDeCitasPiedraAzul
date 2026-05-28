@@ -190,6 +190,7 @@ public class AppointmentService implements IAppointmentService {
     @Transactional
     public void cancelAppointment(Long appointmentId) throws Exception {
         try {
+            System.out.println("hola");
             Appointment appointment = appointmentPersistenceService.findById(appointmentId);
 
             Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
