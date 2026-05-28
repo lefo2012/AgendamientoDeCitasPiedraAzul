@@ -291,12 +291,7 @@ public class ScheduleTest {
         }
 
         assertTrue(schedule.schedule(reserveDay, reserveInterval));
-
-        try {
-            schedule.schedule(reserveDay, reserveInterval2);
-        } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("INTERVAL NOT AVAILABLE"));
-        }
+        assertTrue(schedule.schedule(reserveDay, reserveInterval2));
     }
     @Test
     void scheduleTrueReserveInMiddleOfAReserveTest() throws Exception {

@@ -21,6 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.ActiveProfiles;
 
 import jakarta.transaction.Transactional;
@@ -74,6 +75,7 @@ class AppointmentServiceIntegrationTest {
         );
     }
 
+    @Commit
     @Test
     void shouldPersistAppointmentInPostgres() throws Exception {
         ReserveAppointmentDTO dto = new ReserveAppointmentDTO();

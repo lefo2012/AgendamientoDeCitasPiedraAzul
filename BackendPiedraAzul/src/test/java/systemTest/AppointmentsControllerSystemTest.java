@@ -17,6 +17,8 @@ import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.UserDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IDoctorPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPersistenceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import jakarta.transaction.Transactional;
 import java.time.DayOfWeek;
@@ -48,10 +52,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 class AppointmentsControllerSystemTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
     @Autowired
+    private WebApplicationContext webApplicationContext;
+
     private ObjectMapper objectMapper;
 
     @Autowired
@@ -75,6 +80,10 @@ class AppointmentsControllerSystemTest {
 
     @BeforeEach
     void setUp() throws Exception {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         appointmentDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
         doctor = doctorPersistenceService.save(buildDoctorDto("3001"));
