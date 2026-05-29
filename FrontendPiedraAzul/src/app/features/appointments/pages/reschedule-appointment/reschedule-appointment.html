@@ -8,7 +8,12 @@
     </mat-card-header>
 
     <mat-card-content>
-      <form class="appointment-form" [formGroup]="appointmentForm">
+      @if (!hasPendingAppointment) {
+        <div class="empty-state" role="status">
+          {{ pendingMessage }}
+        </div>
+      } @else {
+        <form class="appointment-form" [formGroup]="appointmentForm">
 
         <div class="form-grid one-column">
           <mat-form-field appearance="outline" class="full-width">
@@ -76,7 +81,8 @@
           </button>
         </div>
 
-      </form>
+        </form>
+      }
     </mat-card-content>
   </mat-card>
 </section>

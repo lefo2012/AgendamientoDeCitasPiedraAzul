@@ -70,6 +70,8 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
   isLoadingDoctors = false;
   isRescheduling = false;
   minDate = new Date();
+  hasPendingAppointment = true;
+  pendingMessage = '';
 
   constructor(
     @Inject(PLATFORM_ID) private readonly platformId: object,
@@ -97,14 +99,25 @@ export class RescheduleAppointment implements OnInit, OnDestroy {
         const list = Array.isArray(response)
           ? response
           : ((response as any)?.pendingAppointments ?? []);
-        this.appointmentId = list.length > 0 ? list[0].id : 0;
-        this.doctorId = list.length > 0 ? list[0].doctor.id : null;
+        if (list.length === 0) {
+          this.hasPendingAppointment = false;
+          this.pendingMessage = 'No tienes citas pendientes para reagendar.';
+          this.cdr.detectChanges();
+          return;
+        }
+
+        this.hasPendingAppointment = true;
+        this.pendingMessage = '';
+        this.appointmentId = list[0].id;
+        this.doctorId = list[0].doctor.id ?? null;
         this.cdr.detectChanges();
         if (isPlatformBrowser(this.platformId)) {
           this.loadDoctors();
         }
       },
       error: (err) => {
+        this.hasPendingAppointment = false;
+        this.pendingMessage = 'No fue posible cargar tus citas pendientes.';
         this.cdr.detectChanges();
       },
     });

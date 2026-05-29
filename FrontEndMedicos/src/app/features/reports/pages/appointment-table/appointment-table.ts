@@ -23,6 +23,8 @@ import { AppointmentButtonsModule } from '../../../../shared/components/appointm
 import { ConfirmExportDialog } from '../../../../shared/dialogs/confirm-export-dialog/confirm-export-dialog';
 import { ConfirmCancelDialog } from '../../../../shared/dialogs/confirm-cancel-dialog/confirm-cancel-dialog';
 import { ConfirmAttendDialog } from '../../../../shared/dialogs/confirm-attend-dialog/confirm-attend-dialog';
+import { NoPermissionDialog } from '../../../../shared/dialogs/no-permission-dialog/no-permission-dialog';
+import { AuthService } from '../../../users/services/auth.service';
 
 @Component({
   selector: 'app-appointment-table',
@@ -65,6 +67,7 @@ export class AppointmentTable implements OnInit, OnDestroy {
     private readonly appointmentService: AppointmentService,
     private readonly reportService: ReportService,
     private readonly doctorService: DoctorService,
+    private readonly authService: AuthService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
     private readonly dialog: MatDialog
@@ -312,6 +315,11 @@ export class AppointmentTable implements OnInit, OnDestroy {
   }
 
   cancelAppointment(): void {
+    if (!this.authService.canScheduleAppointments()) {
+      this.openPermissionMessage();
+      return;
+    }
+
     if (!this.selectedAppointmentId || !this.selectedAppointment) {
       return;
     }
@@ -351,6 +359,13 @@ export class AppointmentTable implements OnInit, OnDestroy {
       error: () => {
         this.snackBar.open('No se pudo cancelar la cita.', 'Cerrar', { duration: 3000 });
       }
+    });
+  }
+
+  private openPermissionMessage(): void {
+    this.dialog.open(NoPermissionDialog, {
+      width: '420px',
+      data: { message: 'Tu cuenta no tiene permisos para gestionar citas.' }
     });
   }
 

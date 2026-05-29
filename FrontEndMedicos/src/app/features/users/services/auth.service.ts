@@ -5,11 +5,12 @@ import { AuthConfig, AUTH_CONFIG } from '../../../core/auth/auth.config';
 import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
 import { RegisterRequest } from '../models/RegisterRequest';
 
-interface CurrentPatient {
+interface CurrentDoctor {
   id?: string | number;
   email?: string;
   firstName?: string;
   lastName?: string;
+  canSchedule?: boolean;
   [key: string]: unknown;
 }
 
@@ -18,12 +19,12 @@ interface CurrentPatient {
 })
 export class AuthService {
 
-  private readonly currentPatientSignal = signal<CurrentPatient | null>(null);
+  private readonly currentDoctorSignal = signal<CurrentDoctor | null>(null);
   private readonly rolesSignal = signal<string[]>([]);
   private readonly sessionActiveSignal = signal<boolean>(false);
   private refreshInFlight$: Observable<void> | null = null;
 
-  readonly currentPatient = this.currentPatientSignal.asReadonly();
+  readonly currentDoctor = this.currentDoctorSignal.asReadonly();
   readonly roles = this.rolesSignal.asReadonly();
   readonly isAuthenticated = computed(() => this.sessionActiveSignal());
 
@@ -111,14 +112,14 @@ export class AuthService {
     );
   }
 
-  initializeSession(): Observable<CurrentPatient | null> {
-    return this.fetchCurrentPatient().pipe(
-      switchMap((patient) => this.loadRoles().pipe(
-        map(() => patient),
-        catchError(() => of(patient))
+  initializeSession(): Observable<CurrentDoctor | null> {
+    return this.fetchCurrentDoctor().pipe(
+      switchMap((doctor) => this.loadRoles().pipe(
+        map(() => doctor),
+        catchError(() => of(doctor))
       )),
-      tap((patient) => {
-        this.currentPatientSignal.set(patient);
+      tap((doctor) => {
+        this.currentDoctorSignal.set(doctor);
         this.sessionActiveSignal.set(true);
       }),
       catchError((error: HttpErrorResponse) => {
@@ -149,7 +150,7 @@ export class AuthService {
     );
   }
 
-  restoreSession(): Observable<CurrentPatient | null> {
+  restoreSession(): Observable<CurrentDoctor | null> {
     return this.initializeSession();
   }
 
@@ -176,14 +177,14 @@ export class AuthService {
   }
 
   clearSession(): void {
-    this.currentPatientSignal.set(null);
+    this.currentDoctorSignal.set(null);
     this.rolesSignal.set([]);
     this.sessionActiveSignal.set(false);
     this.refreshInFlight$ = null;
   }
 
-  private fetchCurrentPatient(): Observable<CurrentPatient> {
-    return this.http.get<CurrentPatient>(`${this.config.authApi}/getDoctorByToken`, {
+  private fetchCurrentDoctor(): Observable<CurrentDoctor> {
+    return this.http.get<CurrentDoctor>(`${this.config.authApi}/getDoctorByToken`, {
       withCredentials: true
     });
   }
@@ -208,5 +209,10 @@ export class AuthService {
 
   getRoles(): string[] {
     return this.rolesSignal();
+  }
+
+  canScheduleAppointments(): boolean {
+    const doctor = this.currentDoctorSignal();
+    return doctor?.canSchedule === true;
   }
 }

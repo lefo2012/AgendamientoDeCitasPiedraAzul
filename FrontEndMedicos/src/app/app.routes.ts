@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authRequiredGuard } from './core/guards/auth-required.guard';
+import { canScheduleGuard } from './core/guards/can-schedule.guard';
 
 export const routes: Routes = [
 	{
@@ -25,13 +26,13 @@ export const routes: Routes = [
 			},
 			{
 				path: 'citas/nueva',
-				canActivate: [authRequiredGuard],
+				canActivate: [authRequiredGuard, canScheduleGuard],
 				loadComponent: () =>
 					import('./features/appointments/pages/create-appointment/create-appointment').then((m) => m.CreateAppointment),
 			},
 			{
 				path: 'citas/reagendar/:id',
-				canActivate: [authRequiredGuard],
+				canActivate: [authRequiredGuard, canScheduleGuard],
 				loadComponent: () =>
 					import('./features/appointments/pages/reschedule-appointment/reschedule-appointment').then((m) => m.RescheduleAppointment),
 			},

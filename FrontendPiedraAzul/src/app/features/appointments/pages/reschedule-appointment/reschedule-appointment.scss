@@ -59,6 +59,15 @@
   color: var(--blanco);
 }
 
+.empty-state {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  background-color: color-mix(in srgb, var(--azul-profundo) 8%, var(--blanco));
+  color: var(--azul-profundo);
+  font-weight: 500;
+}
+
 @media (max-width: 640px) {
   .form-grid.two-columns {
     grid-template-columns: 1fr;

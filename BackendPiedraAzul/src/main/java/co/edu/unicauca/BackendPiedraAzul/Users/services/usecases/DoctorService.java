@@ -40,6 +40,7 @@ public class DoctorService implements IDoctorService {
         // 2️⃣ crear dominio
         Doctor doctor = doctorMapper.dtoToDomain(doctorDto);
         doctor.getUser().setKeycloakId(keycloakId);
+        doctor.setActive(false);
 
         return doctorService.save(doctor);
 
@@ -75,16 +76,4 @@ public class DoctorService implements IDoctorService {
                 .map(doctorMapper::toConfDoctorDTO)
                 .toList();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }

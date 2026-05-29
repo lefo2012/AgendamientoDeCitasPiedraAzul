@@ -168,7 +168,7 @@ export class ConfigureScheduleDoctor implements OnInit {
   }
 
   private resolveDoctorId(): string | null {
-    const currentDoctorId = this.authService.currentPatient()?.id;
+    const currentDoctorId = this.authService.currentDoctor()?.id;
 
     if (currentDoctorId !== undefined && currentDoctorId !== null) {
       return String(currentDoctorId);

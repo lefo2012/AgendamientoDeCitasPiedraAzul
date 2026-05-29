@@ -128,7 +128,7 @@ public class UsersController {
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getAllDoctor(){
         try {
-            List<Doctor> doctors = doctorPersistenceService.findAll();
+            List<Doctor> doctors = doctorPersistenceService.findAll().stream().filter(Doctor::isActive).toList();
             return ResponseEntity.ok(doctors);
         } catch (Exception e) {
             return ResponseEntity.badRequest()
@@ -152,7 +152,7 @@ public class UsersController {
     @PreAuthorize("hasAnyRole('MEDICO','ADMIN','PACIENTE')")
     public ResponseEntity<?> getDoctorBySpecialty(@PathVariable String specialty){
         try {
-            List<Doctor> doctors = doctorPersistenceService.findBySpecialtiesContaining(SpecialtyEnum.valueOf(specialty));
+            List<Doctor> doctors = doctorPersistenceService.findBySpecialtiesContaining(SpecialtyEnum.valueOf(specialty)).stream().filter(Doctor::isActive).toList();
             return ResponseEntity.ok(doctors);
         }catch (Exception e){
             return ResponseEntity.badRequest()

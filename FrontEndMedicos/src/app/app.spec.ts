@@ -6,7 +6,7 @@ import { AuthService } from './features/users/services/auth.service';
 import { AUTH_CONFIG, defaultAuthConfig } from './core/auth/auth.config';
 
 const authServiceMock = {
-  currentPatient: () => null,
+  currentDoctor: () => null,
   roles: () => [],
   isAuthenticated: () => false,
   isAdmin: () => false,

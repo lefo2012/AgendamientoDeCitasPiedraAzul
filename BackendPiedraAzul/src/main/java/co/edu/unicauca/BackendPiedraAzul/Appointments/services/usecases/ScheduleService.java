@@ -41,6 +41,7 @@ public class ScheduleService implements IScheduleService {
             );
 
             doctor.setSchedule(schedule);
+            doctor.setActive(true);
             doctorPersistenceService.save(doctor);
 
             return true;
