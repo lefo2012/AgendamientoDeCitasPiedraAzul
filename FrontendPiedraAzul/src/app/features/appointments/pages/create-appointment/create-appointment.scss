@@ -19,10 +19,36 @@
 	gap: 30px;
 
 }
+
+.my-select{
+	width: 100%;
+	max-width: 320px;
+}
+
+.form-container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+}
+
+.appointment-card-title{
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--azul-profundo);
+	margin-bottom: 10px;
+}
+
+.progress-bar {
+	margin-top: 10px;
+	margin-bottom: 10px;	
+}
+
 .form{
 
 	justify-content: center;
 	margin-bottom: auto;
+	align-items: center;
 	background-color: var(--fondo-suave);
 	background: var(--fondo-suave);
 
@@ -45,7 +71,12 @@
 
 }
 
-
+h3{
+	color: var(--azul-profundo);
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
 
 .appointment-card-header{
 	
@@ -54,12 +85,18 @@
 	margin-right: auto;
 
 }
-.appointment-card-buttons{
-	
-	align-items: center;
-	justify-content: center;
-	margin-left: auto;
-	gap: 5px;
+.appointment-card-buttons {
+  display: flex;
+  flex-wrap: wrap;        /* ← permite que pasen a la siguiente línea */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+}
+
+.appointment-card-buttons button {
+  min-width: 100px;       /* ← evita que se compriman demasiado */
+  flex-shrink: 0;         /* ← no se achican, mejor hacen wrap */
 }
 @media (max-width: 768px) {
 	.create-appointment-page {

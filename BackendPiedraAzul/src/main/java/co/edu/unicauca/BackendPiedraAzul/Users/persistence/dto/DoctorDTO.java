@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class DoctorDTO {
+    private Long id;
     private String documentType;
     private String identificationNumber;
     private String firstName;

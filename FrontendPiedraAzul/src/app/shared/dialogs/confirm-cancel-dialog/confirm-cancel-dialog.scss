@@ -1,0 +1,82 @@
+.cancel-dialog {
+  padding: 8px 8px 8px 8px;
+}
+
+.cancel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+}
+
+.cancel-icon {
+  font-size: 25px;
+  width: 30px;
+  height: 30px;
+  color: var(--azul-profundo);
+  padding-left: 0.25rem;
+  padding-top: 0.3rem;
+}
+
+.cancel-title {
+  margin: 0;
+  color: var(--azul-profundo);
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.cancel-details {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: var(--gris-oscuro);
+}
+
+.cancel-message {
+  margin: 12px 0 16px;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+}
+
+.appointment-details {
+  margin: 16px 0;
+  padding: 12px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--azul-profundo);
+  min-width: 70px;
+}
+
+.detail-value {
+  color: var(--gris-oscuro);
+  text-align: right;
+  flex: 1;
+  margin-left: 12px;
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}
+
+button[color="primary"] {
+  gap: 8px;
+}
+
+button[color="warn"] {
+  gap: 8px;
+}
+

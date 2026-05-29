@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.services.persistence.IAppo
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class AppointmentsController {
 
     @Autowired
     private IAppointmentService appointmentService;
+
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PostMapping("/reserve")
     public ResponseEntity<?> reserve(@RequestBody ReserveAppointmentDTO dto) {
         try {
@@ -39,15 +42,17 @@ public class AppointmentsController {
     }
 
     @GetMapping("/getAppointments")
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     public ResponseEntity<?> getAppointments() {
         try {
 
             return  ResponseEntity.ok(appointmentPersistenceService.findAll());
         }catch (Exception e){
             return ResponseEntity.badRequest()
-                    .body("no existe");
+                    .body("No se encontraron citas: " + e.getMessage());
         }
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getAppointmentById(@PathVariable Long id) {
         try {
@@ -58,6 +63,19 @@ public class AppointmentsController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('MEDICO')")
+    @PutMapping("/attend/{id}")
+    public ResponseEntity<?> attendAppointment(@PathVariable Long id) {
+        try {
+            appointmentService.attendAppointment(id);
+            return ResponseEntity.ok("Cita marcada como atendida");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Error al marcar cita: " + e.getMessage());
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('MEDICO','PACIENTE')")
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelAppointment(@PathVariable Long id) {
         try {
@@ -68,5 +86,46 @@ public class AppointmentsController {
                     .body("Error al cancelar: " + e.getMessage());
         }
     }
+
+    @PreAuthorize("hasAnyRole('MEDICO')")
+    @PostMapping("/rescheduleDoctor")
+    public ResponseEntity<?> reScheduleDoctor(@RequestBody ReserveAppointmentDTO dto) {
+        try {
+            appointmentService.reScheduleDoctor(dto);
+
+            // Retornamos un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Reserva realizada con éxito");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Imposibilidad al reservar la cita: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('PACIENTE')")
+    @PostMapping("/reschedulePatient")
+    public ResponseEntity<?> reSchedulePatient(@RequestBody ReserveAppointmentDTO dto) {
+        try {
+            appointmentService.reSchedulePatient(dto);
+
+            // Retornamos un objeto JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Reserva realizada con éxito");
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Imposibilidad al reservar la cita: " + e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
 
 }

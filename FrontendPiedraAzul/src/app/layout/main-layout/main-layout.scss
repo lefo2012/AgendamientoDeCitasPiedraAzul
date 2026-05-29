@@ -1,17 +1,26 @@
 main {
-    background-color: var(--blanco);
+    background: linear-gradient(180deg, var(--fondo-suave) 0%, var(--blanco) 40%);
     min-height: 70vh;
-    padding-top: 5.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Spacer that occupies navbar space without affecting content position */
+main::before {
+    content: '';
+    height: 5.2rem;
+    flex-shrink: 0;
+    order: -1;
 }
 
 @media (max-width: 992px) {
-    main {
-        padding-top: 7.8rem;
+    main::before {
+        height: 7.8rem;
     }
 }
 
 @media (max-width: 768px) {
-    main {
-        padding-top: 6.9rem;
+    main::before {
+        height: 6.9rem;
     }
 }

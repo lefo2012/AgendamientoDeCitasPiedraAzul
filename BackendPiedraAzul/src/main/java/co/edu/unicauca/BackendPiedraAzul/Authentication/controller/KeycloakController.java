@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -39,6 +40,8 @@ public class KeycloakController {
      * @param userRequest DTO con email, password y roles
      * @return ResponseEntity con mensaje de éxito o error
      */
+
+
     @PostMapping("/create")
     public ResponseEntity<Map<String, String>> createUser(@RequestBody UserRequest userRequest) {
         try {
@@ -189,7 +192,8 @@ public class KeycloakController {
                     ));
         }
     }
-    @GetMapping("/me")
+
+    @GetMapping("/getPatientByToken")
     public ResponseEntity<?> me(Authentication authentication){
         try {
             return ResponseEntity.ok(authService.getPatientByToken(authentication));
@@ -198,7 +202,29 @@ public class KeycloakController {
         }
     }
 
+    @GetMapping("/getDoctorByToken")
+    public ResponseEntity<?> meDoctor(Authentication authentication) {
+        try {
+            return ResponseEntity.ok(authService.getDoctorByToken(authentication));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error at getting user by token: " + e.getMessage());
+        }
+    }
 
+    @GetMapping("/roles")
+    public ResponseEntity<?> getRoles(Authentication authentication) {
+        if (authentication == null || authentication.getAuthorities() == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("No authentication available");
+        }
 
+        List<String> roles = authentication.getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(authority -> authority.startsWith("ROLE_"))
+                .map(authority -> authority.substring("ROLE_".length()))
+                .distinct()
+                .toList();
 
+        return ResponseEntity.ok(roles);
+    }
 }

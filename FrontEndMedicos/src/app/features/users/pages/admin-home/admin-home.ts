@@ -18,6 +18,14 @@ export class AdminHome {
   private readonly router = inject(Router);
 
   irARegistrarMedico(): void {
-    this.router.navigate(['/admin/registrar-medico']);
+    this.router.navigate(['/register']);
+  }
+
+  irAListaCitas(): void {
+    this.router.navigate(['/citas/agendar']);
+  }
+
+  irAConfiguracionDoctores(): void {
+    this.router.navigate(['/admin/configuracion']);
   }
 }

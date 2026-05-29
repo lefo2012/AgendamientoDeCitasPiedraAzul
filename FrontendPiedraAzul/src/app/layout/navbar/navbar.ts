@@ -30,6 +30,10 @@ export class Navbar {
     return this.authService.isAuthenticated();
   }
 
+  get isPatientUser(): boolean {
+    return this.authService.getRoles().includes('PACIENTE');
+  }
+
   onLogout(): void {
     this.authService.logout().subscribe({
       next: () => {
@@ -70,5 +74,9 @@ export class Navbar {
   
   backToHome() {
     window.location.href = '/';
+  }
+
+  openPatientAccount(): void {
+    this.router.navigate(['/mi-cuenta']);
   }
 }

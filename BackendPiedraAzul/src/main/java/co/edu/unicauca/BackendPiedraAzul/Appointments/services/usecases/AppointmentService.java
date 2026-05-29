@@ -15,6 +15,8 @@ import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPers
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,50 +32,219 @@ public class AppointmentService implements IAppointmentService {
     private IPatientPersistenceService patientPersistenceService;
     @Autowired
     private IntervalMapper intervalMapper;
+    @Autowired
+    private WhatsAppNotificationService whatsAppService;
 
     @Override
     @Transactional
     public void reserveAppointment(ReserveAppointmentDTO reserveAppointmentDto) throws Exception {
         try {
-            //To do: verify the time of interval for reserve
-            Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
-            Patient patient = patientPersistenceService.findById(reserveAppointmentDto.getIdPatient());
-            Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
-            Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(),interval,patient);
 
-            
+            Patient patient = patientPersistenceService.findById(reserveAppointmentDto.getIdPatient());
+
+            if(!patient.canScheduleAppointment()) {
+                throw new Exception("El paciente ha alcanzado el límite de citas pendientes (1). No se pueden reservar más citas hasta que se atiendan o cancelen las actuales.");
+            }
+
+            Doctor doctor = doctorPersistenceService.findById(reserveAppointmentDto.getIdDoctor());
+            Interval interval = intervalMapper.dtoToDomain(reserveAppointmentDto.getInterval());
+            Appointment appointment = new Appointment(doctor, reserveAppointmentDto.getAppointmentDate(), interval, patient);
+
+
             Appointment savedAppointment = appointmentPersistenceService.save(appointment);
-            // Keep the generated id in the same object referenced by doctor/patient lists.
-            // Without this, cascading save can treat it as a new appointment and insert duplicates.
             appointment.setId(savedAppointment.getId());
 
             doctorPersistenceService.save(appointment.getDoctor());
             patientPersistenceService.save(appointment.getPatient());
 
-        }catch (Exception e){
-          e.printStackTrace();
-          throw e;
+            whatsAppService.sendAppointmentConfirmation(
+                    patient.getPhone(),
+                    patient.getFirstName(),
+                    doctor.getFirstName() + " " + doctor.getLastName(),
+                    reserveAppointmentDto.getAppointmentDate().toString(),
+                    reserveAppointmentDto.getInterval().getStartTime()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
+
+
+    @Override
+    @Transactional
+    public void reScheduleDoctor(ReserveAppointmentDTO dto) throws Exception {
+        try {
+
+            if (dto.getId() == null) {
+                throw new Exception("El id de la cita a reprogramar no puede ser nulo");
+            }
+
+            Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
+            Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(dto.getIdPatient());
+
+            // 1. Setear estado en la cita y en la lista del doctor
+            oldAppointment.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA);
+            oldAppointment.setDoctor(oldDoctor);
+
+            oldDoctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(dto.getId()))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
+
+            // 2. Mover a listas de historial
+            oldDoctor.getScheduledAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+            oldDoctor.addAppointmentAttended(oldAppointment);
+            patient.addPastAppointment(oldAppointment);
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
+            // 3. Guardar solo doctor y paciente — el cascade se encarga de la cita
+            doctorPersistenceService.save(oldDoctor);
+            patientPersistenceService.save(patient);
+            // Guardar la cita por separado DESPUÉS para que el estado quede persistido
+            appointmentPersistenceService.save(oldAppointment);
+
+            // 4. Crear nueva cita
+            Doctor newDoctor = doctorPersistenceService.findById(dto.getIdDoctor());
+            Patient newPatient = patientPersistenceService.findById(dto.getIdPatient());
+            Interval interval = intervalMapper.dtoToDomain(dto.getInterval());
+
+            Appointment newAppointment = new Appointment(newDoctor, dto.getAppointmentDate(), interval, newPatient);
+            Appointment saved = appointmentPersistenceService.save(newAppointment);
+            newAppointment.setId(saved.getId());
+
+            doctorPersistenceService.save(newAppointment.getDoctor());
+            patientPersistenceService.save(newAppointment.getPatient());
+
+            whatsAppService.sendAppointmentReschedule(
+                    newPatient.getPhone(),
+                    newPatient.getFirstName(),
+                    newDoctor.getFirstName() + " " + newDoctor.getLastName(),
+                    dto.getAppointmentDate().toString(),
+                    dto.getInterval().getStartTime()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void reSchedulePatient(ReserveAppointmentDTO dto) throws Exception {
+        try {
+
+            if (dto.getId() == null) {
+                throw new Exception("El id de la cita a reprogramar no puede ser nulo");
+            }
+
+            Appointment oldAppointment = appointmentPersistenceService.findById(dto.getId());
+            Doctor oldDoctor = doctorPersistenceService.findById(oldAppointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(dto.getIdPatient());
+
+            //cambio a cancelada
+            oldAppointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
+
+            // 2. Esta no se mueve a la lista del historial porque se canceló, solo se elimina de las pendientes
+            oldDoctor.getScheduledAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
+            patient.addPastAppointment(oldAppointment);
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(dto.getId()));
+
+            // 3. Guardar solo doctor y paciente — el cascade se encarga de la cita
+            doctorPersistenceService.save(oldDoctor);
+            patientPersistenceService.save(patient);
+            // Guardar la cita por separado DESPUÉS para que el estado quede persistido
+            appointmentPersistenceService.save(oldAppointment);
+
+            // 4. Crear nueva cita
+            Doctor newDoctor = doctorPersistenceService.findById(dto.getIdDoctor());
+            Patient newPatient = patientPersistenceService.findById(dto.getIdPatient());
+            Interval interval = intervalMapper.dtoToDomain(dto.getInterval());
+
+            Appointment newAppointment = new Appointment(newDoctor, dto.getAppointmentDate(), interval, newPatient);
+            Appointment saved = appointmentPersistenceService.save(newAppointment);
+            newAppointment.setId(saved.getId());
+
+            doctorPersistenceService.save(newAppointment.getDoctor());
+            patientPersistenceService.save(newAppointment.getPatient());
+
+            whatsAppService.sendAppointmentReschedule(
+                    newPatient.getPhone(),
+                    newPatient.getFirstName(),
+                    newDoctor.getFirstName() + " " + newDoctor.getLastName(),
+                    dto.getAppointmentDate().toString(),
+                    dto.getInterval().getStartTime()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     @Override
     @Transactional
     public void cancelAppointment(Long appointmentId) throws Exception {
         try {
-            // 1. Traer cita real
             Appointment appointment = appointmentPersistenceService.findById(appointmentId);
 
-            if (appointment == null) {
-                throw new Exception("Appointment not found");
-            }
-            Doctor doctor = appointment.getDoctor();
-            Patient patient = appointment.getPatient();
-            // 2. Cancelar en doctor (esto libera busyTimes)
-            doctor.cancelAppointment(appointment);
-            // 3. Quitar del paciente
-            patient.getPendingAppointments().remove(appointment);
-            // 4. Cambiar estado
+            Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(appointment.getPatient().getId());
             appointment.setAppointmentStatus(AppointmentStatusEnum.CANCELADA);
-            // 5. Guardar (orden importa)
+            appointment.setDoctor(doctor);
+
+            doctor.cancelAppointment(appointment);
+
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            patient.addPastAppointment(appointment);
+
+            doctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(appointmentId))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.CANCELADA));
+
+            Appointment saved = appointmentPersistenceService.save(appointment);
+            doctorPersistenceService.save(doctor);
+            patientPersistenceService.save(patient);
+            whatsAppService.sendAppointmentCancellation(
+                    patient.getPhone(),
+                    patient.getFirstName(),
+                    appointment.getAppointmentDate().toString(),
+                    appointment.getInterval().getStartTime().toString()
+            );
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void attendAppointment(Long appointmentId) throws Exception {
+        try {
+            Appointment appointment = appointmentPersistenceService.findById(appointmentId);
+            Doctor doctor = doctorPersistenceService.findById(appointment.getDoctor().getId());
+            Patient patient = patientPersistenceService.findById(appointment.getPatient().getId());
+
+            appointment.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA);
+            appointment.setDoctor(doctor);
+
+            doctor.getScheduledAppointments().stream()
+                    .filter(a -> a.getId().equals(appointmentId))
+                    .findFirst()
+                    .ifPresent(a -> a.setAppointmentStatus(AppointmentStatusEnum.ATENDIDA));
+
+            doctor.getScheduledAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            doctor.addAppointmentAttended(appointment);
+
+            patient.getPendingAppointments().removeIf(a -> a.getId().equals(appointmentId));
+            patient.addPastAppointment(appointment);
+
             appointmentPersistenceService.save(appointment);
             doctorPersistenceService.save(doctor);
             patientPersistenceService.save(patient);
@@ -93,14 +264,22 @@ public class AppointmentService implements IAppointmentService {
     @Override
     public List<AppointmentDTO> getAttendedAppointments(Long doctorId) throws Exception {
         Doctor doctor = doctorPersistenceService.findById(doctorId);
+
         return doctor.getAttendedAppointments().stream().map(appointmentMapper::toDto).toList();
     }
 
     @Override
-    public List<Appointment> getAllAppointments() throws Exception{
+    public List<Appointment> getAllAppointments() throws Exception {
 
-         List<Appointment> appointments = this.appointmentPersistenceService.findAll();
-         return appointments;
+        List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+        return appointments;
     }
 
+    @Override
+    public List<Appointment> getAllAppointmentsByDate(LocalDate date) throws Exception {
+        List<Appointment> appointments = this.appointmentPersistenceService.findAll();
+        return appointments.stream()
+                .filter(app -> app.getAppointmentDate().isEqual(date))
+                .toList();
+    }
 }

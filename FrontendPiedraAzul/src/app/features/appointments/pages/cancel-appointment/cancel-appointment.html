@@ -1,0 +1,53 @@
+<section class="cancel-page">
+  <div class="cancel-header">
+    <h1>Cancelar Cita</h1>
+    <p>Consulta tu cita agendada y cancélala si lo deseas.</p>
+  </div>
+
+  <mat-card class="cancel-card">
+    <mat-card-header>
+      <mat-card-title class="cancel-title">Cita Agendada</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isLoading) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+
+      @if (appointmentError) {
+        <div class="alert" role="alert">{{ appointmentError }}</div>
+      }
+
+      @if (!isLoading && !appointmentError) {
+        @if (pendingAppointment) {
+          <div class="appointment-details">
+            <div class="detail-row">
+              <span class="label">Doctor</span>
+              <span>{{ pendingAppointment.doctor?.firstName }} {{ pendingAppointment.doctor?.lastName }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Fecha</span>
+              <span>{{ pendingAppointment.appointmentDate }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Horario</span>
+              <span>{{ pendingAppointment.interval?.startTime }} - {{ pendingAppointment.interval?.endTime }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">Estado</span>
+              <span>{{ pendingAppointment.appointmentStatus }}</span>
+            </div>
+          </div>
+
+          <div class="cancel-actions">
+            <button mat-raised-button color="warn" (click)="openCancelDialog()">
+              Cancelar cita
+            </button>
+          </div>
+        } @else {
+          <p class="empty-state">No tienes citas agendadas para cancelar.</p>
+        }
+      }
+    </mat-card-content>
+  </mat-card>
+</section>

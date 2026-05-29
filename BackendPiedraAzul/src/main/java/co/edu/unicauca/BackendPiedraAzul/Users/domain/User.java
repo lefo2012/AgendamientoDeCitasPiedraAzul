@@ -33,7 +33,11 @@ public class User {
         this.roles = roles;
     }
 
-    public String getKeycloakId() {return keycloakId; }
+    public String getKeycloakId()
+    {return keycloakId; }
 
-    public void setKeycloakId(String keycloakId) {this.keycloakId = keycloakId;}
+    public void setKeycloakId(String keycloakId)
+    {
+        this.keycloakId = keycloakId;
+    }
 }

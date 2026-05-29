@@ -1,6 +1,8 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.persistence;
 
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.PatientDTO;
 import jakarta.transaction.Transactional;
 
@@ -24,5 +26,13 @@ public interface IPatientPersistenceService {
     Patient findByIdentificationNumber(String identificationNumber) throws Exception;
 
     @Transactional
+    List<Patient> findByIdentificationNumberContaining(String identificationNumber) throws Exception;
+
+    @Transactional
     Patient findByKeycloakId(String keycloakId) throws Exception;
+
+    @Transactional
+    Patient update(PatientDTO patientDTO) throws Exception;
+
+
 }

@@ -74,14 +74,14 @@
     </div>
   </div>
   <div
-    class="card card-right"
-    role="button"
-    tabindex="0"
-    aria-label="Cancelar una cita"
-    (click)="goToCancelAppointment()"
-    (keydown.enter)="goToCancelAppointment()"
-    (keydown.space)="goToCancelAppointment()"
-  >
+  class="card card-right" 
+  role="button"
+  tabindex="0"
+  aria-label="Cancelar una cita"
+  (click)="goToCancelAppointment(); $event.stopPropagation()"
+  (keydown.enter)="goToCancelAppointment()"
+  (keydown.space)="goToCancelAppointment()"
+>
     <div class="face-card">
       <img src="/red-card.png" class="img" id="resize-card-img-biger" />
       <img src="/red-card.gif" class="gif" id="resize-card-gift-biger" />

@@ -1,0 +1,171 @@
+<section class="edit-doctor-page">
+  <mat-card class="edit-doctor-card">
+    <mat-card-header>
+      <mat-card-title>Editar Médico</mat-card-title>
+      <mat-card-subtitle>Modifica la información del médico seleccionado.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="form" class="doctor-form">
+        <!-- DATOS PERSONALES -->
+        <h3 class="section-title">Datos personales</h3>
+        <div class="form-grid two-columns">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select formControlName="documentType">
+              <mat-option *ngFor="let type of documentTypeOptions" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Número de identificación</mat-label>
+            <input matInput formControlName="identificationNumber" />
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="firstName" />
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="lastName" />
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+
+          <div class="field-block full-width">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input
+                matInput
+                [matDatepicker]="birthPicker"
+                [max]="maxBirthDate"
+                formControlName="birthDate"
+                placeholder="Selecciona una fecha"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthPicker></mat-datepicker>
+              <mat-error *ngIf="fieldInvalid('birthDate')">Requerido</mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input matInput type="tel" formControlName="phone" />
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Género</mat-label>
+            <mat-select formControlName="gender">
+              <mat-option *ngFor="let g of genderOptions" [value]="g.value">{{
+                g.label
+              }}</mat-option>
+            </mat-select>
+            <mat-error>Requerido</mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-divider class="section-divider" />
+
+        <!-- CONFIGURACIÓN MÉDICO -->
+        <h3 class="section-title">Configuración médica</h3>
+        <div class="form-grid two-columns">
+          <!-- Especialidades -->
+          <div class="full-width specialty-group">
+            <label class="specialty-label">Especialidades</label>
+            <div class="specialty-chips">
+              <button
+                *ngFor="let specialty of specialtyOptions"
+                type="button"
+                class="specialty-chip"
+                [class.selected]="isSpecialtySelected(specialty)"
+                (click)="toggleSpecialty(specialty)"
+              >
+                {{ specialty }}
+              </button>
+            </div>
+            <mat-error *ngIf="specialtiesControl.touched && specialtiesControl.invalid">
+              Selecciona al menos una especialidad.
+            </mat-error>
+          </div>
+
+          <!-- Intervalo de cita -->
+          <div class="field-block">
+            <label class="interval-label">Intervalo de citas</label>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Intervalo de citas (minutos)</mat-label>
+              <mat-select formControlName="consultationIntervalMinutes">
+                @for (interval of consultationIntervals; track interval) {
+                  <mat-option [value]="interval">{{ interval }} minutos</mat-option>
+                }
+              </mat-select>
+              @if (fieldInvalid('consultationIntervalMinutes')) {
+                <mat-error>Selecciona un intervalo valido.</mat-error>
+              }
+            </mat-form-field>
+          </div>
+
+          <!-- Toggles -->
+
+          <div class="toggle-group">
+            <label class="active-label">¿Médico activo?</label>
+            <div class="toggle-group">
+              <mat-slide-toggle formControlName="active" color="primary">
+                Médico activo
+              </mat-slide-toggle>
+            </div>
+            <div class="toggle-group">
+              <label class="schedule-label">¿Puede agendar citas?</label>
+              <mat-slide-toggle formControlName="canSchedule" color="primary">
+                Puede agendar citas
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+
+        <mat-divider class="section-divider" />
+
+        <div class="field-block">
+          <h3 class="section-title">Reconfigurar horario </h3>
+            <p class="schedule-help">
+              Si deseas modificar el horario de atención de este médico, haz clic en el siguiente botón para configurar nuevamente su agenda de citas.
+            </p>
+          <button
+            mat-flat-button
+            color="accent"
+            type="button"
+            class="configure-schedule-btn"
+            (click)="goToScheduleConfig()"
+          >
+            <mat-icon>schedule</mat-icon>
+            Reconfigurar Horario
+          </button>
+        </div>
+        <mat-divider class="section-divider" />
+        <!-- ACCIONES -->
+        <div class="actions-row">
+          <button mat-stroked-button type="button" class="back-btn" (click)="goBack()">
+            <mat-icon>arrow_back</mat-icon>
+            Volver
+          </button>
+          <button
+            mat-flat-button
+            type="button"
+            class="save-btn"
+            (click)="onSubmit()"
+            [disabled]="isSaving"
+          >
+            <mat-icon>save</mat-icon>
+            {{ isSaving ? 'Guardando...' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>

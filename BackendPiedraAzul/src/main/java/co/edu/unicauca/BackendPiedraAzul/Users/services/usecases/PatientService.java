@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.usecases;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Appointment;
 import co.edu.unicauca.BackendPiedraAzul.Authentication.keycloak.IKeycloakService;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Person;
@@ -11,6 +12,8 @@ import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPatientPers
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IPersonPersistenceService;
 import co.edu.unicauca.BackendPiedraAzul.Users.services.persistence.IUserPersistenceService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PatientService implements IPatientService {
@@ -40,6 +43,12 @@ public class PatientService implements IPatientService {
 
         return patientService.save(patient);
 
+    }
+
+    @Override
+     public List<Appointment> getPendingAppointments(Long patientId) throws Exception{
+        Patient patient = patientService.findById(patientId);
+        return patient.getPendingAppointments();
     }
 
 }

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ReserveAppointmentDTO {
 
+    private Long id;
     private long idPatient;
     private long idDoctor;
     private IntervalDTO interval;

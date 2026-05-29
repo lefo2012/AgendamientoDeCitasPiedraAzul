@@ -1,6 +1,9 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.persistence;
+import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Patient;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.PatientDTO;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.PatientEntity;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper.PatientMapper;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.repository.PatientRepositoryJPA;
@@ -43,6 +46,22 @@ public class PatientPersistenceService implements IPatientPersistenceService {
 
     @Transactional
     @Override
+    public Patient update(PatientDTO patientDTO) throws Exception {
+        Patient patient = findById(patientDTO.getId());
+        Patient domain = patientMapper.dtoToDomain(patientDTO);
+
+        domain.setUser(patient.getUser());
+        domain.setPendingAppointments(patient.getPendingAppointments());
+        domain.setAppointmentCount(patient.getAppointmentCount());
+        domain.setPastAppointments(patient.getPastAppointments());
+
+        PatientEntity entity = patientMapper.toEntity(domain);
+        PatientEntity saved = jpaRepository.save(entity);
+        return patientMapper.toDomain(saved);
+    }
+
+    @Transactional
+    @Override
     public List<Patient> findAll() throws Exception{
         List<PatientEntity> entities = jpaRepository.findAll();
         return entities.stream()
@@ -77,4 +96,13 @@ public class PatientPersistenceService implements IPatientPersistenceService {
         return patientMapper.toDomain(patient);
     }
 
+    @Transactional
+    @Override
+    public List<Patient> findByIdentificationNumberContaining(String identificationNumber) throws Exception {
+        List<PatientEntity> patients = jpaRepository.findByIdentificationNumberContaining(identificationNumber)
+                .orElseThrow(() -> new Exception("No patients found with identification number containing: " + identificationNumber));
+        return patients.stream()
+                .map(patientMapper::toDomain)
+                .toList();
+    }
 }

@@ -2,6 +2,7 @@ package co.edu.unicauca.BackendPiedraAzul.Users.persistence.mapper;
 
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.IntervalMapper;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
+import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.ConfDoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.entities.DoctorEntity;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.persistence.mapper.AppointmentMapper;
@@ -23,4 +24,6 @@ public interface DoctorMapper {
     Doctor dtoToDomain(DoctorDTO doctorDto);
 
     DoctorDTO toDto(Doctor doctor);
+
+    ConfDoctorDTO toConfDoctorDTO(Doctor doctor);
 }

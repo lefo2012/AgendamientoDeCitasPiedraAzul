@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CreateAppointment } from '../../../appointments/pages/create-appointment/create-appointment';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../users/services/auth.service';
+import { AppointmentService } from '../../../appointments/services/appointment.service';
 
 
 
@@ -17,11 +18,14 @@ import { AuthService } from '../../../users/services/auth.service';
 export class Main  {
 
   private readonly loginRequiredMessage = 'Debes iniciar sesion para agendar una cita.';
+  private readonly pendingAppointmentMessage =
+    'Ya tienes una cita pendiente. Debes atenderla o cancelarla antes de agendar otra.';
 
   constructor(
     private router: Router,
     private dialog: MatDialog,
     private authService: AuthService,
+    private appointmentService: AppointmentService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -44,19 +48,55 @@ export class Main  {
       return;
     }
 
-    this.dialog.open(CreateAppointment, {
-      width: '50%',
-      height: '50%',
-      disableClose: false
+    const patientId = this.resolveCurrentPatientId();
+    if (!patientId) {
+      this.snackBar.open('No se pudo identificar tu sesion. Inicia sesion nuevamente.', 'Cerrar', {
+        duration: 4200,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+        panelClass: ['auth-warning-snackbar']
+      });
+      return;
+    }
+
+    this.appointmentService.getPendingAppointments(patientId).subscribe({
+      next: (response) => {
+        const pendingAppointments = this.normalizePendingAppointments(response);
+        if (pendingAppointments.length > 0) {
+          this.snackBar.open(this.pendingAppointmentMessage, 'Cerrar', {
+            duration: 4200,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            panelClass: ['auth-warning-snackbar']
+          });
+          return;
+        }
+
+        this.dialog.open(CreateAppointment, {
+          width: '50%',
+          height: '50%',
+          disableClose: false
+        });
+      },
+      error: () => {
+        this.snackBar.open('No fue posible validar tus citas pendientes.', 'Cerrar', {
+          duration: 4200,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['auth-warning-snackbar']
+        });
+      }
     });
   }
 
   goToRescheduleAppointment() {
+    
     this.router.navigate(['/citas/reagendar']);
   }
 
   goToCancelAppointment() {
     this.router.navigate(['/citas/cancelar']);
+    console.log('Navegando a cancelar cita');
   }
 
   slides = [
@@ -94,4 +134,40 @@ ngOnInit() {
     this.nextSlide();
   }, 5000);
 }
+
+  private normalizePendingAppointments(response: unknown): any[] {
+    if (Array.isArray(response)) {
+      return response;
+    }
+
+    if (response && typeof response === 'object' && 'pendingAppointments' in response) {
+      const pending = (response as { pendingAppointments?: unknown }).pendingAppointments;
+      return Array.isArray(pending) ? pending : [];
+    }
+
+    return [];
+  }
+
+  private resolveCurrentPatientId(): number | null {
+    const patient = this.authService.currentPatient();
+
+    if (!patient) {
+      return null;
+    }
+
+    const candidateIds = [
+      patient.id,
+      patient['idPatient'],
+      patient['patientId']
+    ];
+
+    for (const candidate of candidateIds) {
+      const parsed = Number(candidate);
+      if (Number.isFinite(parsed) && parsed > 0) {
+        return parsed;
+      }
+    }
+
+    return null;
+  }
 }

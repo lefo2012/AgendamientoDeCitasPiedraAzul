@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../features/users/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,30 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
+
+  get isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
+  onLogout(): void {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: () => {
+        this.authService.clearSession();
+        this.router.navigate(['/login']);
+      }
+    });
+  }
 
   scrollToCards() {
     if (this.router.url === '/') {
@@ -37,5 +61,9 @@ export class Navbar {
       top: yOffset,
       behavior: 'smooth',
     });
+  }
+
+  backToHome() {
+    window.location.href = '/';
   }
 }

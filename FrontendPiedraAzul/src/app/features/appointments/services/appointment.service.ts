@@ -1,25 +1,44 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DoctorDto } from '../models/DoctorDto';
 import { HttpClient } from '@angular/common/http';
 import { ReserveAppointmentDto } from '../models/ReserveAppointmentDto';
+import { PendingAppointment } from '../models/PendingAppointment';
+import { getAppEnv } from '../../../core/config/app-env';
+
+const env = getAppEnv();
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppointmentService {
-  private apiUrl = '/api/doctor';
-  private usersApi = '/api/users';
-  private appointmentsApi = '/api/appointments';
+  private appointmentsApi = env.API_APPOINTMENTS;
+  private patientApi = env.API_PATIENT;
   constructor(private http: HttpClient) { }
-  
-  getDoctorsBySpeciality(specialty: string): Observable<DoctorDto[]> {
-    return this.http.get<DoctorDto[]>(`${this.usersApi}/getDoctorsBySpecialty/${specialty}`);
-    console.log(specialty);
-  }
+
   reserveAppointment(appointment: ReserveAppointmentDto): Observable<any> {
-    console.log(appointment);
     return this.http.post<any>(`${this.appointmentsApi}/reserve`, appointment);
+  }
+
+  cancelAppointment(appointmentId: number): Observable<string> {
+    return this.http.put(
+      `${this.appointmentsApi}/cancel/${encodeURIComponent(appointmentId)}`,
+      {},
+      {
+        responseType: 'text'
+      }
+    );
+  }
+  
+  rescheduleAppointment(payload: ReserveAppointmentDto): Observable<string> {
+    return this.http.post(`${this.appointmentsApi}/reschedulePatient`, payload, {
+      responseType: 'text'
+    });
+  }
+
+  getPendingAppointments(patientId: number): Observable<PendingAppointment[] | { pendingAppointments?: PendingAppointment[] }> {
+    return this.http.get<PendingAppointment[] | { pendingAppointments?: PendingAppointment[] }>(
+      `${this.patientApi}/${patientId}/getPendingAppointments`
+    );
   }
 
 }

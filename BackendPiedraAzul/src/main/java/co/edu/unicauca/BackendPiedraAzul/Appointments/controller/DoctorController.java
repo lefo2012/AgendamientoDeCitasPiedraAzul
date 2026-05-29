@@ -5,6 +5,7 @@ import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IAppoint
 import co.edu.unicauca.BackendPiedraAzul.Appointments.services.usecases.IScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -16,6 +17,7 @@ public class DoctorController {
     @Autowired
     private IAppointmentService appointmentService;
 
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @PostMapping("/{doctorId}/configureSchedule")
     public ResponseEntity<?> configureSchedule(
             @PathVariable Long doctorId,
@@ -31,14 +33,19 @@ public class DoctorController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @GetMapping("/{doctorId}/getScheduledAppointments")
     public ResponseEntity<?> getScheduledAppointments(@PathVariable Long doctorId) throws Exception {
 
         return ResponseEntity.ok(appointmentService.getScheduledAppointmentsByDoctor(doctorId));
     }
+
+    @PreAuthorize("hasAnyRole('MEDICO', 'ADMIN')")
     @GetMapping("/{doctorId}/getAttendedAppointments")
     public ResponseEntity<?> getAttendedAppointments(@PathVariable Long doctorId) throws Exception {
         return ResponseEntity.ok(appointmentService.getAttendedAppointments(doctorId));
     }
+
+
 
 }

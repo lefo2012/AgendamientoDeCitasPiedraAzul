@@ -18,12 +18,18 @@ import java.util.List;
 @Slf4j
 public class KeyCloakService implements IKeycloakService {
 
+    private final KeycloakProvider keycloakProvider;
+
+    public KeyCloakService(KeycloakProvider keycloakProvider) {
+        this.keycloakProvider = keycloakProvider;
+    }
+
     /**
      * Metodo para listar todos los usuarios de Keycloak
      * @return List<UserRepresentation>
      */
     public List<UserRepresentation> findAllUsers(){
-        return KeycloakProvider.getRealmResource()
+        return keycloakProvider.getRealmResource()
                 .users()
                 .list();
     }
@@ -33,7 +39,7 @@ public class KeyCloakService implements IKeycloakService {
      * @return List<UserRepresentation>
      */
     public List<UserRepresentation> searchUserByUsername(String username) {
-        return KeycloakProvider.getRealmResource()
+        return keycloakProvider.getRealmResource()
                 .users()
                 .searchByUsername(username, true);
     }
@@ -44,7 +50,7 @@ public class KeyCloakService implements IKeycloakService {
      */
     public String createUser(UserDTO userDTO, String firstName, String lastName) {
         int status;
-        UsersResource usersResource = KeycloakProvider.getUserResource();
+        UsersResource usersResource = keycloakProvider.getUserResource();
 
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setFirstName(firstName);
@@ -66,7 +72,7 @@ public class KeyCloakService implements IKeycloakService {
                 credentialRepresentation.setType(CredentialRepresentation.PASSWORD);
                 credentialRepresentation.setValue(userDTO.getPassword());
                 usersResource.get(userId).resetPassword(credentialRepresentation);
-                RealmResource realmResource = KeycloakProvider.getRealmResource();
+                RealmResource realmResource = keycloakProvider.getRealmResource();
 
                 List<RoleRepresentation> rolesRepresentation;
 
@@ -105,7 +111,7 @@ public class KeyCloakService implements IKeycloakService {
      */
     public void assignClientRolesToUser(String userId, String clientId, List<String> roleNames) {
         try {
-            RealmResource realmResource = KeycloakProvider.getRealmResource();
+            RealmResource realmResource = keycloakProvider.getRealmResource();
 
             if (roleNames == null || roleNames.isEmpty()) {
                 log.warn("No roles provided to assign for user {} in client {}", userId, clientId);
@@ -172,7 +178,7 @@ public class KeyCloakService implements IKeycloakService {
      * Metodo para borrar un usuario en keycloak
      */
     public void deleteUser(String userId){
-        KeycloakProvider.getUserResource()
+        keycloakProvider.getUserResource()
                 .get(userId)
                 .remove();
     }

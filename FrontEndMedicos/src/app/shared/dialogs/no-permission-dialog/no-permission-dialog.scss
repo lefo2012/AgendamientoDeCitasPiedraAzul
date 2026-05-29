@@ -1,0 +1,37 @@
+.no-permission-dialog {
+  padding: 8px 8px 8px 8px;
+}
+
+.no-permission-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.no-permission-icon {
+  font-size: 28px;
+  width: 32px;
+  height: 32px;
+  color: var(--azul-profundo);
+  padding-left: 0.15rem;
+  padding-top: 0.25rem;
+}
+
+.no-permission-title {
+  margin: 0;
+  color: var(--azul-profundo);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.no-permission-message {
+  margin: 16px 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--azul-oscuro);
+}
+
+mat-dialog-actions {
+  gap: 8px;
+}

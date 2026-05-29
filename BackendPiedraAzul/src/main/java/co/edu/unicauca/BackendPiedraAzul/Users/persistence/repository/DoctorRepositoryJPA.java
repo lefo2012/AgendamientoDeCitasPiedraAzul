@@ -17,4 +17,7 @@ public interface DoctorRepositoryJPA extends JpaRepository<DoctorEntity,Long> {
     @Query("SELECT d FROM DoctorEntity d WHERE d.user.email = :email")
     Optional <DoctorEntity> findByEmail(String email) throws Exception;
 
+    @Query("SELECT d FROM DoctorEntity d WHERE d.user.keycloakId = :keycloakId")
+    Optional<DoctorEntity> findByKeycloakId(String keycloakId)  throws Exception;
+
 }

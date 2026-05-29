@@ -40,6 +40,41 @@ html {
   backdrop-filter: blur(5px);
 }
 
+.app-snackbar {
+  .mdc-snackbar__surface {
+    min-width: 320px;
+    max-width: 560px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .mdc-snackbar__label {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .mdc-snackbar__action {
+    color: #ffffff;
+    font-weight: 600;
+  }
+}
+
+.app-snackbar-success .mdc-snackbar__surface {
+  background: var(--verde-exito);
+  color: #ffffff;
+}
+
+.app-snackbar-error .mdc-snackbar__surface {
+  background: var(--rojo-error);
+  color: #ffffff;
+}
+
+.app-snackbar-info .mdc-snackbar__surface {
+  background: var(--azul-profundo);
+  color: #ffffff;
+}
+
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the

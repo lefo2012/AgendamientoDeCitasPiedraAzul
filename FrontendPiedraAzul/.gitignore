@@ -39,6 +39,11 @@ testem.log
 /typings
 __screenshots__/
 
+# Env files
+.env
+.env.*
+/src/assets/env.js
+
 # System files
 .DS_Store
 Thumbs.db

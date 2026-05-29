@@ -17,6 +17,7 @@ public class AppointmentPersistenceService implements IAppointmentPersistenceSer
 
     @Autowired
     private AppointmentRepositoryJPA jpaRepository;
+
     @Autowired
     private AppointmentMapper appointmentMapper;
 

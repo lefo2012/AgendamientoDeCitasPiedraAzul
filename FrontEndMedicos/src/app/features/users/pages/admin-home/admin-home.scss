@@ -1,0 +1,96 @@
+:host {
+	display: block;
+	background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
+}
+
+.admin-home-page {
+	min-height: calc(100vh - 88px);
+	padding: clamp(1rem, 3vw, 2rem);
+	background: transparent;
+}
+
+.admin-home-wrapper {
+	max-width: 1100px;
+	margin: 0 auto;
+}
+
+.admin-header {
+	margin-bottom: 1.5rem;
+}
+
+.admin-kicker {
+	margin: 0;
+	color: var(--azul-medio);
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 0.8rem;
+}
+
+.admin-header h1 {
+	margin: 0.25rem 0 0.35rem;
+	color: var(--azul-profundo);
+	font-size: clamp(1.5rem, 2.6vw, 2rem);
+}
+
+.admin-subtitle {
+	margin: 0;
+	color: var(--gris-oscuro);
+}
+
+.admin-actions-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+}
+
+.admin-action-card {
+	border-radius: 0.9rem;
+	border-color: color-mix(in srgb, var(--azul-profundo) 12%, transparent);
+	background: color-mix(in srgb, var(--blanco) 96%, #eaf3f8);
+	box-shadow: 0 8px 20px rgba(26, 51, 70, 0.08);
+}
+
+.card-icon {
+	width: 2.4rem;
+	height: 2.4rem;
+	border-radius: 0.65rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 0.75rem;
+	color: var(--azul-profundo);
+	background: color-mix(in srgb, var(--azul-profundo) 14%, var(--blanco));
+}
+
+.card-icon mat-icon {
+	font-size: 1.35rem;
+	width: 1.35rem;
+	height: 1.35rem;
+}
+
+.admin-action-card h2 {
+	margin: 0;
+	color: var(--azul-profundo);
+	font-size: 1.1rem;
+}
+
+.admin-action-card p {
+	margin: 0.65rem 0 0;
+	color: var(--gris-oscuro);
+	line-height: 1.45;
+}
+
+.admin-action-card mat-card-actions {
+	padding: 0.2rem 1rem 1rem;
+}
+
+.admin-action-card button {
+	border-radius: 0.7rem;
+}
+
+@media (max-width: 900px) {
+	.admin-actions-grid {
+		grid-template-columns: 1fr;
+	}
+}

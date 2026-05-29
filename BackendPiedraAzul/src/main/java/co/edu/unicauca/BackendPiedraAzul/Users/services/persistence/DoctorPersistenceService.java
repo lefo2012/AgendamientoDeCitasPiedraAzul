@@ -1,5 +1,6 @@
 package co.edu.unicauca.BackendPiedraAzul.Users.services.persistence;
 
+import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.Schedule;
 import co.edu.unicauca.BackendPiedraAzul.Appointments.domain.SpecialtyEnum;
 import co.edu.unicauca.BackendPiedraAzul.Users.domain.Doctor;
 import co.edu.unicauca.BackendPiedraAzul.Users.persistence.dto.DoctorDTO;
@@ -44,6 +45,23 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
 
     @Transactional
     @Override
+    public Doctor update(DoctorDTO doctorDTO) throws Exception{
+        Doctor doctor = findById(doctorDTO.getId());
+        Doctor domain = doctorMapper.dtoToDomain(doctorDTO);
+
+        //we set the attributes that are not in the DTO but are in the domain
+        domain.setUser(doctor.getUser());
+        domain.setSchedule(doctor.getSchedule());
+        domain.setAttendedAppointments(doctor.getAttendedAppointments());
+        domain.setScheduledAppointments(doctor.getScheduledAppointments());
+
+        DoctorEntity entity = doctorMapper.toEntity(domain);
+        DoctorEntity saved = jpaRepository.save(entity);
+        return doctorMapper.toDomain(saved);
+    }
+
+    @Transactional
+    @Override
     public List<Doctor> findAll() throws Exception{
         List<DoctorEntity> entities = jpaRepository.findAll();
         return entities.stream()
@@ -75,4 +93,10 @@ public class DoctorPersistenceService implements IDoctorPersistenceService {
                 .toList();
     }
 
+    @Override
+    public Doctor findByKeycloakId(String keycloakId) throws Exception {
+        DoctorEntity entity = jpaRepository.findByKeycloakId(keycloakId)
+                .orElseThrow(() -> new Exception("Doctor not found with keycloakId: " + keycloakId));
+        return doctorMapper.toDomain(entity);
+    }
 }

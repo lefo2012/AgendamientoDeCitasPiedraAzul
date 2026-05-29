@@ -8,8 +8,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AppointmentService } from '../../services/appointment.service';
+import { DoctorService } from '../../services/doctor.service';
 import { DoctorDto } from '../../models/DoctorDto';
 import { IntervalDto } from '../../models/IntervalDto';
 import { MatDatepicker } from '@angular/material/datepicker';
@@ -32,15 +33,13 @@ import { CurrentPatient } from '../../../users/models/CurrentPatient';
     MatDatepicker,
     MatInput,
     MatNativeDateModule,
-    
-    
-
-],
+  ],
   templateUrl: './create-appointment.html',
   styleUrl: './create-appointment.scss',
 })
-export class CreateAppointment{
+export class CreateAppointment {
   reservationError = '';
+  minDate = new Date();
 
   get currentPatient(): CurrentPatient | null {
     return this.authService.currentPatient();
@@ -53,7 +52,6 @@ export class CreateAppointment{
     }
     return `${doctor.firstName} ${doctor.lastName}`;
   }
-
 
   get currentPatientDisplayName(): string {
     const patient = this.currentPatient;
@@ -75,11 +73,7 @@ export class CreateAppointment{
       return null;
     }
 
-    const candidateIds = [
-      patient.id,
-      patient['idPatient'],
-      patient['patientId']
-    ];
+    const candidateIds = [patient.id, patient['idPatient'], patient['patientId']];
 
     for (const candidate of candidateIds) {
       const parsed = Number(candidate);
@@ -91,18 +85,18 @@ export class CreateAppointment{
     return null;
   }
 
-  reserveAppointment : ReserveAppointmentDto = {
+  reserveAppointment: ReserveAppointmentDto = {
     idPatient: 0,
     idDoctor: 0,
     interval: {
-      startTime: "",
-      endTime: ""
+      startTime: '',
+      endTime: '',
     },
-    appointmentDate: ''
-  }
+    appointmentDate: '',
+  };
 
   appointmentForm: any;
-  
+
   specialitySelected: any | null = null;
 
   doctorSelected: DoctorDto = {
@@ -112,7 +106,7 @@ export class CreateAppointment{
     lastName: '',
     canSchedule: false,
     appointmentInterval: null,
-    schedule: { availableTimes: {} }
+    schedule: { availableTimes: {} },
   };
 
   dateSelected: any | null = null;
@@ -125,75 +119,84 @@ export class CreateAppointment{
   intervals: any[] = [];
   dates: string[] = [];
 
-  constructor(private readonly appointmentService:AppointmentService,  
+  constructor(
+    private readonly appointmentService: AppointmentService,
+    private readonly doctorService: DoctorService,
     private fb: FormBuilder,
     private readonly authService: AuthService,
     @Optional() private dialogRef: MatDialogRef<CreateAppointment> | null,
-    private snackBar: MatSnackBar
-  ){
-  }
-  
-  specialties : any = [
-    { value: 'FISIOTERAPIA', viewValue: 'Fisioterapia', description: 'La fisioterapia sirve para rehabilitar, prevenir y tratar lesiones físicas, dolor crónico y problemas de movilidad' },
-    { value: 'TERAPIA_NEURAL', viewValue: 'Terapia Neural', description: 'La terapia neural busca aliviar el dolor crónico y enfermedades funcionales' },
-    { value: 'QUIROPRAXIA', viewValue: 'Quiropraxia' , description: 'La quiropraxia es una especialidad que se enfoca en la rehabilitación de lesiones y enfermedades musculoesqueleticas' },
-  ]
+    private snackBar: MatSnackBar,
+  ) {}
 
+  specialties: any = [
+    {
+      value: 'FISIOTERAPIA',
+      viewValue: 'Fisioterapia',
+      description:
+        'La fisioterapia sirve para rehabilitar, prevenir y tratar lesiones físicas, dolor crónico y problemas de movilidad',
+    },
+    {
+      value: 'TERAPIA_NEURAL',
+      viewValue: 'Terapia Neural',
+      description: 'La terapia neural busca aliviar el dolor crónico y enfermedades funcionales',
+    },
+    {
+      value: 'QUIROPRAXIA',
+      viewValue: 'Quiropraxia',
+      description:
+        'La quiropraxia es una especialidad que se enfoca en la rehabilitación de lesiones y enfermedades musculoesqueleticas',
+    },
+  ];
 
   /**
    * Submit the current step and go to the next one.
    * If the current step is 0 and the specialty is not selected, it will stay in the same step.
    */
   next() {
-    
-    if(this.step === 0 && this.specialitySelected === null){
+    if (this.step === 0 && this.specialitySelected === null) {
       this.step = 0;
-    }else if(this.step === 1 && this.doctorSelected?.id === 0){
+    } else if (this.step === 1 && this.doctorSelected?.id === 0) {
       this.step = 1;
-    }else if(this.step === 2 && this.dateSelected === null){
+    } else if (this.step === 2 && this.dateSelected === null) {
       this.step = 2;
-    }else if(this.step === 3 && this.intervalSelected === null){
+    } else if (this.step === 3 && this.intervalSelected === null) {
       this.step = 3;
-    }else{
-      if(this.step < this.maxSteps){
-          this.step++;
+    } else {
+      if (this.step < this.maxSteps) {
+        this.step++;
       }
     }
   }
 
   previous() {
-    if(this.step > 0){
+    if (this.step > 0) {
       this.step--;
     }
   }
-  
-
 
   onBack() {
-    if(this.step >= 1){
+    if (this.step >= 1) {
       this.step--;
-    }else{
+    } else {
       this.step = 0;
     }
-    
   }
   panelX = 0;
   panelY = 0;
 
   onSpecialityChange() {
-    this.appointmentService.getDoctorsBySpeciality(this.specialitySelected.value).subscribe((doctors) => {
-      this.doctors = doctors;
-    })  
-    
+    this.doctorService
+      .getDoctorsBySpeciality(this.specialitySelected.value)
+      .subscribe((doctors) => {
+        this.doctors = doctors;
+      });
   }
   onDoctorChange() {
- 
     setTimeout(() => {
       this.dates = Object.keys(this.doctorSelected?.schedule?.availableTimes || {});
     });
-
   }
-  
+
   dateFilter = (date: Date | null): boolean => {
     if (!date) return false;
 
@@ -205,30 +208,29 @@ export class CreateAppointment{
     return this.dates.includes(formatted);
   };
 
-onDateChange(event: any) {
+  onDateChange(event: any) {
     console.log(event);
 
     if (!event.value) return;
 
     const date = event.value as Date;
-    const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    const formatted = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     this.dateSelected = formatted;
     console.log('Fecha seleccionada:', formatted);
-
 
     const daySchedule = this.doctorSelected.schedule?.availableTimes[formatted]?.intervals || [];
 
     if (!this.doctorSelected.appointmentInterval) {
-
-      this.intervals = daySchedule.map(block => ({
-        startTime: block.startTime.slice(0,5), 
-        endTime: block.endTime.slice(0,5)
+      this.intervals = daySchedule.map((block) => ({
+        startTime: block.startTime.slice(0, 5),
+        endTime: block.endTime.slice(0, 5),
       }));
       return;
     }
 
-
-    const minutes = this.toMinutes(this.doctorSelected.appointmentInterval.endTime) - this.toMinutes(this.doctorSelected.appointmentInterval.startTime);
+    const minutes =
+      this.toMinutes(this.doctorSelected.appointmentInterval.endTime) -
+      this.toMinutes(this.doctorSelected.appointmentInterval.startTime);
 
     const result: IntervalDto[] = [];
 
@@ -239,15 +241,15 @@ onDateChange(event: any) {
       while (start + minutes <= end) {
         result.push({
           startTime: this.toTime(start), // HH:MM
-          endTime: this.toTime(start + minutes)
+          endTime: this.toTime(start + minutes),
         });
         start += minutes;
       }
     });
 
     this.intervals = result;
-}
-  
+  }
+
   toMinutes(time: string): number {
     const [h, m] = time.split(':').map(Number);
     return h * 60 + m;
@@ -256,7 +258,7 @@ onDateChange(event: any) {
   toTime(minutes: number): string {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
   }
 
   onHover(event: MouseEvent | null, speciality: any | null) {
@@ -265,8 +267,8 @@ onDateChange(event: any) {
     if (event && event.target) {
       const rect = (event.target as HTMLElement).getBoundingClientRect();
 
-      this.panelX = rect.right + 10; 
-      this.panelY = rect.top;        
+      this.panelX = rect.right + 10;
+      this.panelY = rect.top;
     }
   }
 
@@ -286,24 +288,24 @@ onDateChange(event: any) {
       return;
     }
 
-    this.reserveAppointment ={
+    this.reserveAppointment = {
       idPatient: currentPatientId,
       idDoctor: this.doctorSelected.id,
       interval: this.intervalSelected,
-      appointmentDate: this.dateSelected
-    }
+      appointmentDate: this.dateSelected,
+    };
     this.reservationError = '';
     console.log(this.reserveAppointment);
     this.appointmentService.reserveAppointment(this.reserveAppointment).subscribe({
       next: () => {
         this.dialogRef?.close();
         this.snackBar.open('Cita agendada con éxito', 'Cerrar', {
-          duration: 3000
+          duration: 3000,
         });
       },
       error: () => {
         this.reservationError = 'No fue posible agendar la cita. Intenta nuevamente.';
-      }
+      },
     });
   }
 }

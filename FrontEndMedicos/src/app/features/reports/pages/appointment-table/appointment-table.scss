@@ -2,45 +2,56 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 100%;
+  min-height: calc(100vh - 9rem);
+  background: linear-gradient(180deg, var(--fondo-suave) 10%, #bdd9ea 80%);
+  padding: 1.5rem 1rem 2rem;
 }
 
 .appointment-table {
-  margin: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
+  width: min(100%, 1080px);
+  margin: 0 auto;
+  padding: 1.5rem;
+  border-radius: 16px;
   background: var(--blanco);
-  border: 1px solid var(--gris-claro);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(191, 201, 210, 0.8);
+  box-shadow: 0 10px 30px rgba(31, 45, 59, 0.12);
 
   h2 {
-    margin-bottom: 1rem;
+    margin-bottom: 0.35rem;
     color: var(--azul-profundo);
-    font-size: 2rem;
+    font-size: 1.9rem;
   }
 
   .filters {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr) auto;
     gap: 1rem;
-    margin-bottom: 1rem;
-
-    .filter-field {
-      flex: 1 1 200px;
-    }
+    align-items: start;
+    margin: 1rem 0 1.5rem;
 
     .filter-buttons {
       display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: flex-start;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: 4px;
+      margin-top: 0.5rem;
+
+      button {
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
     }
   }
 
   p {
     color: var(--gris-oscuro);
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
   }
 
   .loading {
@@ -55,7 +66,7 @@
 
     th, td {
       text-align: left;
-      padding: 0.75rem;
+      padding: 0.85rem 0.9rem;
       border-bottom: 1px solid var(--gris-claro);
     }
 
@@ -67,6 +78,28 @@
 
     tr:hover {
       background-color: var(--fondo-suave-transparente);
+    }
+
+    .table-row.is-selected {
+      background-color: var(--azul-gris-claro);
+    }
+  }
+
+  mat-checkbox {
+    --mdc-checkbox-state-layer-size: 36px;
+  }
+}
+
+@media (max-width: 900px) {
+  .appointment-table {
+    padding: 1.25rem;
+
+    .filters {
+      grid-template-columns: 1fr;
+    }
+
+    .filter-buttons {
+      justify-content: flex-start;
     }
   }
 }

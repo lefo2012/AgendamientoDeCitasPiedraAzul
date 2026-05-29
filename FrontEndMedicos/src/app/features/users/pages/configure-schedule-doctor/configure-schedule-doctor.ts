@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -20,8 +20,9 @@ import { DayOfWeekDto } from '../../../appointments/models/DayOfWeekDto';
 import { DoctorSchedule } from '../../../appointments/models/DoctorSchedule';
 import { IntervalDto } from '../../../appointments/models/IntervalDto';
 import { IntervalListDto } from '../../../appointments/models/IntervalListDto';
-import { ScheduleService } from '../../../appointments/services/schedule.service';
+import { DoctorService } from '../../../appointments/services/doctor.service';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 interface DaySelection {
   value: number;
@@ -51,7 +52,6 @@ interface DaySelection {
     HttpClientModule
   ],
   providers: [
-    ScheduleService,
     { provide: MAT_DATE_LOCALE, useValue: 'es-CO' }
   ],
   templateUrl: './configure-schedule-doctor.html',
@@ -75,7 +75,9 @@ export class ConfigureScheduleDoctor implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private scheduleService: ScheduleService,
+    private doctorService: DoctorService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef
@@ -97,8 +99,8 @@ export class ConfigureScheduleDoctor implements OnInit {
 
   ngOnInit(): void {
     this.scheduleForm.patchValue({
-      startHour: 8,
-      endHour: 17
+      startHour: 7,
+      endHour: 18
     });
   }
 
@@ -165,34 +167,37 @@ export class ConfigureScheduleDoctor implements OnInit {
     return intervals;
   }
 
+  private resolveDoctorId(): string | null {
+    const currentDoctorId = this.authService.currentDoctor()?.id;
+
+    if (currentDoctorId !== undefined && currentDoctorId !== null) {
+      return String(currentDoctorId);
+    }
+
+    const queryDoctorId = this.route.snapshot.queryParamMap.get('doctorId');
+    if (queryDoctorId && queryDoctorId.trim().length > 0) {
+      return queryDoctorId;
+    }
+
+    return null;
+  }
+
   /**
    * Guardar la configuración
    */
   saveSchedule(): void {
     if (this.scheduleForm.invalid || !this.isDaySelectionValid()) {
-      this.snackBar.open('Por favor completa todos los campos', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('Por favor completa todos los campos', 'error');
       return;
     }
 
     if (!this.validateTimeRange()) {
-      this.snackBar.open('La hora de cierre debe ser posterior a la hora de inicio', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('La hora de cierre debe ser posterior a la hora de inicio', 'error');
       return;
     }
 
     if (!this.validateSecondTimeRange()) {
-      this.snackBar.open('Verifica la segunda franja horaria: debe ser válida y posterior a la primera', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top'
-      });
+      this.openSnackBar('Verifica la segunda franja horaria: debe ser válida y posterior a la primera', 'error');
       return;
     }
 
@@ -200,9 +205,14 @@ export class ConfigureScheduleDoctor implements OnInit {
     this.cdr.markForCheck();
     const formValue = this.scheduleForm.value;
     const selectedDays = this.getSelectedDays();
+    const doctorId = this.resolveDoctorId();
 
-    // Obtener el ID del doctor del localStorage o sesión
-    const doctorId = localStorage.getItem('doctorId') || 'temp-id';
+    if (!doctorId) {
+      this.isLoading = false;
+      this.cdr.markForCheck();
+      this.openSnackBar('No se pudo identificar el medico para configurar el horario.', 'error');
+      return;
+    }
 
     const intervalConfig: IntervalListDto = {
       intervals: this.buildIntervals(formValue),
@@ -217,7 +227,7 @@ export class ConfigureScheduleDoctor implements OnInit {
       year: formValue.year,
     };
 
-    this.scheduleService.saveDoctorSchedule(doctorId, scheduleData)
+    this.doctorService.saveDoctorSchedule(doctorId, scheduleData)
       .pipe(
         observeOn(asyncScheduler),
         finalize(() => {
@@ -227,22 +237,12 @@ export class ConfigureScheduleDoctor implements OnInit {
       )
       .subscribe({
       next: () => {
-        this.snackBar.open('¡Horario configurado exitosamente!', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
-        // Limpiar localStorage
-        localStorage.removeItem('doctorId');
+        this.openSnackBar('¡Horario configurado exitosamente!', 'success');
         this.router.navigate(['/admin']);
       },
       error: (error) => {
         console.error('Error al guardar el horario:', error);
-        this.snackBar.open('Error al guardar la configuración. Intenta de nuevo.', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top'
-        });
+        this.openSnackBar('Error al guardar la configuración. Intenta de nuevo.', 'error');
       }
     });
   }
@@ -251,7 +251,6 @@ export class ConfigureScheduleDoctor implements OnInit {
    * Cancelar y volver
    */
   cancel(): void {
-    localStorage.removeItem('doctorId');
     this.router.navigate(['/admin']);
   }
 
@@ -298,5 +297,23 @@ export class ConfigureScheduleDoctor implements OnInit {
     const firstEndTotalMinutes = (firstEndHour * 60) + firstEndMinute;
 
     return secondStartTotalMinutes > firstEndTotalMinutes;
+  }
+
+  private openSnackBar(message: string, type: 'success' | 'error' | 'info'): void {
+    const panelClass = ['app-snackbar'];
+    if (type === 'success') {
+      panelClass.push('app-snackbar-success');
+    } else if (type === 'error') {
+      panelClass.push('app-snackbar-error');
+    } else {
+      panelClass.push('app-snackbar-info');
+    }
+
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 4500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass,
+    });
   }
 }

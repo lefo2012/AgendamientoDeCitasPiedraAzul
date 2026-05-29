@@ -11,7 +11,7 @@ import { GENDER_OPTIONS } from '../../models/GenderEnum';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { map, switchMap } from 'rxjs';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,9 +32,10 @@ export class Login {
   registerActive = false;
   loginForm: FormGroup;
   errorMessage = '';
-  submitted = false;
+  loginSubmitted = false;
   registerForm: FormGroup;
   formError = '';
+  registerSubmitted = false;
   readonly genderOptions = GENDER_OPTIONS;
   readonly maxBirthDate: Date;
 
@@ -127,7 +128,8 @@ export class Login {
   }
 
   login() {
-    this.submitted = true;
+    this.loginSubmitted = true;
+    this.errorMessage = '';
     console.groupCollapsed('[LoginComponent] Login submit triggered');
     console.log('Form value:', this.loginForm.value);
     console.log('Form valid:', this.loginForm.valid);
@@ -143,41 +145,35 @@ export class Login {
     const credentials = this.loginForm.value;
     const email = credentials.email?.trim?.() ?? credentials.email;
 
-
     console.log('[LoginComponent] Calling AuthService.login for user:', email);
 
     this.authService.login(email, credentials.password).pipe(
-      switchMap((token) =>
-        this.authService.initializeSession(token).pipe(
-          map((patient) => ({ token, patient }))
-        )
-      )
+      switchMap(() => this.authService.initializeSession())
     )
       .subscribe({
-        next: ({ token, patient }) => {
+        next: (patient) => {
+          if (!patient) {
+            this.authService.clearSession();
+            this.errorMessage = 'No se pudo recuperar la informacion del paciente. Inicia sesion nuevamente.';
+            return;
+          }
+
           console.groupCollapsed('[LoginComponent] Login success');
-          console.log('Token response from service:', token);
-          console.log('Access token received:', token?.access_token ?? '(none)');
-          console.log('Current patient from /api/auth/me:', patient);
+          console.log('Current patient from /api/auth/getPatientByToken:', patient);
           console.groupEnd();
 
           this.errorMessage = '';
-          const roles = this.authService.getRolesFromToken(token.access_token);
+          const roles = this.authService.getRoles();
 
           console.log('[LoginComponent] Roles extracted:', roles);
 
-          if (roles.includes('admin')) {
+          if (roles.includes('ADMIN')) {
             console.log('[LoginComponent] Redirecting to /admin');
             this.router.navigate(['/admin']);
           } else {
             console.log('[LoginComponent] Redirecting to /');
             this.router.navigate(['/']);
           }
-
-
-
-
-
         },
         error: (err) => {
           console.groupCollapsed('[LoginComponent] Login failed');
@@ -186,18 +182,13 @@ export class Login {
           console.error('Backend payload:', err?.error);
           console.groupEnd();
 
-          if (err?.status === 400 && err?.error?.error === 'invalid_grant') {
-            this.errorMessage = 'Credenciales incorrectas (invalid_grant).';
-            return;
-          }
-
-          if (err?.status === 401) {
-            this.errorMessage = 'Token válido, pero no fue posible cargar el perfil del paciente.';
+          if (err?.status === 401 || err?.error?.error === 'invalid_credentials') {
+            this.errorMessage = 'Credenciales incorrectas.';
             return;
           }
 
           if (err?.status === 0) {
-            this.errorMessage = 'No hubo conexión con Keycloak (CORS, SSL o servidor apagado).';
+            this.errorMessage = 'No hubo conexión con el backend (CORS o servidor apagado).';
             return;
           }
 
@@ -206,19 +197,9 @@ export class Login {
       });
   }
 
-  fieldInvalidLogin(fieldName: 'email' | 'password'): boolean {
-    const control = this.loginForm.get(fieldName);
-    return !!control && control.invalid && (control.touched || this.submitted);
-  }
-
-  goBack(): void {
-    this.router.navigate(['/']);
-  }
-
-
-
   register() {
-    this.submitted = true;
+    this.registerSubmitted = true;
+    this.formError = '';
     console.groupCollapsed('[RegisterComponent] Register submit triggered');
     console.log('Form value:', this.registerForm.value);
     console.log('Form valid:', this.registerForm.valid);
@@ -261,8 +242,6 @@ export class Login {
         password: formData.password,
         roles: ['PACIENTE']
       }
-
-    
     };
 
     console.groupCollapsed('[RegisterComponent] Register request payload');
@@ -273,15 +252,56 @@ export class Login {
       next: () => {
         console.log('[RegisterComponent] Registration completed successfully.');
         this.formError = '';
-        this.router.navigate(['/login']);
+        this.errorMessage = 'Cuenta creada con exito. Ahora inicia sesion.';
+        this.resetRegisterForm();
+        this.changeToLogin();
       },
       error: (err) => {
         console.error('Registration error', err);
         console.error('Registration error status:', err?.status);
         console.error('Registration error payload:', err?.error);
-        this.formError = 'No se pudo registrar el usuario. Intenta de nuevo más tarde.';
+        this.formError = this.resolveRegisterError(err);
       }
     });
+  }
+
+  private resolveRegisterError(err: any): string {
+    const backendMessage = err?.error?.message
+      ?? err?.error?.error_description
+      ?? err?.error?.detail
+      ?? err?.error?.error;
+
+    if (typeof backendMessage === 'string' && backendMessage.trim().length > 0) {
+      return backendMessage;
+    }
+
+    if (err?.status === 409) {
+      return 'El correo o documento ya existe. Verifica los datos.';
+    }
+
+    if (err?.status === 0) {
+      return 'No fue posible conectar con el servidor para registrar.';
+    }
+
+    return 'No se pudo registrar el usuario. Intenta de nuevo mas tarde.';
+  }
+
+  private resetRegisterForm(): void {
+    this.registerForm.reset({
+      firstName: '',
+      lastName: '',
+      documentType: '',
+      identificationNumber: '',
+      birthDate: '',
+      phone: '',
+      gender: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+    this.registerForm.markAsPristine();
+    this.registerForm.markAsUntouched();
+    this.registerSubmitted = false;
   }
 
   minimumAgeValidator(minAge: number): ValidatorFn {
@@ -329,14 +349,32 @@ export class Login {
 
   fieldInvalidRegister(fieldName: string): boolean {
     const control = this.registerForm.get(fieldName);
-    return !!control && control.invalid && (control.touched || this.submitted);
+    return !!control && control.invalid && (control.touched || this.registerSubmitted);
+  }
+
+  fieldInvalidLogin(fieldName: 'email' | 'password'): boolean {
+    const control = this.loginForm.get(fieldName);
+    return !!control && control.invalid && (control.touched || this.loginSubmitted);
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
   changeToRegister() {
     this.loginActive = false;
     this.registerActive = true;
+    this.formError = '';
+    this.errorMessage = '';
+    this.loginSubmitted = false;
+    this.loginForm.markAsPristine();
+    this.loginForm.markAsUntouched();
   }
   changeToLogin() {
     this.loginActive = true;
     this.registerActive = false;
+    this.formError = '';
+    this.registerSubmitted = false;
+    this.registerForm.markAsPristine();
+    this.registerForm.markAsUntouched();
   }
 }

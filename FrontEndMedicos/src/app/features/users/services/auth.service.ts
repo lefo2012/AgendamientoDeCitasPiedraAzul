@@ -1,15 +1,37 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, catchError, tap, throwError } from 'rxjs';
-import { AuthConfig, AUTH_CONFIG } from './auth.config';
-import { AuthTokenResponse } from '../models/AuthTokenResponse';
+import { computed, Inject, Injectable, signal } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, catchError, finalize, map, of, shareReplay, switchMap, tap, throwError } from 'rxjs';
+import { AuthConfig, AUTH_CONFIG } from '../../../core/auth/auth.config';
 import { RegisterDoctorRequest } from '../models/RegisterDoctorRequest';
 import { RegisterRequest } from '../models/RegisterRequest';
+
+interface CurrentDoctor {
+  id?: string | number;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  canSchedule?: boolean;
+  [key: string]: unknown;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  private readonly currentDoctorSignal = signal<CurrentDoctor | null>(null);
+  private readonly rolesSignal = signal<string[]>([]);
+  private readonly sessionActiveSignal = signal<boolean>(false);
+  private refreshInFlight$: Observable<void> | null = null;
+
+  readonly currentDoctor = this.currentDoctorSignal.asReadonly();
+  readonly roles = this.rolesSignal.asReadonly();
+  readonly isAuthenticated = computed(() => this.sessionActiveSignal());
+
+  // Public helper to check if current session has ADMIN role
+  isAdmin(): boolean {
+    return this.rolesSignal().includes('ADMIN');
+  }
 
   constructor(
     private http: HttpClient,
@@ -31,31 +53,14 @@ export class AuthService {
   register(data: RegisterRequest): Observable<any> {
     const url = this.resolveAuthUrl(`${this.config.backendApi}/registerPatient`);
 
-    console.groupCollapsed('[AuthService] Register request');
-    console.log('Endpoint:', url);
-    console.log('Payload:', data);
-    console.groupEnd();
-
     return this.http.post(url, data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       withCredentials: false
     }).pipe(
-      tap((response) => {
-        console.groupCollapsed('[AuthService] Register response');
-        console.log('Response payload:', response);
-        console.groupEnd();
-      }),
       catchError((error: HttpErrorResponse) => {
-        console.groupCollapsed('[AuthService] Register error');
-        console.error('HTTP status:', error.status);
-        console.error('HTTP status text:', error.statusText);
-        console.error('Error payload:', error.error);
-
         if (error.status === 0) {
           console.error('Network/CORS/SSL issue detected (status 0).');
         }
-
-        console.groupEnd();
         return throwError(() => error);
       })
     );
@@ -64,100 +69,150 @@ export class AuthService {
   registerDoctor(data: RegisterDoctorRequest): Observable<any> {
     const url = this.resolveAuthUrl(`${this.config.backendApi}/registerDoctor`);
 
-    console.groupCollapsed('[AuthService] Register doctor request');
-    console.log('Endpoint:', url);
-    console.log('Payload:', data);
-    console.groupEnd();
-
     return this.http.post(url, data, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       withCredentials: false
     }).pipe(
-      tap((response) => {
-        console.groupCollapsed('[AuthService] Register doctor response');
-        console.log('Response payload:', response);
-        console.groupEnd();
-      }),
       catchError((error: HttpErrorResponse) => {
-        console.groupCollapsed('[AuthService] Register doctor error');
-        console.error('HTTP status:', error.status);
-        console.error('HTTP status text:', error.statusText);
-        console.error('Error payload:', error.error);
-
         if (error.status === 0) {
           console.error('Network/CORS/SSL issue detected (status 0).');
         }
-
-        console.groupEnd();
         return throwError(() => error);
       })
     );
   }
 
-  login(username: string, password: string): Observable<AuthTokenResponse> {
-    const tokenUrl = this.resolveAuthUrl(this.config.keycloakTokenUrl);
+  login(username: string, password: string): Observable<void> {
+    const url = `${this.config.authApi}/session/login`;
 
-    const body = new HttpParams()
-      .set('client_id', this.config.clientId)
-      .set('grant_type', 'password')
-      .set('username', username)
-      .set('password', password)
-      .set('client_secret', 'HFn9D3q4cLaZyLfTcs7h4J4cDLLLaRLh');
-
-    console.groupCollapsed('[AuthService] Keycloak login request');
-    console.log('Endpoint:', tokenUrl);
-    console.log('Client ID:', this.config.clientId);
-    console.log('Username sent:', username);
-    console.log('Grant type:', 'password');
-    console.groupEnd();
-
-    return this.http.post<AuthTokenResponse>(tokenUrl, body.toString(), {
-      headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }),
-      withCredentials: false
+    return this.http.post<void>(url, { username, password }, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      withCredentials: true
     }).pipe(
-      tap((response) => {
-        console.groupCollapsed('[AuthService] Keycloak login response');
-        console.log('Full response object:', response);
-        console.log('access_token:', response?.access_token ?? '(none)');
-        console.log('token_type:', response?.token_type ?? '(none)');
-        console.log('expires_in:', response?.expires_in ?? '(none)');
-        console.groupEnd();
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401 || error.error?.error === 'invalid_credentials') {
+          console.error('Detected invalid credentials.');
+        } else if (error.status === 0) {
+          console.error('Network/CORS issue detected (status 0).');
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
+  logout(): Observable<void> {
+    const url = `${this.config.authApi}/session/logout`;
+
+    return this.http.post<void>(url, {}, { withCredentials: true }).pipe(
+      tap(() => this.clearSession()),
+      catchError((error: HttpErrorResponse) => {
+        this.clearSession();
+        return throwError(() => error);
+      })
+    );
+  }
+
+  initializeSession(): Observable<CurrentDoctor | null> {
+    return this.fetchCurrentDoctor().pipe(
+      switchMap((doctor) => this.loadRoles().pipe(
+        map(() => doctor),
+        catchError(() => of(doctor))
+      )),
+      tap((doctor) => {
+        this.currentDoctorSignal.set(doctor);
+        this.sessionActiveSignal.set(true);
       }),
       catchError((error: HttpErrorResponse) => {
-        console.groupCollapsed('[AuthService] Keycloak login error');
-        console.error('HTTP status:', error.status);
-        console.error('HTTP status text:', error.statusText);
-        console.error('Error payload:', error.error);
+        if (this.isMissingDoctorProfileError(error)) {
+          return this.loadRoles().pipe(
+            map(() => null),
+            tap(() => this.sessionActiveSignal.set(true)),
+            catchError((rolesError: HttpErrorResponse) => {
+              if (rolesError.status === 401 || rolesError.status === 400) {
+                this.clearSession();
+                return of(null);
+              }
 
-        if (error.status === 400 && error.error?.error === 'invalid_grant') {
-          console.error('Detected invalid credentials (invalid_grant).');
-        } else if (error.status === 0) {
-          console.error('Network/CORS/SSL issue detected (status 0).');
+              this.clearSession();
+              return of(null);
+            })
+          );
         }
 
-        console.groupEnd();
+        if (error.status === 401 || error.status === 400) {
+          this.clearSession();
+          return of(null);
+        }
+
+        this.clearSession();
         return throwError(() => error);
       })
     );
   }
 
-  logout(): Observable<any> {
-    const url = this.resolveAuthUrl(`${this.config.backendApi}/logout`);
-    return this.http.post(url, {}, { withCredentials: true });
+  restoreSession(): Observable<CurrentDoctor | null> {
+    return this.initializeSession();
   }
 
-getRolesFromToken(token: string): string[] {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload?.realm_access?.roles || [];
-  } catch (e) {
-    console.error('Error parsing token', e);
-    return [];
+  refreshAccessToken(): Observable<void> {
+    if (this.refreshInFlight$) {
+      return this.refreshInFlight$.pipe(map(() => void 0));
+    }
+
+    const url = `${this.config.authApi}/session/refresh`;
+
+    this.refreshInFlight$ = this.http.post<void>(url, {}, { withCredentials: true }).pipe(
+      map(() => void 0),
+      catchError((error: HttpErrorResponse) => {
+        this.clearSession();
+        return throwError(() => error);
+      }),
+      finalize(() => {
+        this.refreshInFlight$ = null;
+      }),
+      shareReplay(1)
+    );
+
+    return this.refreshInFlight$;
   }
-}
 
+  clearSession(): void {
+    this.currentDoctorSignal.set(null);
+    this.rolesSignal.set([]);
+    this.sessionActiveSignal.set(false);
+    this.refreshInFlight$ = null;
+  }
 
+  private fetchCurrentDoctor(): Observable<CurrentDoctor> {
+    return this.http.get<CurrentDoctor>(`${this.config.authApi}/getDoctorByToken`, {
+      withCredentials: true
+    });
+  }
 
+  private loadRoles(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.config.authApi}/roles`, {
+      withCredentials: true
+    }).pipe(
+      tap((roles) => this.rolesSignal.set(roles ?? []))
+    );
+  }
 
+  private isMissingDoctorProfileError(error: HttpErrorResponse): boolean {
+    const errorMessage = typeof error.error === 'string'
+      ? error.error
+      : error.error?.error ?? error.error?.message ?? '';
 
+    return (error.status === 400 || error.status === 404)
+      && typeof errorMessage === 'string'
+      && errorMessage.toLowerCase().includes('doctor not found');
+  }
+
+  getRoles(): string[] {
+    return this.rolesSignal();
+  }
+
+  canScheduleAppointments(): boolean {
+    const doctor = this.currentDoctorSignal();
+    return doctor?.canSchedule === true;
+  }
 }

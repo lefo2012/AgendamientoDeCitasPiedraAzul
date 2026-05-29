@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AppointmentTable } from './appointment-table';
+import { AuthService } from '../../../users/services/auth.service';
+
+const authServiceMock = {
+  canScheduleAppointments: () => true
+};
 
 describe('AppointmentTable', () => {
   let component: AppointmentTable;
@@ -9,6 +14,7 @@ describe('AppointmentTable', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppointmentTable],
+      providers: [{ provide: AuthService, useValue: authServiceMock }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppointmentTable);

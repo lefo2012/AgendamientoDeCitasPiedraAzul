@@ -28,7 +28,7 @@ import { GENDER_OPTIONS } from '../../models/GenderEnum';
     MatSelectModule
   ]
 })
-export class RegisterDoctor {
+export class RegisterUser {
   registerForm: FormGroup;
   formError = '';
   submitted = false;
@@ -169,11 +169,10 @@ export class RegisterDoctor {
       next: (response: any) => {
         console.log('[RegisterDoctorComponent] Doctor registration completed successfully.');
         this.formError = '';
-        // Guardar el ID del doctor en localStorage para usarlo en la configuración de agenda
-        if (response && response.id) {
-          localStorage.setItem('doctorId', response.id);
-        }
-        this.router.navigate(['/configure-schedule']);
+        const doctorId = response?.id;
+        this.router.navigate(['/configure-schedule'], {
+          queryParams: doctorId ? { doctorId } : undefined
+        });
       },
       error: (err) => {
         console.error('Doctor registration error', err);

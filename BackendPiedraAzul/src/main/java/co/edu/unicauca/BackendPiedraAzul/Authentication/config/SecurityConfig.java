@@ -1,8 +1,14 @@
 package co.edu.unicauca.BackendPiedraAzul.Authentication.config;
 
 
+import jakarta.servlet.http.Cookie;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,12 +19,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.core.convert.converter.Converter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @Configuration
@@ -28,7 +36,11 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            BearerTokenResolver bearerTokenResolver,
+            CorsConfigurationSource corsConfigurationSource
+        ) throws Exception {
 
         JwtGrantedAuthoritiesConverter scopes = new JwtGrantedAuthoritiesConverter();
 
@@ -44,7 +56,7 @@ public class SecurityConfig {
                 List<String> realmRoles = (List<String>) realmAccess.get("roles");
                 if (realmRoles != null) {
                     realmRoles.forEach(role ->
-                            authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+                            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase(Locale.ROOT)))
                     );
                 }
             }
@@ -57,7 +69,7 @@ public class SecurityConfig {
                     List<String> roles = (List<String>) clientRoles.get("roles");
                     if (roles != null) {
                         roles.forEach(role ->
-                                authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+                                authorities.add(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase(Locale.ROOT)))
                         );
                     }
                 }
@@ -67,18 +79,59 @@ public class SecurityConfig {
         };
 
         http
-                .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth ->
-                        oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(converter))
-                )
+            .oauth2ResourceServer(oauth ->
+                oauth
+                    .bearerTokenResolver(bearerTokenResolver)
+                    .jwt(jwt -> jwt.jwtAuthenticationConverter(converter))
+            )
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         return http.build();
+    }
+
+    @Bean
+    public BearerTokenResolver bearerTokenResolver(
+            @Value("${auth.cookie.access-name:PA_ACCESS}") String accessCookieName) {
+        return request -> {
+            String authorization = request.getHeader("Authorization");
+            if (authorization != null && authorization.startsWith("Bearer ")) {
+                return authorization.substring(7);
+            }
+
+            if (request.getCookies() == null) {
+                return null;
+            }
+
+            for (Cookie cookie : request.getCookies()) {
+                if (accessCookieName.equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+
+            return null;
+        };
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(
+            @Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:4300}") String allowedOrigins) {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        configuration.setExposedHeaders(List.of("Set-Cookie"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", configuration);
+        return source;
     }
 }

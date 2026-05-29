@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { RegisterDoctor } from './register-doctor';
-import { AUTH_CONFIG, defaultAuthConfig } from '../../services/auth.config';
+import { AUTH_CONFIG, defaultAuthConfig } from '../../../../core/auth/auth.config';
 
 describe('RegisterDoctor', () => {
   let component: RegisterDoctor;

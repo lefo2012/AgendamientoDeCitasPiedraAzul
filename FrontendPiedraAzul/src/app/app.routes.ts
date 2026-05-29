@@ -40,18 +40,21 @@ export const routes: Routes = [
       },
       {
         path: 'citas/reagendar',
+        canActivate: [authRequiredGuard],
         loadComponent: () =>
           import('./features/appointments/pages/reschedule-appointment/reschedule-appointment').then((m) => m.RescheduleAppointment),
       },
       {
         path: 'citas/cancelar',
+        canActivate: [authRequiredGuard],
         loadComponent: () =>
           import('./features/appointments/pages/cancel-appointment/cancel-appointment').then((m) => m.CancelAppointment),
       },
       {
-        path: 'header',
+        path: 'mi-cuenta',
+        canActivate: [authRequiredGuard],
         loadComponent: () =>
-          import('./layout/header/header').then((m) => m.Header),
+          import('./features/users/pages/patient-account/patient-account').then((m) => m.PatientAccount),
       },
     ],
   },

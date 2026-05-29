@@ -4,11 +4,11 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { AUTH_CONFIG, defaultAuthConfig } from './features/users/services/auth.config';
+import { AUTH_CONFIG, defaultAuthConfig } from './core/auth/auth.config';
 
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authInterceptor } from './features/users/services/auth.interceptor';
+import { authInterceptor } from './core/auth/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
