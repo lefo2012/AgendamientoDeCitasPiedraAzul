@@ -74,7 +74,8 @@ export class Main  {
 
         this.dialog.open(CreateAppointment, {
           width: '50%',
-          height: '50%',
+          maxHeight: '90vh',
+          panelClass: 'create-appointment-dialog',
           disableClose: false
         });
       },
