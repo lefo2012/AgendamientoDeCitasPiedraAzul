@@ -1,11 +1,8 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  allowCypressEnv: false,
-
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-    },
-  },
+    baseUrl: 'http://localhost:4200', // cambiar a 4300 en el de pacientes    
+    chromeWebSecurity: false, // necesario para Keycloak
+  }
 });
