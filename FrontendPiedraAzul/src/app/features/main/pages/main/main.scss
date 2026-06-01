@@ -259,6 +259,42 @@
     align-items: stretch;
 }
 
+@media (max-width: 1024px) {
+    .welcome-section-split {
+        flex-direction: column;
+        min-height: auto;
+        gap: 16px;
+    }
+
+    .carousel-left {
+        min-height: 420px;
+    }
+
+    .welcome-card-right {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel-left {
+        min-height: 300px;
+    }
+
+    .carousel-left::after {
+        height: 45%;
+    }
+
+    .carousel-left .bottom-button-container {
+        left: 12px;
+        right: 12px;
+    }
+
+    .bottom-button-container .info-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* Carrusel izquierda */
 .carousel-left {
   flex: 1;

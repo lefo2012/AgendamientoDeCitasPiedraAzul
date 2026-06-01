@@ -130,6 +130,12 @@ export class CreateAppointment {
 
   specialties: any = [
     {
+      value: 'CONSULTA_GENERAL',
+      viewValue: 'Consulta General',
+      description:
+        'Si es tu primera vez, selecciona esta opción para que el equipo médico te valore y te asigne el tratamiento adecuado.',
+    },
+    {
       value: 'FISIOTERAPIA',
       viewValue: 'Fisioterapia',
       description:
@@ -185,8 +191,18 @@ export class CreateAppointment {
   panelY = 0;
 
   onSpecialityChange() {
+    if (!this.specialitySelected) {
+      this.doctors = [];
+      return;
+    }
+
+    const specialtyValue =
+      this.specialitySelected.value === 'CONSULTA_GENERAL'
+        ? 'TERAPIA_NEURAL'
+        : this.specialitySelected.value;
+
     this.doctorService
-      .getDoctorsBySpeciality(this.specialitySelected.value)
+      .getDoctorsBySpeciality(specialtyValue)
       .subscribe((doctors) => {
         this.doctors = doctors;
       });
