@@ -65,7 +65,7 @@ class RescheduleAppointmentAcceptanceTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        appointmentDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        appointmentDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
 
         originalDoctor = doctorPersistenceService.save(buildDoctorDto("5001", "Laura", "Rojas"));
         newDoctor = doctorPersistenceService.save(buildDoctorDto("5002", "Mario", "Suarez"));
@@ -126,7 +126,7 @@ class RescheduleAppointmentAcceptanceTest {
         dto.setActive(true);
         dto.setGender("Masculino");
         dto.setCanSchedule(true);
-        dto.setAppointmentInterval(buildInterval("08:00", "12:00"));
+        dto.setAppointmentInterval(buildInterval("00:00", "00:30"));
         dto.setUser(buildUserDto("doctor" + suffix + "@test.com", List.of("MEDICO")));
         return dto;
     }
