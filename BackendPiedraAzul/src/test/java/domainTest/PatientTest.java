@@ -57,14 +57,14 @@ public class PatientTest {
     @Test
     void addPendingAppointmentTest() throws Exception {
         Patient patient = new Patient();
-        LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+        LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
         Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
 
         User user1 = new User();
         List<SpecialtyEnum> specialties1 = new ArrayList<>();
         specialties1.add(SpecialtyEnum.FISIOTERAPIA);
 
-        List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+        List<DayOfWeek> days = List.of(DayOfWeek.TUESDAY);
 
         List<IntervalList> intervals = new ArrayList<>();
         IntervalList intervalList = new IntervalList();
@@ -99,7 +99,7 @@ public class PatientTest {
         assertEquals(1, patient.getAppointmentCount());
 
         // Add another appointment
-        LocalDate nextMonday2 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+        LocalDate nextMonday2 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
         Interval interval2 = new Interval(LocalTime.of(9, 0), LocalTime.of(10, 0));
 
         Appointment appointment2 = new Appointment(doctor,nextMonday2,interval2,patient);
