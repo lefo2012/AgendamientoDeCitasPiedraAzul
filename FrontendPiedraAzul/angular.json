@@ -78,7 +78,8 @@
         "serve": {
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "allowedHosts": "all"
+            "allowedHosts": [".trycloudflare.com", "localhost"],
+            "host": "127.0.0.1"
           },
           
           "builder": "@angular/build:dev-server",

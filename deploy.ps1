@@ -25,9 +25,10 @@ Write-Host ""
 # Helper: mata todos los procesos escuchando en un puerto dado
 # ---------------------------------------------------------------------------
 function Stop-Port([int]$Port) {
-    $lines = (netstat -ano 2>&1) | Select-String "TCP\s+[0-9.:]+:$Port\s+[0-9.:]+:0\s+LISTENING"
-    foreach ($line in $lines) {
-        $pidStr = ($line.ToString().Trim() -split '\s+')[-1]
+    $pids = (netstat -ano 2>&1) | Select-String ":${Port}\s" | ForEach-Object {
+        ($_.ToString().Trim() -split '\s+')[-1]
+    } | Sort-Object -Unique
+    foreach ($pidStr in $pids) {
         if ($pidStr -match '^\d+$' -and [int]$pidStr -gt 4) {
             Write-Host "  Deteniendo PID $pidStr (puerto $Port)" -ForegroundColor DarkGray
             taskkill /PID $pidStr /F /T 2>&1 | Out-Null
@@ -114,7 +115,7 @@ Pop-Location
 Stop-Port 4200
 Start-Sleep -Seconds 1
 
-$azulCmd = "cd /d `"$RepoDir\FrontendPiedraAzul`" && npm start -- --port 4200 > `"$LogDir\frontend-azul.log`" 2>&1"
+$azulCmd = "cd /d `"$RepoDir\FrontendPiedraAzul`" && npm start -- --port 4200 --host 127.0.0.1 > `"$LogDir\frontend-azul.log`" 2>&1"
 Start-Process "cmd.exe" -ArgumentList "/c", $azulCmd -WindowStyle Hidden
 Write-Host "  Arrancando (compilacion Angular ~60s, ver logs\frontend-azul.log)"
 
@@ -130,7 +131,7 @@ Pop-Location
 Stop-Port 4300
 Start-Sleep -Seconds 1
 
-$medicosCmd = "cd /d `"$RepoDir\FrontEndMedicos`" && npm start -- --port 4300 > `"$LogDir\frontend-medicos.log`" 2>&1"
+$medicosCmd = "cd /d `"$RepoDir\FrontEndMedicos`" && npm start -- --port 4300 --host 127.0.0.1 > `"$LogDir\frontend-medicos.log`" 2>&1"
 Start-Process "cmd.exe" -ArgumentList "/c", $medicosCmd -WindowStyle Hidden
 Write-Host "  Arrancando (compilacion Angular ~60s, ver logs\frontend-medicos.log)"
 
