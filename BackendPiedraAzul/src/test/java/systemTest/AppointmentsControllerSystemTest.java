@@ -134,7 +134,7 @@ class AppointmentsControllerSystemTest {
         dto.setActive(true);
         dto.setGender("Femenino");
         dto.setCanSchedule(true);
-        dto.setAppointmentInterval(buildInterval("08:00", "12:00"));
+        dto.setAppointmentInterval(buildInterval("00:00", "00:30"));
         dto.setUser(buildUserDto("doctor" + suffix + "@test.com", List.of("MEDICO")));
         return dto;
     }
