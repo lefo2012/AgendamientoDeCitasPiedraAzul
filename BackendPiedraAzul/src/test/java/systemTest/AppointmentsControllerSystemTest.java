@@ -84,7 +84,7 @@ class AppointmentsControllerSystemTest {
         objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        appointmentDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        appointmentDate = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.TUESDAY));
 
         doctor = doctorPersistenceService.save(buildDoctorDto("3001"));
         patient = patientPersistenceService.save(buildPatientDto("4001"));
@@ -134,7 +134,7 @@ class AppointmentsControllerSystemTest {
         dto.setActive(true);
         dto.setGender("Femenino");
         dto.setCanSchedule(true);
-        dto.setAppointmentInterval(buildInterval("08:00", "12:00"));
+        dto.setAppointmentInterval(buildInterval("00:00", "00:30"));
         dto.setUser(buildUserDto("doctor" + suffix + "@test.com", List.of("MEDICO")));
         return dto;
     }

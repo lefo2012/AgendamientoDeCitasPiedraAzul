@@ -120,5 +120,15 @@ aside {
   box-shadow: 0 12px 24px rgba(20, 45, 66, 0.28);
 }
 
+.create-appointment-dialog .mat-mdc-dialog-surface {
+  height: auto;
+  overflow: visible;
+}
+
+.create-appointment-dialog .mat-mdc-dialog-content {
+  max-height: none;
+  overflow: visible;
+}
+
 
 

@@ -57,6 +57,7 @@
     "@types/express": "^5.0.1",
     "@types/hammerjs": "^2.0.46",
     "@types/node": "^20.17.19",
+    "cypress": "^15.16.0",
     "dotenv": "^16.6.1",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
