@@ -107,33 +107,35 @@ Wait-ForPort 8081 120 | Out-Null
 # 3. FrontendPiedraAzul (Angular, puerto 4200)
 # ---------------------------------------------------------------------------
 Write-Host ""
-Write-Host "[3/4] Iniciando FrontendPiedraAzul (puerto 4200)..." -ForegroundColor Yellow
+Write-Host "[3/4] Build y arranque FrontendPiedraAzul (puerto 4200)..." -ForegroundColor Yellow
 Push-Location "$RepoDir\FrontendPiedraAzul"
 npm install --legacy-peer-deps 2>&1 | Out-Null
+npm run build 2>&1 | Select-Object -Last 3
 Pop-Location
 
 Stop-Port 4200
 Start-Sleep -Seconds 1
 
-$azulCmd = "cd /d `"$RepoDir\FrontendPiedraAzul`" && npm start -- --port 4200 --host 127.0.0.1 > `"$LogDir\frontend-azul.log`" 2>&1"
+$azulCmd = "cd /d `"$RepoDir\FrontendPiedraAzul`" && set PORT=4200 && node dist\FrontendPiedraAzul\server\server.mjs > `"$LogDir\frontend-azul.log`" 2>&1"
 Start-Process "cmd.exe" -ArgumentList "/c", $azulCmd -WindowStyle Hidden
-Write-Host "  Arrancando (compilacion Angular ~60s, ver logs\frontend-azul.log)"
+Write-Host "  FrontendPiedraAzul iniciado (SSR server, ~66 MB RAM)"
 
 # ---------------------------------------------------------------------------
-# 4. FrontEndMedicos (Angular, puerto 4300)
+# 4. FrontEndMedicos (Angular SSR, puerto 4300)
 # ---------------------------------------------------------------------------
 Write-Host ""
-Write-Host "[4/4] Iniciando FrontEndMedicos (puerto 4300)..." -ForegroundColor Yellow
+Write-Host "[4/4] Build y arranque FrontEndMedicos (puerto 4300)..." -ForegroundColor Yellow
 Push-Location "$RepoDir\FrontEndMedicos"
 npm install --legacy-peer-deps 2>&1 | Out-Null
+npm run build 2>&1 | Select-Object -Last 3
 Pop-Location
 
 Stop-Port 4300
 Start-Sleep -Seconds 1
 
-$medicosCmd = "cd /d `"$RepoDir\FrontEndMedicos`" && npm start -- --port 4300 --host 127.0.0.1 > `"$LogDir\frontend-medicos.log`" 2>&1"
+$medicosCmd = "cd /d `"$RepoDir\FrontEndMedicos`" && set PORT=4300 && node dist\FrontEndMedicos\server\server.mjs > `"$LogDir\frontend-medicos.log`" 2>&1"
 Start-Process "cmd.exe" -ArgumentList "/c", $medicosCmd -WindowStyle Hidden
-Write-Host "  Arrancando (compilacion Angular ~60s, ver logs\frontend-medicos.log)"
+Write-Host "  FrontEndMedicos iniciado (SSR server, ~66 MB RAM)"
 
 # ---------------------------------------------------------------------------
 # Resumen
