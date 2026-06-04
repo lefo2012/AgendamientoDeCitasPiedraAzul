@@ -1,4 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from "@angular/router";
 import { AuthService } from './features/users/services/auth.service';
 
@@ -11,15 +12,18 @@ import { AuthService } from './features/users/services/auth.service';
 })
 export class App {
   private readonly authService = inject(AuthService);
+  private readonly platformId = inject(PLATFORM_ID);
   protected readonly title = signal('FrontEndMedicos');
   private refreshTimerId: number | null = null;
 
   constructor() {
-    this.authService.restoreSession().subscribe({
-      error: (error) => {
-        console.warn('[App] Could not restore user session from stored token.', error);
-      }
-    });
+    if (isPlatformBrowser(this.platformId)) {
+      this.authService.restoreSession().subscribe({
+        error: (error) => {
+          console.warn('[App] Could not restore user session from stored token.', error);
+        }
+      });
+    }
 
     this.setupSessionRefresh();
   }
