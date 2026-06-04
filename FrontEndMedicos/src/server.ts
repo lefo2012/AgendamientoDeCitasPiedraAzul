@@ -13,7 +13,6 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
-// Lee el .env en tiempo de ejecucion para evitar cualquier cache de archivo
 function loadEnv(): Record<string, string> {
   const envPath = join(import.meta.dirname, '../../../.env');
   if (!existsSync(envPath)) return {};
@@ -33,22 +32,6 @@ const ALLOWED_KEYS = [
   'API_REPORTS', 'API_AUTH', 'KEYCLOAK_TOKEN_URL', 'KEYCLOAK_CLIENT_ID', 'KEYCLOAK_CLIENT_SECRET'
 ];
 
-/**
- * env.js generado dinamicamente desde .env en cada request — nunca se cachea
- */
-app.get('/assets/env.js', (_req, res) => {
-  const fileEnv = loadEnv();
-  const env = Object.fromEntries(
-    ALLOWED_KEYS.filter(k => fileEnv[k]).map(k => [k, fileEnv[k]])
-  );
-  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
-  res.set('Content-Type', 'application/javascript');
-  res.send(`window.__env = ${JSON.stringify(env, null, 2)};\n`);
-});
-
-/**
- * Serve static files from /browser
- */
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -57,16 +40,31 @@ app.use(
   }),
 );
 
-/**
- * Handle all other requests by rendering the Angular application.
- */
-app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
+app.use(async (req, res, next) => {
+  try {
+    const response = await angularApp.handle(req);
+    if (!response) return next();
+
+    // Inyectar window.__env inline en el HTML — elimina cualquier problema
+    // de timing o cache con el archivo env.js externo
+    const html = await response.text();
+    const fileEnv = loadEnv();
+    const env = Object.fromEntries(
+      ALLOWED_KEYS.filter(k => fileEnv[k]).map(k => [k, fileEnv[k]])
+    );
+    const inlineScript = `<script>window.__env=${JSON.stringify(env)};</script>`;
+    const modified = html.replace(
+      '<script src="assets/env.js"></script>',
+      inlineScript
+    );
+
+    response.headers.forEach((value, key) => {
+      if (key.toLowerCase() !== 'content-length') res.setHeader(key, value);
+    });
+    res.status(response.status).send(modified);
+  } catch (err) {
+    next(err);
+  }
 });
 
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
