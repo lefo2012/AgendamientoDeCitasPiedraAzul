@@ -32,7 +32,7 @@ public class PatientMapperTest {
 
         User user = new User();
         List<SpecialtyEnum> specialties = new ArrayList<>();
-        List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+        List<DayOfWeek> days = List.of(DayOfWeek.TUESDAY);
         List<IntervalList> intervals = new ArrayList<>();
         IntervalList intervalList = new IntervalList();
         intervalList.addInterval(new Interval(LocalTime.of(7,0), LocalTime.of(13,0)));
@@ -73,7 +73,7 @@ public class PatientMapperTest {
                 history
         );
 
-        LocalDate nextMonday = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+        LocalDate nextMonday = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
 
         Interval interval = new Interval(LocalTime.of(7,0), LocalTime.of(8,0));
 

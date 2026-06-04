@@ -133,14 +133,14 @@ public class DoctorTest {
         void addAppointmentToAttendTrueTest () throws Exception {
 
             Patient patient = new Patient();
-            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
             Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
 
             User user1 = new User();
             List<SpecialtyEnum> specialties1 = new ArrayList<>();
             specialties1.add(SpecialtyEnum.FISIOTERAPIA);
 
-            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+            List<DayOfWeek> days = List.of(DayOfWeek.TUESDAY);
 
             List<IntervalList> intervals = new ArrayList<>();
             IntervalList intervalList = new IntervalList();
@@ -180,14 +180,14 @@ public class DoctorTest {
         void cancelAppointmentTrueTest () throws Exception{
 
             Patient patient = new Patient();
-            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
             Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
 
             User user1 = new User();
             List<SpecialtyEnum> specialties1 = new ArrayList<>();
             specialties1.add(SpecialtyEnum.FISIOTERAPIA);
 
-            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+            List<DayOfWeek> days = List.of(DayOfWeek.TUESDAY);
 
             List<IntervalList> intervals = new ArrayList<>();
             IntervalList intervalList = new IntervalList();
@@ -229,14 +229,14 @@ public class DoctorTest {
         void cancelAppointmentFalseTest () throws Exception{
 
             Patient patient = new Patient();
-            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate nextMonday1 = LocalDate.now().with(java.time.temporal.TemporalAdjusters.next(DayOfWeek.TUESDAY));
             Interval interval1 = new Interval(LocalTime.of(7, 0), LocalTime.of(8, 0));
             Interval interval2 = new Interval(LocalTime.of(9, 0), LocalTime.of(10, 0));
             User user1 = new User();
             List<SpecialtyEnum> specialties1 = new ArrayList<>();
             specialties1.add(SpecialtyEnum.FISIOTERAPIA);
 
-            List<DayOfWeek> days = List.of(DayOfWeek.MONDAY);
+            List<DayOfWeek> days = List.of(DayOfWeek.TUESDAY);
 
             List<IntervalList> intervals = new ArrayList<>();
             IntervalList intervalList = new IntervalList();
