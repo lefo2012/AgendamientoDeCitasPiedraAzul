@@ -78,7 +78,7 @@
         "serve": {
           "options": {
             "proxyConfig": "proxy.conf.json",
-            "allowedHosts": [".trycloudflare.com", "localhost"],
+            "allowedHosts": [".trycloudflare.com", ".luisfierroo.com", "localhost", "127.0.0.1"],
             "host": "127.0.0.1"
           },
           
