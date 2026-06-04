@@ -25,6 +25,14 @@ const angularApp = new AngularNodeAppEngine();
  */
 
 /**
+ * env.js nunca se cachea — contiene URLs de API que pueden cambiar
+ */
+app.get('/assets/env.js', (req, res) => {
+  res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.sendFile(join(browserDistFolder, 'assets/env.js'));
+});
+
+/**
  * Serve static files from /browser
  */
 app.use(
