@@ -34,6 +34,10 @@ import java.util.Map;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private static final String SESSION_CLIENT_HEADER = "X-Auth-Client";
+    private static final String SESSION_CLIENT_DOCTOR = "doctor";
+    private static final String SESSION_CLIENT_PATIENT = "patient";
+
 
     @Bean
         public SecurityFilterChain securityFilterChain(
@@ -110,8 +114,11 @@ public class SecurityConfig {
                 return null;
             }
 
+            String sessionClient = request.getHeader(SESSION_CLIENT_HEADER);
+            String resolvedCookieName = resolveAccessCookieName(accessCookieName, sessionClient);
+
             for (Cookie cookie : request.getCookies()) {
-                if (accessCookieName.equals(cookie.getName())) {
+                if (resolvedCookieName.equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }
@@ -120,13 +127,36 @@ public class SecurityConfig {
         };
     }
 
+    private String resolveAccessCookieName(String baseCookieName, String sessionClient) {
+        String normalizedClient = normalizeSessionClient(sessionClient);
+
+        if (normalizedClient == null) {
+            return baseCookieName;
+        }
+
+        return baseCookieName + "_" + normalizedClient.toUpperCase(Locale.ROOT);
+    }
+
+    private String normalizeSessionClient(String sessionClient) {
+        if (sessionClient == null || sessionClient.isBlank()) {
+            return null;
+        }
+
+        String normalized = sessionClient.trim().toLowerCase(Locale.ROOT);
+        if (SESSION_CLIENT_DOCTOR.equals(normalized) || SESSION_CLIENT_PATIENT.equals(normalized)) {
+            return normalized;
+        }
+
+        return null;
+    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource(
             @Value("${app.cors.allowed-origins:http://localhost:4200,http://localhost:4300}") String allowedOrigins) {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(allowedOrigins.split(",")));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", SESSION_CLIENT_HEADER));
         configuration.setExposedHeaders(List.of("Set-Cookie"));
         configuration.setAllowCredentials(true);
 

@@ -11,6 +11,8 @@ import { CurrentPatient } from '../models/CurrentPatient';
 })
 export class AuthService {
 
+  private static readonly SESSION_CLIENT = 'patient';
+
   private readonly currentPatientSignal = signal<CurrentPatient | null>(null);
   private readonly rolesSignal = signal<string[]>([]);
   private readonly sessionActiveSignal = signal<boolean>(false);
@@ -19,6 +21,10 @@ export class AuthService {
   readonly currentPatient = this.currentPatientSignal.asReadonly();
   readonly roles = this.rolesSignal.asReadonly();
   readonly isAuthenticated = computed(() => this.sessionActiveSignal());
+
+  getSessionClient(): string {
+    return AuthService.SESSION_CLIENT;
+  }
 
   constructor(
     private http: HttpClient,
@@ -72,7 +78,7 @@ export class AuthService {
     const url = `${this.config.authApi}/session/login`;
 
     return this.http.post<void>(url, { username, password }, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      headers: this.buildSessionHeaders(),
       withCredentials: true
     }).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -89,7 +95,10 @@ export class AuthService {
   logout(): Observable<void> {
     const url = `${this.config.authApi}/session/logout`;
 
-    return this.http.post<void>(url, {}, { withCredentials: true }).pipe(
+    return this.http.post<void>(url, {}, {
+      headers: this.buildSessionHeaders(),
+      withCredentials: true
+    }).pipe(
       tap(() => this.clearSession()),
       catchError((error: HttpErrorResponse) => {
         this.clearSession();
@@ -131,7 +140,10 @@ export class AuthService {
 
     const url = `${this.config.authApi}/session/refresh`;
 
-    this.refreshInFlight$ = this.http.post<void>(url, {}, { withCredentials: true }).pipe(
+    this.refreshInFlight$ = this.http.post<void>(url, {}, {
+      headers: this.buildSessionHeaders(),
+      withCredentials: true
+    }).pipe(
       map(() => void 0),
       catchError((error: HttpErrorResponse) => {
         this.clearSession();
@@ -155,7 +167,15 @@ export class AuthService {
 
   private fetchCurrentPatient(): Observable<CurrentPatient> {
     return this.http.get<CurrentPatient>(`${this.config.authApi}/getPatientByToken`, {
+      headers: this.buildSessionHeaders(),
       withCredentials: true
+    });
+  }
+
+  private buildSessionHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'X-Auth-Client': AuthService.SESSION_CLIENT
     });
   }
 
