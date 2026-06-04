@@ -20,8 +20,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     && req.body?.toString?.().includes('grant_type=password');
 
   const shouldAttachCredentials = isApiRequest || isAuthMeRequest || isSessionRequest;
-  const requestWithCredentials = shouldAttachCredentials && !req.withCredentials
-    ? req.clone({ withCredentials: true })
+  const requestWithCredentials = shouldAttachCredentials
+    ? req.clone({
+        withCredentials: true,
+        setHeaders: {
+          'X-Auth-Client': authService.getSessionClient()
+        }
+      })
     : req;
 
   return next(requestWithCredentials).pipe(

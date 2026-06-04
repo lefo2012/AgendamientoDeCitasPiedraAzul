@@ -18,6 +18,10 @@ import java.util.Map;
 @RequestMapping("/api/auth/session")
 public class AuthSessionController {
 
+    private static final String SESSION_CLIENT_HEADER = "X-Auth-Client";
+    private static final String SESSION_CLIENT_DOCTOR = "doctor";
+    private static final String SESSION_CLIENT_PATIENT = "patient";
+
     private final KeycloakTokenClient tokenClient;
 
     @Value("${auth.cookie.access-name:PA_ACCESS}")
@@ -43,10 +47,12 @@ public class AuthSessionController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody SessionLoginRequest request) {
+    public ResponseEntity<?> login(
+            @RequestHeader(value = SESSION_CLIENT_HEADER, required = false) String sessionClient,
+            @RequestBody SessionLoginRequest request) {
         try {
             Map<String, Object> tokenResponse = tokenClient.requestPasswordToken(request.getUsername(), request.getPassword());
-            return buildSessionResponse(tokenResponse);
+            return buildSessionResponse(tokenResponse, sessionClient);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "invalid_credentials"));
         } catch (Exception e) {
@@ -55,24 +61,26 @@ public class AuthSessionController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(HttpServletRequest request) {
-        String refreshToken = readCookie(request, refreshCookieName);
+    public ResponseEntity<?> refresh(
+            @RequestHeader(value = SESSION_CLIENT_HEADER, required = false) String sessionClient,
+            HttpServletRequest request) {
+        String refreshToken = readCookie(request, getRefreshCookieName(sessionClient));
         if (refreshToken == null || refreshToken.isBlank()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "missing_refresh_token"));
         }
 
         try {
             Map<String, Object> tokenResponse = tokenClient.requestRefreshToken(refreshToken);
-            return buildSessionResponse(tokenResponse);
+            return buildSessionResponse(tokenResponse, sessionClient);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "refresh_failed", "message", e.getMessage()));
         }
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout() {
-        ResponseCookie accessCookie = buildCookie(accessCookieName, "", Duration.ZERO);
-        ResponseCookie refreshCookie = buildCookie(refreshCookieName, "", Duration.ZERO);
+    public ResponseEntity<?> logout(@RequestHeader(value = SESSION_CLIENT_HEADER, required = false) String sessionClient) {
+        ResponseCookie accessCookie = buildCookie(getAccessCookieName(sessionClient), "", Duration.ZERO);
+        ResponseCookie refreshCookie = buildCookie(getRefreshCookieName(sessionClient), "", Duration.ZERO);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
@@ -80,7 +88,7 @@ public class AuthSessionController {
                 .body(Map.of("status", "ok"));
     }
 
-    private ResponseEntity<?> buildSessionResponse(Map<String, Object> tokenResponse) {
+    private ResponseEntity<?> buildSessionResponse(Map<String, Object> tokenResponse, String sessionClient) {
         String accessToken = asString(tokenResponse.get("access_token"));
         String refreshToken = asString(tokenResponse.get("refresh_token"));
 
@@ -91,8 +99,8 @@ public class AuthSessionController {
         Duration accessTtl = Duration.ofSeconds(asLong(tokenResponse.get("expires_in"), 300));
         Duration refreshTtl = Duration.ofSeconds(asLong(tokenResponse.get("refresh_expires_in"), 1800));
 
-        ResponseCookie accessCookie = buildCookie(accessCookieName, accessToken, accessTtl);
-        ResponseCookie refreshCookie = buildCookie(refreshCookieName, refreshToken, refreshTtl);
+        ResponseCookie accessCookie = buildCookie(getAccessCookieName(sessionClient), accessToken, accessTtl);
+        ResponseCookie refreshCookie = buildCookie(getRefreshCookieName(sessionClient), refreshToken, refreshTtl);
 
         ResponseEntity.BodyBuilder responseBuilder = ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, accessCookie.toString());
@@ -102,6 +110,37 @@ public class AuthSessionController {
         }
 
         return responseBuilder.body(Map.of("status", "ok"));
+    }
+
+    private String getAccessCookieName(String sessionClient) {
+        return buildCookieName(accessCookieName, sessionClient);
+    }
+
+    private String getRefreshCookieName(String sessionClient) {
+        return buildCookieName(refreshCookieName, sessionClient);
+    }
+
+    private String buildCookieName(String baseName, String sessionClient) {
+        String normalizedClient = normalizeSessionClient(sessionClient);
+
+        if (normalizedClient == null) {
+            return baseName;
+        }
+
+        return baseName + "_" + normalizedClient.toUpperCase();
+    }
+
+    private String normalizeSessionClient(String sessionClient) {
+        if (sessionClient == null || sessionClient.isBlank()) {
+            return null;
+        }
+
+        String normalized = sessionClient.trim().toLowerCase();
+        if (SESSION_CLIENT_DOCTOR.equals(normalized) || SESSION_CLIENT_PATIENT.equals(normalized)) {
+            return normalized;
+        }
+
+        return null;
     }
 
     private ResponseCookie buildCookie(String name, String value, Duration maxAge) {
